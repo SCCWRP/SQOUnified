@@ -201,21 +201,21 @@ tox.sqo <- function(toxresults) {
 
   tox_nonintegrated <- tox.summary(toxresults) %>%
     select(
-      StationID,
-      Species,
+      stationid,
+      species,
       `Endpoint Method`,
       Score,
       Category
     ) %>%
     separate(
-      Species,
+      species,
       c("Genus","Species")
     ) %>%
     select(-Species) %>%
     mutate(
       Index = paste(Genus, `Endpoint Method`)
     ) %>%
-    select(StationID, Index, Score, Category) %>%
+    select(stationid, Index, Score, Category) %>%
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
@@ -223,7 +223,7 @@ tox.sqo <- function(toxresults) {
 
 
   tox_integrated <- tox_nonintegrated %>%
-    group_by(StationID) %>%
+    group_by(stationid) %>%
     summarize(
       # For Toxicity, we take the mean
       # CASQO manual page 59
@@ -243,9 +243,10 @@ tox.sqo <- function(toxresults) {
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     ) %>%
-    select(StationID,Index, Score, Category, `Category Score`)
+    select(stationid,Index, Score, Category, `Category Score`)
 
   tox_final <- rbind.fill(tox_integrated,tox_nonintegrated) %>%
+    rename(StationID = stationid) %>%
     arrange(
       StationID, Index, Category
     )
