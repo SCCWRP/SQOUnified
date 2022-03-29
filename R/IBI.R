@@ -73,7 +73,7 @@
 #' @export
 IBI <- function(BenthicData)
 {
-  load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
+  # load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
 
   # Prepare the given data frame so that we can compute the IBI score and categories
   ibi_data <- BenthicData %>%
