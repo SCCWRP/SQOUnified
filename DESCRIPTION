@@ -24,10 +24,8 @@ License: CCO
 Encoding: UTF-8
 LazyData: true
 Imports: 
-  tidyverse,
   DBI,
   dbplyr,
-  readxl,
   reshape2,
   RPostgreSQL,
   rstudioapi,
