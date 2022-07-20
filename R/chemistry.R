@@ -294,6 +294,32 @@ chemdata_prep <- function(chem){
   # lowercase column names
   names(chem) <- names(chem) %>% tolower()
 
+  if ('labreplicate' %in% names(chem)) {
+    chem <- chem %>% rename(labrep = labreplicate)
+  }
+
+  # SampleTypeCode should be "Result" and LabReplicate should be 1
+  # This is not explicitly from the SQO Manual, but rather just based on "Common sense" and guidance from Darrin Greenstein
+  # We take labreplicate 1 to avoid bias.
+  # Darrin said on 7/20/2022 "I'd just pick the first rep. That will randomly even out any bias."
+  if (all( c('sampletypecode','labrep') %in% names(chem)  )) {
+    chem <- chem %>%
+      filter(
+        sampletypecode == 'Result'
+      ) %>%
+      filter(
+        as.numeric(labrep) == 1
+      )
+    if (nrow(chem_sampledata) == 0) {
+      stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1")
+    }
+  } else {
+    warning("Columns sampletypecode and labrep were not provided - this may affect results if there are duplicate records for certain analytes")
+  }
+
+
+
+
   # result, rl, mdl should be numeric fields
   chem <- chem %>%
      mutate(
