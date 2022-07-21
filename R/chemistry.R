@@ -294,6 +294,32 @@ chemdata_prep <- function(chem){
   # lowercase column names
   names(chem) <- names(chem) %>% tolower()
 
+  if ('labreplicate' %in% names(chem)) {
+    chem <- chem %>% rename(labrep = labreplicate)
+  }
+
+  # SampleTypeCode should be "Result" and LabReplicate should be 1
+  # This is not explicitly from the SQO Manual, but rather just based on "Common sense" and guidance from Darrin Greenstein
+  # We take labreplicate 1 to avoid bias.
+  # Darrin said on 7/20/2022 "I'd just pick the first rep. That will randomly even out any bias."
+  if (all( c('sampletypecode','labrep') %in% names(chem)  )) {
+    chem <- chem %>%
+      filter(
+        sampletypecode == 'Result'
+      ) %>%
+      filter(
+        as.numeric(labrep) == 1
+      )
+    if (nrow(chem_sampledata) == 0) {
+      stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1")
+    }
+  } else {
+    warning("Columns sampletypecode and labrep were not provided - this may affect results if there are duplicate records for certain analytes")
+  }
+
+
+
+
   # result, rl, mdl should be numeric fields
   chem <- chem %>%
      mutate(
@@ -401,6 +427,18 @@ chemdata_prep <- function(chem){
       )
     ) %>% ungroup()
 
+  # Conversation with Darrin on April 16th 2020
+  # We need to fix the rounding in this thing.
+  # The fixes may also need to be implemented in the chemdata_prep function
+  # Certain analytes result values need to be rounded to different numbers of decimal places
+  # going off memory here. Darrin is the one to consult, and he can show the latest greatest version of the excel tool
+  # Copper - 1
+  # Lead  - 1
+  # Mercury - 2
+  # Zinc - 1
+  # HPAH - 1
+  # LPAH - 1
+  # All the rest - 2
 
   chemdata <- chemdata %>%
     bind_rows(ddts_total) %>%
@@ -409,6 +447,12 @@ chemdata_prep <- function(chem){
       StationID = stationid,
       AnalyteName = compound,
       Result = result
+    ) %>%
+    mutate(
+      Result = case_when(
+        AnalyteName %in% c('Copper','Lead','Zinc','HPAH','LPAH') ~ round(Result, digits = 1),
+        TRUE ~ round(Result, digits = 2)
+      )
     )
 
   return(chemdata)
