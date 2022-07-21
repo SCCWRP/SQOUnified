@@ -447,6 +447,12 @@ chemdata_prep <- function(chem){
       StationID = stationid,
       AnalyteName = compound,
       Result = result
+    ) %>%
+    mutate(
+      Result = case_when(
+        AnalyteName %in% c('Copper','Lead','Zinc','HPAH','LPAH') ~ round(Result, digits = 1),
+        TRUE ~ round(Result, digits = 2)
+      )
     )
 
   return(chemdata)
