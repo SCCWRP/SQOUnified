@@ -199,6 +199,9 @@ tox.summary <- function(toxresults) {
 #' @export
 tox.sqo <- function(toxresults) {
 
+  # It is common that there is a station called "0" which is actually supposed to be a string of four zeros ('0000')
+  toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
+
   tox_nonintegrated <- tox.summary(toxresults) %>%
     select(
       stationid,
@@ -213,9 +216,14 @@ tox.sqo <- function(toxresults) {
     ) %>%
     select(-Species) %>%
     mutate(
-      Index = paste(Genus, `Endpoint Method`)
+      Index = paste(Genus, `Endpoint Method`),
+      `Test Type` = case_when(
+        `Endpoint Method` %in% c('Growth','NormDev') ~ 'Sublethal',
+        `Endpoint Method` == 'Survival' ~ 'Acute',
+        TRUE ~ NA_character_
+      )
     ) %>%
-    select(stationid, Index, Score, Category) %>%
+    select(stationid, Index, `Test Type`, Score, Category) %>%
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
@@ -226,8 +234,27 @@ tox.sqo <- function(toxresults) {
     group_by(stationid) %>%
     summarize(
       # For Toxicity, we take the mean
-      # CASQO manual page 59
-      Score = ceiling(mean(Score, na.rm = T))
+      # CASQO manual (3rd edition) page 109
+
+      # PER DARRIN GREENSTEIN, in July 2022 - yes, the score is the mean of the two, however, if one is missing, the score should come out to NA
+      # This means that in this particular case, it should be na.rm = F
+
+      # This is not explicitly mentioned on page 109 of the manual, where the instructions are given for integrating the results of the tox tests to determine the Tox LOE
+      # However, we can understand that it must be na.rm = F because there are essentially two types of test methods, Acute and Sublethal (Page 85) and in the intro
+      #  to the instructions for tox assessment on page 84, first paragraph, it says the following:
+
+      #   Multiple toxicity tests are needed to assess toxicity because no single method exists that can capture the
+      #   full spectrum of potential contaminant effects. Toxicity assessment under the California
+      #   Sediment Quality Objectives (CASQO) framework requires information from two types of tests:
+      #     1) short-term amphipod survival and 2) a sublethal test.
+
+      # For this reason, if one of the test results is missing, we will declare the Tox LOE to be indeterminate or unknown
+      # So here, we will actually need to check if both tests were present
+      # Acute tests mean the endpoint method is "Survival" and the Sublethal tests mean the endpoint is "Growth" or "NormDev" (Normal Development)
+
+      #Score = ceiling(mean(Score, na.rm = F))
+      has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
+      Score = if_else(has.all.tests, ceiling(mean(Score, na.rm = F)), NA_real_)
     ) %>%
     mutate(
       Category = case_when(
@@ -243,7 +270,7 @@ tox.sqo <- function(toxresults) {
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     ) %>%
-    select(stationid,Index, Score, Category, `Category Score`)
+    select(stationid, Index, Score, Category, `Category Score`)
 
   tox_final <- rbind.fill(tox_integrated,tox_nonintegrated) %>%
     rename(StationID = stationid) %>%

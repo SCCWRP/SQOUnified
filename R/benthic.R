@@ -58,7 +58,8 @@ benthic.sqo <- function(benthic_data){
         Category == "Reference" ~ 1,
         Category == "Low Disturbance" ~ 2,
         Category == "Moderate Disturbance" ~ 3,
-        Category == "High Disturbance" ~ 4
+        Category == "High Disturbance" ~ 4,
+        TRUE ~ NA_real_
       )
     )
   rbi.scores <- RBI(benthic_data)
@@ -81,6 +82,13 @@ benthic.sqo <- function(benthic_data){
       StationID, Replicate, SampleDate, Stratum
     ) %>%
     summarize(
+      # I asked David Gillett on August 1, 2022 if we should say benthic is unknown if one index is missing, this is his response:
+      #   "We don't really say in the guidance document.
+      #   There really isn't a reason that one of the 4 indices couldn't be calculated if there is a sample.
+      #   My thought is that I wouldn't want to return an unknown if there are fewer than 4 indices, for whatever magic reason that may have occurred."
+      # Based on this answer, we will include the keyword argument, "na.rm = T"
+      # -Robert Butler, August 1, 2022
+
       `Category Score` = ceiling(median(`Category Score`, na.rm = T))
     ) %>%
     ungroup() %>%
@@ -90,7 +98,8 @@ benthic.sqo <- function(benthic_data){
         `Category Score` == 1 ~ "Reference",
         `Category Score` == 2 ~ "Low Disturbance",
         `Category Score` == 3 ~ "Moderate Disturbance",
-        `Category Score` == 4 ~ "High Disturbance"
+        `Category Score` == 4 ~ "High Disturbance",
+        TRUE ~ NA_character_
       ),
       Score = `Category Score`
     )

@@ -83,10 +83,6 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL) {
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-
-    # It is common that there is a station called "0" which is actually supposed to be a string of four zeros ('0000')
-    tox$stationid <- replace(tox$stationid, tox$stationid %>% as.character() == '0', '0000')
-
     tox <- tox.sqo(tox) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
@@ -114,7 +110,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL) {
     spread(
       LOE, Category
     ) %>%
-    inner_join(
+    left_join(
       site_assessment_criteria,
       by = c("Benthic","Chemistry","Toxicity")
     ) %>%

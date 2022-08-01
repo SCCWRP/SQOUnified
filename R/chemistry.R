@@ -233,7 +233,10 @@ chem.sqo <- function(chemdata) {
       # we call ceiling because we are always wanting to round up
       # err on the side of determining that a site is more impacted, rather than not
       Score = ceiling(mean(`Category Score`)),
-      `Category Score` = ceiling(mean(`Category Score`)) # Category Score is the same as the Score in this case
+
+      # na.rm = F, since we need both CSI and LRM to determine the Chemistry LOE score
+      #   although if you can calculate one, you should be able to calculate the other as well
+      `Category Score` = ceiling(mean(`Category Score`, na.rm = F)) # Category Score is the same as the Score in this case
     ) %>%
     ungroup() %>%
     mutate(
