@@ -228,6 +228,14 @@ tox.sqo <- function(toxresults) {
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
 
+  if ('stratum' %in% names(toxresults)) {
+    tox_nonintegrated <- tox_nonintegrated %>%
+      left_join(
+        toxresults %>% select(stationid, stratum) %>% distinct() %>% filter(!is.na(stratum)),
+        by = 'stationid'
+      )
+  }
+
 
 
   tox_integrated <- tox_nonintegrated %>%
@@ -254,7 +262,13 @@ tox.sqo <- function(toxresults) {
 
       #Score = ceiling(mean(Score, na.rm = F))
       has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
-      Score = if_else(has.all.tests, ceiling(mean(Score, na.rm = F)), NA_real_)
+      offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
+      Score = case_when(
+        # offhsore sites only require the Amphipod test - per Ken Schiff August 1, 2022
+        offshore ~ ceiling(mean(Score, na.rm = T)),
+        has.all.tests ~ ceiling(mean(Score, na.rm = F)),
+        TRUE ~ NA_real_
+      )
     ) %>%
     mutate(
       Category = case_when(
@@ -272,7 +286,7 @@ tox.sqo <- function(toxresults) {
     ) %>%
     select(stationid, Index, Score, Category, `Category Score`)
 
-  tox_final <- rbind.fill(tox_integrated,tox_nonintegrated) %>%
+  tox_final <- rbind.fill(tox_integrated, tox_nonintegrated) %>%
     rename(StationID = stationid) %>%
     arrange(
       StationID, Index, Category
