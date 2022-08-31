@@ -46,6 +46,9 @@ tox.summary <- function(toxresults) {
 
   "tox_categories"
 
+  toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
+  toxresults$result <- replace(toxresults$result, toxresults$result == -88, NA_real_)
+
   toxresults <- toxresults %>%
     mutate(lab = ifelse('lab' %in% names(toxresults) %>% tolower, lab, 'Not Recorded'))
 
