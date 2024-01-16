@@ -42,42 +42,53 @@
 #' @import dplyr
 #' @export
 
-tox.summary <- function(toxresults) {
+tox.summary <- function(toxresults, results.sampletypes = c('Grab','QA')) {
+
 
   "tox_categories"
 
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
   toxresults$result <- replace(toxresults$result, toxresults$result == -88, NA_real_)
 
-  toxresults <- toxresults %>%
-    mutate(lab = ifelse('lab' %in% names(toxresults) %>% tolower, lab, 'Not Recorded'))
 
+  if (!('lab' %in% tolower(names(toxresults)))) {
+    toxresults <- toxresults %>%
+      mutate(
+        lab = 'Not Recorded'
+      )
+  }
+
+  if (!('fieldrep' %in% tolower(names(toxresults)) )) {
+    toxresults <- toxresults %>%
+      mutate(
+        fieldrep = 1
+      )
+  }
 
   # here we separate the controls from the rest of the samples
   controls <- toxresults %>%
     filter(
       stationid == '0000',
-      sampletypecode == 'CNEG'
+      !(sampletypecode %in% results.sampletypes)
     )
 
   # get rid of the controls. They will be merged later
   results <- toxresults %>%
     filter(
-      stationid != '0000',
-      sampletypecode != 'QA'
+      ( (stationid != '0000') | (sampletypecode %in% results.sampletypes) )
     )
 
   summary <- results %>%
     inner_join(
       controls,
-      by = c('toxbatch','species', 'labrep'),
+      by = c('toxbatch','species','labrep','lab'),
       suffix = c('','_control')
     ) %>%
-    filter(
-      sampletypecode != 'QA' # shouild maybe issue a warning if they put this stuff in there
-    ) %>%
+    # filter(
+    #   sampletypecode != 'QA'
+    # ) %>%
     group_by(
-      lab, stationid, toxbatch, species, sampletypecode
+      lab, stationid, toxbatch, species, fieldrep, sampletypecode
     ) %>%
     summarize(
       p = tryCatch({
@@ -104,7 +115,8 @@ tox.summary <- function(toxresults) {
       pct_control = mean(result_control, na.rm = T),
       pct_result_adj = (pct_result / pct_control) * 100,
       stddev = sd(result, na.rm = T),
-      cv = stddev / pct_result
+      cv = stddev / pct_result,
+      n = n()
     ) %>%
     ungroup() %>%
     mutate(
@@ -116,7 +128,7 @@ tox.summary <- function(toxresults) {
     mutate(
       # CASQO Technical Manual page 45 - 47
       sqo_category_value_initial = case_when(
-        # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determin nontoxicity
+        # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
         (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
         (endpoint_method == 'Growth') & (pct_result_adj >= nontox) ~ 1,
@@ -144,7 +156,7 @@ tox.summary <- function(toxresults) {
       )
     ) %>%
     select(-c(nontox, lowtox, modtox, hightox)) %>%
-    select(
+    rename(
       lab = lab,
       stationid = stationid,
       species = species,
