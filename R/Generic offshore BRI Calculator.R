@@ -29,7 +29,7 @@ require(tidyverse)
 infauna <- read.csv(infauna_path) #the user's infauna to be submitted
 station_info<-read.csv(station_path) #the user's station information to be submitted
 
-load("Reference Files/pcode.RData") #pcode values by depth and taxa associated with pcodes
+load("data/pcode.RData") #pcode values by depth and taxa associated with pcodes
 
 ###            Prep the data
 
