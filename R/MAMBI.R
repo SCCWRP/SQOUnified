@@ -212,7 +212,7 @@ MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid")
     ) %>%
     mutate(EG_Score=ifelse(Tot_abun==0,700,EG_Score)) %>%
     group_by(StationID, Replicate, SampleDate) %>%
-    summarise(AMBI_Score=(sum(EG_Score)/100))
+    summarise(AMBI_Score=(sum(EG_Score, na.rm=TRUE)/100))
 
   Rich<-Input_File %>%
     group_by(StationID, Replicate, SampleDate) %>%
