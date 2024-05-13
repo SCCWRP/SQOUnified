@@ -42,7 +42,7 @@
 #' @import dplyr
 #' @export
 
-tox.summary <- function(toxresults, results.sampletypes = c('Grab','QA')) {
+tox.summary <- function(toxresults, results.sampletypes = c('Grab')) {
 
 
   "tox_categories"
