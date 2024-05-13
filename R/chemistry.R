@@ -350,11 +350,18 @@ chemdata_prep <- function(chem){
   # The PCB's that we care about
   # Table 3.1 in the SQO Manual (page 20)
   relevant_pcbs <- paste(
-    'PCB', c(008, 018, 028, 044, 052, 066, 101, 105, 110, 118, 128, 138, 153, 180, 187, 195), sep = "-"
+    'PCB', c('008', '018', '028', '044', '052', '066', '101', '105', '110', '118', '128', '138', '153', '180', '187', '195'), sep = "-"
   )
 
   # The other group is the "DD's" DDT, DDE, DDD
   # Can be done with grepl
+
+  # check for duplicates and issue a warning:
+  if (any(chem %>% duplicated())) {
+    warning("Duplicates detected in chemistry data. They will be removed in the calculation. Please check your input data.")
+    chem <- chem %>% distinct()
+  }
+
 
   # its hard to think of useful, good variable names. Cut me some slack.
   chemdata <- chem %>%
