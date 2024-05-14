@@ -42,6 +42,8 @@
 #' @import dplyr
 #' @export
 
+# Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
+# DEFAULT leave it out and do only grabs
 tox.summary <- function(toxresults, results.sampletypes = c('Grab')) {
 
 
