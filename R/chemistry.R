@@ -356,6 +356,8 @@ chemdata_prep <- function(chem){
   # The other group is the "DD's" DDT, DDE, DDD
   # Can be done with grepl
 
+
+  # Version 0.3.0 update (2024-05-13) - remove duplicates but give a warning to the user - Robert Butler
   # check for duplicates and issue a warning:
   if (any(chem %>% duplicated())) {
     warning("Duplicates detected in chemistry data. They will be removed in the calculation. Please check your input data.")
@@ -399,7 +401,8 @@ chemdata_prep <- function(chem){
     mutate(
       result = if_else(
         # CASQO manual page 30, below table 3.4 - PCB result value gets multiplied by 1.72
-        analytename == "PCBs_total", 1.72 * result, result
+        # Modified - check where compound is PCBs_total rather than analytename (2024-05-13 in version 0.3.0 update) - Robert Butler
+        compound == "PCBs_total", 1.72 * result, result
       )
     ) %>%
     group_by(
