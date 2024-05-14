@@ -14,9 +14,14 @@ Authors@R: c(
     role = "aut", 
     email = "robertb@sccwrp.org"
     ),
-  person(given = "Perdomo", family = "Joana", 
+  person(given = "Joana", family = "Perdomo", 
     role = "aut", 
     email = "jlperdomo@csu.fullerton.edu"
+    )
+  ),
+  person(given = "Darrin", family = "Greenstein", 
+    role = "qa", 
+    email = "darring@sccwrp.org"
     )
   )
 Maintainer: Robert Butler <robertb@sccwrp.org>
