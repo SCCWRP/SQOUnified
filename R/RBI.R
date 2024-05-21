@@ -152,9 +152,9 @@ RBI <- function(BenthicData)
     #dplyr::rename(B13_Stratum = Stratum) %>%
     dplyr::mutate(n=if_else(Taxon=="NoOrganismsPresent", 0,1))
 
-  ibi_data <- rbi_data %>%
-    dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
-    dplyr::summarise(NumOfTaxa = sum(n))
+  #ibi_data <- rbi_data %>%
+   # dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
+  #  dplyr::summarise(NumOfTaxa = sum(n))
 
   # columns needed in RBI: B13_Stratum, StationID, Replicate, Phylum, NumofMolluscTaxa
   rbi2 <- rbi_data %>%

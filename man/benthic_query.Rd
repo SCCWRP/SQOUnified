@@ -4,7 +4,7 @@
 \alias{benthic_query}
 \title{Pull the necessary benthic data from SCCWRP database to compute SQO Benthic indices.}
 \usage{
-benthic_query(db_connection = NULL)
+benthic_query(db_connection = NULL, shelves = T)
 }
 \arguments{
 \item{\strong{db_connection}}{- a DBI database connection object, created with the DBI::dbConnect function
