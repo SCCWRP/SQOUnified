@@ -42,7 +42,7 @@
 #'
 #' @export
 
-benthic.sqo <- function(benthic_data){
+benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
 
 
   mambi.score <- MAMBI(benthic_data) %>%

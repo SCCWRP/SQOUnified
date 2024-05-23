@@ -44,7 +44,7 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
 
   # Split to SoCal and SFBay.
   ## We are only working with SoCal data so we don't need to do this!

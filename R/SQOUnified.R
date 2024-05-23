@@ -17,7 +17,7 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
 
   #load("data/site_assessment_criteria.RData")
 

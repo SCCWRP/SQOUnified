@@ -26,7 +26,7 @@
 #'
 #' @import dplyr
 #' @export
-LRM <- function(chemdata) {
+LRM <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)  {
   "lrm_table"
 
   # get it in a usable format
@@ -123,13 +123,13 @@ LRM <- function(chemdata) {
 # HPAH - 1
 # LPAH - 1
 # All the rest - 2
-CSI <- function(chemdata) {
+CSI <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
   "csi_weight"
 
   # get it in a usable format
   chemdata <- chemdata_prep(chemdata)
 
-  # Combine CSI Weight values with data based on the compound. Exclued compounds not in CSI calculation.
+  # Combine CSI Weight values with data based on the compound. Exclude compounds not in CSI calculation.
   chemdata_csi <- csi_weight %>% left_join(chemdata, by = "AnalyteName")
 
   chemdata_csi <- csi_weight %>%
@@ -218,7 +218,7 @@ CSI <- function(chemdata) {
 #' chem.sqo(chem_sampledata) # get scores and see output
 #'
 #' @export
-chem.sqo <- function(chemdata) {
+chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
 
   chemdata_lrm <- LRM(chemdata)
   chemdata_csi <- CSI(chemdata)
@@ -290,9 +290,12 @@ chem.sqo <- function(chemdata) {
 #' chemdata_prep(chem_sampledata) # get scores and see output
 #'
 #' @export
-chemdata_prep <- function(chem){
+chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
   # Here chemdata consists of data in the same format as our database, with the columns
   # stationid, analytename, result, rl, mdl
+
+  print("Working directory")
+  print(getwd())
 
   # lowercase column names
   names(chem) <- names(chem) %>% tolower()

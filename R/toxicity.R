@@ -44,7 +44,7 @@
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
 # DEFAULT leave it out and do only grabs
-tox.summary <- function(toxresults, results.sampletypes = c('Grab')) {
+tox.summary <- function(toxresults, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
 
 
   "tox_categories"
@@ -214,7 +214,7 @@ tox.summary <- function(toxresults, results.sampletypes = c('Grab')) {
 #' tox.sqo(tox_sampledata)
 #'
 #' @export
-tox.sqo <- function(toxresults) {
+tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
 
   # It is common that there is a station called "0" which is actually supposed to be a string of four zeros ('0000')
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')

@@ -94,7 +94,7 @@
 #' @importFrom purrr map_dfr
 #' @export
 
-MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid")
+MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)
 {
 
   if (is.null(EG_Ref_values)) {

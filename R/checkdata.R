@@ -5,7 +5,7 @@
 #'
 #'
 #' @export
-checkdata <- function(benthic = NULL, chem = NULL, tox = NULL){
+checkdata <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
 
   # check - the LOE must be valid. Benthic, Chemistry or Toxicity
   # certain abbvreviations are allowed

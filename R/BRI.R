@@ -65,7 +65,7 @@
 #' @export
 
 
-BRI <- function(BenthicData)
+BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)
 {
 
   out <- BenthicData %>%

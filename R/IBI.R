@@ -71,7 +71,7 @@
 #
 ##########################################################################################################################
 #' @export
-IBI <- function(BenthicData)
+IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)
 {
   # load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
 
