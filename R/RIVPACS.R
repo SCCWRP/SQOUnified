@@ -44,7 +44,11 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
   # Split to SoCal and SFBay.
   ## We are only working with SoCal data so we don't need to do this!
@@ -103,7 +107,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste0(fo
   row.names(scb.taxa) <- row.names(scb.predictors)
 
   # RIVPACS calculations. By default the functions use the example user data.
-  socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa)
+  socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa, logfile = logfile, verbose = verbose)
 
   # the stations column of the oe table dataframe wwas being returned as a factor. Need to make that a character
   socal$oe.table <- socal$oe.table %>%
@@ -143,7 +147,10 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          reference.taxa = socal.reference.taxa,
                          group.means = socal.reference.group.means,
                          reference.cov = socal.reference.covariance,
-                         observed.taxa = socal.example.taxa) {
+                         observed.taxa = socal.example.taxa,
+                         logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ),
+                         verbose = T
+                         ) {
 
   # Pcutoff is the probability cutoff
 

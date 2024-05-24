@@ -42,10 +42,13 @@
 #'
 #' @export
 
-benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
+benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
 
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  mambi.score <- MAMBI(benthic_data) %>%
+  mambi.score <- MAMBI(benthic_data, logfile = logfile, verbose = verbose) %>%
     # rename(
     #   Stratum = Stratum
     # ) %>%
@@ -62,10 +65,10 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', paste
         TRUE ~ NA_real_
       )
     )
-  rbi.scores <- RBI(benthic_data)
-  ibi.scores <- IBI(benthic_data)
-  bri.scores <- BRI(benthic_data)
-  rivpacs.score <- RIVPACS(benthic_data) #only SoCal (no SFBay)
+  rbi.scores <- RBI(benthic_data, logfile = logfile, verbose = verbose)
+  ibi.scores <- IBI(benthic_data, logfile = logfile, verbose = verbose)
+  bri.scores <- BRI(benthic_data, logfile = logfile, verbose = verbose)
+  rivpacs.score <- RIVPACS(benthic_data, logfile = logfile, verbose = verbose) #only SoCal (no SFBay)
 
   # Integrated Scores
   # CASQO Technical Manual page 87 -

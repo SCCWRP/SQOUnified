@@ -17,7 +17,11 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
   #load("data/site_assessment_criteria.RData")
 
@@ -28,7 +32,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
     ")
   }
   # check the data coming in before anything
-  checkdata(benthic, chem, tox)
+  checkdata(benthic, chem, tox, logfile = logfile, verbose = verbose)
 
 
 
@@ -36,7 +40,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Benthic ----
   if (!is.null(benthic)) {
-    benthic <- benthic.sqo(benthic) %>%
+    benthic <- benthic.sqo(benthic, logfile = logfile, verbose = verbose) %>%
       mutate(LOE = 'Benthic') %>%
       select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -67,7 +71,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Chemistry ----
   if (!is.null(chem)) {
-    chem <- chem.sqo(chem) %>%
+    chem <- chem.sqo(chem, logfile = logfile, verbose = verbose) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {
@@ -83,7 +87,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-    tox <- tox.sqo(tox) %>%
+    tox <- tox.sqo(tox, logfile = logfile, verbose = verbose) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {

@@ -139,8 +139,13 @@
 #' @export
 
 # RBI ----
-RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)
+RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T)
 {
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
   # load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
 
   # Prepare the given data frame so that we can compute the RBI score and categories

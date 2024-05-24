@@ -26,11 +26,18 @@
 #'
 #' @import dplyr
 #' @export
-LRM <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)  {
+LRM <- function(chemdata, preprocessed = F, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T)  {
   "lrm_table"
 
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+
   # get it in a usable format
-  chemdata <- chemdata_prep(chemdata)
+  if (!preprocessed) {
+    chemdata <- chemdata_prep(chemdata, logfile = logfile, verbose = verbose)
+  }
 
 
   # Take the Log10 of the chemistry concentration.
@@ -123,14 +130,31 @@ LRM <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys
 # HPAH - 1
 # LPAH - 1
 # All the rest - 2
-CSI <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
+CSI <- function(chemdata, preprocessed = F, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
   "csi_weight"
 
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog("\nBEGIN Chem CSI Function\n", logfile = logfile, verbose = verbose)
+
   # get it in a usable format
-  chemdata <- chemdata_prep(chemdata)
+  if (!preprocessed) {
+    writelog("\nPrepping chem data...", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    chemdata <- chemdata_prep(chemdata, logfile = logfile, verbose = verbose)
+    writelog("\nDone prepping chem data...", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  }
 
   # Combine CSI Weight values with data based on the compound. Exclude compounds not in CSI calculation.
+  print("Combine CSI Weight values with data based on the compound. Exclude compounds not in CSI calculation.", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  print("CSI Weight values may be found in csi_weights.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(csi_weight, logfile = file.path(dirname(logfile), 'csi_weights.csv'), filetype = 'csv', verbose = verbose)
+
   chemdata_csi <- csi_weight %>% left_join(chemdata, by = "AnalyteName")
+
+  print("Chem data combined with CSI Weight values may be found in csi_chemdata_with_weights.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chemdata_csi, logfile = file.path(dirname(logfile), 'csi_chemdata_with_weights.csv'), filetype = 'csv', verbose = verbose)
 
   chemdata_csi <- csi_weight %>%
     left_join(chemdata, by = "AnalyteName") %>%
@@ -218,15 +242,33 @@ CSI <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys
 #' chem.sqo(chem_sampledata) # get scores and see output
 #'
 #' @export
-chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T) {
+chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
 
-  chemdata_lrm <- LRM(chemdata)
-  chemdata_csi <- CSI(chemdata)
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog("\nBEGIN Chem SQO Function\n", logfile = logfile, verbose = verbose)
+
+  writelog("About to preprocess chemistry data", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  chemdata <- chemdata_prep(chemdata, logfile = logfile, verbose = verbose)
+
+
+  writelog("About to call LRM function within chem.sqo", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  chemdata_lrm <- LRM(chemdata, preprocessed = T, logfile = logfile, verbose = verbose)
+  writelog("LRM output in LRM.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chemdata_lrm, logfile = file.path(dirname(logfile), 'LRM.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("About to call CSI function within chem.sqo", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  chemdata_csi <- CSI(chemdata, preprocessed = T, logfile = logfile, verbose = verbose)
+  writelog("CSI output in CSI.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chemdata_csi, logfile = file.path(dirname(logfile), 'CSI.csv'), filetype = 'csv', verbose = verbose)
 
   # We should probably put some checks on the input data here
   # if it doesn't meet requirements, call stop function
 
-  rbind(chemdata_lrm, chemdata_csi) %>%
+  writelog("RBind LRM and CSI dataframes", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  combined <- rbind(chemdata_lrm, chemdata_csi) %>%
     arrange(StationID) %>%
     group_by(StationID) %>%
     summarize(
@@ -257,6 +299,13 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(forma
     arrange(
       StationID, Index
     )
+
+  writelog("Result of concatting CSI and LRM is in CSI-LRM-concat.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(combined, logfile = file.path(dirname(logfile), 'CSI-LRM-concat.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("\nEND Chem SQO Function\n", logfile = logfile, verbose = verbose)
+
+  combined
 }
 
 
@@ -290,41 +339,94 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', paste0(forma
 #' chemdata_prep(chem_sampledata) # get scores and see output
 #'
 #' @export
-chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-log.txt') ), verbose = T){
+chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog("\nBEGIN Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
+
   # Here chemdata consists of data in the same format as our database, with the columns
   # stationid, analytename, result, rl, mdl
 
-  print("Working directory")
-  print(getwd())
+  writelog("Chemistry data as fed into the function chemdata_prep may be found in chemdata-step0.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step0.csv'), filetype = 'csv', verbose = verbose)
+
+
+
 
   # lowercase column names
   names(chem) <- names(chem) %>% tolower()
+  writelog("Lowercase column names of input data", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(
+    "Chemistry data after lowercase of column names may be found in the function chemdata_prep may be found in chemdata-step1.1.csv",
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step1.1.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("Chemistry data after renaming fielddup colnames to 'fieldrep' may be found in chemdata-step1.2.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  if ( 'fieldduplicate' %in% names(chem) ) {
+    chem <- chem %>% rename(fieldrep = fieldduplicate)
+  }
+  if ( 'fieldreplicate' %in% names(chem) ) {
+    chem <- chem %>% rename(fieldrep = fieldreplicate)
+  }
+  if ( 'fielddup' %in% names(chem) ) {
+    chem <- chem %>% rename(fieldrep = fielddup)
+  }
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step1.2.csv'), filetype = 'csv', verbose = verbose)
 
   if ('labreplicate' %in% names(chem)) {
+    writelog("Rename labreplicate to labrep", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
     chem <- chem %>% rename(labrep = labreplicate)
   }
+  writelog("Chemistry data after renaming labrep colnames to 'labrep' may be found in chemdata-step1.3.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step1.3.csv'), filetype = 'csv', verbose = verbose)
 
+
+
+  writelog(
+    "Remove 2nd field/lab replicates from chem data. - chem data before removal of 2nd lab/field reps may be found in chemdata-step2.csv",
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step2.csv'), filetype = 'csv', verbose = verbose)
   # SampleTypeCode should be "Result" and LabReplicate should be 1
   # This is not explicitly from the SQO Manual, but rather just based on "Common sense" and guidance from Darrin Greenstein
   # We take labreplicate 1 to avoid bias.
   # Darrin said on 7/20/2022 "I'd just pick the first rep. That will randomly even out any bias."
-  if (all( c('sampletypecode','labrep') %in% names(chem)  )) {
+  if (all( c('sampletypecode','labrep', 'fieldrep') %in% names(chem)  )) {
     chem <- chem %>%
       filter(
         sampletypecode == 'Result'
       ) %>%
       filter(
         as.numeric(labrep) == 1
+      ) %>%
+      filter(
+        as.numeric(labrep) == 1
       )
+
     if (nrow(chem_sampledata) == 0) {
       stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1")
     }
   } else {
     warning("Columns sampletypecode and labrep were not provided - this may affect results if there are duplicate records for certain analytes")
   }
+  writelog(
+    "Dropping duplicates from chem - chem data AFTER removal of duplicates may be found in chemdata-step3.csv",
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step3.csv'), filetype = 'csv', verbose = verbose)
 
 
-
+  writelog("Converting Result, RL, MDL to numeric fields", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
   # result, rl, mdl should be numeric fields
   chem <- chem %>%
@@ -335,9 +437,19 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
     ) %>%
     filter(!is.na(stationid))
 
+  writelog(
+    "Chem data after conversion of Result, RL, MDL may be found in chemdata-step4.csv",
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step4.csv'), filetype = 'csv', verbose = verbose)
+
+
   # Analytes that are not grouped in any particular category
   single_analytes <- c('Cadmium','Copper','Lead','Mercury','Zinc',
                        'alpha-Chlordane','gamma-Chlordane','trans-Nonachlor',"4,4'-DDT")
+
 
   # High PAH
   # Table 3.1 in the SQO Manual (page 19)
@@ -356,6 +468,30 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
     'PCB', c('008', '018', '028', '044', '052', '066', '101', '105', '110', '118', '128', '138', '153', '180', '187', '195'), sep = "-"
   )
 
+  writelog("Analytes used in Chem SQO Calc (Based on Table 3.1 in SQO Manual - pages 19 and 20):", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(
+    paste(
+      c(single_analytes, hpah, lpah, relevant_pcbs),
+      collapse = ', '
+    ),
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog("To be clear - the script is filtering the chemistry data for the above analytes", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog("These analytes have no grouping and are handled individually", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(paste(single_analytes, collapse = ', '),logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+
+  writelog("\nThese analytes are the High PAHs", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(paste(hpah, collapse = ', '),logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+  writelog("\nThese analytes are the Low PAHs", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(paste(lpah, collapse = ', '),logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+  writelog("\nThese analytes are the the PCBs used in SQO analysis", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(paste(relevant_pcbs, collapse = ', '),logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+  writelog('\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
   # The other group is the "DD's" DDT, DDE, DDD
   # Can be done with grepl
 
@@ -364,11 +500,44 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
   # check for duplicates and issue a warning:
   if (any(chem %>% duplicated())) {
     warning("Duplicates detected in chemistry data. They will be removed in the calculation. Please check your input data.")
+    writelog(
+      "Duplicates detected in chemistry data. They will be removed in the calculation. Please check your input data."
+      ,
+      logfile = logfile,
+      verbose = verbose,
+      prefix = paste(hyphen.log.prefix, 'WARNING: ')
+    )
     chem <- chem %>% distinct()
+    writelog(
+      "Duplicates removed - chemdata-step4.1.csv"
+      ,
+      logfile = logfile,
+      verbose = verbose,
+      prefix = paste(hyphen.log.prefix, 'WARNING: ')
+    )
+    writelog(chem, file.path(dirname(logfile), 'chemdata-step4.1.csv'), filetype = 'csv', verbose = verbose)
   }
 
 
-  # its hard to think of useful, good variable names. Cut me some slack.
+  writelog(
+    "Before filtering, grouping, converting missing result values - chemdata-step5.csv"
+    ,
+    logfile = logfile,
+    verbose = verbose,
+    prefix = paste(hyphen.log.prefix, 'WARNING: ')
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step5.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("filtering chemistry data to necessary analytes - etc", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("from step 5 to 6 this is what is performed:", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("Create a new column called compound which represents the group of the analyte (High/Low PAH, Total PCB, DDD, DDE. (DDTs not handled in this step)", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("remove records where compound is NA", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("Handle missing result values according to guidance of pages 30 and 31 of Technical manual", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("-- (half MDL for the analytes that are not part of a group, otherwise set to zero in the grouped analytes which get summed)", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("Multiply PCBs by 1.72", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("Sum results of grouped constituents/analytes", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  writelog("If all values in the group are non detects - take the max RL", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
+  # its hard to think of useful, good variable names
   chemdata <- chem %>%
     # create a new column called compound. This is what we will group by,
     mutate(
@@ -421,7 +590,13 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
     ) %>%
     ungroup()
 
+  writelog("chemdata after performing these steps may be found in chemdata-step6.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step6.csv'), filetype = 'csv', verbose = verbose)
 
+
+  writelog("Handle DDTs (according to page 30 of SQO technical manual", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("-- replace missing values with zero", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("-- Sum them - if all are non-detects then take the max RL", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   ddts_total <- chem %>%
     filter(grepl("DDT",analytename)) %>%
     mutate(
@@ -443,6 +618,9 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
       )
     ) %>% ungroup()
 
+  writelog("chemdata after performing these steps may be found in chemdata-step7 (DDTs).csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chem, file.path(dirname(logfile), 'chemdata-step7 (DDTs).csv'), filetype = 'csv', verbose = verbose)
+
   # Conversation with Darrin on April 16th 2020
   # We need to fix the rounding in this thing.
   # The fixes may also need to be implemented in the chemdata_prep function
@@ -455,7 +633,8 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
   # HPAH - 1
   # LPAH - 1
   # All the rest - 2
-
+  writelog("Combine DDT data with rest of chem data - perform necessary rounding", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("Copper, Lead, Zinc, High/Low PAHs will be rounded to 1 decimal place; All others will be rounded to 2", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   chemdata <- chemdata %>%
     bind_rows(ddts_total) %>%
     arrange(stationid, compound) %>%
@@ -470,6 +649,11 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', paste0(form
         TRUE ~ round(Result, digits = 2)
       )
     )
+
+  writelog("final preprocessed chemistry data in chemdata-preprocessed-final.csv", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(chem, file.path(dirname(logfile), 'chemdata-preprocessed-final.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("\nEND Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
 
   return(chemdata)
 
