@@ -67,7 +67,14 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
     file.create(logfile)
   }
 
-  write(paste0("---------------------- BEGIN LOG - ", current.time, " ------------------------- "), logfile)
+  write(
+    paste(
+      "----------------------------------------------------------- BEGIN LOG -",
+      current.time,
+      "----------------------------------------------------------- "
+    ),
+    logfile
+  )
 
   return(NULL)
 
