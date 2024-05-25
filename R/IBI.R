@@ -71,100 +71,105 @@
 #
 ##########################################################################################################################
 #' @export
-IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt'), verbose = TRUE) {
+IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T)
+{
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\nBEGIN: IBI function.\n', logfile = logfile, verbose = verbose)
+  # load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
 
-  # Log initial input data
-  writelog('*** DATA *** Input to IBI function - IBI-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(BenthicData, logfile = file.path(dirname(logfile), 'IBI-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  # Prepare the given data frame
+  # Prepare the given data frame so that we can compute the IBI score and categories
   ibi_data <- BenthicData %>%
-    filter(Exclude != "Yes") %>%
-    left_join(sqo.list.new, by = c('Taxon' = 'TaxonName')) %>%
+    filter(Exclude!="Yes") %>%
+    left_join(sqo.list.new, by = c('Taxon'='TaxonName')) %>%
     mutate_if(is.numeric, list(~na_if(., -88))) %>%
-    select('StationID', 'SampleDate', 'Replicate', 'Taxon', 'Abundance', 'Stratum', 'Phylum', 'IBISensitive', "Mollusc", "Crustacean") %>%
-    mutate(n = if_else(Taxon == "NoOrganismsPresent", 0, 1))
+    select('StationID','SampleDate', 'Replicate','Taxon','Abundance','Stratum', 'Phylum', 'IBISensitive', "Mollusc", "Crustacean") %>%
+    #rename(B13_Stratum = Stratum) %>%
+    mutate(n=if_else(Taxon=="NoOrganismsPresent", 0,1))
 
-  writelog('*** DATA *** Prepared IBI data - IBI-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi_data, logfile = file.path(dirname(logfile), 'IBI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  ### SQO IBI - 2
+  ### SQO IBI - 1
+  # columns needed in RBI: B13_Stratum, StationID, Replicate, Phylum, NumofTaxa
   ibi1 <- ibi_data %>%
     group_by(Stratum, StationID, SampleDate, Replicate) %>%
-    summarise(NumOfTaxa = sum(n))
+    summarise(NumOfTaxa =sum(n))
 
-  writelog('number of taxa', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('*** DATA *** IBI Step 2 - IBI-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi1, logfile = file.path(dirname(logfile), 'IBI-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-  ### SQO IBI - 3
+  ### SQO IBI - 2
   ibi2 <- ibi_data %>%
     filter(Mollusc == "Mollusc") %>%
-    group_by(Stratum, StationID, SampleDate, Replicate) %>%
+    group_by(Stratum, StationID, SampleDate,Replicate) %>%
     summarise(NumOfMolluscTaxa = length(Taxon))
 
-  writelog('number of molluscs', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('*** DATA *** IBI Step 3 - IBI-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi2, logfile = file.path(dirname(logfile), 'IBI-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-  ### SQO IBI - 4
+
+
+  ### SQO RBI - 3 - 2
   ibi3_2 <- ibi_data %>%
-    filter(str_detect(Taxon, "Notomastus")) %>%
+    filter(str_detect(Taxon,"Notomastus")) %>%
     group_by(Stratum, StationID, SampleDate, Replicate) %>%
     summarise(NotomastusAbun = sum(Abundance))
 
-  writelog('sum abundance of Notomastus', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('*** DATA *** IBI Step 4 - IBI-step.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi3_2, logfile = file.path(dirname(logfile), 'IBI-step4.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-  ### SQO IBI - 5
+
+  ### SQO IBI - 4 - 2
   ibi4_2 <- ibi_data %>%
-    filter(IBISensitive == "S") %>%
-    left_join(ibi1, by = c("Stratum", "StationID", "SampleDate", "Replicate")) %>%
+    filter(IBISensitive=="S") %>%
+    left_join(ibi1, by=c("Stratum", "StationID", "SampleDate", "Replicate")) %>%
     group_by(Stratum, StationID, SampleDate, Replicate, NumOfTaxa) %>%
     summarise(SensTaxa = length(Taxon)) %>%
-    mutate(PctSensTaxa = (SensTaxa / NumOfTaxa) * 100) %>%
+    mutate(PctSensTaxa=(SensTaxa/NumOfTaxa)*100) %>%
     select(Stratum, StationID, SampleDate, Replicate, PctSensTaxa)
 
-  writelog('Percentage of Sensitive taxa', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('*** DATA *** IBI Step 5 - IBI-step5.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi4_2, logfile = file.path(dirname(logfile), 'IBI-step5.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
   ### Reference ranges for IBI metrics in Southern California Marine Bays
-  writelog('*** REFERENCE RANGES *** IBI Reference Ranges - ibi_ref_ranges_table.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi_ref_ranges_table, logfile = file.path(dirname(logfile), 'ibi_ref_ranges_table.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  ### [ Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68 ]
+  ibi_ref_ranges_table <- data.frame(ref_low = c(13, 2, 0, 19),
+                                     ref_high = c(99, 25, 59, 47.1))
+  row.names(ibi_ref_ranges_table) <- c("NumOfTaxa", "NumOfMolluscTaxa", "NotomastusAbun", "PctSensTaxa")
+
+
+
 
   ### IBI category response ranges for Southern California Marine Bays
-  writelog('*** CATEGORY RESPONSE RANGES *** IBI Category Response Ranges - ibi_category_response_table.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi_category_response_table, logfile = file.path(dirname(logfile), 'ibi_category_response_table.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  ### [ Table 4.20 - CASQO Technical Manual page 68-69]
+  ibi_category_response_table <- data.frame(ibi_score = as.factor(c(0, 1, 2, 3, 4)),
+                                            category = as.factor(c("Reference",
+                                                                   "Low Disturbance",
+                                                                   "Moderate Disturbance",
+                                                                   "High Disturbance",
+                                                                   "High Disturbance")),
+                                            category_score = as.factor(c(1, 2, 3, 4, 4)))
 
   ### IBI Metrics:
+  # We stitch together all the necessary IBI metrics to determine the IBI index.
+  # Each of the metrics is then compared to the tables listed above (Table 5.4 and Table 5.5) to determine the IBI score,
+  # the IBI Category, and IBI Category Score
   ibi_metrics <- ibi1 %>%
     full_join(ibi2, by = c("Stratum", "SampleDate", "StationID", "Replicate")) %>%
     full_join(ibi3_2, by = c("Stratum", "SampleDate", "StationID", "Replicate")) %>%
     full_join(ibi4_2, by = c("Stratum", "SampleDate", "StationID", "Replicate")) %>%
-    replace(., is.na(.), 0) %>%
+    replace(.,is.na(.),0) %>%
 
+    # We replace any NAs with 0 so that we can compare the values to the tables listed above
+    # The IBI score is set to zero before comparison the reference range.
     mutate(Score = 0) %>%
-    mutate(Score = if_else((NumOfTaxa < ibi_ref_ranges_table["NumOfTaxa",]$ref_low | NumOfTaxa > ibi_ref_ranges_table["NumOfTaxa",]$ref_high), Score + 1, Score)) %>%
-    mutate(Score = if_else((NumOfMolluscTaxa < ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_low | NumOfMolluscTaxa > ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_high), Score + 1, Score)) %>%
-    mutate(Score = if_else((NotomastusAbun < ibi_ref_ranges_table["NotomastusAbun",]$ref_low | NotomastusAbun > ibi_ref_ranges_table["NotomastusAbun",]$ref_high), Score + 1, Score)) %>%
-    mutate(Score = if_else((PctSensTaxa < ibi_ref_ranges_table["PctSensTaxa",]$ref_low | PctSensTaxa > ibi_ref_ranges_table["PctSensTaxa",]$ref_high), Score + 1, Score)) %>%
+    # For each metric that is out of the reference range (above or below), the IBI score goes up by one.
+    mutate(Score = if_else((NumOfTaxa < ibi_ref_ranges_table["NumOfTaxa",]$ref_low  | NumOfTaxa > ibi_ref_ranges_table["NumOfTaxa",]$ref_high),
+                           Score + 1, Score)) %>%
+    mutate(Score = if_else((NumOfMolluscTaxa < ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_low  | NumOfMolluscTaxa > ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_high),
+                           Score + 1, Score)) %>%
+    mutate(Score = if_else((NotomastusAbun < ibi_ref_ranges_table["NotomastusAbun",]$ref_low  | NotomastusAbun > ibi_ref_ranges_table["NotomastusAbun",]$ref_high),
+                           Score + 1, Score)) %>%
+    mutate(Score = if_else((PctSensTaxa < ibi_ref_ranges_table["PctSensTaxa",]$ref_low  | PctSensTaxa > ibi_ref_ranges_table["PctSensTaxa",]$ref_high),
+                           Score + 1, Score)) %>%
+    # The IBI score is then compared to condition category response ranges (Table 5.5) to determine the IBI category and category score.
     mutate(Category = case_when(Score == 0 ~ "Reference", Score == 1 ~ "Low Disturbance", Score == 2 ~ "Moderate Disturbance", (Score == 3 | Score == 4) ~ "High Disturbance")) %>%
     mutate(`Category Score` = case_when(Score == 0 ~ 1, Score == 1 ~ 2, Score == 2 ~ 3, (Score == 3 | Score == 4) ~ 4)) %>%
     mutate(Index = "IBI") %>%
     distinct()
-
-  writelog('*** DATA *** Final IBI Metrics - IBI-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(ibi_metrics, logfile = file.path(dirname(logfile), 'IBI-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('\nEND: IBI function.\n', logfile = logfile, verbose = verbose)
 
   return(ibi_metrics)
 }

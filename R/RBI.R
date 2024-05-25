@@ -164,11 +164,12 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   writelog('RBI Step 1', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('*** DATA *** RBI-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(rbi8, logfile = file.path(dirname(logfile), 'RBI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi_data, logfile = file.path(dirname(logfile), 'RBI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-  #ibi_data <- rbi_data %>%
-   # dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
-  #  dplyr::summarise(NumOfTaxa = sum(n))
+  # to be used later
+  rbi_data_tmp <- rbi_data %>%
+    dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
+    dplyr::summarise(NumOfTaxa = sum(n))
 
   # columns needed in RBI: B13_Stratum, StationID, Replicate, Phylum, NumofMolluscTaxa
   rbi2 <- rbi_data %>%
@@ -259,7 +260,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
     ### B13 RBI Metrics
   # We are using a full join because if there are missing values, we might just get an empty data frame.
-  rbi_metrics <- ibi_data %>%
+  rbi_metrics <- rbi_data_tmp %>%
     dplyr::full_join(rbi2, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::full_join(rbi3, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::full_join(rbi4, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%

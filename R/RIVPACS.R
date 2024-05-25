@@ -53,55 +53,51 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   # Split to SoCal and SFBay.
   ## We are only working with SoCal data so we don't need to do this!
 
-  #scb.station <- station[toupper(station$HabitatCode) == "C", ]
 
-  #########################
-  # At this point of the SQOUnified package, we are only working with SoCal data so we don't need sfb
-  #sfb.station <- station[toupper(station$HabitatCode) == "D", ]
-
-  # If data exists for habitat, format data.
-
-  #if(nrow(scb.station) > 0) {
-
-
-
-
+  # SCB Predictors - needs to be logged
   scb.predictors <- data.frame(Latitude = benthic_data$Latitude,
                                Longitude = benthic_data$Longitude,
                                SampleDepth = benthic_data$SampleDepth) %>%
     dplyr::distinct()
 
+  # data prep step 1 - rename taxa to Taxon
   benthic_data <- benthic_data %>% dplyr::rename(Taxa = Taxon)
 
+  # data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth - also set row names to StationID
   scb.taxa <- benthic_data %>% dplyr::select(StationID, Latitude, Longitude, SampleDepth) %>%
     dplyr::distinct()
 
+  # *Log scb.taxa
+
+  # data prep step 3 - set up the scb predictors
   row.names(scb.predictors) <- scb.taxa$StationID
-
   scb.predictors <- as.matrix(scb.predictors)
+  # *Log scb.predictors
 
-  # Don't need this line because all needed info is in benthic_data data frame
-  # and we're only doing SCB data, so no need to classify them
-  #scb.taxa <- benthic_data[benthic_data$StationID %in% scb.station$StationID, ]
+  # data prep step 4 - Filter to replicate one and get distinct values on StationID Taxa and Abundance
   scb.taxa <- benthic_data %>%
     dplyr::filter(Replicate == 1) %>%
     dplyr::select(StationID, Taxa, Abundance) %>%
     dplyr::distinct()
 
+  # Data prep step 5 - remove certain special characters from taxa name
   scb.taxa$Taxa <- gsub(" ", "_", scb.taxa$Taxa, fixed = TRUE)
   scb.taxa$Taxa <- gsub("(", "_", scb.taxa$Taxa, fixed = TRUE)
   scb.taxa$Taxa <- gsub(")", "_", scb.taxa$Taxa, fixed = TRUE)
 
+  # Data prep step 6 - pivot the data out wide and make it a data.frame
   scb.taxa <- scb.taxa %>%
     tidyr::pivot_wider(id_cols = "StationID", names_from = "Taxa",
                        values_from = "Abundance", values_fn = list(Abundance = list))
   scb.taxa <- as.data.frame(scb.taxa)
 
+  # Data prep step 7 - ...
   scb.taxa <- scb.taxa[, -1]
 
+  # data prep step 8 - remove Abundance. from column names
   colnames(scb.taxa) <- gsub("Abundance.", "", colnames(scb.taxa))
 
-  # Replace NAs with zero.
+  # data prep step 9 - Replace NAs with zero.
   scb.taxa[scb.taxa == "NULL"] <- 0
   scb.taxa = as.data.frame(lapply(scb.taxa, as.numeric))
   row.names(scb.taxa) <- row.names(scb.predictors)
@@ -113,30 +109,40 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   socal$oe.table <- socal$oe.table %>%
     mutate_if(is.factor,as.character)
 
+  # **Please Log socal$oe.table**
+
+  # Get the distinct values in benthic data based on StationID Replicate SampleDate Stratum
   benthic_data <- benthic_data %>%
-    #dplyr::rename(B13_Stratum = Stratum) %>%
     dplyr::select(StationID, Replicate, SampleDate, Stratum) %>%
     dplyr::distinct()
 
-  rivpacs.score <- socal$oe.table %>%
-    dplyr::select(stations, O.over.E) %>%
+  # Calculate RIVPACS Scores
+
+  # Riv step 0 - select stations and Observed/Expected
+  riv0 <- socal$oe.table %>%
+    dplyr::select(stations, O.over.E)
+
+  # Riv step 1 - join with benthic data
+  riv1 <- riv0 %>%
     dplyr::rename(StationID = stations, Score = O.over.E) %>%
     dplyr::full_join(benthic_data) %>%
     dplyr::mutate(Index = "RIVPACS") %>%
+
+    # Get the scores based on the thresholds
+    rivpacs.score <- riv1 %>%
     dplyr::mutate(Category = case_when((Score <= 0.32) ~ "High Disturbance",
                                        ((Score > 0.32 & Score <= 0.74) | (Score >= 1.26)) ~ "Moderate Disturbance",
                                        ((Score > 0.74 & Score <= 0.90) | Score >= 1.10 & Score < 1.26) ~ "Low Disturbance",
                                        (Score > 0.90 | Score < 1.10) ~ "Reference")) %>%
     dplyr::mutate(`Category Score` = case_when(Category == "Reference" ~ 1,
-                                             Category == "Low Disturbance" ~ 2,
-                                             Category == "Moderate Disturbance" ~ 3,
-                                             Category == "High Disturbance" ~ 4)) %>%
+                                               Category == "Low Disturbance" ~ 2,
+                                               Category == "Moderate Disturbance" ~ 3,
+                                               Category == "High Disturbance" ~ 4)) %>%
     dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
 
 
   return(rivpacs.score)
 }
-
 
 
 # ---- ORIGINAL RIVPACS FUNCTION ----
