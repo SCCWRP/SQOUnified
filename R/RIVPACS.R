@@ -126,7 +126,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   riv1 <- riv0 %>%
     dplyr::rename(StationID = stations, Score = O.over.E) %>%
     dplyr::full_join(benthic_data) %>%
-    dplyr::mutate(Index = "RIVPACS") %>%
+    dplyr::mutate(Index = "RIVPACS")
 
     # Get the scores based on the thresholds
     rivpacs.score <- riv1 %>%
