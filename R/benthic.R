@@ -54,8 +54,8 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
   writelog(benthic_data, logfile = file.path(dirname(logfile), 'benthic.sqo-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
-  writelog('Calling M-AMBI within Benthic SQO function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  mambi.score <- MAMBI(benthic_data, logfile = logfile, verbose = verbose) %>%
+  writelog('Calling M-AMBI within Benthic SQO function - Refer to MAMBI folder for detailed MAMBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  mambi.score <- MAMBI(benthic_data, logfile = file.path(dirname(logfile), 'MAMBI', 'log.txt') , verbose = verbose) %>%
     # rename(
     #   Stratum = Stratum
     # ) %>%
@@ -73,17 +73,17 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
       )
     )
 
-  writelog('Calling RBI within Benthic SQO function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  rbi.scores <- RBI(benthic_data, logfile = logfile, verbose = verbose)
+  writelog('Calling RBI within Benthic SQO function - Refer to RBI folder for detailed RBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  rbi.scores <- RBI(benthic_data, logfile = file.path(dirname(logfile), 'RBI', 'log.txt'), verbose = verbose)
 
-  writelog('Calling IBI within Benthic SQO function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  ibi.scores <- IBI(benthic_data, logfile = logfile, verbose = verbose)
+  writelog('Calling IBI within Benthic SQO function - Refer to IBI folder for detailed IBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  ibi.scores <- IBI(benthic_data, logfile = file.path(dirname(logfile), 'IBI', 'log.txt'), verbose = verbose)
 
-  writelog('Calling BRI within Benthic SQO function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  bri.scores <- BRI(benthic_data, logfile = logfile, verbose = verbose)
+  writelog('Calling BRI within Benthic SQO function - Refer to BRI folder for detailed BRI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  bri.scores <- BRI(benthic_data, logfile = file.path(dirname(logfile), 'BRI', 'log.txt'), verbose = verbose)
 
-  writelog('Calling RIVPACS within Benthic SQO function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  rivpacs.score <- RIVPACS(benthic_data, logfile = logfile, verbose = verbose) #only SoCal (no SFBay)
+  writelog('Calling RIVPACS within Benthic SQO function - Refer to RIVPACS folder for detailed RIVPACS logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  rivpacs.score <- RIVPACS(benthic_data, logfile = file.path(dirname(logfile), 'RIVPACS', 'log.txt'), verbose = verbose) #only SoCal (no SFBay)
 
   # Integrated Scores
   # CASQO Technical Manual page 73 -

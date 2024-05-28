@@ -37,10 +37,11 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
 
   # Compute ALL SQO scores
+  writelog('Compute ALL SQO scores', logfile = logfile, verbose = verbose)
 
   # ---- Benthic ----
   if (!is.null(benthic)) {
-    benthic <- benthic.sqo(benthic, logfile = logfile, verbose = verbose) %>%
+    benthic <- benthic.sqo(benthic, logfile = file.path( dirname(logfile), 'Benthic', 'log.txt' ), verbose = verbose) %>%
       mutate(LOE = 'Benthic') %>%
       select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -71,7 +72,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Chemistry ----
   if (!is.null(chem)) {
-    chem <- chem.sqo(chem, logfile = logfile, verbose = verbose) %>%
+    chem <- chem.sqo(chem, logfile = file.path( dirname(logfile), 'Chemistry', 'log.txt' ), verbose = verbose) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {
@@ -87,7 +88,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-    tox <- tox.sqo(tox, logfile = logfile, verbose = verbose) %>%
+    tox <- tox.sqo(tox, logfile = file.path( dirname(logfile), 'Toxicity', 'log.txt' ), verbose = verbose) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {
@@ -142,6 +143,8 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
   arrange(
     StationID, LOE, Index
   )
+
+  writelog('Done computing ALL SQO scores', logfile = logfile, verbose = verbose)
 
   return(out)
 

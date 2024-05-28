@@ -12,7 +12,7 @@
 #' writelog("# --- Test Log Statement --- #", 'logs/log.txt')
 
 #' @export
-writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T, prefix = NULL) {
+writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T, prefix = NULL, include.row.names = F) {
 
 
   # Only text and csv (for now - ...... don't see any reason why we would support any other type at this point)
@@ -21,7 +21,7 @@ writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T
   }
 
   if (filetype == 'csv') {
-    write.csv(content, logfile, row.names = F)
+    write.csv(content, logfile, row.names = include.row.names)
   } else {
     if (!file.exists(logfile)) {
       stop(paste0("Error in ",  sys.call(), " - File '", logfile, "' not found!"))
@@ -55,7 +55,6 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
   logfile = path.expand(logfile)
   logdir = dirname(logfile)
 
-  if (!is.base.func) return(NULL);
   if (!verbose) return(NULL);
 
   # Create the parent directories if they don't exist
