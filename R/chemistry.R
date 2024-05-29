@@ -466,24 +466,41 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.
   # This is not explicitly from the SQO Manual, but rather just based on "Common sense" and guidance from Darrin Greenstein
   # We take labreplicate 1 to avoid bias.
   # Darrin said on 7/20/2022 "I'd just pick the first rep. That will randomly even out any bias."
-  if (all( c('sampletypecode','labrep', 'fieldrep') %in% names(chem)  )) {
+  # Check for 'sampletypecode' column
+  if ('sampletypecode' %in% names(chem)) {
     chem <- chem %>%
-      filter(
-        sampletypecode == 'Result'
-      ) %>%
-      filter(
-        as.numeric(labrep) == 1
-      ) %>%
-      filter(
-        as.numeric(labrep) == 1
-      )
-
-    if (nrow(chem_sampledata) == 0) {
-      stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1")
-    }
+      filter(sampletypecode == 'Result')
   } else {
-    warning("Columns sampletypecode and labrep were not provided - this may affect results if there are duplicate records for certain analytes")
+    msg <- "Warning: Column 'sampletypecode' was not provided - this may affect results if there are duplicate records for certain analytes"
+    warning(msg)
+    writelog(msg, logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   }
+
+  # Check for 'labrep' column
+  if ('labrep' %in% names(chem)) {
+    chem <- chem %>%
+      filter(as.numeric(labrep) == 1)
+  } else {
+    msg <- "Warning: Column 'labrep' was not provided - this may affect results if there are duplicate records for certain analytes"
+    warning(msg)
+    writelog(msg, logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  }
+
+  # Check for 'fieldrep' column
+  if ('fieldrep' %in% names(chem)) {
+    chem <- chem %>%
+      filter(as.numeric(fieldrep) == 1)
+  } else {
+    msg <- "Warning: Column 'fieldrep' was not provided - this may affect results if there are duplicate records for certain analytes"
+    warning(msg)
+    writelog(msg, logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  }
+
+  # Check if the resulting chem_sampledata is empty after filtering
+  if (nrow(chem_sampledata) == 0) {
+    stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1 and fieldrep == 1")
+  }
+
   writelog(
     "Dropping duplicates from chem - chem data AFTER removal of duplicates may be found in chemdata-preprocessing-step3.csv",
     logfile = logfile,
