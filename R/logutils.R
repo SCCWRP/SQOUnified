@@ -55,6 +55,8 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
   logfile = path.expand(logfile)
   logdir = dirname(logfile)
 
+
+
   if (!verbose) return(NULL);
 
   # Create the parent directories if they don't exist
@@ -64,16 +66,17 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
   # Create the file if it doesn't exist
   if (!file.exists(logfile)) {
     file.create(logfile)
+    write(
+      paste(
+        "----------------------------------------------------------- BEGIN LOG -",
+        current.time,
+        "----------------------------------------------------------- "
+      ),
+      logfile
+    )
   }
 
-  write(
-    paste(
-      "----------------------------------------------------------- BEGIN LOG -",
-      current.time,
-      "----------------------------------------------------------- "
-    ),
-    logfile
-  )
+
 
   return(NULL)
 

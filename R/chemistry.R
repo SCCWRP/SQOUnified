@@ -78,7 +78,8 @@ LRM <- function(chemdata, preprocessed = F, logfile = file.path(getwd(), 'logs',
   writelog("---- Above 0.66 is 'High'", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
   # Page 37 of Technical Manual
-  chemdata_lrm <- lrm_table %>% left_join(chemdata, by = 'AnalyteName') %>%
+  chemdata_lrm <- lrm_table %>%
+    left_join(chemdata, by = 'AnalyteName') %>%
     mutate(
       # page 38 of Technical Manual
       p = (exp(B0 + B1 * logResult) / (1 + exp(B0 + B1 * logResult))) %>% round(2)
@@ -313,7 +314,6 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   writelog("About to preprocess chemistry data", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   chemdata <- chemdata_prep(chemdata, logfile = logfile, verbose = verbose)
-
 
   writelog("About to call LRM function within chem.sqo", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   chemdata_lrm <- LRM(chemdata, preprocessed = T, logfile = logfile, verbose = verbose)
