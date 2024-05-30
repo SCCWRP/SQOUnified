@@ -501,6 +501,10 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.
     stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1 and fieldrep == 1")
   }
 
+  # Drop duplicates
+  chemdupes <- chem[(chem %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]
+  chem <- chem[!(chem %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]
+
   writelog(
     "Dropping duplicates from chem - chem data AFTER removal of duplicates may be found in chemdata-preprocessing-step3.csv",
     logfile = logfile,
@@ -508,6 +512,17 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.
     prefix = hyphen.log.prefix
   )
   writelog(chem, file.path(dirname(logfile), 'chemdata-preprocessing-step3.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog(
+    "Dropping duplicates from chem - chem data AFTER removal of duplicates may be found in chemdata-removed-duplicate-data.csv",
+    logfile = logfile,
+    verbose = verbose,
+    prefix = hyphen.log.prefix
+  )
+  writelog(chem, file.path(dirname(logfile), 'chemdata-removed-duplicate-data.csv'), filetype = 'csv', verbose = verbose)
+  writelog(
+    "(To be clear - these are records that were duplicated on stationid, analytename, sampletypecode, labrep, fieldrep)", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix
+  )
 
 
   writelog("Converting Result, RL, MDL to numeric fields", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
