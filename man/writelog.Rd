@@ -7,10 +7,13 @@
 writelog(
   content,
   logfile,
-  filetype = "txt",
+  filetype = "text",
   append = T,
   verbose = T,
-  prefix = NULL
+  prefix = NULL,
+  include.row.names = F,
+  code = NULL,
+  data = NULL
 )
 }
 \arguments{

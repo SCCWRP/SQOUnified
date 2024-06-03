@@ -12,12 +12,12 @@
 #' writelog("# --- Test Log Statement --- #", 'logs/log.txt')
 
 #' @export
-writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T, prefix = NULL, include.row.names = F) {
+writelog <- function(content, logfile, filetype = 'text', append = T, verbose = T, prefix = NULL, include.row.names = F, code = NULL, data = NULL) {
 
 
   # Only text and csv (for now - ...... don't see any reason why we would support any other type at this point)
-  if ( !(filetype %in% c('txt','csv')) ) {
-    stop("In logging utility function - filetype must be txt or csv")
+  if ( !(filetype %in% c('text','csv')) ) {
+    stop("In logging utility function - filetype must be text or csv")
   }
 
   if (filetype == 'csv') {
@@ -31,7 +31,23 @@ writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T
     } else {
       write(content, logfile, append = append)
     }
+
+    # Mainly for R Markdown - write code snippets to be able to view - also data table sections
+    if (!is.null(code)) {
+      write("```{r}\n", file = file, append = append)
+      write(code, file = file, append = append)
+      write("```\n", file = file, append = append)
+    }
+    if (!is.null(data)) {
+      write("```{r echo=FALSE}\n", file = file, append = append)
+      write("datatable(data, options = list(pageLength = 5, autoWidth = TRUE))\n", file = file, append = append)
+      write("```\n", file = file, append = append)
+    }
+
+
   }
+
+
 
 }
 
@@ -50,12 +66,14 @@ writelog <- function(content, logfile, filetype = 'txt', append = T, verbose = T
 #' @examples
 #' init.log(logfile, sys.call())
 #' @export
-init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base.func = T, verbose = T) {
+init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = T, title = 'Log') {
 
   logfile = path.expand(logfile)
   logdir = dirname(logfile)
 
-
+  if ( !(type %in% c('RMarkdown','text') )) {
+    stop("Logfile type must be RMarkdown or text")
+  }
 
   if (!verbose) return(NULL);
 
@@ -66,14 +84,18 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
   # Create the file if it doesn't exist
   if (!file.exists(logfile)) {
     file.create(logfile)
-    write(
-      paste(
-        "----------------------------------------------------------- BEGIN LOG -",
-        current.time,
-        "----------------------------------------------------------- "
-      ),
-      logfile
-    )
+    if (type == 'text') {
+      write(
+        paste(
+          "----------------------------------------------------------- BEGIN LOG -",
+          current.time,
+          "----------------------------------------------------------- "
+        ),
+        logfile
+      )
+    } else {
+      write("---\ntitle: \"", title,  "\"\noutput: html_document\n---\n\n", file = file)
+    }
   }
 
 
@@ -81,3 +103,20 @@ init.log <- function(logfile, base.func.name, current.time = Sys.time(), is.base
   return(NULL)
 
 }
+
+
+
+#' Create download link within an RMarkdown log file
+#' @param data data to be downloaded
+#' @param logfile the main log file filepath
+#' @param filename name of the csv file to be downloaded
+#' @param linktext text on the download link
+#' @param include.rownames should rownames of the dataframe be included in the CSV file?
+#'
+#' @export
+create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.rownames = FALSE){
+  csvfile <- file.path(dirname(logfile), paste0(filename))
+  write.csv(data, csvfile, row.names = include.rownames)
+  write(paste0("[", linktext , "](./", basename(csvfile), ")"), file = logfile, append = TRUE)
+}
+

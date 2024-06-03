@@ -7,9 +7,11 @@
 init.log(
   logfile,
   base.func.name,
+  type = "text",
   current.time = Sys.time(),
   is.base.func = T,
-  verbose = T
+  verbose = T,
+  title = "Log"
 )
 }
 \arguments{
