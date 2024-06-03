@@ -639,6 +639,11 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.
         analytename %in% relevant_pcbs ~ "PCBs_total",
         analytename %in% hpah ~ "HPAH",
         analytename %in% lpah ~ "LPAH",
+
+        # THe Manual (3rd Edition - page 35) states that the Total DDT's DDE's and DDD's are the sum of 2,4' and 4,4' - because those are the only ones measured in Bight
+        # We decided to leave the script this way
+        # If for whatever odd reason, some weird compound that shouldnt have even gotten measured (2,2') made its way into the dataset - we may as well include it
+        # June 3, 2024
         grepl("DDD",analytename) ~ "DDDs_total",
         grepl("DDE",analytename) ~ "DDEs_total",
         # The DDT total will be handled separately
@@ -648,6 +653,41 @@ chemdata_prep <- function(chem, logfile = file.path(getwd(), 'logs', format(Sys.
     filter(
       !is.na(compound)
     )
+
+
+  # v0.3.5 update
+  # June 3, 2024 - check units
+  # 'Cadmium','Copper','Lead','Mercury','Zinc' - should be in Parts Per Million (ug/g, ug/g dw, or ppm)
+  # Everything else should be in Parts Per Billion (ng/g, ng/g dw, or ppb)
+
+  # Define the analytes that should be in ppm
+  ppm_analytes <- c('Cadmium', 'Copper', 'Lead', 'Mercury', 'Zinc')
+
+  # Define the acceptable units for ppm and ppb
+  acceptable_units_ppm <- c('ug/g', 'ug/g dw', 'ppm')
+  acceptable_units_ppb <- c('ng/g', 'ng/g dw', 'ppb')
+
+  # Check if the units column exists
+  if ('units' %in% names(chemdata)) {
+    # Check for rows that do not meet the criteria
+    incorrect_rows <- chemdata[
+      (chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppm)) |
+        (!chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppb)), ]
+
+    # If there are incorrect rows, stop and display a message
+    if (nrow(incorrect_rows) > 0) {
+      stop("There are rows with incorrect units. Please check the following rows:\n",
+           paste(capture.output(print(incorrect_rows)), collapse = "\n"))
+    } else {
+      writelog("INFO: All units for chemistry input data are correct.",logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+    }
+  } else {
+    warning("The 'units' column is missing from the chemistry input data")
+    writelog("WARNING: The 'units' column is missing from the chemistry input data",logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
+  }
+
+
+
 
   writelog("*** DATA *** After filtering irrelevant compounds - chemdata-preprocessing-step6.1.csv",logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
   writelog(chemdata, file.path(dirname(logfile), 'chemdata-preprocessing-step6.1.csv'), filetype = 'csv', verbose = verbose)
