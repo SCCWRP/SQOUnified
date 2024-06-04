@@ -139,8 +139,18 @@
 #' @export
 
 # RBI ----
-RBI <- function(BenthicData)
+RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T)
 {
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog('\nBEGIN: RBI function.\n', logfile = logfile, verbose = verbose)
+
+  writelog('*** DATA *** Input to RBI function - RBI-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(BenthicData, logfile = file.path(dirname(logfile), 'RBI-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
   # load("data/SoCal_SQO_Infauna_LU_updated_4.7.20.RData")
 
   # Prepare the given data frame so that we can compute the RBI score and categories
@@ -152,15 +162,25 @@ RBI <- function(BenthicData)
     #dplyr::rename(B13_Stratum = Stratum) %>%
     dplyr::mutate(n=if_else(Taxon=="NoOrganismsPresent", 0,1))
 
-  #ibi_data <- rbi_data %>%
-   # dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
-  #  dplyr::summarise(NumOfTaxa = sum(n))
+  writelog('RBI Step 1', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi_data, logfile = file.path(dirname(logfile), 'RBI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+  # to be used later
+  rbi_data_tmp <- rbi_data %>%
+    dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
+    dplyr::summarise(NumOfTaxa = sum(n))
 
   # columns needed in RBI: B13_Stratum, StationID, Replicate, Phylum, NumofMolluscTaxa
   rbi2 <- rbi_data %>%
     dplyr::filter(Mollusc=="Mollusc") %>%
     dplyr::group_by(Stratum, StationID, SampleDate, Replicate) %>%
     dplyr::summarise(NumOfMolluscTaxa = sum(n))
+
+  writelog('\nRBI Step 2', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('Sum the Molluscs', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi2, logfile = file.path(dirname(logfile), 'RBI-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
   ### SQO RBI -3
@@ -169,11 +189,21 @@ RBI <- function(BenthicData)
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(NumOfCrustaceanTaxa = sum(n))
 
+  writelog('\nRBI Step 3', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('Sum the Crustaceans (count the number of distinct species)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi3, logfile = file.path(dirname(logfile), 'RBI-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
   ### SQO RBI -4
   rbi4 <- rbi_data %>%
     dplyr::filter(Crustacean=="Crustacean") %>%
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(CrustaceanAbun = sum(Abundance))
+
+  writelog('\nRBI Step 4', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('Sum the Crustaceans (total number of crustaceans)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step4.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi4, logfile = file.path(dirname(logfile), 'RBI-step4.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
   ### SQO RBI -5
@@ -182,6 +212,11 @@ RBI <- function(BenthicData)
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(M_insidiosumAbun = sum(Abundance))
 
+  writelog('\nRBI Step 5', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('sum abundance of Monocorophium insidiosum', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step5.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi5, logfile = file.path(dirname(logfile), 'RBI-step5.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
   ### SQO RBI -6
   rbi6 <- rbi_data %>%
@@ -189,12 +224,22 @@ RBI <- function(BenthicData)
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(A_diegensisAbun = sum(Abundance))
 
+  writelog('\nRBI Step 6', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('sum abundance of Asthenothaerus diegensis', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step6.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi6, logfile = file.path(dirname(logfile), 'RBI-step6.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
   ### SQO RBI -7
   rbi7 <- rbi_data %>%
     dplyr::filter(Taxon == "Goniada littorea") %>%
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(G_littoreaAbun = sum(Abundance))
+
+  writelog('\nRBI Step 7', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('sum abundance of Goniada littorea', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step7.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi7, logfile = file.path(dirname(logfile), 'RBI-step7.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
   ### SQO RBI -8
@@ -204,10 +249,18 @@ RBI <- function(BenthicData)
     dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
     dplyr::summarise(NIT = sum(badness))
 
+  writelog('\nRBI Step 8', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('Filter RBI for "Capitella capitata Cmplx", "Oligochaeta" and mutate a column called badness that is -0.1', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('group by Stratum, StationID, Replicate, SampleDate and sum badness - this is NIT (Negative Indicator Taxa)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('*** DATA *** RBI-step8.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi8, logfile = file.path(dirname(logfile), 'RBI-step8.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+
+  writelog('\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
     ### B13 RBI Metrics
   # We are using a full join because if there are missing values, we might just get an empty data frame.
-  rbi_metrics <- ibi_data %>%
+  rbi_metrics <- rbi_data_tmp %>%
     dplyr::full_join(rbi2, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::full_join(rbi3, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::full_join(rbi4, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
@@ -216,6 +269,9 @@ RBI <- function(BenthicData)
     dplyr::full_join(rbi7, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::full_join(rbi8, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
     dplyr::select(Stratum, StationID, SampleDate, Replicate, NumOfTaxa, NumOfMolluscTaxa, NumOfCrustaceanTaxa, CrustaceanAbun, M_insidiosumAbun, A_diegensisAbun, G_littoreaAbun, NIT)
+
+  writelog('*** DATA *** RBI metrics unified - RBI_metrics.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi_metrics, logfile = file.path(dirname(logfile), 'RBI_metrics.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
   ### RBI Category Thresholds for Southern California Marine Bays
   RBI_category_thresholds <- data.frame(ref_low = c(0.27, 0.16, 0.08, 0.08),
@@ -226,8 +282,49 @@ RBI <- function(BenthicData)
                                                                "High Disturbance")),
                                         category_score = c(1, 2, 3, 4))
 
+  writelog('*** DATA *** RBI calculation thresholds: RBI-thresholds.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(RBI_category_thresholds, logfile = file.path(dirname(logfile), 'RBI-thresholds.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+  # Log the RBI calculation code
+  rbi_code <- "
+    rbi_scores <- rbi_metrics %>%
+        replace(., is.na(.), 0) %>%
+        mutate(scaled_NumTaxa = NumOfTaxa / 99) %>%
+        mutate(scaled_NumMolluscTaxa = NumOfMolluscTaxa / 28) %>%
+        mutate(scaled_NumCrustaceanTaxa = NumOfCrustaceanTaxa / 29) %>%
+        mutate(scaled_CrustaceanAbun = CrustaceanAbun / 1693) %>%
+
+        # TWV = Taxa Richness Weighted Value
+        mutate(TWV = scaled_NumTaxa + scaled_NumMolluscTaxa + scaled_NumCrustaceanTaxa + (0.25 * scaled_CrustaceanAbun)) %>%
+
+        # PIT = Positive Indicator Taxa
+        mutate(PIT = ((M_insidiosumAbun)^(1/4) / (473)^(1/4)) + ((A_diegensisAbun)^(1/4) / (27)^(1/4)) + ((G_littoreaAbun)^(1/4) / (15)^(1/4))) %>%
+
+        mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
+        dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
+
+        # RBI Categories based on RBI scores
+        dplyr::mutate(Category = case_when(
+            (Score > 0.27) ~ 'Reference',
+            (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
+            (Score > 0.08 & Score <= 0.16) ~ 'Moderate Disturbance',
+            (Score <= 0.08) ~ 'High Disturbance'
+        )) %>%
+
+        # RBI Category Scores based on RBI scores
+        dplyr::mutate(`Category Score` = case_when(
+            (Category == 'Reference') ~ 1,
+            (Category == 'Low Disturbance') ~ 2,
+            (Category == 'Moderate Disturbance') ~ 3,
+            (Category == 'High Disturbance') ~ 4
+        )) %>%
+        dplyr::mutate(Index = 'RBI')
+    "
+  writelog("RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(rbi_code, logfile = logfile, verbose = verbose)
+
   # Compute the RBI scores.
-  # This was not included in the queries that D. Gillet listed. We went through the Technical Manual (p. 77-78)
+  # This was not included in the queries that D. Gillet listed. We went through the Technical Manual (p. 69-71)
   # to find the appropriate calculations.
   rbi_scores <- rbi_metrics %>%
     replace(.,is.na(.),0) %>%
@@ -235,21 +332,8 @@ RBI <- function(BenthicData)
     mutate(scaled_NumMolluscTaxa = NumOfMolluscTaxa/28) %>%
     mutate(scaled_NumCrustaceanTaxa = NumOfCrustaceanTaxa/29) %>%
     mutate(scaled_CrustaceanAbun = CrustaceanAbun/1693) %>%
-    # mutate(
-    #   scaled_NumTaxa = replace_na(scaled_NumTaxa, 0),
-    #   scaled_NumMolluscTaxa = replace_na(scaled_NumMolluscTaxa, 0),
-    #   scaled_NumCrustaceanTaxa = replace_na(scaled_NumCrustaceanTaxa, 0),
-    #   scaled_CrustaceanAbun = replace_na(scaled_CrustaceanAbun, 0)) %>%
     # TWV = Taxa Richness Weighted Value
     mutate(TWV = scaled_NumTaxa + scaled_NumMolluscTaxa + scaled_NumCrustaceanTaxa + (0.25 * scaled_CrustaceanAbun)) %>%
-    # NIT = Negative Indicator Taxa
-    # mutate(
-    #   NIT = case_when(
-    #            !is.na(CapitellaAbun) & !is.na(OligochaetaAbun) ~ -0.2,
-    #            !is.na(CapitellaAbun) | !is.na(OligochaetaAbun) ~ -0.1,
-    #            is.na(CapitellaAbun) & is.na(OligochaetaAbun) ~ 0
-    #          )) %>%
-   # mutate(M_insidiosumAbun = replace_na(M_insidiosumAbun, 0), A_diegensisAbun = replace_na(A_diegensisAbun, 0), G_littoreaAbun = replace_na(G_littoreaAbun, 0)) %>%
     # PIT = Positive Indicator Taxa
     mutate(PIT = ( (M_insidiosumAbun)^(1/4) / (473)^(1/4) ) + ( (A_diegensisAbun)^(1/4) / (27)^(1/4) ) + ( (G_littoreaAbun)^(1/4) / (15)^(1/4) )) %>%
     mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
@@ -265,6 +349,12 @@ RBI <- function(BenthicData)
                                                   (Category == "Moderate Disturbance") ~ 3,
                                                   (Category == "High Disturbance") ~ 4)) %>%
     dplyr::mutate(Index = "RBI")
+
+
+    writelog('*** DATA *** Final RBI dataframe: RBI-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    writelog(rbi_scores, logfile = file.path(dirname(logfile), 'RBI-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+    writelog('\nEND: RBI function.\n', logfile = logfile, verbose = verbose)
 
     return(rbi_scores)
 

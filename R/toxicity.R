@@ -42,42 +42,95 @@
 #' @import dplyr
 #' @export
 
-tox.summary <- function(toxresults) {
+# Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
+# DEFAULT leave it out and do only grabs
+tox.summary <- function(toxresults, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog('\nBEGIN: Tox Summary function.\n', logfile = logfile, verbose = verbose)
+  writelog('*** DATA *** Tox results upon entry into tox.summary function - tox.summary-initial-input-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(toxresults, logfile = file.path(dirname(logfile), 'tox.summary-initial-input-step0.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("These are the sampletypes which are to be analyzed as actual results (Typically Grab or Grab/QA):", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(paste0(results.sampletypes, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
   "tox_categories"
 
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
-  toxresults$result <- replace(toxresults$result, toxresults$result == -88, NA_real_)
+  toxresults$result <- replace(toxresults$result, toxresults$result < 0, NA_real_)
 
-  toxresults <- toxresults %>%
-    mutate(lab = ifelse('lab' %in% names(toxresults) %>% tolower, lab, 'Not Recorded'))
+  writelog('*** DATA *** Tox results after replacing 0 stationid with 0000 and negative results with NA_real_ - tox.summary-input-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(toxresults, logfile = file.path(dirname(logfile), 'tox.summary-input-step1.csv'), filetype = 'csv', verbose = verbose)
 
+
+  if (!('lab' %in% tolower(names(toxresults)))) {
+    toxresults <- toxresults %>%
+      mutate(
+        lab = 'Not Recorded'
+      )
+    writelog('Added lab column to input data - filled with Not Recorded', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  }
+
+  if (!('fieldrep' %in% tolower(names(toxresults)) )) {
+    toxresults <- toxresults %>%
+      mutate(
+        fieldrep = 1
+      )
+    writelog('Added fieldrep column to input data - filled with 1', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  }
 
   # here we separate the controls from the rest of the samples
   controls <- toxresults %>%
     filter(
       stationid == '0000',
-      sampletypecode == 'CNEG'
+      !(sampletypecode %in% results.sampletypes)
     )
+
+  writelog('*** DATA *** Controls - tox.summary-controls.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(controls, logfile = file.path(dirname(logfile), 'tox.summary-controls.csv'), filetype = 'csv', verbose = verbose)
 
   # get rid of the controls. They will be merged later
   results <- toxresults %>%
     filter(
-      stationid != '0000',
-      sampletypecode != 'QA'
+      ( (stationid != '0000') | (sampletypecode %in% results.sampletypes) )
     )
 
+  writelog('*** DATA *** Results separated from controls - tox.summary-results-without-controls.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(results, logfile = file.path(dirname(logfile), 'tox.summary-results-without-controls.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog("Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab' tox.summary", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   summary <- results %>%
     inner_join(
       controls,
-      by = c('toxbatch','species', 'labrep'),
+      by = c('toxbatch','species','labrep','lab'),
       suffix = c('','_control')
-    ) %>%
-    filter(
-      sampletypecode != 'QA' # shouild maybe issue a warning if they put this stuff in there
-    ) %>%
+    )
+
+  writelog('*** DATA *** Results separated from controls - tox.summary-results-joined-with-controls-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(summary, logfile = file.path(dirname(logfile), 'tox.summary-results-joined-with-controls-step2.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog('Group by lab, stationid, toxbatch, species, fieldrep, sampletypecode', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('calculate two sided t-test p value (t.test function in R) - the two samples being the result and the control result', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('t.test function in R by default will treat them as two samples from two populations (not assuming equal variances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('The function call to t.test is this:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("-- t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("Further explanation of the function call:", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("---- x = result and y = result_control: These are the two vectors (samples) being compared.", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("---- mu = 0: The null hypothesis is that the difference between the means of the two samples is zero.", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("---- var.equal = F: The variances of the two samples are not assumed to be equal (Welch's t-test).", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+
+  summary <- summary %>%
+    # filter(
+    #   sampletypecode != 'QA'
+    # ) %>%
     group_by(
-      lab, stationid, toxbatch, species, sampletypecode
+      lab, stationid, toxbatch, species, fieldrep, sampletypecode
     ) %>%
     summarize(
       p = tryCatch({
@@ -104,7 +157,8 @@ tox.summary <- function(toxresults) {
       pct_control = mean(result_control, na.rm = T),
       pct_result_adj = (pct_result / pct_control) * 100,
       stddev = sd(result, na.rm = T),
-      cv = stddev / pct_result
+      cv = stddev / pct_result,
+      n = n()
     ) %>%
     ungroup() %>%
     mutate(
@@ -116,7 +170,7 @@ tox.summary <- function(toxresults) {
     mutate(
       # CASQO Technical Manual page 45 - 47
       sqo_category_value_initial = case_when(
-        # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determin nontoxicity
+        # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
         (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
         (endpoint_method == 'Growth') & (pct_result_adj >= nontox) ~ 1,
@@ -144,7 +198,7 @@ tox.summary <- function(toxresults) {
       )
     ) %>%
     select(-c(nontox, lowtox, modtox, hightox)) %>%
-    select(
+    rename(
       lab = lab,
       stationid = stationid,
       species = species,
@@ -159,6 +213,10 @@ tox.summary <- function(toxresults) {
       Score = sqo_category_value,
       Category = sqo_category
     )
+  writelog('*** DATA *** Tox summary dataframe final - tox.summary-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(summary, logfile = file.path(dirname(logfile), 'tox.summary-final.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog('\nEND: Tox Summary function.\n', logfile = logfile, verbose = verbose)
 
   return(summary)
 }
@@ -200,12 +258,24 @@ tox.summary <- function(toxresults) {
 #' tox.sqo(tox_sampledata)
 #'
 #' @export
-tox.sqo <- function(toxresults) {
+tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog('\nBEGIN: Tox SQO function.\n', logfile = logfile, verbose = verbose)
+
+  writelog('*** DATA *** Tox results upon entry into tox.sqo function - tox.sqo-initial-input-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(toxresults, logfile = file.path(dirname(logfile), 'tox.sqo-initial-input-step0.csv'), filetype = 'csv', verbose = verbose)
 
   # It is common that there is a station called "0" which is actually supposed to be a string of four zeros ('0000')
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
 
-  tox_nonintegrated <- tox.summary(toxresults) %>%
+  writelog('*** DATA *** Tox results after replacing 0 with 0000 in stationid column - tox.sqo-initial-input-step0.1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(toxresults, logfile = file.path(dirname(logfile), 'tox.sqo-initial-input-step0.1.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog('Prep the tox data by taking the summary - then categorizing the endpoint method to acute or sublethal', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  tox_nonintegrated <- tox.summary(toxresults, logfile = logfile, verbose = verbose) %>%
     select(
       stationid,
       species,
@@ -231,13 +301,41 @@ tox.sqo <- function(toxresults) {
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
 
+  writelog('*** DATA *** After taking summary and categorizing endpoint method - tox.sqo-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(tox_nonintegrated, logfile = file.path(dirname(logfile), 'tox.sqo-step1.csv'), filetype = 'csv', verbose = verbose)
+
   if ('stratum' %in% names(toxresults)) {
+
+    writelog('Include the stratum if it was provided in the initial toxresults', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
     tox_nonintegrated <- tox_nonintegrated %>%
       left_join(
         toxresults %>% select(stationid, stratum) %>% distinct() %>% filter(!is.na(stratum)),
         by = 'stationid'
       )
+    writelog('*** DATA *** After tacking on the stratum - tox.sqo-step1.1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    writelog(tox_nonintegrated, logfile = file.path(dirname(logfile), 'tox.sqo-step1.1.csv'), filetype = 'csv', verbose = verbose)
   }
+
+  writelog("# For Toxicity, we take the mean of SQO scores among the tox tests at the site", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# CASQO manual (3rd edition) page 109", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog("# The score is the mean of the two, however, if one is missing, the score should come out to NA", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# This means that in this particular case, it should be na.rm = F", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# (NOTE: Not for offshore sites - offhsore sites only require the Amphipod test)", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog("# This is not explicitly mentioned on page 109 of the manual, where the instructions are given for integrating the results of the tox tests to determine the Tox LOE", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# However, we can understand that it must be na.rm = F because there are essentially two types of test methods, Acute and Sublethal (Page 85) and in the intro", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# to the instructions for tox assessment on page 84, first paragraph, it says the following:", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog("#   Multiple toxicity tests are needed to assess toxicity because no single method exists that can capture the", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("#   full spectrum of potential contaminant effects. Toxicity assessment under the California", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("#   Sediment Quality Objectives (CASQO) framework requires information from two types of tests:", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("#     1) short-term amphipod survival and 2) a sublethal test.", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog("# For this reason, if one of the test results is missing, we will declare the Tox LOE to be indeterminate or unknown", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# So here, we will actually need to check if both tests were present", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("# Acute tests mean the endpoint method is 'Survival' and the Sublethal tests mean the endpoint is 'Growth' or 'NormDev' (Normal Development)", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
 
 
@@ -294,5 +392,12 @@ tox.sqo <- function(toxresults) {
     arrange(
       StationID, Index, Category
     )
+
+  writelog('*** DATA *** Final Tox dataframe: tox.sqo-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(tox_final, logfile = file.path(dirname(logfile), 'tox.sqo-final.csv'), filetype = 'csv', verbose = verbose)
+
+  writelog('\nEND: Tox SQO function.\n', logfile = logfile, verbose = verbose)
+
+
   return(tox_final)
 }

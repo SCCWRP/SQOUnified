@@ -42,10 +42,20 @@
 #'
 #' @export
 
-benthic.sqo <- function(benthic_data){
+benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
+
+  # Initialize Logging
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
+  writelog('\nBEGIN: Benthic SQO function.\n', logfile = logfile, verbose = verbose)
+
+  writelog('*** DATA *** Input to Benthic SQO function - benthic.sqo-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(benthic_data, logfile = file.path(dirname(logfile), 'benthic.sqo-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
-  mambi.score <- MAMBI(benthic_data) %>%
+  writelog('Calling M-AMBI within Benthic SQO function - Refer to MAMBI folder for detailed MAMBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  mambi.score <- MAMBI(benthic_data, logfile = file.path(dirname(logfile), 'MAMBI', 'log.txt') , verbose = verbose) %>%
     # rename(
     #   Stratum = Stratum
     # ) %>%
@@ -62,14 +72,25 @@ benthic.sqo <- function(benthic_data){
         TRUE ~ NA_real_
       )
     )
-  rbi.scores <- RBI(benthic_data)
-  ibi.scores <- IBI(benthic_data)
-  bri.scores <- BRI(benthic_data)
-  rivpacs.score <- RIVPACS(benthic_data) #only SoCal (no SFBay)
+
+  writelog('Calling RBI within Benthic SQO function - Refer to RBI folder for detailed RBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  rbi.scores <- RBI(benthic_data, logfile = file.path(dirname(logfile), 'RBI', 'log.txt'), verbose = verbose)
+
+  writelog('Calling IBI within Benthic SQO function - Refer to IBI folder for detailed IBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  ibi.scores <- IBI(benthic_data, logfile = file.path(dirname(logfile), 'IBI', 'log.txt'), verbose = verbose)
+
+  writelog('Calling BRI within Benthic SQO function - Refer to BRI folder for detailed BRI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  bri.scores <- BRI(benthic_data, logfile = file.path(dirname(logfile), 'BRI', 'log.txt'), verbose = verbose)
+
+  writelog('Calling RIVPACS within Benthic SQO function - Refer to RIVPACS folder for detailed RIVPACS logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  rivpacs.score <- RIVPACS(benthic_data, logfile = file.path(dirname(logfile), 'RIVPACS', 'log.txt'), verbose = verbose) #only SoCal (no SFBay)
 
   # Integrated Scores
-  # CASQO Technical Manual page 87 -
+  # CASQO Technical Manual page 73 -
   #     Simply take the ceiling of the median of BRI, RBI, IBI and RIVPACS
+  writelog('Calculate Benthic Integrated scores - which will be visible in the final scores dataframe (benthic.sqo-final.csv)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('Line that calculates integrated benthic score: `Category Score` = ceiling(median(`Category Score`, na.rm = T))', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('In other words - group the data by StationID, Replicate, SampleDate, Stratum and then take the ceiling of the mean - excluding missing values', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   integrated.score <- bind_rows(
       rbi.scores, ibi.scores, bri.scores, rivpacs.score
     ) %>%
@@ -117,6 +138,11 @@ benthic.sqo <- function(benthic_data){
       StationID, Replicate, SampleDate, Stratum, Index, Score, Category, `Category Score`, Use_MAMBI
     ) %>%
     arrange(StationID, SampleDate, Replicate)
+
+  writelog('*** DATA *** Final Benthic SQO dataframe: benthic.sqo-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog(final.scores, logfile = file.path(dirname(logfile), 'benthic.sqo-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+  writelog('\nEND: Benthic SQO function.\n', logfile = logfile, verbose = verbose)
 
   return(final.scores)
 
