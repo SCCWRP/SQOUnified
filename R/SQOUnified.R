@@ -72,7 +72,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Chemistry ----
   if (!is.null(chem)) {
-    chem <- chem.sqo(chem, logfile = file.path( dirname(logfile), 'Chemistry', 'log.txt' ), verbose = verbose) %>%
+
+    chemlogfile <- file.path( dirname(logfile), 'Chemistry', 'chemlog.Rmd' )
+    chemlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs)
+
+    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {

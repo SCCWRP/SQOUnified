@@ -12,8 +12,9 @@
 #' writelog("# --- Test Log Statement --- #", 'logs/log.txt')
 
 #' @export
-writelog <- function(content, logfile, filetype = 'text', append = T, verbose = T, prefix = NULL, include.row.names = F, code = NULL, data = NULL) {
+writelog <- function(content, logfile, filetype = 'text', append = T, verbose = T, prefix = NULL, include.row.names = F, code = NULL, data = NULL, echo.code = TRUE, pageLength = 10) {
 
+  if (!verbose) return(NULL)
 
   # Only text and csv (for now - ...... don't see any reason why we would support any other type at this point)
   if ( !(filetype %in% c('text','csv')) ) {
@@ -34,21 +35,23 @@ writelog <- function(content, logfile, filetype = 'text', append = T, verbose = 
 
     # Mainly for R Markdown - write code snippets to be able to view - also data table sections
     if (!is.null(code)) {
-      write("```{r}\n", file = file, append = append)
-      write(code, file = file, append = append)
-      write("```\n", file = file, append = append)
+      if (echo.code) {
+        write("```{r}\n", file = logfile, append = append)
+      } else {
+        write("```{r echo=FALSE}\n", file = logfile, append = append)
+      }
+      write(code, file = logfile, append = append)
+      write("```\n", file = logfile, append = append)
     }
     if (!is.null(data)) {
-      write("```{r echo=FALSE}\n", file = file, append = append)
-      write("datatable(data, options = list(pageLength = 5, autoWidth = TRUE))\n", file = file, append = append)
-      write("```\n", file = file, append = append)
+      write("```{r echo=FALSE}\n", file = logfile, append = append)
+
+      data_name <- deparse(substitute(data))
+      write(paste0("datatable(", data_name, ", options = list(pageLength = ", pageLength, ", autoWidth = TRUE))\n"), file = logfile, append = append)
+
+      write("```\n", file = logfile, append = append)
     }
-
-
   }
-
-
-
 }
 
 
@@ -66,7 +69,7 @@ writelog <- function(content, logfile, filetype = 'text', append = T, verbose = 
 #' @examples
 #' init.log(logfile, sys.call())
 #' @export
-init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = T, title = 'Log') {
+init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = T, title = 'Log', libraries = c('rmarkdown')) {
 
   logfile = path.expand(logfile)
   logdir = dirname(logfile)
@@ -94,11 +97,14 @@ init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.
         logfile
       )
     } else {
-      write("---\ntitle: \"", title,  "\"\noutput: html_document\n---\n\n", file = file)
+      write("---\ntitle: \"R Markdown Log\"\noutput: html_document\n---", file = logfile)
+      write('```{r echo=FALSE}\n', file = logfile, append = TRUE)
+      for (lib in libraries) {
+        write(paste0('library(', lib, ')'), file = logfile, append = TRUE)
+      }
+      write('```', file = logfile, append = TRUE)
     }
   }
-
-
 
   return(NULL)
 
@@ -114,9 +120,11 @@ init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.
 #' @param include.rownames should rownames of the dataframe be included in the CSV file?
 #'
 #' @export
-create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.rownames = FALSE){
-  csvfile <- file.path(dirname(logfile), paste0(filename))
-  write.csv(data, csvfile, row.names = include.rownames)
-  write(paste0("[", linktext , "](./", basename(csvfile), ")"), file = logfile, append = TRUE)
+create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.row.names = FALSE, verbose = TRUE){
+  if(verbose){
+    csvfile <- file.path(dirname(logfile), paste0(filename))
+    write.csv(data, csvfile, row.names = include.row.names)
+    write(paste0("[", linktext , "](./", basename(csvfile), ")"), file = logfile, append = TRUE)
+  }
 }
 
