@@ -97,8 +97,8 @@ init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.
         logfile
       )
     } else {
-      write("---\ntitle: \"R Markdown Log\"\noutput: html_document\n---", file = logfile)
-      write('```{r echo=FALSE}\n', file = logfile, append = TRUE)
+      write( paste0("---\ntitle: \"", title ,"\"\noutput: html_document\n---", collapse = ''), file = logfile)
+      write('```{r setup, include=FALSE, message=FALSE, warning=FALSE}\n', file = logfile, append = TRUE)
       for (lib in libraries) {
         write(paste0('library(', lib, ')'), file = logfile, append = TRUE)
       }

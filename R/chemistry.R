@@ -51,6 +51,8 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   create_download_link(data = chemdata.lrm.input, logfile = logfile, filename = 'LRM_InitialInputData.csv', linktext = 'Download Initial Input to Chem LRM Function', verbose = verbose)
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   #  ---- Make the call to the Preprocessing function (If not already preprocessed) ----
@@ -62,8 +64,16 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
       verbose = verbose
     )
 
+    # Log the separation space between steps
+    writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
+
     # Actually call the function
     chemdata.lrm.input <- chemdata_prep(chemdata.lrm.input, logfile = logfile, verbose = verbose)
+
+
+    # Log the separation space between steps
+    writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
     # Create code block and download link to the preprocessed data
     writelog(
@@ -116,7 +126,8 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   writelog("\n### Manipulate the LRM chem data per Technical Manual page 37-40", logfile = logfile, verbose = verbose)
@@ -159,6 +170,10 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
+
 
   # -------- Step 2 - Get P Values for each analyte of each station --------
   # Write to log
@@ -188,6 +203,12 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   )
   # Serve it up for download
   create_download_link(data = chemdata_lrm2, logfile = logfile, filename = 'LRM_Step2.csv', linktext = 'Download Step 2 LRM Data', verbose = verbose)
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n____" , logfile = logfile, verbose = verbose)
+
 
 
 
@@ -230,6 +251,102 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   )
   # Serve it up for download
   create_download_link(data = chemdata_lrm3, logfile = logfile, filename = 'LRM_Step3.csv', linktext = 'Download Step 3 LRM Data', verbose = verbose)
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
+
+
+
+  # ---- Main Intermediate CA LRM Calculation QA Step ----
+
+  writelog("\n#### *Main Intermediate CA LRM Calculation QA Step*\n", logfile = logfile, verbose = verbose)
+  writelog("\n- Just basically selecting certain columns, and 'R Binding' the pmax value as 'SAMPLE_PMAX' for the whole station\n", logfile = logfile, verbose = verbose)
+  writelog("\n**The ouput from this intermediate calculation step is designed to make an easier comparison with output from the Excel Tool**\n", logfile = logfile, verbose = verbose)
+
+  # Actually execute the code
+  lrm.main.intermediate.qa.calc.step <- chemdata_lrm2 %>%
+    select(
+      StationID,
+      CAP_parameter = AnalyteName,
+      Value = p
+    ) %>%
+    mutate(
+      CAP_parameter = paste0(
+        'p_',
+        case_when(
+          CAP_parameter == 'alpha-Chlordane' ~ 'CHLORDAN_A',
+          CAP_parameter == 'trans-Nonachlor' ~ 'NONACHL_TR',
+          CAP_parameter == 'PCBs_total' ~ 'PCB_SUM',
+          CAP_parameter == "4,4'-DDT" ~ "4,4'_DDT",
+          TRUE ~ toupper(CAP_parameter)
+        )
+      )
+    ) %>%
+    rbind(
+      chemdata_lrm3 %>%
+        mutate(
+          CAP_parameter = 'SAMPLE_PMAX'
+        ) %>%
+        select(
+          StationID,
+          CAP_parameter,
+          Value = Score
+        )
+    ) %>%
+    arrange(StationID, CAP_parameter)
+
+  # Write code portion of the logs
+  writelog(
+    "",
+    code = "
+      lrm.main.intermediate.qa.calc.step <- chemdata_lrm2 %>%
+        select(
+          StationID,
+          CAP_parameter = AnalyteName,
+          Value = p
+        ) %>%
+        mutate(
+          CAP_parameter = paste0(
+            'p_',
+            case_when(
+              CAP_parameter == 'alpha-Chlordane' ~ 'CHLORDAN_A',
+              CAP_parameter == 'trans-Nonachlor' ~ 'NONACHL_TR',
+              CAP_parameter == 'PCBs_total' ~ 'PCB_SUM',
+              CAP_parameter == \"4,4'-DDT\" ~ \"4,4'_DDT\",
+              TRUE ~ toupper(CAP_parameter)
+            )
+          )
+        ) %>%
+        rbind(
+          chemdata_lrm3 %>%
+            mutate(
+              CAP_parameter = 'SAMPLE_PMAX'
+            ) %>%
+            select(
+              StationID,
+              CAP_parameter,
+              Value = Score
+            )
+        ) %>%
+        arrange(StationID, CAP_parameter)
+    ",
+    data = lrm.main.intermediate.qa.calc.step,
+    logfile = logfile,
+    verbose = verbose
+  )
+  # Serve it up for download
+  create_download_link(data = lrm.main.intermediate.qa.calc.step, logfile = logfile, filename = 'LRM_IntermediateCalcQA.csv', linktext = 'Download Main LRM Intermediate Calculation QA Data', verbose = verbose)
+
+
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n____" , logfile = logfile, verbose = verbose)
+
 
 
 
@@ -304,6 +421,8 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   # Serve it up for download
   create_download_link(data = chemdata_lrm.final, logfile = logfile, filename = 'LRM_Final.csv', linktext = 'Download Final LRM Data (Within LRM Function)', verbose = verbose)
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
   writelog("##### END Chem LRM Function\n", logfile = logfile, verbose = verbose)
 
@@ -379,6 +498,9 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   create_download_link(data = chemdata.csi.input, logfile = logfile, filename = 'CSI_InitialInputData.csv', linktext = 'Download Initial Input to Chem CSI Function', verbose = verbose)
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
 
   #  ---- Make the call to the Preprocessing function (If not already preprocessed) ----
   if (!preprocessed) {
@@ -389,8 +511,16 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
       verbose = verbose
     )
 
+    # Log the separation space between steps
+    writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
     # Actually call the function
     chemdata.csi.input <- chemdata_prep(chemdata.csi.input, logfile = logfile, verbose = verbose)
+
+
+    # Log the separation space between steps
+    writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
 
     # Create code block and download link to the preprocessed data
     writelog(
@@ -418,6 +548,9 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
     verbose = verbose,
     pageLength = 12
   )
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
   # Here we begin to manipulate the CSI chem data per Technical Manual page 40-42
   writelog("\n### Manipulate the CSI chem data per Technical Manual page 40-42\n", logfile = logfile, verbose = verbose)
@@ -449,6 +582,8 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   create_download_link(data = chemdata_csi, logfile = logfile, filename = 'CSI_Step0.csv', linktext = 'Download CSI Step0', verbose = verbose)
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   # ---- CSI Calclulation Step Description ----
@@ -475,7 +610,8 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
 
@@ -537,6 +673,10 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   create_download_link(data = chemdata_csi1, logfile = logfile, filename = 'CSI_Step1.csv', linktext = 'Download CSI Step1', verbose = verbose)
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
+
   # ---- Calculate CSI Step 2 ----
 
   # Write to the log file
@@ -579,6 +719,104 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   )
   # Serve it up for download
   create_download_link(data = chemdata_csi2, logfile = logfile, filename = 'CSI_Step2.csv', linktext = 'Download CSI Step2', verbose = verbose)
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n____" , logfile = logfile, verbose = verbose)
+
+
+
+
+  # ---- Main Intermediate CSI Calculation QA Step ----
+
+  writelog("\n#### *Main Intermediate CSI Calculation QA Step*\n", logfile = logfile, verbose = verbose)
+  writelog("\n- Join output from Step 1 and 2\n", logfile = logfile, verbose = verbose)
+  writelog("\n- (step1 %>% left_join step2)\n", logfile = logfile, verbose = verbose)
+  writelog("\n**The ouput from this intermediate calculation step is designed to make an easier comparison with output from the Excel Tool**\n", logfile = logfile, verbose = verbose)
+
+  # Actually execute the code
+  csi.main.intermediate.qa.calc.step <- chemdata_csi1 %>%
+    select(
+      StationID,
+      Chemical = AnalyteName,
+      Weight = weight,
+      Category = exposure_score,
+      CCS = weighted_score
+    ) %>%
+    left_join(
+      chemdata_csi2 %>%
+        select(
+          StationID,
+          `Sum CCS` = weighted_score_sum,
+          `Sum Weight` = weight,
+          `Weighted Mean` = Score
+        )
+      ,
+      by = 'StationID'
+    ) %>%
+    mutate(
+      Chemical = case_when(
+        Chemical == 'alpha-Chlordane' ~ 'Alpha Chlordane',
+        Chemical == 'gamma-Chlordane' ~ 'Gamma Chlordane',
+        Chemical == 'DDDs_total' ~ 'DDDs, total',
+        Chemical == 'DDEs_total' ~ 'DDEs, total',
+        Chemical == 'DDTs_total' ~ 'DDTs, total',
+        Chemical == 'PCBs_total' ~ 'PCBs, total',
+        TRUE ~ Chemical
+      )
+    ) %>%
+    arrange(StationID, Chemical)
+
+  # Write code portion of the logs
+  writelog(
+    "",
+    code = '
+      csi.main.intermediate.qa.calc.step <- chemdata_csi1 %>%
+        select(
+          StationID,
+          Chemical = AnalyteName,
+          Weight = weight,
+          Category = exposure_score,
+          CCS = weighted_score
+        ) %>%
+        left_join(
+          chemdata_csi2 %>%
+            select(
+              StationID,
+              `Sum CCS` = weighted_score_sum,
+              `Sum Weight` = weight,
+              `Weighted Mean` = Score
+            )
+          ,
+          by = \'StationID\'
+        ) %>%
+        mutate(
+          Chemical = case_when(
+            Chemical == \'alpha-Chlordane\' ~ \'Alpha Chlordane\',
+            Chemical == \'gamma-Chlordane\' ~ \'Gamma Chlordane\',
+            Chemical == \'DDDs_total\' ~ \'DDDs, total\',
+            Chemical == \'DDEs_total\' ~ \'DDEs, total\',
+            Chemical == \'DDTs_total\' ~ \'DDTs, total\',
+            Chemical == \'PCBs_total\' ~ \'PCBs, total\',
+            TRUE ~ Chemical
+          )
+        ) %>%
+        arrange(StationID, Chemical)
+    ',
+    data = csi.main.intermediate.qa.calc.step,
+    logfile = logfile,
+    verbose = verbose
+  )
+  # Serve it up for download
+  create_download_link(data = csi.main.intermediate.qa.calc.step, logfile = logfile, filename = 'CSI_IntermediateCalcQA.csv', linktext = 'Download Main CSI Intermediate Calculation QA Data', verbose = verbose)
+
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n____" , logfile = logfile, verbose = verbose)
+
+
 
 
   # ---- Calculate CSI Step 3 ----
@@ -690,14 +928,13 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #' chem.sqo(chem_sampledata) # get scores and see output
 #'
 #' @export
-chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = T) {
+chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = T, logtitle = 'Chemistry SQO Logs') {
 
   # ---- Initialize Logging ----
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog("\n# Chemistry SQO Logs\n", logfile = logfile, verbose = verbose)
-  writelog("\n## Chemistry SQO Main Function\n", logfile = logfile, verbose = verbose)
+  writelog("\n# Chemistry SQO Main Function\n", logfile = logfile, verbose = verbose)
 
 
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
@@ -708,7 +945,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
-    "\n### Raw input to chem.sqo:",
+    "\n## Raw input to chem.sqo:",
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'chemdata' into your environment"),
     verbose = verbose
@@ -720,17 +957,21 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   #  ---- Make the call to the Preprocessing function ----
   # Write to the log file
   writelog(
-    "\n### Preprocessing chemistry data (Details within chemdata_prep to be shown later as well):\n",
+    "\n## Preprocessing chemistry data (Details within chemdata_prep to be shown later as well):\n",
     logfile = logfile,
     verbose = verbose
   )
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
 
   # Actually call the function
   chemdata <- chemdata_prep(chemdata, logfile = logfile, verbose = verbose)
 
   # Create code block and download link to the preprocessed data
   writelog(
-    "\n### Chemdata Pre processing function is finished executing - Here is its final output along with a code block (for R Studio users):",
+    "\n## Chemdata Pre processing function is finished executing - Here is its final output along with a code block (for R Studio users):",
     logfile = logfile,
     code = 'chemdata <- chemdata_prep(chemdata, verbose = FALSE)',
     data = chemdata,
@@ -738,27 +979,34 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   )
   create_download_link(data = chemdata, logfile = logfile, filename = 'ChemSQO-PreProcessedInput.csv', linktext = 'Download Preprocessed Input to Chem SQO Function (after calling chemdata_prep)', verbose = verbose)
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   #  ---- Make the call to the LRM function ----
   # Write to the log file
   writelog(
-    "\n### Call LRM function within chem.sqo....\n",
+    "\n## Call LRM function within chem.sqo....\n",
     logfile = logfile,
     verbose = verbose
   )
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
   # Actually call it
   chemdata_lrm <- LRM(chemdata, preprocessed = T, logfile = logfile, verbose = verbose)
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
   # Create code block and download link
   writelog(
-    "\n### LRM Function finished executing",
+    "\n## LRM Function finished executing",
     logfile = logfile,
     verbose = verbose
   )
   writelog(
-    "##### Here is its final output along with a code block (for R Studio users):",
+    "#### Here is its final output along with a code block (for R Studio users):",
     logfile = logfile,
     code = 'chemdata_lrm <- LRM(chemdata, preprocessed = TRUE,  verbose = FALSE)',
     data = chemdata_lrm,
@@ -771,22 +1019,28 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   #  ---- Make the call to the CSI function ----
   # Write to the log file
   writelog(
-    "\n### Call CSI function within chem.sqo\n",
+    "\n## Call CSI function within chem.sqo\n",
     logfile = logfile,
     verbose = verbose
   )
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
   # Actually call it
   chemdata_csi <- CSI(chemdata, preprocessed = T, logfile = logfile, verbose = verbose)
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
   # Create code block and download link
   writelog(
-    "\n### CSI Function finished executing",
+    "\n## CSI Function finished executing",
     logfile = logfile,
     verbose = verbose
   )
   writelog(
-    "##### Here is its final output along with a code block (for R Studio users):",
+    "\n### Here is its final output along with a code block (for R Studio users):",
     logfile = logfile,
     code = 'chemdata_csi <- CSI(chemdata, preprocessed = TRUE, verbose = FALSE)',
     data = chemdata_csi,
@@ -795,7 +1049,8 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   create_download_link(data = chemdata_csi, logfile = logfile, filename = 'ChemSQO-CSI-Output.csv', linktext = 'Download Final CSI Output', verbose = verbose)
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   # ---- Subsequent steps after CSI and LRM ----
@@ -814,7 +1069,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # Write to the logs and make the code block and datatable display
   writelog(
-    "\n#### First Subsequent Step: RBind the CSI and LRM Dataframes",
+    "\n### First Subsequent Step: RBind the CSI and LRM Dataframes",
     logfile = logfile,
     code = '
       combined1 <- rbind(chemdata_lrm, chemdata_csi) %>%
@@ -828,7 +1083,8 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   create_download_link(data = combined1, logfile = logfile, filename = 'CSI_LRM_Combine_step1.csv', linktext = 'Download CSI_LRM_Combine_step1.csv', verbose = verbose)
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   # ---- Second Subsequent Step: Group by StationID and take the average of CSI and LRM ----
@@ -852,7 +1108,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # Write to the log
   writelog(
-    "\n#### Second Subsequent Step: Group by StationID and take the average of CSI and LRM",
+    "\n### Second Subsequent Step: Group by StationID and take the average of CSI and LRM",
     logfile = logfile,
     code = '
       combined2 <- combined1 %>%
@@ -879,7 +1135,8 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   create_download_link(data = combined2, logfile = logfile, filename = 'CSI_LRM_Combine_step2.csv', linktext = 'Download CSI_LRM_Combine_step2.csv', verbose = verbose)
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
   # ---- Third Subsequent Step: Convert numeric score to the human readable category ----
@@ -902,7 +1159,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # Write to the log
   writelog(
-    "\n#### Third Subsequent Step: Convert numeric score to the human readable category",
+    "\n### Third Subsequent Step: Convert numeric score to the human readable category",
     logfile = logfile,
     code = '
       combined3 <- combined2 %>%
@@ -927,7 +1184,8 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   # Make the download link
   create_download_link(data = combined3, logfile = logfile, filename = 'CSI_LRM_Combine_step3.csv', linktext = 'Download CSI_LRM_Combine_step3.csv', verbose = verbose)
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
   # ---- Fourth Subsequent Step: Combine CSI, LRM, and Integrated Score dataframes, convert factors to characters, and order it by StationID ----
   combined.final <- combined3 %>%
@@ -939,7 +1197,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # Write to the log
   writelog(
-    "\n#### Fourth Subsequent Step: Combine CSI, LRM, and Integrated Score dataframes, convert factors to characters, and order it by StationID",
+    "\n### Fourth Subsequent Step: Combine CSI, LRM, and Integrated Score dataframes, convert factors to characters, and order it by StationID",
     logfile = logfile,
     code = '
       combined.final <- combined3 %>%
@@ -954,7 +1212,12 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   )
 
   # Make the download link
-  create_download_link(data = combined.final, logfile = logfile, filename = 'CSI_LRM_Combine_step3.csv', linktext = 'Download CSI_LRM_Combine_step3.csv', verbose = verbose)
+  create_download_link(data = combined.final, logfile = logfile, filename = 'FinalChemSQOScores.csv', linktext = 'Download FinalChemSQOScores.csv', verbose = verbose)
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
 
   writelog("\nEND Chem SQO Function\n", logfile = logfile, verbose = verbose)
 
@@ -976,7 +1239,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #'
 #' @usage chemdata_prep(chemdata)
 #'
-#' @param chemdata a dataframe with the following columns:
+#' @param chemdata_prep.input a dataframe with the following columns:
 #'
 #'    \code{StationID},
 #'
@@ -1012,17 +1275,16 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
     "\n### Initial input to chemdata_prep:",
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "')"),
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     verbose = verbose
   )
   create_download_link(data = chemdata_prep.input, logfile = logfile, filename = 'chemdata_prep.input.csv', linktext = 'Download Initial Input to Chem Preprocessing Function', verbose = verbose)
 
 
-  # Here chemdata consists of data in the same format as our database, with the columns
-  # stationid, analytename, result, rl, mdl
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
 
@@ -1037,7 +1299,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
     "",
     logfile = logfile,
     code = 'names(chemdata_prep.input) <- names(chemdata_prep.input) %>% tolower()',
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     verbose = verbose,
     pageLength = 5
   )
@@ -1045,6 +1307,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1074,7 +1338,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         chemdata_prep.input <- chemdata_prep.input %>% rename(fieldrep = fielddup)
       }
     ",
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     verbose = verbose,
     pageLength = 5
   )
@@ -1083,7 +1347,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1104,7 +1369,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         chemdata_prep.input <- chemdata_prep.input %>% rename(labrep = labreplicate)
       }
     ",
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
@@ -1115,7 +1380,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1171,7 +1437,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         writelog(msg, logfile = logfile, verbose = verbose)
       }
     ",
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
@@ -1182,7 +1448,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1224,13 +1491,18 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       warning(msg)
     }
     ',
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
   )
   # Serve it up for download
   create_download_link(data = chemdata_prep.input, logfile = logfile, filename = 'chemdata_prep.input.step5.csv', linktext = 'Download Preprocessing Data (Step 5)', verbose = verbose)
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1252,7 +1524,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         stop("In chemdata_prep - chemistry input data is empty after filtering sampletypecode == Result and labrep == 1 and fieldrep == 1")
       }
     ',
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
@@ -1260,6 +1532,10 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   # Serve it up for download
   create_download_link(data = chemdata_prep.input, logfile = logfile, filename = 'chemdata_prep.input.step6.csv', linktext = 'Download Preprocessing Data (Step 6)', verbose = verbose)
 
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1287,7 +1563,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog(
     "\n##### Chemdata Prep Input Data with Duplicates Removed:",
     code = 'chemdata_prep.input <- chemdata_prep.input[!(chemdata_prep.input %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]',
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
@@ -1296,6 +1572,10 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   create_download_link(data = chemdupes, logfile = logfile, filename = 'chemdata_prep.dupes.csv', linktext = 'Download Duplicated Records', verbose = verbose)
   create_download_link(data = chemdata_prep.input, logfile = logfile, filename = 'chemdata_prep.input.step7.csv', linktext = 'Download Preprocessing Data (Step 7 - removed duplicates)', verbose = verbose)
 
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1323,7 +1603,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         ) %>%
         filter(!is.na(stationid))
     ',
-    data = chemdata_prep.input,
+    data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
@@ -1334,7 +1614,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1455,26 +1736,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
-
-
-
-
-  writelog("*** DATA *** Before filtering, grouping, converting missing result values - chemdata-preprocessing-step5.csv",logfile = logfile,verbose = verbose,prefix = hyphen.log.prefix)
-  writelog(chemdata_prep.input, file.path(dirname(logfile), 'chemdata-preprocessing-step5.csv'), filetype = 'csv', verbose = verbose)
-
-  writelog("filtering chemistry data to necessary analytes - etc", logfile = logfile, verbose = verbose)
-  writelog("from step 5 to 6 this is what is performed:", logfile = logfile, verbose = verbose)
-  writelog("Create a new column called compound which represents the group of the analyte (High/Low PAH, Total PCB, DDD, DDE. (DDTs not handled in this step)", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("remove records where compound is NA", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("Handle missing result values according to guidance of pages 30 and 31 of Technical manual", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("-- (half MDL for the analytes that are not part of a group, otherwise set to zero in the grouped analytes which get summed)", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("Multiply PCBs by 1.72", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("Sum results of grouped constituents/analytes", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-  writelog("If all values in the group are non detects - take the max RL", logfile = logfile, verbose = verbose, prefix = paste0('-',hyphen.log.prefix))
-
-
-
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1486,7 +1749,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   )
 
   # Actually execute the code
-  chemdata <- chemdata_prep.input %>%
+  chemdata.filtered.no.DDT <- chemdata_prep.input %>%
     # create a new column called compound. This is what we will group by,
     mutate(
       compound = case_when(
@@ -1513,7 +1776,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog(
     "",
     code = '
-      chemdata <- chemdata_prep.input %>%
+      chemdata.filtered.no.DDT <- chemdata_prep.input %>%
         # create a new column called compound. This is what we will group by,
         mutate(
           compound = case_when(
@@ -1536,15 +1799,17 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
           !is.na(compound)
         )
     ',
-    data = chemdata,
+    data = chemdata.filtered.no.DDT %>% head(15),
     logfile = logfile,
     verbose = verbose
   )
   # Serve it up for download
-  create_download_link(chemdata, logfile = logfile, filename = 'chemdata_prep.input.step9.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Filtered (No DDT)')
+  create_download_link(chemdata.filtered.no.DDT, logfile = logfile, filename = 'chemdata_prep.input.step9.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Filtered (No DDT)')
 
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
@@ -1564,11 +1829,11 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   acceptable_units_ppb <- c('ng/g', 'ng/g dw', 'ppb')
 
   # Check if the units column exists
-  if ('units' %in% names(chemdata)) {
+  if ('units' %in% names(chemdata.filtered.no.DDT)) {
     # Check for rows that do not meet the criteria
-    incorrect_rows <- chemdata[
-      (chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppm)) |
-        (!chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppb)), ]
+    incorrect_rows <- chemdata.filtered.no.DDT[
+      (chemdata.filtered.no.DDT$analytename %in% ppm_analytes & !(chemdata.filtered.no.DDT$units %in% acceptable_units_ppm)) |
+        (!chemdata.filtered.no.DDT$analytename %in% ppm_analytes & !(chemdata.filtered.no.DDT$units %in% acceptable_units_ppb)), ]
 
     # If there are incorrect rows, stop and display a message
     if (nrow(incorrect_rows) > 0) {
@@ -1598,11 +1863,11 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       acceptable_units_ppb <- c(\'ng/g\', \'ng/g dw\', \'ppb\')
 
       # Check if the units column exists
-      if (\'units\' %in% names(chemdata)) {
+      if (\'units\' %in% names(chemdata.filtered.no.DDT)) {
         # Check for rows that do not meet the criteria
-        incorrect_rows <- chemdata[
-          (chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppm)) |
-            (!chemdata$analytename %in% ppm_analytes & !(chemdata$units %in% acceptable_units_ppb)), ]
+        incorrect_rows <- chemdata.filtered.no.DDT[
+          (chemdata.filtered.no.DDT$analytename %in% ppm_analytes & !(chemdata.filtered.no.DDT$units %in% acceptable_units_ppm)) |
+            (!chemdata.filtered.no.DDT$analytename %in% ppm_analytes & !(chemdata.filtered.no.DDT$units %in% acceptable_units_ppb)), ]
 
         # If there are incorrect rows, stop and display a message
         if (nrow(incorrect_rows) > 0) {
@@ -1624,11 +1889,16 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
+
+
+
   # ---- Step 10: Deal with missing values/Non Detects ----
   writelog("\n#### Step 10: Deal with missing values/Non Detects",logfile = logfile,verbose = verbose)
   writelog("\n##### Dealing with missing result values (non detects)",logfile = logfile,verbose = verbose)
   writelog("\n##### NA or negative result values are treated as missing values (covers -88, -99 or actual null values)",logfile = logfile,verbose = verbose)
-  chemdata <- chemdata %>%
+  chemdata.step10 <- chemdata.filtered.no.DDT %>%
     mutate(
       result = case_when(
         # This is for dealing with Non detects (Page 37 of SQO Manual, Paragraph titled Data Preparation)
@@ -1650,7 +1920,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog(
     "",
     code = '
-      chemdata <- chemdata %>%
+      chemdata.step10 <- chemdata.filtered.no.DDT %>%
         mutate(
           result = case_when(
             # This is for dealing with Non detects (Page 37 of SQO Manual, Paragraph titled Data Preparation)
@@ -1669,19 +1939,25 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
           )
         )
     ',
-    data = chemdata,
+    data = chemdata.step10 %>% head(15),
     logfile = logfile,
     verbose = verbose
   )
   # Serve it up for download
-  create_download_link(chemdata, logfile = logfile, filename = 'chemdata_prep.input.step10.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 10 (Dealing with non detects)')
+  create_download_link(chemdata.step10, logfile = logfile, filename = 'chemdata_prep.input.step10.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 10 (Dealing with non detects)')
+
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
+
 
 
   # ---- Step 11: Multiply PCB Values by 1.72 ----
   writelog("\n#### Step 11: Multiply PCB Values by 1.72", logfile = logfile, verbose = verbose)
 
   # Actually execute the code
-  chemdata <- chemdata %>%
+  chemdata.step11 <- chemdata.step10 %>%
     mutate(
       result = if_else(
         # CASQO manual page 36 (3rd edition June 2021), below table 3.4 - PCB result value gets multiplied by 1.72
@@ -1694,7 +1970,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog(
     "",
     code = '
-      chemdata <- chemdata %>%
+      chemdata.step11 <- chemdata.step10 %>%
         mutate(
           result = if_else(
             # CASQO manual page 36 (3rd edition June 2021), below table 3.4 - PCB result value gets multiplied by 1.72
@@ -1703,25 +1979,25 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
           )
         )
     ',
-    data = chemdata,
+    data = chemdata.step11 %>% head(15),
     logfile = logfile,
     verbose = verbose
   )
   # Serve it up for download
-  create_download_link(chemdata, logfile = logfile, filename = 'chemdata_prep.input.step11.pcb.mult.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 11 (Multiply PCBs by 1.72)')
+  create_download_link(chemdata.step11, logfile = logfile, filename = 'chemdata_prep.input.step11.pcb.mult.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 11 (Multiply PCBs by 1.72)')
 
 
 
-
-
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
   # ---- Step 12: If all are non detects in the group, assign it the max of the RLs ----
-  writelog("Step 12: If all are non detects in the group, assign it the max of the RLs", logfile = logfile, verbose = verbose)
+  writelog("\n#### Step 12: If all are non detects in the group, assign it the max of the RLs", logfile = logfile, verbose = verbose)
 
   # Actually execute the code
-  chemdata <- chemdata %>%
+  chemdata.step12 <- chemdata.step11 %>%
     group_by(
       stationid, compound
     ) %>%
@@ -1739,7 +2015,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog(
     "\n##### Group by stationid and compound and sum the result values - if all are missing take the Max RL (Page 36 from Technical Manual)",
     code = '
-      chemdata <- chemdata %>%
+      chemdata.step12 <- chemdata.step11 %>%
         group_by(
           stationid, compound
         ) %>%
@@ -1753,25 +2029,28 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         ) %>%
     ungroup()
     ',
-    data = chemdata,
+    data = chemdata.step12 %>% head(15),
     logfile = logfile,
     verbose = verbose
   )
   # Serve it up for download
-  create_download_link(chemdata, logfile = logfile, filename = 'chemdata_prep.input.step12.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 12 (Handle case where all in analytegroup are Non detects)')
+  create_download_link(chemdata.step12, logfile = logfile, filename = 'chemdata_prep.input.step12.no.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data Step 12 (Handle case where all in analytegroup are Non detects)')
 
 
 
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
 
+  # ---- Step 13: Handle DDTs ----
 
+  writelog("\n#### Step 13:Handle DDTs (according to page 36 of SQO technical manual)", logfile = logfile, verbose = verbose)
+  writelog("\n- 13a. Replace missing values with zero", logfile = logfile, verbose = verbose)
+  writelog("\n- 13b. Sum them - if all are non-detects then take the max RL", logfile = logfile, verbose = verbose)
 
-
-  writelog("Handle DDTs (according to page 30 of SQO technical manual", logfile = logfile, verbose = verbose)
-  writelog("-- replace missing values with zero", logfile = logfile, verbose = verbose)
-  writelog("-- Sum them - if all are non-detects then take the max RL", logfile = logfile, verbose = verbose)
-  ddts_total <- chemdata_prep.input %>%
+  # Code
+  ddts_total.13a <- chemdata_prep.input %>%
     filter(grepl("DDT",analytename)) %>%
     mutate(
       compound = "DDTs_total",
@@ -1781,20 +2060,71 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         # "Compounds qualified as non-detected are treated as having a concentration of zero for the purpose of summing"
         coalesce(result, -88) < 0, 0, result
       )
-    ) %>%
+    )
+  writelog(
+    "\n##### 13a: Replace non detects with zero before grouping and summing",
+    code = '
+      ddts_total.13a <- chemdata_prep.input %>%
+        filter(grepl("DDT",analytename)) %>%
+        mutate(
+          compound = "DDTs_total",
+          result = if_else(
+            # For the summed group of constituents, we get the directions of how to deal with them in page 30 of the SQO Manual
+            # First paragraph below table 3.4
+            # "Compounds qualified as non-detected are treated as having a concentration of zero for the purpose of summing"
+            coalesce(result, -88) < 0, 0, result
+          )
+        )
+    ',
+    data = ddts_total.13a %>% head(15),
+    logfile = logfile,
+    verbose = verbose
+  )
+  # Serve it up for download
+  create_download_link(ddts_total.13a, logfile = logfile, filename = 'chemdata_prep.input.ddt.13a.csv', verbose = verbose, linktext = 'Chem Preprocessed Data (Filtered to DDTs - before grouping and summing)')
+
+
+
+  # Code
+  ddts_total <- ddts_total.13a %>%
     group_by(stationid,compound) %>%
     summarize(
       result = if_else(
-        # if the sum of the results is zero, assign it the max of the RL's
+        # if the sum of the results is zero, assign it the max of the RLs
         # Page 30 of SQO Plan, first paragraph below table 3.4
         # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
         sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
       )
     ) %>% ungroup()
 
-  writelog("*** DATA *** chemdata after performing these steps may be found in chemdata-preprocessing-step7 (DDTs).csv", logfile = logfile, verbose = verbose)
-  writelog(ddts_total, file.path(dirname(logfile), 'chemdata-preprocessing-step7 (DDTs).csv'), filetype = 'csv', verbose = verbose)
+  writelog(
+    "\n##### Group by stationid and compound (only one compound DDTs_total) and take the sum",
+    code = '
+      ddts_total <- ddts_total.13a %>%
+        group_by(stationid,compound) %>%
+        summarize(
+          result = if_else(
+            # if the sum of the results is zero, assign it the max of the RLs
+            # Page 30 of SQO Plan, first paragraph below table 3.4
+            # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
+            sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
+          )
+        ) %>%
+        ungroup()
+    ',
+    data = ddts_total %>% head(15),
+    logfile = logfile,
+    verbose = verbose
+  )
+  # Serve it up for download
+  create_download_link(ddts_total, logfile = logfile, filename = 'chemdata_prep.input.ddt.csv', verbose = verbose, linktext = 'Chem Preprocessed Data (Filtered to DDTs)')
 
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
+
+
+  # ---- Step 14: Fix Rounding ----
   # Conversation with Darrin on April 16th 2020
   # We need to fix the rounding in this thing.
   # The fixes may also need to be implemented in the chemdata_prep function
@@ -1807,16 +2137,46 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   # HPAH - 1
   # LPAH - 1
   # All the rest - 2
-  writelog("Combine DDT data with rest of chem data - perform necessary rounding", logfile = logfile, verbose = verbose)
-  writelog("Copper, Lead, Zinc, High/Low PAHs will be rounded to 1 decimal place; All others will be rounded to 2", logfile = logfile, verbose = verbose)
-  chemdata <- chemdata %>%
+  writelog("\n#### Step 14: Combine all analytes and fix rounding", logfile = logfile, verbose = verbose)
+  writelog("\n##### Copper, Lead, Zinc, High/Low PAHs will be rounded to 1 decimal place; All others will be rounded to 2", logfile = logfile, verbose = verbose)
+
+  # Code
+  # Step 13 dealt only with DDTs - essentially ddts_total is the step 13 dataframe
+
+  # write to the logs
+  writelog("\n##### Combine data with DDTs", logfile = logfile, verbose = verbose)
+
+  # Actually perform the code
+  chemdata.step14a <- chemdata.step12 %>%
     bind_rows(ddts_total) %>%
     arrange(stationid, compound) %>%
     rename(
       StationID = stationid,
       AnalyteName = compound,
       Result = result
-    ) %>%
+    )
+
+  # Write code to the R Markdown file
+  writelog(
+    "",
+    code = '
+      chemdata.step14a <- chemdata.step12 %>%
+        bind_rows(ddts_total) %>%
+        arrange(stationid, compound) %>%
+        rename(
+          StationID = stationid,
+          AnalyteName = compound,
+          Result = result
+        )
+    ',
+    data = chemdata.step14a %>% head(15),
+    logfile = logfile,
+    verbose = verbose
+  )
+
+
+  # Actually perform the rounding
+  chemdata.preprocessed.final <- chemdata.step14a %>%
     mutate(
       Result = case_when(
         AnalyteName %in% c('Copper','Lead','Zinc','HPAH','LPAH') ~ round(Result, digits = 1),
@@ -1824,14 +2184,26 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       )
     )
 
-  writelog("*** DATA *** final preprocessed chemistry data in chemdata-preprocessed-final.csv", logfile = logfile, verbose = verbose)
-  writelog(chemdata
-           , file.path(dirname(logfile), 'chemdata-preprocessed-final.csv'), filetype = 'csv', verbose = verbose)
+  # Write it to the R Markdown logs
+  writelog(
+    "Final Chemdata Prep output:",
+    code = '
+      chemdata.preprocessed.final <- chemdata.step14a %>%
+        mutate(
+          Result = case_when(
+            AnalyteName %in% c(\'Copper\',\'Lead\',\'Zinc\',\'HPAH\',\'LPAH\') ~ round(Result, digits = 1),
+            TRUE ~ round(Result, digits = 2)
+          )
+        )
+    ',
+    data = chemdata.preprocessed.final %>% head(15),
+    logfile = logfile,
+    verbose = verbose
+  )
 
-  writelog("\nEND Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
-  writelog("----------------------------------------------------------------------------------------------------\n", logfile = logfile, verbose = verbose)
+  writelog("\n#### END Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
 
-  return(chemdata)
+  return(chemdata.preprocessed.final)
 
 }
 
