@@ -1,20 +1,16 @@
 #' Compute the benthic response index (BRI) score and BRI condition category.
 #'
 #' @description
-#'   The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-#'   the BRI score, the more degraded the benthic community represented by the sample.
+#'   The BRI is the abundance-weighted pollution tolerance score of the organisms present in a benthic sample.
+#'   The higher the BRI score, the more degraded the benthic community represented by the sample.
 #'
 #' @details
-#'   The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-#'   the BRI score, the more degraded the benthic community represented by the sample.
-#'
 #'   Two types of data are needed to calculate the BRI:
-#'
 #'   (1) the abundance of each species and
 #'   (2) its pollution tolerance score, P.
 #'
-#'   The P values are available for most species present in the assemblage. Only species for which P values are avialable
-#'   are used in the BRI calculations. P values showld be obtained for the appropriate habitat and from the most
+#'   The P values are available for most species present in the assemblage. Only species for which P values are available
+#'   are used in the BRI calculations. P values should be obtained for the appropriate habitat and from the most
 #'   up-to-date list available.
 #'
 #'   The first step in the BRI calculation is to compute the 4th root of the abundance of each taxon in the sample for
@@ -27,28 +23,18 @@
 #'
 #'   \deqn{ \frac{\sum \left(\sqrt[p]{\textrm{Abundance}} \right) \times P}{\sum \sqrt[p]{\textrm{Abundance}}} }
 #'
-#'   The last step is to compare the BRI score to the BRI threshold values in Table 5 to determine the BRI category and
+#'   The last step is to compare the BRI score to the BRI threshold values to determine the BRI category and
 #'   category score.
 #'
-#'   <Table 5. To be included in R markdown file>
+#' @param benthic_data a data frame with the following headings
 #'
-#'
-#'
-#' @param BenthicData a data frame with the following headings
-#'
-#'    \strong{\code{StationID}} - an alpha-numeric identifier of the location;
-#'
-#'    \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
-#'
-#'    \strong{\code{SampleDate}} - the date of sample collection;
-#'
-#'    \strong{\code{Latitude}} - latitude in decimal degrees;
-#'
-#'    \strong{\code{Longitude}} - longitude in decimal degrees.
+#'    \strong{\code{station_id}} - an alpha-numeric identifier of the location;
+#'    \strong{\code{replicate}} - a numeric identifying the replicate number of samples taken at the location;
+#'    \strong{\code{sample_date}} - the date of sample collection;
+#'    \strong{\code{latitude}} - latitude in decimal degrees;
+#'    \strong{\code{longitude}} - longitude in decimal degrees.
 #'    Make sure there is a negative sign for the Western coordinates;
-#'
-#'    \strong{\code{Species}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-#'        use sp only or just the Genus. If no animals were present in the sample use
+#'    \strong{\code{species}} - name of the fauna, ideally in SCAMIT ed12 format. If no animals were present in the sample use
 #'        NoOrganismsPresent with 0 abundance;
 #'
 #' @usage
@@ -58,97 +44,41 @@
 #' data(benthic_sampledata) # load sample data
 #' BRI(benthic_sampledata) # see the output
 #'
-#' @import vegan
-#' @import reshape2
-#' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
+#' @importFrom dplyr left_join filter select mutate group_by summarize case_when
+#' @importFrom tidyr pivot_longer
 #'
 #' @export
 
+BRI <- function(benthic_data) {
 
-BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T)
-{
-
-  # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
-
-  writelog('\nBEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
-
-  writelog('*** DATA *** Input to BRI function - BRI-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(BenthicData, logfile = file.path(dirname(logfile), 'BRI-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('*** DATA *** sqo.list.new - which gets joined with BenthicData', logfile = logfile, verbose = verbose)
-  writelog(sqo.list.new, logfile = file.path(dirname(logfile), 'BRI-sqo.list.new.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  out <- BenthicData %>%
-    left_join(sqo.list.new, by = c('Taxon' = 'TaxonName'))
-
-  writelog('*** DATA *** Benthic data joined with sqo.list.new', logfile = logfile, verbose = verbose)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  out <- out %>%
-    # I assume that the next line is something they had in there as a method of removing duplicates
-    # for this reason, this next line will likely be eliminated.
-    # They grouped by all the columns that were selected (In query BRI - 1)
-    # Instead, if need be we can use something from dplyr that deals with duplicates
-    # I actually found that it didn't appear to make a difference
-    filter(!is.na(ToleranceScore)) %>%
-    #rename(Stratum) %>%
-    select(Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore)
-
-  writelog('*** DATA *** Remove NA tolerance scores and select only the columns: Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  out <- out %>%
-    # End of BRI - 2 query. Begin BRI - 3 query
+  out <- benthic_data %>%
+    left_join(sqo.list.new, by = c("taxon" = "taxon_name")) %>%
+    filter(!is.na(tolerance_score)) %>%
+    select(stratum, station_id, sample_date, replicate, taxon, abundance, tolerance_score) %>%
     mutate(
-      fourthroot_abun = Abundance ** 0.25,
-      tolerance_score = fourthroot_abun * ToleranceScore
-    )
-
-  writelog('*** DATA *** Calculate fourthroot of abundance - also multiply by tolerancs score - BRI-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('Next get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('Then Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- < 39.96 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=39.96 and <49.15 is Low', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=49.15 and <73.27 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=73.27 is High', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  out <- out %>%
-    # End of BRI - 3. Begin BRI - 4
-    group_by(
-      Stratum, StationID, SampleDate, Replicate
+      fourthroot_abun = abundance ^ 0.25,
+      weighted_score = fourthroot_abun * tolerance_score
     ) %>%
+    group_by(stratum, station_id, sample_date, replicate) %>%
     summarize(
-      Score = sum(tolerance_score, na.rm = T) / sum(fourthroot_abun, na.rm = T)
+      score = sum(weighted_score, na.rm = TRUE) / sum(fourthroot_abun, na.rm = TRUE),
+      .groups = 'drop'
     ) %>%
-    # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays
-    # CASQO Technical Manual 3rd Edition Page 72 - Table 4.24
     mutate(
-      Category = case_when( (Score < 39.96) ~ "Reference",
-                                (Score >= 39.96 & Score < 49.15) ~ "Low Disturbance",
-                                (Score >= 49.15 & Score < 73.27) ~ "Moderate Disturbance",
-                                (Score >= 73.27) ~ "High Disturbance"
-    )) %>%
-    # Output the BRI category score given the category for thresholds for Southern CA Marine Bays
-    mutate(
-      `Category Score` = case_when( (Category == "Reference") ~ 1,
-                                      (Category == "Low Disturbance") ~ 2,
-                                      (Category == "Moderate Disturbance") ~ 3,
-                                      (Category == "High Disturbance") ~ 4 )
-    ) %>%
-    dplyr::mutate(Index = "BRI")
-
-
-  writelog('*** DATA *** Final BRI dataframe: BRI-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-
-  writelog('\nEND: BRI function.\n', logfile = logfile, verbose = verbose)
+      category = case_when(
+        score < 39.96 ~ "Reference",
+        score >= 39.96 & score < 49.15 ~ "Low Disturbance",
+        score >= 49.15 & score < 73.27 ~ "Moderate Disturbance",
+        score >= 73.27 ~ "High Disturbance"
+      ),
+      category_score = case_when(
+        category == "Reference" ~ 1,
+        category == "Low Disturbance" ~ 2,
+        category == "Moderate Disturbance" ~ 3,
+        category == "High Disturbance" ~ 4
+      ),
+      index = "BRI"
+    )
 
   return(out)
 }
-
-
