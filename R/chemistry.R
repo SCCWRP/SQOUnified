@@ -586,6 +586,58 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
+
+  # ---- Step 0.5: Round the result value according to the convention given by Darrin. ----
+
+  # Write to the log file
+  writelog("\n#### Round the result value according to the convention.", logfile = logfile, verbose = verbose)
+  writelog("\nIf the result value is 0.005 or less, we round to 4 decimal places.  \n", logfile = logfile, verbose = verbose)
+  writelog("\nIf the result value is under 10, we round to 2 decimal places.  \n", logfile = logfile, verbose = verbose)
+  writelog("\nIf the result value is under 100, we round to 1 decimal place.  \n", logfile = logfile, verbose = verbose)
+  writelog("\nIf the result value is 100 or more, we round to the nearest integer  \n", logfile = logfile, verbose = verbose)
+  writelog("\nThe weights which we are comparing the results values to were rounded this way, so we are rounding the result values this way as well  \n", logfile = logfile, verbose = verbose)
+
+  # Actually execute the code
+  chemdata_csi <- chemdata_csi %>%
+    mutate(
+      Result = case_when(
+        Result <= 0.005 ~ round(Result, 4),
+        Result < 10 ~ round(Result, 2),
+        Result < 100 ~ round(Result, 1),
+        TRUE ~ round(Result)
+      )
+    )
+
+  # Write code portion to the log file
+  writelog(
+    "",
+    code = '
+    chemdata_csi <- chemdata_csi %>%
+      mutate(
+        Result = case_when(
+          Result <= 0.005 ~ round(Result, 4),
+          Result < 10 ~ round(Result, 2),
+          Result < 100 ~ round(Result, 1),
+          TRUE ~ round(Result)
+        )
+      )
+    ',
+    data = chemdata_csi,
+    logfile = logfile,
+    verbose = verbose
+  )
+
+  # Serve it up for download
+  create_download_link(data = chemdata_csi, logfile = logfile, filename = 'CSI_Step0-rounded.csv', linktext = 'Download CSI Step0 (rounded result values)', verbose = verbose)
+
+
+  # Log the separation space between steps
+  writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
+
+
+
+
+
   # ---- CSI Calclulation Step Description ----
   writelog("\n\n#### Calculate CSI\n", logfile = logfile, verbose = verbose)
   writelog("\n##### Step 1:\n", logfile = logfile, verbose = verbose)
@@ -597,12 +649,12 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   writelog("- Step 2b: Sum the weighted scores and the weights - then take the sum of the weighted scores divided by the sum of the weights. - This is the CSI Score\n", logfile = logfile, verbose = verbose)
   writelog("- Step 2c: Assign CSI Categories based on thresholds defined in table 3.9 of Technical Manual page 42 (3rd edition)\n", logfile = logfile, verbose = verbose)
   table3.9 <- "
-    | Category          | Range           | Category Score |
-    |-------------------|-----------------|----------------|
-    | Minimal Exposure  | < 1.69          | 1              |
-    | Low Exposure      | ≥ 1.69 - ≤ 2.33 | 2              |
-    | Moderate Exposure | > 2.33 - ≤ 2.99 | 3              |
-    | High Exposure     | > 2.99          | 4              |
+| Category          | Range           | Category Score |
+|-------------------|-----------------|----------------|
+| Minimal Exposure  | < 1.69          | 1              |
+| Low Exposure      | ≥ 1.69 - ≤ 2.33 | 2              |
+| Moderate Exposure | > 2.33 - ≤ 2.99 | 3              |
+| High Exposure     | > 2.99          | 4              |
   "
   writelog(table3.9, logfile = logfile, verbose = verbose)
   writelog("\n##### Step 3:\n", logfile = logfile, verbose = verbose)

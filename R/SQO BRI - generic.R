@@ -61,7 +61,7 @@
 #' @export
 
 
-BRI <- function(BenthicData) #BenthicData will need to be the species abundances for each sample in the correct format noted above and in support material
+BRI_ <- function(BenthicData) #BenthicData will need to be the species abundances for each sample in the correct format noted above and in support material
 {
   #loading in packages needed to run function
   require(tidyverse)
