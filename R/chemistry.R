@@ -1598,23 +1598,34 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
     verbose = verbose
   )
 
+  # define columns for which to check for duplicates
+  dupcols <- intersect(names(chemdata_prep.input), c('stationid', 'analytename', 'sampletypecode', 'labrep', 'fieldrep'))
+  writelog(
+    "\n##### define columns for which to check for duplicates:",
+    code = "dupcols <- intersect(names(chemdata_prep.input), c('stationid', 'analytename', 'sampletypecode', 'labrep', 'fieldrep'))",
+    logfile = logfile,
+    verbose = verbose,
+    pageLength = 5
+  )
+
+
   # Isolate duplicates for display purposes
-  chemdupes <- chemdata_prep.input[(chemdata_prep.input %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]
+  chemdupes <- chemdata_prep.input[(chemdata_prep.input %>% select(all_of(dupcols)) %>% duplicated), ]
   writelog(
     "\n##### Duplicate records:",
-    code = 'chemdupes <- chemdata_prep.input[(chemdata_prep.input %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]',
+    code = 'chemdupes <- chemdata_prep.input[(chemdata_prep.input %>% select(all_of(dupcols)) %>% duplicated), ]',
     data = chemdupes,
     logfile = logfile,
     verbose = verbose,
     pageLength = 5
   )
-  writelog(chemdata_prep.input, file.path(dirname(logfile), 'chemdata-preprocessing-step3.csv'), filetype = 'csv', verbose = verbose)
+
 
   # Purge duplicates from actual input data
-  chemdata_prep.input <- chemdata_prep.input[!(chemdata_prep.input %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]
+  chemdata_prep.input <- chemdata_prep.input[!(chemdata_prep.input %>% select(all_of(dupcols)) %>% duplicated), ]
   writelog(
     "\n##### Chemdata Prep Input Data with Duplicates Removed:",
-    code = 'chemdata_prep.input <- chemdata_prep.input[!(chemdata_prep.input %>% select(stationid, analytename, sampletypecode, labrep, fieldrep) %>% duplicated), ]',
+    code = 'chemdata_prep.input <- chemdata_prep.input[!(chemdata_prep.input %>% select(all_of(dupcols)) %>% duplicated), ]',
     data = chemdata_prep.input %>% head(15),
     logfile = logfile,
     verbose = verbose,
@@ -2176,21 +2187,10 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog("\n___\n___\n___\n___  " , logfile = logfile, verbose = verbose)
 
 
-  # ---- Step 14: Fix Rounding ----
-  # Conversation with Darrin on April 16th 2020
-  # We need to fix the rounding in this thing.
-  # The fixes may also need to be implemented in the chemdata_prep function
-  # Certain analytes result values need to be rounded to different numbers of decimal places
-  # going off memory here. Darrin is the one to consult, and he can show the latest greatest version of the excel tool
-  # Copper - 1
-  # Lead  - 1
-  # Mercury - 2
-  # Zinc - 1
-  # HPAH - 1
-  # LPAH - 1
-  # All the rest - 2
-  writelog("\n#### Step 14: Combine all analytes and fix rounding", logfile = logfile, verbose = verbose)
-  writelog("\n##### Copper, Lead, Zinc, High/Low PAHs will be rounded to 1 decimal place; All others will be rounded to 2", logfile = logfile, verbose = verbose)
+
+
+  # ---- Step 14: Combine data ----
+  writelog("\n#### Step 14: Combine all analytes", logfile = logfile, verbose = verbose)
 
   # Code
   # Step 13 dealt only with DDTs - essentially ddts_total is the step 13 dataframe
@@ -2199,7 +2199,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   writelog("\n##### Combine data with DDTs", logfile = logfile, verbose = verbose)
 
   # Actually perform the code
-  chemdata.step14a <- chemdata.step12 %>%
+  chemdata.preprocessed.final <- chemdata.step12 %>%
     bind_rows(ddts_total) %>%
     arrange(stationid, compound) %>%
     rename(
@@ -2210,9 +2210,9 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
   # Write code to the R Markdown file
   writelog(
-    "",
+    "Final Chemdata Prep Output",
     code = '
-      chemdata.step14a <- chemdata.step12 %>%
+      chemdata.preprocessed.final <- chemdata.step12 %>%
         bind_rows(ddts_total) %>%
         arrange(stationid, compound) %>%
         rename(
@@ -2221,39 +2221,14 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
           Result = result
         )
     ',
-    data = chemdata.step14a %>% head(15),
-    logfile = logfile,
-    verbose = verbose
-  )
-
-
-  # Actually perform the rounding
-  chemdata.preprocessed.final <- chemdata.step14a %>%
-    mutate(
-      Result = case_when(
-        AnalyteName %in% c('Copper','Lead','Zinc','HPAH','LPAH') ~ round(Result, digits = 1),
-        TRUE ~ round(Result, digits = 2)
-      )
-    )
-
-  # Write it to the R Markdown logs
-  writelog(
-    "Final Chemdata Prep output:",
-    code = '
-      chemdata.preprocessed.final <- chemdata.step14a %>%
-        mutate(
-          Result = case_when(
-            AnalyteName %in% c(\'Copper\',\'Lead\',\'Zinc\',\'HPAH\',\'LPAH\') ~ round(Result, digits = 1),
-            TRUE ~ round(Result, digits = 2)
-          )
-        )
-    ',
     data = chemdata.preprocessed.final %>% head(15),
     logfile = logfile,
     verbose = verbose
   )
 
+
   writelog("\n#### END Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
+
 
   return(chemdata.preprocessed.final)
 
