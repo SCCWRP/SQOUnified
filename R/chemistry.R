@@ -601,7 +601,8 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   chemdata_csi <- chemdata_csi %>%
     mutate(
       Result = case_when(
-        Result <= 0.005 ~ round(Result, 4),
+        # June 10, 2024 - It was decided we will round to 4 decimal places if the result value is less than 1
+        Result <= 1 ~ round(Result, 4),
         Result < 10 ~ round(Result, 2),
         Result < 100 ~ round(Result, 1),
         TRUE ~ round(Result)
@@ -615,7 +616,8 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
     chemdata_csi <- chemdata_csi %>%
       mutate(
         Result = case_when(
-          Result <= 0.005 ~ round(Result, 4),
+          # June 10, 2024 - It was decided we will round to 4 decimal places if the result value is less than 1
+          Result <= 1 ~ round(Result, 4),
           Result < 10 ~ round(Result, 2),
           Result < 100 ~ round(Result, 1),
           TRUE ~ round(Result)
