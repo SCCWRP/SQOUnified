@@ -57,13 +57,25 @@
 #' @import vegan
 #' @import reshape2
 #' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
+#' @importFrom lubridate ymd
 #'
 #' @export
 
 BRI_ <- function(BenthicData) #BenthicData will need to be the species abundances for each sample in the correct format noted above and in support material
 {
+
+
+  # I put these in the import statements in the roxygen comments
+  # I think the only function that may have came from tidyverse that this function needed was ymd from lubridate
+  # If others come up we can add them as needed, or if it becomes too much we can import the whole tidyverse package (@import tidyverse)
+  # - Robert 06.10.2024
+
   #loading in packages needed to run function
-  require(tidyverse)
+  # require(tidyverse)
+
+  # It appears that this version of the function works with all lowercase column names - Robert 06.10.2024
+  names(BenthicData) <- names(BenthicData) %>% tolower()
+
   #loading in SQO species list that contains p codes, amongst other things
 
   load("data/SoCal SQO LU 4_7_20.RData")
