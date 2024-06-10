@@ -1,4 +1,64 @@
-
+#' Compute the benthic response index (BRI) score and BRI condition category.
+#'
+#' @description
+#'   The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
+#'   the BRI score, the more degraded the benthic community represented by the sample.
+#'
+#' @details
+#'   The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
+#'   the BRI score, the more degraded the benthic community represented by the sample.
+#'
+#'   Two types of data are needed to calculate the BRI:
+#'
+#'   (1) the abundance of each species
+#'   (2) species-specific pollution tolerance score (aka, P Value)
+#'
+#'   Tolerance Values are stored in the Southern California SQO Species List provided with this coded. Species names are periodically
+#'   updated by benthic experts.
+#'
+#'   The BRI is only calculated from those taxa with a tolerance score. The first step in the BRI calculation is to compute the 4th root
+#'   of the abundance of each taxon in the sample that have an associated tolerance score
+#'   The next step is to multiply the 4th root abundance value by the tolerance score for each taxon.
+#'   The next step is to sum all of the 4th root abundance values in a given sample.
+#'   The actual BRI score is calculated as:
+#'
+#'   \deqn{ \frac{\sum \left(\sqrt[p]{\textrm{Abundance}} \right) \times P}{\sum \sqrt[p]{\textrm{Abundance}}} }
+#'
+#'   The last step is to convert the BRI score to condition category using the category thresholds listed in Table 5.
+#'
+#'   <Table 5. To be included in R markdown file>
+#'
+#'
+#'
+#' @param BenthicData a data frame with the following headings
+#'
+#'    \strong{\code{StationID}} - an alpha-numeric identifier of the location;
+#'
+#'    \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
+#'
+#'    \strong{\code{SampleDate}} - the date of sample collection;
+#'
+#'    \strong{\code{Latitude}} - latitude in decimal degrees;
+#'
+#'    \strong{\code{Longitude}} - longitude in decimal degrees.
+#'    Make sure there is a negative sign for the Western coordinates;
+#'
+#'    \strong{\code{Species}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
+#'        use sp only or just the Genus. If no animals were present in the sample use
+#'        NoOrganismsPresent with 0 abundance;
+#'
+#' @usage
+#' BRI(benthic_data)
+#'
+#' @examples
+#' data(benthic_sampledata) # load sample data
+#' BRI(benthic_sampledata) # see the output
+#'
+#' @import vegan
+#' @import reshape2
+#' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
+#'
+#' @export
 
 BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T)
 {
