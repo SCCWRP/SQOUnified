@@ -9,7 +9,8 @@ create_download_link(
   logfile,
   filename,
   linktext = "Download the data",
-  include.rownames = FALSE
+  include.row.names = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{

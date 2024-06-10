@@ -48,18 +48,17 @@
 #'        NoOrganismsPresent with 0 abundance;
 #'
 #' @usage
-#' BRI(benthic_data)
+#' BRI_(benthic_data)
 #'
 #' @examples
 #' data(benthic_sampledata) # load sample data
-#' BRI(benthic_sampledata) # see the output
+#' BRI_(benthic_sampledata) # see the output
 #'
 #' @import vegan
 #' @import reshape2
 #' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
 #'
 #' @export
-
 
 BRI_ <- function(BenthicData) #BenthicData will need to be the species abundances for each sample in the correct format noted above and in support material
 {

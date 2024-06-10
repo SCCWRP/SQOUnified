@@ -7,7 +7,7 @@
 chemdata_prep(chemdata)
 }
 \arguments{
-\item{chemdata}{a dataframe with the following columns:
+\item{chemdata_prep.input}{a dataframe with the following columns:
 
    \code{StationID},
 

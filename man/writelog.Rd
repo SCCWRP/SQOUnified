@@ -13,7 +13,9 @@ writelog(
   prefix = NULL,
   include.row.names = F,
   code = NULL,
-  data = NULL
+  data = NULL,
+  echo.code = TRUE,
+  pageLength = 10
 )
 }
 \arguments{

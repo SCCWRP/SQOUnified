@@ -11,7 +11,8 @@ init.log(
   current.time = Sys.time(),
   is.base.func = T,
   verbose = T,
-  title = "Log"
+  title = "Log",
+  libraries = c("rmarkdown")
 )
 }
 \arguments{
