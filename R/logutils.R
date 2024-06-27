@@ -12,7 +12,7 @@
 #' writelog("# --- Test Log Statement --- #", 'logs/log.txt')
 
 #' @export
-writelog <- function(content, logfile, filetype = 'text', append = T, verbose = T, prefix = NULL, include.row.names = F, code = NULL, data = NULL, echo.code = TRUE, pageLength = 10) {
+writelog <- function(content, logfile, filetype = 'text', append = T, verbose = F, prefix = NULL, include.row.names = F, code = NULL, data = NULL, echo.code = TRUE, pageLength = 10) {
 
   if (!verbose) return(NULL)
 
@@ -69,7 +69,7 @@ writelog <- function(content, logfile, filetype = 'text', append = T, verbose = 
 #' @examples
 #' init.log(logfile, sys.call())
 #' @export
-init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = T, title = 'Log', libraries = c('rmarkdown')) {
+init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = F, title = 'Log', libraries = c('rmarkdown')) {
 
   logfile = path.expand(logfile)
   logdir = dirname(logfile)
@@ -120,7 +120,7 @@ init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.
 #' @param include.rownames should rownames of the dataframe be included in the CSV file?
 #'
 #' @export
-create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.row.names = FALSE, verbose = TRUE){
+create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.row.names = FALSE, verbose = F){
   if(verbose){
     csvfile <- file.path(dirname(logfile), paste0(filename))
     write.csv(data, csvfile, row.names = include.row.names)

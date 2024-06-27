@@ -44,7 +44,7 @@
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
 # DEFAULT leave it out and do only grabs
-tox.summary <- function(toxresults, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+tox.summary <- function(toxresults, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F) {
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
@@ -258,7 +258,7 @@ tox.summary <- function(toxresults, results.sampletypes = c('Grab'), logfile = f
 #' tox.sqo(tox_sampledata)
 #'
 #' @export
-tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F) {
 
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)

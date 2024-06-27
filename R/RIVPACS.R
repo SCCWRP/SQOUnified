@@ -44,7 +44,7 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F){
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
@@ -226,7 +226,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          reference.cov = socal.reference.covariance,
                          observed.taxa = socal.example.taxa,
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-                         verbose = T
+                         verbose = F
                          ) {
 
   writelog('\nBEGIN: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
@@ -268,7 +268,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   FormatObservedData <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
@@ -353,7 +353,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   CalculateExpectedData <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
@@ -486,7 +486,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   CalculateScores <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
