@@ -26,7 +26,7 @@
 #'
 #' @import dplyr
 #' @export
-LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-chemlog.Rmd') ), verbose = F)  {
+LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F)  {
   "lrm_table"
 
   # Initialize Logging
@@ -471,7 +471,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 # HPAH - 1
 # LPAH - 1
 # All the rest - 2
-CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), '-chemlog.Rmd') ), verbose = F) {
+CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F) {
   "csi_weight"
 
   # Initialize Logging

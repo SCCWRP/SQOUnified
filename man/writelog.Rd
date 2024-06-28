@@ -9,7 +9,7 @@ writelog(
   logfile,
   filetype = "text",
   append = T,
-  verbose = T,
+  verbose = F,
   prefix = NULL,
   include.row.names = F,
   code = NULL,

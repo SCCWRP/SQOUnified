@@ -10,7 +10,7 @@ create_download_link(
   filename,
   linktext = "Download the data",
   include.row.names = FALSE,
-  verbose = TRUE
+  verbose = F
 )
 }
 \arguments{

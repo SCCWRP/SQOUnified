@@ -10,7 +10,7 @@ init.log(
   type = "text",
   current.time = Sys.time(),
   is.base.func = T,
-  verbose = T,
+  verbose = F,
   title = "Log",
   libraries = c("rmarkdown")
 )

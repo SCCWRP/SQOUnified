@@ -41,7 +41,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Benthic ----
   if (!is.null(benthic)) {
-    benthic <- benthic.sqo(benthic, logfile = file.path( dirname(logfile), 'Benthic', 'log.txt' ), verbose = verbose) %>%
+
+    benthiclogfile <- file.path( dirname(logfile), 'Benthic', 'benthiclog.Rmd' )
+    benthiclibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
+
+    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose) %>%
       mutate(LOE = 'Benthic') %>%
       select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -94,7 +100,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-    tox <- tox.sqo(tox, logfile = file.path( dirname(logfile), 'Toxicity', 'log.txt' ), verbose = verbose) %>%
+    
+    toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
+    toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs)
+
+    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {

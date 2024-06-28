@@ -42,23 +42,34 @@
 #'
 #' @export
 
-benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F){
+benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'benthiclog.Rmd' ), verbose = F){
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\nBEGIN: Benthic SQO function.\n', logfile = logfile, verbose = verbose)
+  writelog("\n# Benthic SQO Main Function\n", logfile = logfile, verbose = verbose)
 
-  writelog('*** DATA *** Input to Benthic SQO function - benthic.sqo-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(benthic_data, logfile = file.path(dirname(logfile), 'benthic.sqo-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
+  rawinput.filename <- 'benthic.sqo.input.RData'
+  if (verbose) {
+    save(benthic_data, file = file.path( dirname(logfile), rawinput.filename ))
+  }
+
+
+  # Display raw input data, create a download link for the knitted final RMarkdown output
+  writelog(
+    "\n### Raw input to benthic.sqo:",
+    logfile = logfile,
+    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'benthic_data' into your environment"),
+    verbose = verbose
+  )
+  create_download_link(data = benthic_data, logfile = logfile, filename = 'BenthicSQO-RawInput.csv', linktext = 'Download Raw Input to Benthic SQO Function', verbose = verbose)
+
 
 
   writelog('Calling M-AMBI within Benthic SQO function - Refer to MAMBI folder for detailed MAMBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   mambi.score <- MAMBI(benthic_data, logfile = file.path(dirname(logfile), 'MAMBI', 'log.txt') , verbose = verbose) %>%
-    # rename(
-    #   Stratum = Stratum
-    # ) %>%
     mutate(
       Score = MAMBI_Score,
       Category = New_MAMBI_Condition
@@ -72,18 +83,84 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
         TRUE ~ NA_real_
       )
     )
+  # Create code block and download link to RBI output
+  writelog(
+    "\n### MAMBI output - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = '
+      mambi.score <- MAMBI(benthic_data, verbose = FALSE) %>%
+      mutate(
+        Score = MAMBI_Score,
+        Category = New_MAMBI_Condition
+      ) %>%
+      mutate(
+        `Category Score` = case_when(
+          Category == "Reference" ~ 1,
+          Category == "Low Disturbance" ~ 2,
+          Category == "Moderate Disturbance" ~ 3,
+          Category == "High Disturbance" ~ 4,
+          TRUE ~ NA_real_
+        )
+      )
+    ',
+    data = mambi.score,
+    verbose = verbose
+  )
+  create_download_link(data = mambi.score, logfile = logfile, filename = 'MAMBI-output.csv', linktext = 'MAMBI output', verbose = verbose)
+
+  writelog('***Details on M-AMBI will be excluded from the audit logs for now (written June 27, 2024)***', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+
 
   writelog('Calling RBI within Benthic SQO function - Refer to RBI folder for detailed RBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   rbi.scores <- RBI(benthic_data, logfile = file.path(dirname(logfile), 'RBI', 'log.txt'), verbose = verbose)
+  # Create code block and download link to RBI output
+  writelog(
+    "\n## RBI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = "rbi.scores <- RBI(benthic_data, verbose = FALSE)",
+    data = rbi.scores,
+    verbose = verbose
+  )
+  create_download_link(data = rbi.scores, logfile = logfile, filename = 'RBI-output.csv', linktext = 'Download RBI output', verbose = verbose)
+
 
   writelog('Calling IBI within Benthic SQO function - Refer to IBI folder for detailed IBI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   ibi.scores <- IBI(benthic_data, logfile = file.path(dirname(logfile), 'IBI', 'log.txt'), verbose = verbose)
+  # Create code block and download link to IBI output
+  writelog(
+    "\n## IBI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = "ibi.scores <- IBI(benthic_data, verbose = FALSE)",
+    data = ibi.scores,
+    verbose = verbose
+  )
+  create_download_link(data = ibi.scores, logfile = logfile, filename = 'IBI-output.csv', linktext = 'Download IBI function output', verbose = verbose)
+
 
   writelog('Calling BRI within Benthic SQO function - Refer to BRI folder for detailed BRI logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   bri.scores <- BRI(benthic_data, logfile = file.path(dirname(logfile), 'BRI', 'log.txt'), verbose = verbose)
+  # Create code block and download link to BRI output
+  writelog(
+    "\n## BRI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = "bri.scores <- BRI(benthic_data, verbose = FALSE)",
+    data = bri.scores,
+    verbose = verbose
+  )
+  create_download_link(data = bri.scores, logfile = logfile, filename = 'BRI-output.csv', linktext = 'Download BRI function output', verbose = verbose)
 
   writelog('Calling RIVPACS within Benthic SQO function - Refer to RIVPACS folder for detailed RIVPACS logs.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   rivpacs.score <- RIVPACS(benthic_data, logfile = file.path(dirname(logfile), 'RIVPACS', 'log.txt'), verbose = verbose) #only SoCal (no SFBay)
+  # Create code block and download link to RIVPACS output
+  writelog(
+    "\n## RIVPACS function is finished executing - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = "rivpacs.score <- RIVPACS(benthic_data, verbose = FALSE)",
+    data = rivpacs.score,
+    verbose = verbose
+  )
+  create_download_link(data = rivpacs.score, logfile = logfile, filename = 'RIVPACS-output.csv', linktext = 'Download RIVPACS function output', verbose = verbose)
 
   # Integrated Scores
   # CASQO Technical Manual page 73 -
@@ -91,14 +168,51 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
   writelog('Calculate Benthic Integrated scores - which will be visible in the final scores dataframe (benthic.sqo-final.csv)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('Line that calculates integrated benthic score: `Category Score` = ceiling(median(`Category Score`, na.rm = T))', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('In other words - group the data by StationID, Replicate, SampleDate, Stratum and then take the ceiling of the mean - excluding missing values', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  integrated.score <- bind_rows(
+
+  # Stack the different scores dataframes on top of each other
+  integrated.score.step1 <- bind_rows(
       rbi.scores, ibi.scores, bri.scores, rivpacs.score
-    ) %>%
+    )
+  # Create code block and download link
+  writelog(
+    "\nStep 1 combining data for the Integrated Benthic Score - stack the dataframes",
+    logfile = logfile,
+    code = "integrated.score.step1 <- bind_rows(
+      rbi.scores, ibi.scores, bri.scores, rivpacs.score
+    )",
+    data = integrated.score.step1,
+    verbose = verbose
+  )
+  create_download_link(data = integrated.score.step1, logfile = logfile, filename = 'IntegratedBenthicStep1.csv', linktext = 'Download Integrated Benthic Step 1', verbose = verbose)
+
+
+  # Filter to rep 1 and select only needed columns
+  integrated.score.step2 <- integrated.score.step1 %>%
     # David says take only where replicate = 1, although other scientists have different opinions
     filter(Replicate == 1) %>%
     select(
       StationID, Replicate, SampleDate, Stratum, Index, `Category Score`
-    ) %>%
+    )
+  # Create code block and download link
+  writelog(
+    "\nStep 2 combining data for the Integrated Benthic Score - filter to replicate 1 and select necessary columns in order",
+    logfile = logfile,
+    code = "
+      # Filter to rep 1 and select only needed columns
+      integrated.score.step2 <- integrated.score.step1 %>%
+        filter(Replicate == 1) %>%
+        select(
+          StationID, Replicate, SampleDate, Stratum, Index, `Category Score`
+        )
+    ",
+    data = integrated.score.step2,
+    verbose = verbose
+  )
+  create_download_link(data = integrated.score.step2, logfile = logfile, filename = 'IntegratedBenthicStep2.csv', linktext = 'Download Integrated Benthic Step 2', verbose = verbose)
+
+
+  # Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo
+  integrated.score.step3 <- integrated.score.step2 %>%
     group_by(
       StationID, Replicate, SampleDate, Stratum
     ) %>%
@@ -112,7 +226,30 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
 
       `Category Score` = ceiling(median(`Category Score`, na.rm = T))
     ) %>%
-    ungroup() %>%
+    ungroup()
+  # Create code block and download link
+  writelog(
+    "\nStep 3 Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo",
+    logfile = logfile,
+    code = "
+      # Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo
+      integrated.score.step3 <- integrated.score.step2 %>%
+        group_by(
+          StationID, Replicate, SampleDate, Stratum
+        ) %>%
+        summarize(
+          `Category Score` = ceiling(median(`Category Score`, na.rm = T))
+        ) %>%
+        ungroup()
+    ",
+    data = integrated.score.step3,
+    verbose = verbose
+  )
+  create_download_link(data = integrated.score.step3, logfile = logfile, filename = 'IntegratedBenthicStep3.csv', linktext = 'Download Integrated Benthic Step 2', verbose = verbose)
+
+
+  # Last integrated score step
+  integrated.score <- integrated.score.step3 %>%
     mutate(
       Index = 'Integrated SQO',
       Category = case_when(
@@ -124,7 +261,31 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
       ),
       Score = `Category Score`
     )
+  # Create code block and download link
+  writelog(
+    "\nFinal benthic integrated scores df",
+    logfile = logfile,
+    code = '
+      # Last integrated score step
+      integrated.score <- integrated.score.step3 %>%
+        mutate(
+          Index = "Integrated SQO",
+          Category = case_when(
+            `Category Score` == 1 ~ "Reference",
+            `Category Score` == 2 ~ "Low Disturbance",
+            `Category Score` == 3 ~ "Moderate Disturbance",
+            `Category Score` == 4 ~ "High Disturbance",
+            TRUE ~ NA_character_
+          ),
+          Score = `Category Score`
+        )
+    ',
+    data = integrated.score,
+    verbose = verbose
+  )
+  create_download_link(data = integrated.score, logfile = logfile, filename = 'IntegratedBenthic-Final.csv', linktext = 'Download Integrated Benthic Final Step', verbose = verbose)
 
+  # Final dataframe
   # will add other scores to this data frame as they are computed
   final.scores <- bind_rows(
       mambi.score,
@@ -139,8 +300,29 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
     ) %>%
     arrange(StationID, SampleDate, Replicate)
 
-  writelog('*** DATA *** Final Benthic SQO dataframe: benthic.sqo-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(final.scores, logfile = file.path(dirname(logfile), 'benthic.sqo-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Create code block and download link
+  writelog(
+    "\nFinal benthic scores df (all scores)",
+    logfile = logfile,
+    code = '
+      final.scores <- bind_rows(
+        mambi.score,
+        rbi.scores,
+        ibi.scores,
+        bri.scores,
+        rivpacs.score,
+        integrated.score
+      ) %>%
+      select(
+        StationID, Replicate, SampleDate, Stratum, Index, Score, Category, `Category Score`, Use_MAMBI
+      ) %>%
+      arrange(StationID, SampleDate, Replicate)
+    ',
+    data = integrated.score,
+    verbose = verbose
+  )
+  create_download_link(data = integrated.score, logfile = logfile, filename = 'AllBenthicScores-Final.csv', linktext = 'Download Final Benthic Scores df', verbose = verbose)
+
 
   writelog('\nEND: Benthic SQO function.\n', logfile = logfile, verbose = verbose)
 
