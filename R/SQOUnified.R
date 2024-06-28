@@ -1,4 +1,6 @@
 #' Compute the SQO index scores.
+#' Based on the Technical Manual - June 2021 edition
+#' https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
 #'
 #' @param benthic_data A data file string name that we want to compute SQO scores for.
 #' @param SQO A list of the type of SQO scores that we want to compute
@@ -17,7 +19,7 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'benthiclog.Rmd' ), verbose = F) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.Rmd' ), verbose = F) {
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
@@ -100,7 +102,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-    
+
     toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
     toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
