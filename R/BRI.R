@@ -68,21 +68,57 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\nBEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
 
-  writelog('*** DATA *** Input to BRI function - BRI-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(BenthicData, logfile = file.path(dirname(logfile), 'BRI-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
+  rawinput.filename <- 'benthic.bri.input.RData'
+  if (verbose) {
+    save(BenthicData, file = file.path( dirname(logfile), rawinput.filename ))
+  }
 
-  writelog('*** DATA *** sqo.list.new - which gets joined with BenthicData', logfile = logfile, verbose = verbose)
-  writelog(sqo.list.new, logfile = file.path(dirname(logfile), 'BRI-sqo.list.new.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Create code block and download link to BRI input
+  writelog(
+    'Input to BRI - BRI-step0.csv',
+    logfile = logfile,
+    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
+    data = BenthicData,
+    verbose = verbose
+  )
+  create_download_link(data = BenthicData, logfile = logfile, filename = 'BRI-step0.csv', linktext = 'Download BRI initial input', verbose = verbose)
 
-  out <- BenthicData %>%
+
+  # SQO List New (Gets joined to the initial input for BRI)
+  writelog(
+    'SQO List New (Gets joined to the initial input for BRI)',
+    logfile = logfile,
+    data = sqo.list.new,
+    verbose = verbose
+  )
+  create_download_link(data = sqo.list.new, logfile = logfile, filename = 'BRI-sqo.list.new.csv', linktext = 'Download BRI "sqo.list.new" dataframe', verbose = verbose)
+
+  # BRI Step 1
+  # Join with sqo.list.new
+  bri1 <- BenthicData %>%
     left_join(sqo.list.new, by = c('Taxon' = 'TaxonName'))
 
-  writelog('*** DATA *** Benthic data joined with sqo.list.new', logfile = logfile, verbose = verbose)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for BRI Step 1
+  writelog(
+    '\nBRI Step 1 - Join with sqo.list.new',
+    logfile = logfile,
+    code = "
+      bri1 <- BenthicData %>%
+        left_join(sqo.list.new, by = c('Taxon' = 'TaxonName'))
+    ",
+    data = bri1,
+    verbose = verbose
+  )
+  create_download_link(data = bri1, logfile = logfile, filename = 'BRI-step1.csv', linktext = 'Download BRI step 1', verbose = verbose)
 
-  out <- out %>%
+
+
+  # BRI Step 2
+  # Remove missing tolerance scores
+  bri2 <- bri1 %>%
     # I assume that the next line is something they had in there as a method of removing duplicates
     # for this reason, this next line will likely be eliminated.
     # They grouped by all the columns that were selected (In query BRI - 1)
@@ -92,43 +128,125 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     #rename(Stratum) %>%
     select(Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore)
 
-  writelog('*** DATA *** Remove NA tolerance scores and select only the columns: Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for BRI Step 2
+  writelog(
+    '\nBRI Step 2 - Remove missing tolerance scores',
+    logfile = logfile,
+    code = "
+      bri2 <- bri1 %>%
+        filter(!is.na(ToleranceScore)) %>%
+        select(Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore)
+    ",
+    data = bri2,
+    verbose = verbose
+  )
+  create_download_link(data = bri2, logfile = logfile, filename = 'BRI-step2.csv', linktext = 'Download BRI step 2', verbose = verbose)
 
-  out <- out %>%
-    # End of BRI - 2 query. Begin BRI - 3 query
+
+
+  # BRI Step 3
+  # Take the fourth root of the abundance
+  bri3 <- bri2 %>%
     mutate(
       fourthroot_abun = Abundance ** 0.25,
       tolerance_score = fourthroot_abun * ToleranceScore
     )
 
-  writelog('*** DATA *** Calculate fourthroot of abundance - also multiply by tolerancs score - BRI-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for BRI Step 3
+  writelog(
+    '\nBRI Step 3 - Take the fourth root of the abundance',
+    logfile = logfile,
+    code = "
+      bri3 <- bri2 %>%
+        mutate(
+          fourthroot_abun = Abundance ** 0.25,
+          tolerance_score = fourthroot_abun * ToleranceScore
+        )
+    ",
+    data = bri3,
+    verbose = verbose
+  )
+  create_download_link(data = bri3, logfile = logfile, filename = 'BRI-step3.csv', linktext = 'Download BRI step 3', verbose = verbose)
 
-  writelog('Next get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('Then Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+
+
+  writelog('\nNext get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\nThen Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('---- < 39.96 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('---- >=39.96 and <49.15 is Low', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('---- >=49.15 and <73.27 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog('---- >=73.27 is High', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
-  out <- out %>%
-    # End of BRI - 3. Begin BRI - 4
+
+
+
+  # BRI Step 4
+  # Sum of tolerance scores divided by fourthroot of abundance
+  bri4 <- bri3 %>%
     group_by(
       Stratum, StationID, SampleDate, Replicate
     ) %>%
     summarize(
       Score = sum(tolerance_score, na.rm = T) / sum(fourthroot_abun, na.rm = T)
-    ) %>%
-    # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays
-    # CASQO Technical Manual 3rd Edition Page 72 - Table 4.24
+    )
+
+  # Write to the logs for BRI Step 4
+  writelog(
+    '\nBRI Step 4 - Sum of tolerance scores divided by fourthroot of abundance',
+    logfile = logfile,
+    code = "
+      bri4 <- bri3 %>%
+        group_by(
+          Stratum, StationID, SampleDate, Replicate
+        ) %>%
+        summarize(
+          Score = sum(tolerance_score, na.rm = TRUE) / sum(fourthroot_abun, na.rm = TRUE)
+        )
+    ",
+    data = bri4,
+    verbose = verbose
+  )
+  create_download_link(data = bri4, logfile = logfile, filename = 'BRI-step4.csv', linktext = 'Download BRI step 4', verbose = verbose)
+
+
+
+
+  # BRI Step 5
+  # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]
+  bri5 <- bri4 %>%
     mutate(
       Category = case_when( (Score < 39.96) ~ "Reference",
                             (Score >= 39.96 & Score < 49.15) ~ "Low Disturbance",
                             (Score >= 49.15 & Score < 73.27) ~ "Moderate Disturbance",
                             (Score >= 73.27) ~ "High Disturbance"
-      )) %>%
-    # Output the BRI category score given the category for thresholds for Southern CA Marine Bays
+      ))
+
+  # Write to the logs for BRI Step 5
+  writelog(
+    '\nBRI Step 5 - Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
+    logfile = logfile,
+    code = "
+      bri5 <- bri4 %>%
+        mutate(
+          Category = case_when(
+            Score < 39.96 ~ 'Reference',
+            Score >= 39.96 & Score < 49.15 ~ 'Low Disturbance',
+            Score >= 49.15 & Score < 73.27 ~ 'Moderate Disturbance',
+            Score >= 73.27 ~ 'High Disturbance'
+          )
+        )
+    ",
+    data = bri5,
+    verbose = verbose
+  )
+  create_download_link(data = bri5, logfile = logfile, filename = 'BRI-step5.csv', linktext = 'Download BRI step 5', verbose = verbose)
+
+
+
+
+  # BRI Final Step
+  # Output the BRI category score given the category for thresholds for Southern CA Marine Bays
+  bri_final <- bri5 %>%
     mutate(
       `Category Score` = case_when( (Category == "Reference") ~ 1,
                                     (Category == "Low Disturbance") ~ 2,
@@ -137,14 +255,32 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     ) %>%
     dplyr::mutate(Index = "BRI")
 
+  # Write to the logs for BRI Final Step
+  writelog(
+    '\nBRI Final Step - Output the BRI category score given the category for thresholds for Southern CA Marine Bays',
+    logfile = logfile,
+    code = "
+      bri_final <- bri5 %>%
+        mutate(
+          `Category Score` = case_when(
+            Category == 'Reference' ~ 1,
+            Category == 'Low Disturbance' ~ 2,
+            Category == 'Moderate Disturbance' ~ 3,
+            Category == 'High Disturbance' ~ 4
+          )
+        ) %>%
+        dplyr::mutate(Index = 'BRI')
+    ",
+    data = bri_final,
+    verbose = verbose
+  )
+  create_download_link(data = bri_final, logfile = logfile, filename = 'BRI-final.csv', linktext = 'Download BRI Final Step', verbose = verbose)
 
-  writelog('*** DATA *** Final BRI dataframe: BRI-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(out, logfile = file.path(dirname(logfile), 'BRI-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
-  writelog('\nEND: BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: BRI function.\n', logfile = logfile, verbose = verbose)
 
-  return(out)
+  return(bri_final)
 }
 
 
