@@ -160,7 +160,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   writelog(
     "\n### Raw input to RBI:",
     logfile = logfile,
-    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'benthic_data' into your environment"),
+    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
     verbose = verbose
   )
   create_download_link(data = BenthicData, logfile = logfile, filename = 'BenthicSQO-RawInput.csv', linktext = 'Download Raw Input to Benthic SQO Function', verbose = verbose)
@@ -177,6 +177,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
   create_download_link(data = BenthicData, logfile = logfile, filename = 'RBI-step0.csv', linktext = 'Download RBI initial input', verbose = verbose)
 
+  # RBI Step 1
   # Prepare the given data frame so that we can compute the RBI score and categories
   rbi_data <- BenthicData %>%
     dplyr::filter(Exclude!="Yes") %>%
@@ -224,17 +225,17 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
   create_download_link(data = rbi_data_tmp, logfile = logfile, filename = 'RBI-tmp-dataframe.csv', linktext = 'Download RBI tmp dataframe', verbose = verbose)
 
-  # columns needed in RBI: Stratum, StationID, Replicate, Phylum, NumofMolluscTaxa
+  # RBI Step 2
+  # Filter to molluscs and group by Stratum, StationID, Sampledate Replicate - group and get the number of mollusc taxa
   rbi2 <- rbi_data %>%
     dplyr::filter(Mollusc=="Mollusc") %>%
     dplyr::group_by(Stratum, StationID, SampleDate, Replicate) %>%
     dplyr::summarise(NumOfMolluscTaxa = sum(n))
 
   writelog(
-    "\nFilter to molluscs and group by Stratum, StationID, Sampledate Replicate - group and get the number of mollusc taxa",
+    "\nRBI Step 2 - Filter to molluscs and group by Stratum, StationID, Sampledate Replicate - group and get the number of mollusc taxa",
     logfile = logfile,
     code = '
-      # columns needed in RBI: Stratum, StationID, Replicate, Phylum, NumofMolluscTaxa
       rbi2 <- rbi_data %>%
         dplyr::filter(Mollusc=="Mollusc") %>%
         dplyr::group_by(Stratum, StationID, SampleDate, Replicate) %>%
