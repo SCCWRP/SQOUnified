@@ -2,7 +2,9 @@
 % Please edit documentation in R/SQOUnified.R
 \name{SQOUnified}
 \alias{SQOUnified}
-\title{Compute the SQO index scores.}
+\title{Compute the SQO index scores.
+Based on the Technical Manual - June 2021 edition
+https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf}
 \usage{
 data(benthic_data)
 data(site_assessment_criteria)
@@ -16,6 +18,8 @@ The default is \code{"all"}, meaning that all scores will be computed.}
 }
 \description{
 Compute the SQO index scores.
+Based on the Technical Manual - June 2021 edition
+https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
 }
 \examples{
 SQOUnified(benthic_data = benthic_data, LOE = "all")

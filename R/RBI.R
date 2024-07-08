@@ -163,7 +163,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
     verbose = verbose
   )
-  create_download_link(data = BenthicData, logfile = logfile, filename = 'BenthicSQO-RawInput.csv', linktext = 'Download Raw Input to Benthic SQO Function', verbose = verbose)
+  create_download_link(data = BenthicData, logfile = logfile, filename = 'RBI-RawInput.csv', linktext = 'Download Raw Input to RBI Function', verbose = verbose)
 
 
 
@@ -172,7 +172,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   writelog(
     "\nInput to RBI function - RBI-step0.csv",
     logfile = logfile,
-    data = BenthicData,
+    data = BenthicData %>% head(25),
     verbose = verbose
   )
   create_download_link(data = BenthicData, logfile = logfile, filename = 'RBI-step0.csv', linktext = 'Download RBI initial input', verbose = verbose)
@@ -200,7 +200,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         #dplyr::rename(B13_Stratum = Stratum) %>%
         dplyr::mutate(n=if_else(Taxon=="NoOrganismsPresent", 0,1))
     ',
-    data = rbi_data,
+    data = rbi_data %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi_data, logfile = logfile, filename = 'RBI-step1.csv', linktext = 'Download RBI step 1', verbose = verbose)
@@ -220,7 +220,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, SampleDate, StationID, Replicate) %>%
         dplyr::summarise(NumOfTaxa = sum(n))
     ',
-    data = rbi_data_tmp,
+    data = rbi_data_tmp %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi_data_tmp, logfile = logfile, filename = 'RBI-tmp-dataframe.csv', linktext = 'Download RBI tmp dataframe', verbose = verbose)
@@ -241,7 +241,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, SampleDate, Replicate) %>%
         dplyr::summarise(NumOfMolluscTaxa = sum(n))
     ',
-    data = rbi2,
+    data = rbi2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi2, logfile = logfile, filename = 'RBI-step2.csv', linktext = 'Download RBI Step 2', verbose = verbose)
@@ -264,7 +264,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(NumOfCrustaceanTaxa = sum(n))
     ',
-    data = rbi3,
+    data = rbi3 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi3, logfile = logfile, filename = 'RBI-step3.csv', linktext = 'Download RBI Step 3', verbose = verbose)
@@ -286,7 +286,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(CrustaceanAbun = sum(Abundance))
     ',
-    data = rbi4,
+    data = rbi4 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi4, logfile = logfile, filename = 'RBI-step4.csv', linktext = 'Download RBI Step 4', verbose = verbose)
@@ -308,7 +308,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(M_insidiosumAbun = sum(Abundance))
     ',
-    data = rbi5,
+    data = rbi5 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi5, logfile = logfile, filename = 'RBI-step5.csv', linktext = 'Download RBI Step 5', verbose = verbose)
@@ -329,7 +329,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(A_diegensisAbun = sum(Abundance))
     ',
-    data = rbi6,
+    data = rbi6 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi6, logfile = logfile, filename = 'RBI-step6.csv', linktext = 'Download RBI Step 6', verbose = verbose)
@@ -351,7 +351,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(G_littoreaAbun = sum(Abundance))
     ',
-    data = rbi7,
+    data = rbi7 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi7, logfile = logfile, filename = 'RBI-step7.csv', linktext = 'Download RBI Step 7', verbose = verbose)
@@ -375,7 +375,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
         dplyr::summarise(NIT = sum(badness))
     ',
-    data = rbi8,
+    data = rbi8 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi8, logfile = logfile, filename = 'RBI-step8.csv', linktext = 'Download RBI Step 8', verbose = verbose)
@@ -412,7 +412,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::full_join(rbi8, by = c("Stratum", "StationID", "Replicate", "SampleDate")) %>%
         dplyr::select(Stratum, StationID, SampleDate, Replicate, NumOfTaxa, NumOfMolluscTaxa, NumOfCrustaceanTaxa, CrustaceanAbun, M_insidiosumAbun, A_diegensisAbun, G_littoreaAbun, NIT)
     ',
-    data = rbi_metrics,
+    data = rbi_metrics %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi_metrics, logfile = logfile, filename = 'RBI-Metrics.csv', linktext = 'Download RBI Metrics dataframe', verbose = verbose)
@@ -561,7 +561,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         )) %>%
         dplyr::mutate(Index = 'RBI')
     ",
-    data = rbi_scores,
+    data = rbi_scores %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi_scores, logfile = logfile, filename = 'RBI-Scores-Final.csv', linktext = 'Download RBI Scores Final dataframe', verbose = verbose)

@@ -81,7 +81,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     'Input to BRI - BRI-step0.csv',
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
-    data = BenthicData,
+    data = BenthicData %>% head(25),
     verbose = verbose
   )
   create_download_link(data = BenthicData, logfile = logfile, filename = 'BRI-step0.csv', linktext = 'Download BRI initial input', verbose = verbose)
@@ -91,7 +91,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   writelog(
     'SQO List New (Gets joined to the initial input for BRI)',
     logfile = logfile,
-    data = sqo.list.new,
+    data = sqo.list.new %>% head(25),
     verbose = verbose
   )
   create_download_link(data = sqo.list.new, logfile = logfile, filename = 'BRI-sqo.list.new.csv', linktext = 'Download BRI "sqo.list.new" dataframe', verbose = verbose)
@@ -109,7 +109,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
       bri1 <- BenthicData %>%
         left_join(sqo.list.new, by = c('Taxon' = 'TaxonName'))
     ",
-    data = bri1,
+    data = bri1 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri1, logfile = logfile, filename = 'BRI-step1.csv', linktext = 'Download BRI step 1', verbose = verbose)
@@ -137,7 +137,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         filter(!is.na(ToleranceScore)) %>%
         select(Stratum, StationID, SampleDate, Replicate, Taxon, Abundance, ToleranceScore)
     ",
-    data = bri2,
+    data = bri2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri2, logfile = logfile, filename = 'BRI-step2.csv', linktext = 'Download BRI step 2', verbose = verbose)
@@ -163,7 +163,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
           tolerance_score = fourthroot_abun * ToleranceScore
         )
     ",
-    data = bri3,
+    data = bri3 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri3, logfile = logfile, filename = 'BRI-step3.csv', linktext = 'Download BRI step 3', verbose = verbose)
@@ -203,7 +203,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
           Score = sum(tolerance_score, na.rm = TRUE) / sum(fourthroot_abun, na.rm = TRUE)
         )
     ",
-    data = bri4,
+    data = bri4 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri4, logfile = logfile, filename = 'BRI-step4.csv', linktext = 'Download BRI step 4', verbose = verbose)
@@ -236,7 +236,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
           )
         )
     ",
-    data = bri5,
+    data = bri5 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri5, logfile = logfile, filename = 'BRI-step5.csv', linktext = 'Download BRI step 5', verbose = verbose)
@@ -271,7 +271,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         ) %>%
         dplyr::mutate(Index = 'BRI')
     ",
-    data = bri_final,
+    data = bri_final %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri_final, logfile = logfile, filename = 'BRI-final.csv', linktext = 'Download BRI Final Step', verbose = verbose)
