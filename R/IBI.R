@@ -78,7 +78,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\nBEGIN: IBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### BEGIN: IBI function.\n', logfile = logfile, verbose = verbose)
 
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
   rawinput.filename <- 'benthic.ibi.input.RData'
@@ -87,7 +87,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   }
   # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
-    "\n### Raw input to IBI:",
+    "\n#### Raw input to IBI:",
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
     verbose = verbose
@@ -96,7 +96,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # SQO List (New)
   writelog(
-    "\nSQO List (New) which gets joined to raw input",
+    "\n#### SQO List (New) which gets joined to raw input",
     logfile = logfile,
     data = sqo.list.new %>% head(25),
     verbose = verbose
@@ -113,7 +113,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     mutate(n=if_else(Taxon=="NoOrganismsPresent", 0,1))
   # Write to the logs for preparing the given data frame for IBI score and categories
   writelog(
-    '\nPrepare the given data frame so that we can compute the IBI score and categories',
+    '\n#### Prepare the given data frame so that we can compute the IBI score and categories',
     logfile = logfile,
     code = "
       ibi_data <- BenthicData %>%
@@ -138,7 +138,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for grouping and getting NumOfTaxa
   writelog(
-    '\nGroup and get NumOfTaxa',
+    '\n#### Group and get NumOfTaxa',
     logfile = logfile,
     code = "
       ibi1 <- ibi_data %>%
@@ -161,7 +161,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for getting Number of Mollusc Taxa
   writelog(
-    '\nGet Number of Mollusc Taxa',
+    '\n#### Get Number of Mollusc Taxa',
     logfile = logfile,
     code = "
     ibi2 <- ibi_data %>%
@@ -184,7 +184,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for getting Notomastus abundance
   writelog(
-    '\nGet Notomastus abundance',
+    '\n#### Get Notomastus abundance',
     logfile = logfile,
     code = "
     ibi3_2 <- ibi_data %>%
@@ -211,7 +211,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for getting Percentage of sensitive taxa
   writelog(
-    '\nGet Percentage of sensitive taxa',
+    '\n#### Get Percentage of sensitive taxa',
     logfile = logfile,
     code = "
       ibi4_2 <- ibi_data %>%
@@ -237,7 +237,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for reference ranges for IBI metrics
   writelog(
-    '\nReference ranges for IBI metrics in Southern California Marine Bays\n[ Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68 ]',
+    '\n#### Reference ranges for IBI metrics in Southern California Marine Bays\n[ Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68 ]',
     logfile = logfile,
     code = "
       ibi_ref_ranges_table <- data.frame(
@@ -265,7 +265,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
                                             category_score = as.factor(c(1, 2, 3, 4, 4)))
   # Write to the logs for IBI category response ranges
   writelog(
-    '\nIBI category response ranges for Southern California Marine Bays\n[ Table 4.20 - CASQO Technical Manual page 68-69]',
+    '\n#### IBI category response ranges for Southern California Marine Bays\n[ Table 4.20 - CASQO Technical Manual page 68-69]',
     logfile = logfile,
     code = "
       ibi_category_response_table <- data.frame(
@@ -293,7 +293,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for stitching together IBI metrics
   writelog(
-    '\nIBI Metrics:\nWe stitch together all the necessary IBI metrics to determine the IBI index.\nEach of the metrics is then compared to the tables listed above (Table 5.4 and Table 5.5) to determine the IBI score,\nthe IBI Category, and IBI Category Score',
+    '\n#### IBI Metrics:\nWe stitch together all the necessary IBI metrics to determine the IBI index.\nEach of the metrics is then compared to the tables listed above (Table 5.4 and Table 5.5) to determine the IBI score,\nthe IBI Category, and IBI Category Score',
     logfile = logfile,
     code = "
     ibi_metrics1 <- ibi1 %>%
@@ -314,7 +314,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for replacing NA with 0 in IBI metrics
   writelog(
-    '\nReplace NA with 0 in IBI metrics',
+    '\n#### Replace NA with 0 in IBI metrics',
     logfile = logfile,
     code = "
       ibi_metrics2 <- ibi_metrics1 %>%
@@ -348,7 +348,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for calculating scores and categorizing IBI
   writelog(
-    '\nCalculate Scores and Categorize for IBI',
+    '\n#### Calculate Scores and Categorize for IBI',
     logfile = logfile,
     code = "
       ibi_final <- ibi_metrics2 %>%
@@ -378,7 +378,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
 
-  writelog('\n## END: IBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### END: IBI function.\n', logfile = logfile, verbose = verbose)
 
   return(ibi_final)
 }

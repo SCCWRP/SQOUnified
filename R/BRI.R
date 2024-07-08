@@ -68,7 +68,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\n## BEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### BEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
 
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
   rawinput.filename <- 'benthic.bri.input.RData'
@@ -78,7 +78,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Create code block and download link to BRI input
   writelog(
-    'Input to BRI - BRI-step0.csv',
+    '#### Input to BRI - BRI-step0.csv',
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
     data = BenthicData %>% head(25),
@@ -89,7 +89,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # SQO List New (Gets joined to the initial input for BRI)
   writelog(
-    'SQO List New (Gets joined to the initial input for BRI)',
+    '#### SQO List New (Gets joined to the initial input for BRI)',
     logfile = logfile,
     data = sqo.list.new %>% head(25),
     verbose = verbose
@@ -103,7 +103,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 1
   writelog(
-    '\nBRI Step 1 - Join with sqo.list.new',
+    '\n#### BRI Step 1 - Join with sqo.list.new',
     logfile = logfile,
     code = "
       bri1 <- BenthicData %>%
@@ -130,7 +130,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 2
   writelog(
-    '\nBRI Step 2 - Remove missing tolerance scores',
+    '\n#### BRI Step 2 - Remove missing tolerance scores',
     logfile = logfile,
     code = "
       bri2 <- bri1 %>%
@@ -154,7 +154,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 3
   writelog(
-    '\nBRI Step 3 - Take the fourth root of the abundance',
+    '\n#### BRI Step 3 - Take the fourth root of the abundance',
     logfile = logfile,
     code = "
       bri3 <- bri2 %>%
@@ -192,7 +192,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 4
   writelog(
-    '\nBRI Step 4 - Sum of tolerance scores divided by fourthroot of abundance',
+    '\n#### BRI Step 4 - Sum of tolerance scores divided by fourthroot of abundance',
     logfile = logfile,
     code = "
       bri4 <- bri3 %>%
@@ -223,7 +223,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 5
   writelog(
-    '\nBRI Step 5 - Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
+    '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
     logfile = logfile,
     code = "
       bri5 <- bri4 %>%
@@ -257,7 +257,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Final Step
   writelog(
-    '\nBRI Final Step - Output the BRI category score given the category for thresholds for Southern CA Marine Bays',
+    '\n#### BRI Final Step - Output the BRI category score given the category for thresholds for Southern CA Marine Bays',
     logfile = logfile,
     code = "
       bri_final <- bri5 %>%
@@ -278,7 +278,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
 
-  writelog('\n## END: BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### END: BRI function.\n', logfile = logfile, verbose = verbose)
 
   return(bri_final)
 }

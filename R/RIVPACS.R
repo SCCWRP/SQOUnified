@@ -50,13 +50,13 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\n## BEGIN: RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### BEGIN: RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
   # assign input data to a new variable name - avoids namespace conflicts in the RMarkdown log
   # the input data gets modified so we would rather modify this copy of the input dataframe
   benthic.rivpacs.input <- benthic_data
   writelog(
-    'Rename input variable',
+    '\n#### Rename input variable',
     logfile = logfile,
     code = 'benthic.rivpacs.input <- benthic_data',
     data = benthic_data,
@@ -71,7 +71,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Create code block and download link to RIVPACS input
   writelog(
-    'Input to RIVPACS - RIVPACS-step0.csv',
+    '\n#### Input to RIVPACS - RIVPACS-step0.csv',
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'benthic.rivpacs.input' into your environment"),
     data = benthic.rivpacs.input,
@@ -94,7 +94,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
     dplyr::distinct()
   # Create code block and download link to BRI input
   writelog(
-    'SCB Predictors',
+    '\n#### SCB Predictors',
     logfile = logfile,
     code = '
       scb.predictors <- data.frame(Latitude = benthic.rivpacs.input$Latitude,
@@ -114,7 +114,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   benthic.rivpacs.input <- benthic.rivpacs.input %>% dplyr::rename(Taxa = Taxon)
   # Write to the logs for RIVPACS Data Prep step 1
   writelog(
-    '\nRIVPACS Data Prep step 1 - rename taxa to Taxon',
+    '\n#### RIVPACS Data Prep step 1 - rename taxa to Taxon',
     logfile = logfile,
     code = "
       benthic.rivpacs.input <- benthic.rivpacs.input %>% dplyr::rename(Taxa = Taxon)",
@@ -130,7 +130,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for RIVPACS data prep step 2
   writelog(
-    '\nRIVPACS data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth',
+    '\n#### RIVPACS data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth',
     logfile = logfile,
     code = "
       scb.taxa <- benthic.rivpacs.input %>%
@@ -148,7 +148,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for RIVPACS data prep step 3
   writelog(
-    '\nRIVPACS data prep step 3 - set up the scb predictors',
+    '\n#### RIVPACS data prep step 3 - set up the scb predictors',
     logfile = logfile,
     code = "
       row.names(scb.predictors) <- scb.taxa$StationID
@@ -169,7 +169,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
     dplyr::distinct()
   # Write to the logs for RIVPACS data prep step 4
   writelog(
-    '\nRIVPACS data prep step 4 - Filter to replicate one and get distinct values on StationID, Taxa, and Abundance',
+    '\n#### RIVPACS data prep step 4 - Filter to replicate one and get distinct values on StationID, Taxa, and Abundance',
     logfile = logfile,
     code = "
       scb.taxa <- benthic.rivpacs.input %>%
@@ -190,7 +190,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for RIVPACS data prep step 5
   writelog(
-    '\nRIVPACS Data prep step 5 - remove certain special characters from taxa name',
+    '\n#### RIVPACS Data prep step 5 - remove certain special characters from taxa name',
     logfile = logfile,
     code = "
       scb.taxa$Taxa <- gsub(' ', '_', scb.taxa$Taxa, fixed = TRUE)
@@ -211,7 +211,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for RIVPACS data prep step 6
   writelog(
-    '\nRIVPACS Data prep step 6 - pivot the data out wide and make it a data.frame',
+    '\n#### RIVPACS Data prep step 6 - pivot the data out wide and make it a data.frame',
     logfile = logfile,
     code = "
       scb.taxa <- scb.taxa %>%
@@ -234,7 +234,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   scb.taxa <- scb.taxa[, -1]
   # Write to the logs for RIVPACS data prep step 7
   writelog(
-    '\nRIVPACS Data prep step 7',
+    '\n#### RIVPACS Data prep step 7',
     logfile = logfile,
     code = "
       scb.taxa <- scb.taxa[, -1]
@@ -253,7 +253,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   colnames(scb.taxa) <- gsub("Abundance.", "", colnames(scb.taxa))
   # Write to the logs for RIVPACS data prep step 8
   writelog(
-    '\nRIVPACS data prep step 8 - remove Abundance. from column names',
+    '\n#### RIVPACS data prep step 8 - remove Abundance. from column names',
     logfile = logfile,
     code = "
       colnames(scb.taxa) <- gsub('Abundance.', '', colnames(scb.taxa))
@@ -276,7 +276,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   row.names(scb.taxa) <- row.names(scb.predictors)
   # Write to the logs for RIVPACS data prep step 9
   writelog(
-    '\nRIVPACS data prep step 9 - Replace NAs with zero.',
+    '\n#### RIVPACS data prep step 9 - Replace NAs with zero.',
     logfile = logfile,
     code = "
       scb.taxa[scb.taxa == 'NULL'] <- 0
@@ -298,7 +298,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa, logfile = logfile, verbose = verbose)
   # Write to the logs for RIVPACS calculations
   writelog(
-    '\nRIVPACS calculations. By default the functions use the example user data.',
+    '\n#### RIVPACS calculations. By default the functions use the example user data.',
     logfile = logfile,
     code = "
       socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa)
@@ -314,7 +314,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for converting stations column to character in oe table dataframe
   writelog(
-    '\nThe stations column of the oe table dataframe was being returned as a factor. Need to make that a character',
+    '\n#### The stations column of the oe table dataframe was being returned as a factor. Need to make that a character',
     logfile = logfile,
     code = "
       socal$oe.table <- socal$oe.table %>%
@@ -334,7 +334,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for getting distinct values in benthic data based on StationID, Replicate, SampleDate, Stratum
   writelog(
-    '\nGet the distinct values in benthic data based on StationID, Replicate, SampleDate, Stratum',
+    '\n#### Get the distinct values in benthic data based on StationID, Replicate, SampleDate, Stratum',
     logfile = logfile,
     code = "
       benthic.rivpacs.input <- benthic.rivpacs.input %>%
@@ -357,7 +357,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
     dplyr::select(stations, O.over.E)
   # Write to the logs for RIVPACS Scores calculation step 0
   writelog(
-    '\nCalculate RIVPACS Scores\nRiv step 0 - select stations and Observed/Expected',
+    '\n#### Calculate RIVPACS Scores\nRiv step 0 - select stations and Observed/Expected',
     logfile = logfile,
     code = "
     riv0 <- socal$oe.table %>%
@@ -379,7 +379,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Write to the logs for RIVPACS Scores calculation step 1
   writelog(
-    '\nRiv step 1 - join with benthic data',
+    '\n#### Riv step 1 - join with benthic data',
     logfile = logfile,
     code = "
       riv1 <- riv0 %>%
@@ -410,7 +410,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
     dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
   # Write to the logs for getting scores based on thresholds
   writelog(
-    '\nGet the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf',
+    '\n#### Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf',
     logfile = logfile,
     code = "
       rivpacs.score <- riv1 %>%
@@ -435,7 +435,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
 
 
-  writelog('\n## END: RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### END: RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
 
   return(rivpacs.score)
@@ -458,7 +458,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          verbose = F
                          ) {
 
-  writelog('\n### BEGIN: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n##### **BEGIN**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
   # set up the hyphen log prefix - which hasnt yet worked as i want it to
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
@@ -473,7 +473,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   # Create code block and download link to reference.groups
   writelog(
-    'SoCal RIVPACS Reference Groups',
+    '\n##### SoCal RIVPACS Reference Groups',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.groups' into your environment"),
     verbose = verbose
@@ -487,7 +487,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Create code block and download link to observed.predictors
   writelog(
-    'SoCal RIVPACS Observed Predictors',
+    '\n##### SoCal RIVPACS Observed Predictors',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'observed.predictors' into your environment"),
     verbose = verbose
@@ -501,7 +501,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Create code block and download link to reference.taxa
   writelog(
-    'SoCal RIVPACS Reference Taxa',
+    '\n##### SoCal RIVPACS Reference Taxa',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.taxa' into your environment"),
     verbose = verbose
@@ -514,7 +514,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Create code block and download link to group.means
   writelog(
-    'SoCal RIVPACS Group Means',
+    '\n##### SoCal RIVPACS Group Means',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'group.means' into your environment"),
     verbose = verbose
@@ -527,7 +527,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Create code block and download link to reference.cov
   writelog(
-    'SoCal RIVPACS Reference Covariance',
+    '\n##### SoCal RIVPACS Reference Covariance',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.cov' into your environment"),
     verbose = verbose
@@ -541,7 +541,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Create code block and download link to observed.taxa
   writelog(
-    'SoCal RIVPACS Observed Taxa',
+    '\n##### SoCal RIVPACS Observed Taxa',
     logfile = logfile,
     code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'observed.taxa' into your environment"),
     verbose = verbose
@@ -556,7 +556,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   predictor.variables <- c("Latitude", "Longitude", "SampleDepth")
   # Write to the logs for names of predictor variables
   writelog(
-    '\nNames of predictor variables.',
+    '\n##### Names of predictor variables.',
     logfile = logfile,
     code = "
       predictor.variables <- c('Latitude', 'Longitude', 'SampleDepth')
@@ -585,7 +585,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     tmp.pa[tmp.pa > 0] <- 1
     # Write to the logs for converting observed.taxa to presence/absence (0/1)
     writelog(
-      '\nConvert observed.taxa to presence/absence (0/1)',
+      '\n##### Convert observed.taxa to presence/absence (0/1)',
       logfile = logfile,
       code = "
         tmp.pa <- observed.taxa
@@ -601,7 +601,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     tmp.pa <- tmp.pa[row.names(observed.predictors), ]    # !!! is this required???
     # Write to the logs for aligning rows using predictor variables
     writelog(
-      '\nAlign rows using predictor variables.',
+      '\n##### Align rows using predictor variables.',
       logfile = logfile,
       code = "
         tmp.pa <- tmp.pa[row.names(observed.predictors), ]
@@ -616,7 +616,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     n.observed.sites <- dim(tmp.pa)[1]
     # Write to the logs for container matrix
     writelog(
-      '\nContainer matrix.',
+      '\n##### Container matrix.',
       logfile = logfile,
       code = "
         n.observed.sites <- dim(tmp.pa)[1]
@@ -630,7 +630,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     n.reference.taxa <- dim(reference.taxa)[2]
     # Write to the logs for getting number of reference taxa
     writelog(
-      '\nGet number of reference taxa',
+      '\n##### Get number of reference taxa',
       logfile = logfile,
       code = "
         n.reference.taxa <- dim(reference.taxa)[2]
@@ -646,7 +646,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                                dimnames = list(rownames(tmp.pa), names(reference.taxa)))
     # Write to the logs for Observed Taxa presence absence matrix
     writelog(
-      '\nObserved Taxa presence absence matrix',
+      '\n##### Observed Taxa presence absence matrix',
       logfile = logfile,
       code = "
         observed.taxa.pa <- matrix(rep(0, times = n.observed.sites * n.reference.taxa),
@@ -688,7 +688,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Write to the logs for defining the FormatObservedData function
   writelog(
-    '\nDefine function - Format Observed Data',
+    '\n##### Define function - Format Observed Data',
     logfile = logfile,
     code = "
       FormatObservedData <- function() {
@@ -737,7 +737,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   observed.data <- FormatObservedData(logfile = logfile, verbose = verbose)
   # Write to the logs for calling FormatObservedData function
   writelog(
-    '\nCall FormatObservedData function',
+    '\n##### Call FormatObservedData function',
     logfile = logfile,
     code = "
       observed.data <- FormatObservedData()
@@ -756,10 +756,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     verbose = F
   ) {
 
-    # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
-
-
+    writelog('\n##### **BEGIN: Calculate Expected Data function.**\n', logfile = logfile, verbose = verbose)
 
     # Calculate probability of sites belonging to groups. Follow RIVPACS assumption
     # of weighting the group probabilities by reference group size. Flags outlier
@@ -773,7 +770,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
     # Write to the logs for Calculate Expected Data Function - Definitions
     writelog(
-      '\nIn Calculate Expected Data Function - Definitions',
+      '\n##### In Calculate Expected Data Function - Definitions',
       logfile = logfile,
       code = "
         n.predictor.variables <- length(predictor.variables)
@@ -798,7 +795,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
     # Write to the logs for Chi-squared values for flagging outlier samples
     writelog(
-      '\nDegrees of Freedom and Chi-squared values for flagging outlier samples.',
+      '\n##### Degrees of Freedom and Chi-squared values for flagging outlier samples.',
       logfile = logfile,
       code = "
         degrees.freedom <- min(c(n.predictor.variables, (n.groups - 1)))
@@ -820,7 +817,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     n.observed.sites.filtered <- dim(observed.predictors)[[1]]
     # Write to the logs for container for probabilities
     writelog(
-      '\nContainer for probabilities.',
+      '\n##### Container for probabilities.',
       logfile = logfile,
       code = "
         n.observed.sites.filtered <- dim(observed.predictors)[[1]]
@@ -838,7 +835,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                                                   dimnames(group.means)[[1]]))
     # Write to the logs for Group Probabilities
     writelog(
-      '\nGroup Probabilities',
+      '\n##### Group Probabilities',
       logfile = logfile,
       code = "
         group.probabilities <- matrix(rep(0, n.observed.sites.filtered * n.groups),
@@ -862,7 +859,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                                row.names = dimnames(observed.predictors)[[1]])
     # Write to the logs for container for outlier flags and minimum distance
     writelog(
-      '\nContainer for outlier flags and minimum distance.',
+      '\n##### Container for outlier flags and minimum distance.',
       logfile = logfile,
       code = "
         outlier.flag <- data.frame(outlier.05 = rep(0, n.observed.sites.filtered),
@@ -900,7 +897,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     }
     # Write to the logs for calculating group membership probabilities and finding outliers
     writelog(
-      '\nCalculate group membership probabilities for each sample and find outliers.',
+      '\n##### Calculate group membership probabilities for each sample and find outliers.',
       logfile = logfile,
       code = "
         for(i in 1:n.observed.sites.filtered) {
@@ -936,7 +933,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                            function(x){tapply(x, reference.groups, function(y){sum(y) / length(y)})})
     # Write to the logs for occurrence frequencies of all taxa in the reference groups
     writelog(
-      '\nOccurrence frequencies of all taxa in the reference groups.',
+      '\n##### Occurrence frequencies of all taxa in the reference groups.',
       logfile = logfile,
       code = "
         freq.in.group <- apply(reference.taxa, 2,
@@ -952,7 +949,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     predicted.prob.all <- group.probabilities %*% freq.in.group
     # Write to the logs for Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4)
     writelog(
-      '\nMatrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).',
+      '\n##### Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).',
       logfile = logfile,
       code = "
         predicted.prob.all <- group.probabilities %*% freq.in.group
@@ -967,7 +964,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     expected.data <- list(predicted = predicted.prob.all, outliers = outlier.flag, n = n.observed.sites.filtered)
     # Write to the logs for predicted probabilities
     writelog(
-      '\npredicted.prob.all are the predicted (expected) probabilities.',
+      '\n##### predicted.prob.all are the predicted (expected) probabilities.',
       logfile = logfile,
       code = "
         expected.data <- list(predicted = predicted.prob.all, outliers = outlier.flag, n = n.observed.sites.filtered)
@@ -979,14 +976,14 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     #create_download_link(data = data.frame(n.observed.sites.filtered), logfile = logfile, filename = 'expected-n-sites.csv', linktext = 'Download number of observed sites', verbose = verbose)
 
 
-    writelog('\nEND: Calculate Expected Data function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **END: Calculate Expected Data function.**\n', logfile = logfile, verbose = verbose)
 
     return(expected.data)
 
   }
   # Write to the logs for defining CalculateExpectedData function
   writelog(
-    '\nDefine CalculateExpectedData function',
+    '\n#### Define CalculateExpectedData function',
     logfile = logfile,
     code = "
       CalculateExpectedData <- function() {
@@ -1066,7 +1063,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   expected.data <- CalculateExpectedData(logfile = logfile, verbose = verbose)
   # Write to the logs for calling CalculateExpectedData function
   writelog(
-    '\nCall CalculateExpectedData function',
+    '\n#### Call CalculateExpectedData function',
     logfile = logfile,
     code = "
       expected.data <- CalculateExpectedData()
@@ -1089,7 +1086,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
     hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-    writelog('\nBEGIN: Calculate Scores function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **BEGIN: Calculate Scores function.**\n', logfile = logfile, verbose = verbose)
 
     # Bray-Curtis dissimilarity
     observed.score <- vector(mode = "numeric", length = expected.data$n)
@@ -1097,7 +1094,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     BC <- vector(mode = "numeric", length = expected.data$n) # Bray-Curtis dissimilarity
     # Write to the logs for Bray-Curtis dissimilarity
     writelog(
-      '\nBray-Curtis dissimilarity',
+      '\n##### Bray-Curtis dissimilarity',
       logfile = logfile,
       code = "
         observed.score <- vector(mode = 'numeric', length = expected.data$n)
@@ -1179,7 +1176,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     stats$outlier.01 <- expected.data$outliers$outlier.01
     # Write to the logs for creating outlier columns on the stats dataframe
     writelog(
-      '\nCreate outlier columns on the stats dataframe',
+      '\n##### Create outlier columns on the stats dataframe',
       logfile = logfile,
       code = "
         stats$outlier.05 <- expected.data$outliers$outlier.05
@@ -1198,7 +1195,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     stats$outlier.01[stats$outlier.01 == 1] <- "FAIL"
     # Write to the logs for converting outlier columns to "PASS" or "FAIL"
     writelog(
-      '\nConvert outlier columns to "PASS" or "FAIL"',
+      '\n##### Convert outlier columns to "PASS" or "FAIL"',
       logfile = logfile,
       code = "
         stats$outlier.05[stats$outlier.05 == 0] <- 'PASS'
@@ -1219,7 +1216,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   }
   # Write to the logs for defining CalculateScores function
   writelog(
-    '\nDefine CalculateScores function',
+    '\n##### Define CalculateScores function',
     logfile = logfile,
     code = "
       CalculateScores <- function() {
@@ -1302,7 +1299,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                   region = "scb")
   # Write to the logs for final results
   writelog(
-    '\nFinal Results',
+    '\n##### Final Results',
     logfile = logfile,
     code = "
       results <- list(
@@ -1322,7 +1319,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   create_download_link(data = data.frame(results$region), logfile = logfile, filename = 'final-results-region.csv', linktext = 'Download final results region', verbose = verbose)
 
 
-  writelog('\n### END: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n#### **END**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
   return(results)
 

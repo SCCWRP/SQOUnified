@@ -170,7 +170,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Create code block and download link to RBI input
   writelog(
-    "\nInput to RBI function - RBI-step0.csv",
+    "\n#### Input to RBI function - RBI-step0.csv",
     logfile = logfile,
     data = BenthicData %>% head(25),
     verbose = verbose
@@ -212,7 +212,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(NumOfTaxa = sum(n))
 
   writelog(
-    "\nA temp dataframe that is used later in the function",
+    "\n##### A temp dataframe that is used later in the function",
     logfile = logfile,
     code = '
       # to be used later
@@ -233,7 +233,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(NumOfMolluscTaxa = sum(n))
 
   writelog(
-    "\nRBI Step 2 - Filter to molluscs and group by Stratum, StationID, Sampledate Replicate - group and get the number of mollusc taxa",
+    "\n#### RBI Step 2 - Filter to molluscs and group by Stratum, StationID, Sampledate Replicate - group and get the number of mollusc taxa",
     logfile = logfile,
     code = '
       rbi2 <- rbi_data %>%
@@ -256,7 +256,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(NumOfCrustaceanTaxa = sum(n))
 
   writelog(
-    "\nFilter to Crustaceans and group by Stratum, StationID, Sampledate, Replicate - group and get the number of crustacean taxa",
+    "\n#### RBI Step 3 - Filter to Crustaceans and group by Stratum, StationID, Sampledate, Replicate - group and get the number of crustacean taxa",
     logfile = logfile,
     code = '
       rbi3 <- rbi_data %>%
@@ -278,7 +278,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(CrustaceanAbun = sum(Abundance))
 
   writelog(
-    "\nFilter to Crustaceans and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of crustacean taxa",
+    "\n#### RBI Step 4 - Filter to Crustaceans and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of crustacean taxa",
     logfile = logfile,
     code = '
       rbi4 <- rbi_data %>%
@@ -300,7 +300,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(M_insidiosumAbun = sum(Abundance))
 
   writelog(
-    "\nFilter to Monocorophium insidiosum and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Monocorophium insidiosum",
+    "\n#### RBI Step 5 - Filter to Monocorophium insidiosum and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Monocorophium insidiosum",
     logfile = logfile,
     code = '
       rbi5 <- rbi_data %>%
@@ -321,7 +321,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(A_diegensisAbun = sum(Abundance))
 
   writelog(
-    "\nFilter to Asthenothaerus diegensis and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Asthenothaerus diegensis",
+    "\n#### RBI Step 6 - Filter to Asthenothaerus diegensis and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Asthenothaerus diegensis",
     logfile = logfile,
     code = '
       rbi6 <- rbi_data %>%
@@ -343,7 +343,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(G_littoreaAbun = sum(Abundance))
 
   writelog(
-    "\nFilter to Goniada littorea and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Goniada littorea",
+    "\n#### RBI Step 7 - Filter to Goniada littorea and group by Stratum, StationID, Sampledate, Replicate - group and get the abundance of Goniada littorea",
     logfile = logfile,
     code = '
       rbi7 <- rbi_data %>%
@@ -366,7 +366,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(NIT = sum(badness))
 
   writelog(
-    "\nFilter to Capitella capitata Cmplx and Oligochaeta and group by Stratum, StationID, Sampledate, Replicate - group and get the sum of 'badness'",
+    "\n#### RBI Step 8 - Filter to Capitella capitata Cmplx and Oligochaeta and group by Stratum, StationID, Sampledate, Replicate - group and get the sum of 'badness'",
     logfile = logfile,
     code = '
       rbi8 <- rbi_data %>%
@@ -397,7 +397,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::select(Stratum, StationID, SampleDate, Replicate, NumOfTaxa, NumOfMolluscTaxa, NumOfCrustaceanTaxa, CrustaceanAbun, M_insidiosumAbun, A_diegensisAbun, G_littoreaAbun, NIT)
 
   writelog(
-    "\nRBI Metrics - join the dataframes",
+    "\n#### RBI Metrics - join the dataframes",
     logfile = logfile,
     code = '
       ### RBI Metrics
@@ -427,7 +427,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
 
   writelog(
-    "\nRBI Category Threshold Table",
+    "\n##### RBI Category Threshold Table",
     logfile = logfile,
     code = '
       ### RBI Category Thresholds for Southern California Marine Bays
@@ -477,7 +477,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         )) %>%
         dplyr::mutate(Index = 'RBI')
     "
-  writelog("RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("##### RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog(rbi_code, logfile = logfile, verbose = verbose)
 
   # Compute the RBI scores.
@@ -524,7 +524,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::mutate(Index = 'RBI')
 
   writelog(
-    "\nRBI Scores Final",
+    "\n#### RBI Scores Final",
     logfile = logfile,
     code = "
       # Compute RBI Scores
@@ -567,7 +567,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   create_download_link(data = rbi_scores, logfile = logfile, filename = 'RBI-Scores-Final.csv', linktext = 'Download RBI Scores Final dataframe', verbose = verbose)
 
 
-  writelog('\nEND: RBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### END: RBI function.\n', logfile = logfile, verbose = verbose)
 
   return(rbi_scores)
 
