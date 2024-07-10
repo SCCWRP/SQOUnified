@@ -124,7 +124,7 @@ create_download_link <- function(data, logfile, filename, linktext = 'Download t
   if(verbose){
     csvfile <- file.path(dirname(logfile), paste0(filename))
     write.csv(data, csvfile, row.names = include.row.names)
-    write(paste0("[", linktext , "](./", basename(csvfile), ")\n\n"), file = logfile, append = TRUE)
+    write(paste0("\n[", linktext , "](./", basename(csvfile), ")\n    \n<br>"), file = logfile, append = TRUE)
   }
 }
 
