@@ -85,6 +85,14 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   if (verbose) {
     save(BenthicData, file = file.path( dirname(logfile), rawinput.filename ))
   }
+
+  # Display raw input data, create a download link for the knitted final RMarkdown output
+  writelog(
+    "\nYou may find the instructions for calculation of IBI (for Southern California Marine Bays) on page 68 of the June 2021 edition of the CASQO Technical Manual\n\n",
+    logfile = logfile,
+    verbose = verbose
+  )
+
   # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
     "\n#### Raw input to IBI:",

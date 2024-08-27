@@ -76,9 +76,17 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     save(BenthicData, file = file.path( dirname(logfile), rawinput.filename ))
   }
 
+  # Point them to the manual
+  writelog(
+    '\nYou may find the instructions for BRI calculation (for Southern California Marine Bays) on page 71 of the June 2021 Edition of the CASQO Technical Manual',
+    logfile = logfile,
+    verbose = verbose
+  )
+
+
   # Create code block and download link to BRI input
   writelog(
-    '#### Input to BRI - BRI-step0.csv',
+    '#### Input to BRI - BRI-step0.csv\n  ',
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'BenthicData' into your environment"),
     data = BenthicData %>% head(25),
@@ -89,7 +97,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # SQO List New (Gets joined to the initial input for BRI)
   writelog(
-    '#### SQO List New (Gets joined to the initial input for BRI)',
+    '\n#### SQO List New (Gets joined to the initial input for BRI)',
     logfile = logfile,
     data = sqo.list.new %>% head(25),
     verbose = verbose
@@ -154,7 +162,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 3
   writelog(
-    '\n#### BRI Step 3 - Take the fourth root of the abundance',
+    '\n#### BRI Step 3 - Take the fourth root of the abundance\n  ',
     logfile = logfile,
     code = "
       bri3 <- bri2 %>%
@@ -171,11 +179,11 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
   writelog('\nNext get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('\nThen Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- < 39.96 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=39.96 and <49.15 is Low', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=49.15 and <73.27 is Reference', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=73.27 is High', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\nThen Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('---- < 39.96 is Reference\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('---- >=39.96 and <49.15 is Low\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('---- >=49.15 and <73.27 is Reference\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('---- >=73.27 is High\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
 
 
@@ -223,7 +231,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 5
   writelog(
-    '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
+    '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds <strong>for Southern California Marine Bays</strong> - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
     logfile = logfile,
     code = "
       bri5 <- bri4 %>%

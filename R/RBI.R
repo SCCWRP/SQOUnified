@@ -148,6 +148,13 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   writelog('\n## BEGIN: RBI function.\n', logfile = logfile, verbose = verbose)
 
+  # Display raw input data, create a download link for the knitted final RMarkdown output
+  writelog(
+    "\nYou may find the instructions for calculation of RBI (for Southern California Marine Bays) on page 69 of the June 2021 edition of the CASQO Technical Manual\n\n",
+    logfile = logfile,
+    verbose = verbose
+  )
+
 
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
   rawinput.filename <- 'benthic.rbi.input.RData'
@@ -427,7 +434,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
 
   writelog(
-    "\n##### RBI Category Threshold Table",
+    "\n##### RBI Category Threshold Table [CASQO Technical Manual June 2021 edition page 71]",
     logfile = logfile,
     code = '
       ### RBI Category Thresholds for Southern California Marine Bays
@@ -460,12 +467,12 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
         dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
-        # RBI Categories based on RBI scores
+        # RBI Categories based on RBI scores (Technical manual page 71)
         dplyr::mutate(Category = case_when(
             (Score > 0.27) ~ 'Reference',
             (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
-            (Score > 0.08 & Score <= 0.16) ~ 'Moderate Disturbance',
-            (Score <= 0.08) ~ 'High Disturbance'
+            (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
+            (Score < 0.09) ~ 'High Disturbance'
         )) %>%
 
         # RBI Category Scores based on RBI scores
@@ -477,7 +484,8 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         )) %>%
         dplyr::mutate(Index = 'RBI')
     "
-  writelog("##### RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("##### RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe\n  ", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog("##### You will find the steps taken here in page 70 of the Technical Manual (June 2021 edition)\n  ", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   writelog(rbi_code, logfile = logfile, verbose = verbose)
 
   # Compute the RBI scores.
@@ -506,12 +514,12 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
     dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
-    # RBI Categories based on RBI scores
+    # RBI Categories based on RBI scores (Technical manual page 71)
     dplyr::mutate(Category = case_when(
       (Score > 0.27) ~ 'Reference',
       (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
-      (Score > 0.08 & Score <= 0.16) ~ 'Moderate Disturbance',
-      (Score <= 0.08) ~ 'High Disturbance'
+      (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
+      (Score < 0.09) ~ 'High Disturbance'
     )) %>%
 
     # RBI Category Scores based on RBI scores
@@ -544,12 +552,12 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
         dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
-        # RBI Categories based on RBI scores
+        # RBI Categories based on RBI scores (Technical manual page 71)
         dplyr::mutate(Category = case_when(
           (Score > 0.27) ~ 'Reference',
           (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
-          (Score > 0.08 & Score <= 0.16) ~ 'Moderate Disturbance',
-          (Score <= 0.08) ~ 'High Disturbance'
+          (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
+          (Score < 0.09) ~ 'High Disturbance'
         )) %>%
 
         # RBI Category Scores based on RBI scores

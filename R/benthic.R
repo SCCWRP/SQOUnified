@@ -111,6 +111,20 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
   writelog('\n***Details on M-AMBI will be excluded from the audit logs for now (written June 27, 2024)***', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
 
+  writelog('\n## Calling IBI within Benthic SQO function', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  ibi.scores <- IBI(benthic_data, logfile = logfile, verbose = verbose)
+  # Create code block and download link to IBI output
+  writelog(
+    "\n## IBI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    logfile = logfile,
+    code = "ibi.scores <- IBI(benthic_data, verbose = FALSE)",
+    data = ibi.scores,
+    verbose = verbose
+  )
+  create_download_link(data = ibi.scores, logfile = logfile, filename = 'IBI-output.csv', linktext = 'Download IBI function output', verbose = verbose)
+
+
+
 
   writelog('\n## Calling RBI within Benthic SQO function', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   rbi.scores <- RBI(benthic_data, logfile = logfile, verbose = verbose)
@@ -124,18 +138,6 @@ benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', forma
   )
   create_download_link(data = rbi.scores, logfile = logfile, filename = 'RBI-output.csv', linktext = 'Download RBI output', verbose = verbose)
 
-
-  writelog('\n## Calling IBI within Benthic SQO function', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  ibi.scores <- IBI(benthic_data, logfile = logfile, verbose = verbose)
-  # Create code block and download link to IBI output
-  writelog(
-    "\n## IBI function is finished executing - Here is its output along with a code block (for R Studio users):",
-    logfile = logfile,
-    code = "ibi.scores <- IBI(benthic_data, verbose = FALSE)",
-    data = ibi.scores,
-    verbose = verbose
-  )
-  create_download_link(data = ibi.scores, logfile = logfile, filename = 'IBI-output.csv', linktext = 'Download IBI function output', verbose = verbose)
 
 
   writelog('\n## Calling BRI within Benthic SQO function', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
