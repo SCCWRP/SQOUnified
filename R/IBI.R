@@ -356,7 +356,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for calculating scores and categorizing IBI
   writelog(
-    '\n#### Calculate Scores and Categorize for IBI',
+    '\n#### Calculate Scores and Categorize for IBI (Score starts at 0 and increases for every category outside its reference range) (Technical Manual page 68)\n  ',
     logfile = logfile,
     code = "
       ibi_final <- ibi_metrics2 %>%
@@ -365,14 +365,33 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         # The IBI score is set to zero before comparison the reference range.
         mutate(Score = 0) %>%
         # For each metric that is out of the reference range (above or below), the IBI score goes up by one.
-        mutate(Score = if_else((NumOfTaxa < ibi_ref_ranges_table['NumOfTaxa',]$ref_low  | NumOfTaxa > ibi_ref_ranges_table['NumOfTaxa',]$ref_high),
-                               Score + 1, Score)) %>%
-        mutate(Score = if_else((NumOfMolluscTaxa < ibi_ref_ranges_table['NumOfMolluscTaxa',]$ref_low  | NumOfMolluscTaxa > ibi_ref_ranges_table['NumOfMolluscTaxa',]$ref_high),
-                               Score + 1, Score)) %>%
-        mutate(Score = if_else((NotomastusAbun < ibi_ref_ranges_table['NotomastusAbun',]$ref_low  | NotomastusAbun > ibi_ref_ranges_table['NotomastusAbun',]$ref_high),
-                               Score + 1, Score)) %>%
-        mutate(Score = if_else((PctSensTaxa < ibi_ref_ranges_table['PctSensTaxa',]$ref_low  | PctSensTaxa > ibi_ref_ranges_table['PctSensTaxa',]$ref_high),
-                               Score + 1, Score)) %>%
+        mutate(
+          Score = if_else(
+            (NumOfTaxa < ibi_ref_ranges_table['NumOfTaxa',]$ref_low  | NumOfTaxa > ibi_ref_ranges_table['NumOfTaxa',]$ref_high),
+            Score + 1, Score
+          )
+        ) %>%
+        mutate(
+          Score = if_else(
+            (NumOfMolluscTaxa < ibi_ref_ranges_table['NumOfMolluscTaxa',]$ref_low  | NumOfMolluscTaxa > ibi_ref_ranges_table['NumOfMolluscTaxa',]$ref_high),
+            Score + 1,
+            Score
+          )
+        ) %>%
+        mutate(
+          Score = if_else(
+            (NotomastusAbun < ibi_ref_ranges_table['NotomastusAbun',]$ref_low  | NotomastusAbun > ibi_ref_ranges_table['NotomastusAbun',]$ref_high),
+            Score + 1,
+            Score
+          )
+        ) %>%
+        mutate(
+          Score = if_else(
+            (PctSensTaxa < ibi_ref_ranges_table['PctSensTaxa',]$ref_low  | PctSensTaxa > ibi_ref_ranges_table['PctSensTaxa',]$ref_high),
+            Score + 1,
+            Score
+          )
+        ) %>%
         # The IBI score is then compared to condition category response ranges (Table 5.5) to determine the IBI category and category score.
         mutate(Category = case_when(Score == 0 ~ 'Reference', Score == 1 ~ 'Low Disturbance', Score == 2 ~ 'Moderate Disturbance', (Score == 3 | Score == 4) ~ 'High Disturbance')) %>%
         mutate(`Category Score` = case_when(Score == 0 ~ 1, Score == 1 ~ 2, Score == 2 ~ 3, (Score == 3 | Score == 4) ~ 4)) %>%

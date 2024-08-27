@@ -50,7 +50,8 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
   hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\n### BEGIN: RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### BEGIN: RIVPACS function.\n  ', logfile = logfile, verbose = verbose)
+  writelog('\nInformation on RIVPACS is on page 72 of the CASQO Technical Manual (June 2021 edition)\n', logfile = logfile, verbose = verbose)
 
   # assign input data to a new variable name - avoids namespace conflicts in the RMarkdown log
   # the input data gets modified so we would rather modify this copy of the input dataframe

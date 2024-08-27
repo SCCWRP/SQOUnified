@@ -138,7 +138,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 2
   writelog(
-    '\n#### BRI Step 2 - Remove missing tolerance scores',
+    '\n#### BRI Step 2 - Remove missing tolerance scores to prepare for summation in later steps [As stated in 3rd paragraph of BRI section - Any taxa that lack P (Pollution Tolerance Score) values are not included in either sum.]\n  ',
     logfile = logfile,
     code = "
       bri2 <- bri1 %>%
@@ -162,7 +162,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 3
   writelog(
-    '\n#### BRI Step 3 - Take the fourth root of the abundance\n  ',
+    '\n#### BRI Step 3 - Take the 4th root of the abundance, as well as get the product of the ToleranceScore and the 4th root of the abundance\n  ',
     logfile = logfile,
     code = "
       bri3 <- bri2 %>%
@@ -231,7 +231,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Write to the logs for BRI Step 5
   writelog(
-    '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds <strong>for Southern California Marine Bays</strong> - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
+    '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
     logfile = logfile,
     code = "
       bri5 <- bri4 %>%
