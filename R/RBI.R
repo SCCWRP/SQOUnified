@@ -373,13 +373,15 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::summarise(NIT = sum(badness))
 
   writelog(
-    "\n#### RBI Step 8 - Filter to Capitella capitata Cmplx and Oligochaeta and group by Stratum, StationID, Sampledate, Replicate - group and get the sum of 'badness'",
+    "\n#### RBI Step 8 - Filter to Capitella capitata Cmplx and Oligochaeta and group by Stratum, StationID, Sampledate, Replicate - group and get the sum of 'badness' (This would be the negative indicator taxa section on page 70)\n  ",
     logfile = logfile,
     code = '
       rbi8 <- rbi_data %>%
         dplyr::filter(Taxon %in% c( "Capitella capitata Cmplx","Oligochaeta")) %>%
         dplyr::mutate(badness=-0.1) %>%
         dplyr::group_by(Stratum, StationID, Replicate, SampleDate) %>%
+
+        # NIT = Negative Indicator Taxa
         dplyr::summarise(NIT = sum(badness))
     ',
     data = rbi8 %>% head(25),
@@ -427,8 +429,8 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   ### RBI Category Thresholds for Southern California Marine Bays
   RBI_category_thresholds <- data.frame(
-    ref_low = c(0.27, 0.16, 0.08, 0.08),
-    ref_high = c(0.27, 0.27, 0.16, 0.08),
+    ref_low = c(0.27, 0.16, 0.08, 0.09),
+    ref_high = c(0.27, 0.27, 0.16, 0.09),
     category = as.factor(c("Reference","Low Disturbance","Moderate Disturbance","High Disturbance")),
     category_score = c(1, 2, 3, 4)
   )
@@ -439,8 +441,8 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     code = '
       ### RBI Category Thresholds for Southern California Marine Bays
       RBI_category_thresholds <- data.frame(
-        ref_low = c(0.27, 0.16, 0.08, 0.08),
-        ref_high = c(0.27, 0.27, 0.16, 0.08),
+        ref_low = c(0.27, 0.16, 0.08, 0.09),
+        ref_high = c(0.27, 0.27, 0.16, 0.09),
         category = as.factor(c("Reference","Low Disturbance","Moderate Disturbance","High Disturbance")),
         category_score = c(1, 2, 3, 4)
       )
