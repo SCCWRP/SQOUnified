@@ -400,10 +400,10 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
   rivpacs.score <- riv1 %>%
-    dplyr::mutate(Category = case_when((Score <= 0.32) ~ "High Disturbance",
-                                       ((Score > 0.32 & Score <= 0.74) | (Score >= 1.26)) ~ "Moderate Disturbance",
-                                       ((Score > 0.74 & Score <= 0.90) | Score >= 1.10 & Score < 1.26) ~ "Low Disturbance",
-                                       (Score > 0.90 | Score < 1.10) ~ "Reference")) %>%
+    dplyr::mutate(Category = case_when((Score < 0.33) ~ "High Disturbance",
+                                       ((Score >= 0.33 & Score < 0.75) | (Score > 1.25)) ~ "Moderate Disturbance",
+                                       ((Score >= 0.75 & Score <= 0.90) | Score >= 1.10 & Score <= 1.25) ~ "Low Disturbance",
+                                       (Score > 0.90 & Score < 1.10) ~ "Reference")) %>%
     dplyr::mutate(`Category Score` = case_when(Category == "Reference" ~ 1,
                                                Category == "Low Disturbance" ~ 2,
                                                Category == "Moderate Disturbance" ~ 3,
@@ -416,10 +416,10 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
     code = "
       rivpacs.score <- riv1 %>%
         dplyr::mutate(Category = case_when(
-          Score <= 0.32 ~ 'High Disturbance',
-          (Score > 0.32 & Score <= 0.74) | (Score >= 1.26) ~ 'Moderate Disturbance',
-          (Score > 0.74 & Score <= 0.90) | (Score >= 1.10 & Score < 1.26) ~ 'Low Disturbance',
-          Score > 0.90 & Score < 1.10 ~ 'Reference'
+          Score < 0.33 ~ 'High Disturbance',
+          (Score >= 0.33 & Score < 0.75) | (Score > 1.25) ~ 'Moderate Disturbance',
+          (Score >= 0.75 & Score <= 0.90) | (Score >= 1.10 & Score <= 1.25) ~ 'Low Disturbance',
+          (Score > 0.90 & Score < 1.10) ~ 'Reference'
         )) %>%
         dplyr::mutate(`Category Score` = case_when(
           Category == 'Reference' ~ 1,
