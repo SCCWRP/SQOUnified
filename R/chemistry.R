@@ -100,7 +100,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   # ---- CA LRM Step 0 - Take Log10 of the results ----
 
   # Write to log file
-  writelog("\n### Step 0: Take the Log10 of the chemistry concentration.", logfile = logfile, verbose = verbose)
+  writelog("\n### Step 0: Take the Log10 of the chemistry concentration. (Refer to page 38)\n  ", logfile = logfile, verbose = verbose)
 
   # Actually execute the code
   chemdata.log10 <- chemdata.lrm.input %>%
@@ -590,7 +590,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   # ---- Step 0.5: Round the result value according to the convention given by Darrin. ----
 
   # Write to the log file
-  writelog("\n#### Round the result value according to the convention.", logfile = logfile, verbose = verbose)
+  writelog("\n#### Round the result value according to the convention. (Used in the SQO excel tool)", logfile = logfile, verbose = verbose)
   writelog("\nIf the result value is 0.005 or less, we round to 4 decimal places.  \n", logfile = logfile, verbose = verbose)
   writelog("\nIf the result value is under 10, we round to 2 decimal places.  \n", logfile = logfile, verbose = verbose)
   writelog("\nIf the result value is under 100, we round to 1 decimal place.  \n", logfile = logfile, verbose = verbose)
@@ -2019,7 +2019,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
   # ---- Step 11: Multiply PCB Values by 1.72 ----
-  writelog("\n#### Step 11: Multiply PCB Values by 1.72", logfile = logfile, verbose = verbose)
+  writelog("\n#### Step 11: Multiply PCB Values by 1.72 [CASQO manual page 36 (3rd edition June 2021), below table 3.4 - PCB result value gets multiplied by 1.72]", logfile = logfile, verbose = verbose)
 
   # Actually execute the code
   chemdata.step11 <- chemdata.step10 %>%

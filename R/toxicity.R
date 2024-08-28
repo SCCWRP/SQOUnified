@@ -296,7 +296,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
   create_download_link(data = summary, logfile = logfile, filename = 'tox.summary-stats.csv', linktext = 'Download Tox Summary (statistics)', verbose = verbose)
 
   # Write tox categories to the logs
-  writelog("#### These are the tox category thresholds that we use for binning into Tox SQO Categories (CASQO Manual June 2021 ed. pages 106-108):", data = tox_categories, logfile = logfile, verbose = verbose)
+  writelog("\n#### These are the tox category thresholds that we use for binning into Tox SQO Categories (CASQO Manual June 2021 ed. pages 106-108):", data = tox_categories, logfile = logfile, verbose = verbose)
 
   # join with tox categories
   summary <- summary %>%
@@ -356,7 +356,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
     code = "
       summary <- summary %>%
         mutate(
-          # CASQO Technical Manual page 45 - 47
+          # CASQO Technical Manual page 106-108 (June 2021 Edition)
           sqo_category_value_initial = case_when(
             # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
             (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
@@ -739,7 +739,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
           has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
           offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
           Score = case_when(
-            # offhsore sites only require the Amphipod test - per Ken Schiff August 1, 2022
+            # Offhsore sites only require the Amphipod test
             offshore ~ ceiling(mean(Score, na.rm = T)),
             has.all.tests ~ ceiling(mean(Score, na.rm = F)),
             TRUE ~ NA_real_
