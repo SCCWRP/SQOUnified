@@ -470,12 +470,19 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
         # RBI Categories based on RBI scores (Technical manual page 71)
-        dplyr::mutate(Category = case_when(
-            (Score > 0.27) ~ 'Reference',
-            (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
-            (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
-            (Score < 0.09) ~ 'High Disturbance'
-        )) %>%
+        # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+        # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+        # It treats '>= 0.17' the same as '<= 0.16' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
+        dplyr::mutate(
+            Score = arithmetic.round(Score, 2),
+            Category = case_when(
+                (Score > 0.27) ~ 'Reference',
+                (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',
+                (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
+                (Score < 0.09) ~ 'High Disturbance',
+                TRUE ~ NA_charater
+            )
+        ) %>%
 
         # RBI Category Scores based on RBI scores
         dplyr::mutate(`Category Score` = case_when(
@@ -517,12 +524,19 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
     # RBI Categories based on RBI scores (Technical manual page 71)
-    dplyr::mutate(Category = case_when(
-      (Score > 0.27) ~ 'Reference',
-      (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',
-      (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
-      (Score < 0.09) ~ 'High Disturbance'
-    )) %>%
+    # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+    # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+    # It treats '>= 0.17' the same as '<= 0.16' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
+    dplyr::mutate(
+        Score = arithmetic.round(Score, 2),
+        Category = case_when(
+            (Score > 0.27) ~ 'Reference',
+            (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',
+            (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
+            (Score < 0.09) ~ 'High Disturbance',
+            TRUE ~ NA_charater
+        )
+    ) %>%
 
     # RBI Category Scores based on RBI scores
     dplyr::mutate(`Category Score` = case_when(
@@ -555,6 +569,9 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
         dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
 
         # RBI Categories based on RBI scores (Technical manual page 71)
+        # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+        # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+        # It treats '>= 0.17' the same as '<= 0.16' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
         dplyr::mutate(Category = case_when(
           (Score > 0.27) ~ 'Reference',
           (Score > 0.16 & Score <= 0.27) ~ 'Low Disturbance',

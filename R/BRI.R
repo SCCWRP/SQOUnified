@@ -195,7 +195,8 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
       Stratum, StationID, SampleDate, Replicate
     ) %>%
     summarize(
-      Score = sum(tolerance_score, na.rm = T) / sum(fourthroot_abun, na.rm = T)
+      # Round score to 2 decimal places for the comparison with the threshold values
+      Score = sum(tolerance_score, na.rm = TRUE) / sum(fourthroot_abun, na.rm = TRUE)
     )
 
   # Write to the logs for BRI Step 4
@@ -208,6 +209,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
           Stratum, StationID, SampleDate, Replicate
         ) %>%
         summarize(
+          # Round score to 2 decimal places for the comparison with the threshold values
           Score = sum(tolerance_score, na.rm = TRUE) / sum(fourthroot_abun, na.rm = TRUE)
         )
     ",
@@ -221,12 +223,16 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # BRI Step 5
   # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]
+  # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+  # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+  # It treats "< 46.15" the same as "<= 46.14" which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
   bri5 <- bri4 %>%
     mutate(
+      Score = arithmetic.round(Score, 2),
       Category = case_when( (Score < 39.96) ~ "Reference",
                             (Score >= 39.96 & Score < 49.15) ~ "Low Disturbance",
-                            (Score >= 49.15 & Score < 73.27) ~ "Moderate Disturbance",
-                            (Score >= 73.27) ~ "High Disturbance"
+                            (Score >= 49.15 & Score <= 73.26) ~ "Moderate Disturbance",
+                            (Score > 73.26) ~ "High Disturbance"
       ))
 
   # Write to the logs for BRI Step 5
@@ -234,13 +240,17 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     '\n#### BRI Step 5 - Output the BRI category given the BRI score and the thresholds - [CASQO Technical Manual 3rd Edition Page 72 - Table 4.24]',
     logfile = logfile,
     code = "
+      # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+      # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+      # It treats '< 46.15' the same as '<= 46.14' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
       bri5 <- bri4 %>%
         mutate(
+          Score = arithmetic.round(Score, 2),
           Category = case_when(
             Score < 39.96 ~ 'Reference',
             Score >= 39.96 & Score < 49.15 ~ 'Low Disturbance',
-            Score >= 49.15 & Score < 73.27 ~ 'Moderate Disturbance',
-            Score >= 73.27 ~ 'High Disturbance'
+            Score >= 49.15 & Score <= 73.26 ~ 'Moderate Disturbance',
+            Score > 73.26 ~ 'High Disturbance'
           )
         )
     ",
@@ -404,7 +414,7 @@ BRI.GenericOffshore.NH <- function(BenthicData) #BenthicData will need to be the
   #   group_by(stationid, sampledate, replicate, tot_abun, S,tol.flag) %>%
   #   summarise(tol.abun=sum(abundance), tol.s=length(taxon)) %>% #calculating percent of abundance or richness with a tolerance value per sample
   #   ungroup() %>%
-  #   mutate(pct_abun=round((tol.abun/tot_abun)*100, digits = 1), pct_taxa=round((tol.s/S)*100, digits=1)) %>%
+  #   mutate(pct_abun=arithmetic.round((tol.abun/tot_abun)*100, digits = 1), pct_taxa=arithmetic.round((tol.s/S)*100, digits=1)) %>%
   #   pivot_wider(id_cols =c(stationid, sampledate, replicate), names_from = tol.flag, values_from = c(pct_abun, pct_taxa) )#manipulating the shape of the data
 
 

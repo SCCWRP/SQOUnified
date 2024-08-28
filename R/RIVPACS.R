@@ -400,33 +400,52 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
   rivpacs.score <- riv1 %>%
-    dplyr::mutate(Category = case_when((Score < 0.33) ~ "High Disturbance",
-                                       ((Score >= 0.33 & Score < 0.75) | (Score > 1.25)) ~ "Moderate Disturbance",
-                                       ((Score >= 0.75 & Score <= 0.90) | Score >= 1.10 & Score <= 1.25) ~ "Low Disturbance",
-                                       (Score > 0.90 & Score < 1.10) ~ "Reference")) %>%
-    dplyr::mutate(`Category Score` = case_when(Category == "Reference" ~ 1,
-                                               Category == "Low Disturbance" ~ 2,
-                                               Category == "Moderate Disturbance" ~ 3,
-                                               Category == "High Disturbance" ~ 4)) %>%
+    dplyr::mutate(
+        Score = arithmetic.round(Score, 2),
+        Category = case_when(
+            (Score < 0.33) ~ "High Disturbance",
+            ((Score >= 0.33 & Score < 0.75) | (Score > 1.25)) ~ "Moderate Disturbance",
+            ((Score >= 0.75 & Score <= 0.90) | Score >= 1.10 & Score <= 1.25) ~ "Low Disturbance",
+            (Score > 0.90 & Score < 1.10) ~ "Reference"
+        )
+    ) %>%
+    dplyr::mutate(
+        `Category Score` = case_when(
+            Category == "Reference" ~ 1,
+            Category == "Low Disturbance" ~ 2,
+            Category == "Moderate Disturbance" ~ 3,
+            Category == "High Disturbance" ~ 4
+        )
+    ) %>%
     dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
   # Write to the logs for getting scores based on thresholds
+  # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+  # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+  # It treats ">= 0.75" the same as "<= 0.74" which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
   writelog(
     '\n#### Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf',
     logfile = logfile,
     code = "
+      # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+      # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+      # It treats '>= 0.75' the same as '<= 0.74' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
       rivpacs.score <- riv1 %>%
-        dplyr::mutate(Category = case_when(
-          Score < 0.33 ~ 'High Disturbance',
-          (Score >= 0.33 & Score < 0.75) | (Score > 1.25) ~ 'Moderate Disturbance',
-          (Score >= 0.75 & Score <= 0.90) | (Score >= 1.10 & Score <= 1.25) ~ 'Low Disturbance',
-          (Score > 0.90 & Score < 1.10) ~ 'Reference'
+        dplyr::mutate(
+            Score = arithmetic.round(Score, 2),
+            Category = case_when(
+              Score < 0.33 ~ 'High Disturbance',
+              (Score >= 0.33 & Score < 0.75) | (Score > 1.25) ~ 'Moderate Disturbance',
+              (Score >= 0.75 & Score <= 0.90) | (Score >= 1.10 & Score <= 1.25) ~ 'Low Disturbance',
+              (Score > 0.90 & Score < 1.10) ~ 'Reference'
         )) %>%
-        dplyr::mutate(`Category Score` = case_when(
-          Category == 'Reference' ~ 1,
-          Category == 'Low Disturbance' ~ 2,
-          Category == 'Moderate Disturbance' ~ 3,
-          Category == 'High Disturbance' ~ 4
-        )) %>%
+        dplyr::mutate(
+            `Category Score` = case_when(
+              Category == 'Reference' ~ 1,
+              Category == 'Low Disturbance' ~ 2,
+              Category == 'Moderate Disturbance' ~ 3,
+              Category == 'High Disturbance' ~ 4
+            )
+        ) %>%
         dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
     ",
     data = rivpacs.score %>% head(25),
