@@ -480,7 +480,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
                 (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',
                 (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
                 (Score < 0.09) ~ 'High Disturbance',
-                TRUE ~ NA_charater
+                TRUE ~ NA_character_
             )
         ) %>%
 
@@ -534,7 +534,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
             (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',
             (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
             (Score < 0.09) ~ 'High Disturbance',
-            TRUE ~ NA_charater
+            TRUE ~ NA_character_
         )
     ) %>%
 
