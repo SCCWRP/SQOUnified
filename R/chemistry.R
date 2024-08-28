@@ -184,7 +184,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   chemdata_lrm2 <- chemdata_lrm1 %>%
     mutate(
       # page 38 of Technical Manual 3rd Edition June 2021
-      p = (exp(B0 + B1 * logResult) / (1 + exp(B0 + B1 * logResult))) %>% round(2)
+      p = (exp(B0 + B1 * logResult) / (1 + exp(B0 + B1 * logResult))) %>% arithmetic.round(2)
     )
 
   # Write to code portion of the logs
@@ -194,7 +194,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
       chemdata_lrm2 <- chemdata_lrm1 %>%
         mutate(
           # page 38 of Technical Manual 3rd Edition June 2021
-          p = (exp(B0 + B1 * logResult) / (1 + exp(B0 + B1 * logResult))) %>% round(2)
+          p = (exp(B0 + B1 * logResult) / (1 + exp(B0 + B1 * logResult))) %>% arithmetic.round(2)
         )
     ',
     data = chemdata_lrm2,
@@ -602,10 +602,10 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
     mutate(
       Result = case_when(
         # June 10, 2024 - It was decided we will round to 4 decimal places if the result value is less than 1
-        Result <= 1 ~ round(Result, 4),
-        Result < 10 ~ round(Result, 2),
-        Result < 100 ~ round(Result, 1),
-        TRUE ~ round(Result)
+        Result <= 1 ~ arithmetic.round(Result, 4),
+        Result < 10 ~ arithmetic.round(Result, 2),
+        Result < 100 ~ arithmetic.round(Result, 1),
+        TRUE ~ arithmetic.round(Result)
       )
     )
 
@@ -617,10 +617,10 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
       mutate(
         Result = case_when(
           # June 10, 2024 - It was decided we will round to 4 decimal places if the result value is less than 1
-          Result <= 1 ~ round(Result, 4),
-          Result < 10 ~ round(Result, 2),
-          Result < 100 ~ round(Result, 1),
-          TRUE ~ round(Result)
+          Result <= 1 ~ arithmetic.round(Result, 4),
+          Result < 10 ~ arithmetic.round(Result, 2),
+          Result < 100 ~ arithmetic.round(Result, 1),
+          TRUE ~ arithmetic.round(Result)
         )
       )
     ',
@@ -746,7 +746,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
       # Page 41 of Technical Manual (Chart)
       weighted_score_sum = sum(weighted_score, na.rm = T),
       weight = sum(weight, na.rm = T),
-      Score = round(weighted_score_sum / weight, 2)
+      Score = arithmetic.round(weighted_score_sum / weight, 2)
     ) %>%
     ungroup()
 
@@ -763,7 +763,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
           # Page 41 of Technical Manual 3rd edition (Chart)
           weighted_score_sum = sum(weighted_score, na.rm = T),
           weight = sum(weight, na.rm = T),
-          Score = round(weighted_score_sum / weight, 2)
+          Score = arithmetic.round(weighted_score_sum / weight, 2)
         ) %>%
         ungroup()
     ',

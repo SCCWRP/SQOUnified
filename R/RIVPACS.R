@@ -1150,8 +1150,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     O.over.E <- observed.score/expected.score
     stats <- data.frame(stations = row.names(observed.predictors),
                         O = observed.score,
-                        E = round(expected.score, digits = 4),
-                        O.over.E = round(O.over.E, digits = 4))
+                        E = arithmetic.round(expected.score, digits = 4),
+                        O.over.E = arithmetic.round(O.over.E, digits = 4))
     # Write to the logs for getting the stats dataframe
     writelog(
       '\nGet the stats dataframe',
@@ -1161,8 +1161,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
         stats <- data.frame(
           stations = row.names(observed.predictors),
           O = observed.score,
-          E = round(expected.score, digits = 4),
-          O.over.E = round(O.over.E, digits = 4)
+          E = arithmetic.round(expected.score, digits = 4),
+          O.over.E = arithmetic.round(O.over.E, digits = 4)
         )
       ",
       data = stats %>% head(25),
@@ -1272,8 +1272,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
         O.over.E <- observed.score / expected.score
         stats <- data.frame(stations = row.names(observed.predictors),
                             O = observed.score,
-                            E = round(expected.score, digits = 4),
-                            O.over.E = round(O.over.E, digits = 4))
+                            E = arithmetic.round(expected.score, digits = 4),
+                            O.over.E = arithmetic.round(O.over.E, digits = 4))
 
         # create outlier columns on that stats dataframe
         stats$outlier.05 <- expected.data$outliers$outlier.05

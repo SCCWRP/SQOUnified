@@ -4,6 +4,6 @@ EQR <- function(data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.tim
   vett <- matrix(NA, nrow = nrow(data), ncol = ncol(data))
   for (k in 1: ncol(data)) {vett[, k] <- data[(nrow(data)-1), k]}
   vett <- data - vett
-  ris <- round((vett %*% segm / sqrt(sum(segm*segm))) / sqrt(sum(segm*segm)), 3)
+  ris <- arithmetic.round((vett %*% segm / sqrt(sum(segm*segm))) / sqrt(sum(segm*segm)), 3)
   return(ris)
 }

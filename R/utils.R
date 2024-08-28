@@ -128,3 +128,27 @@ create_download_link <- function(data, logfile, filename, linktext = 'Download t
   }
 }
 
+
+#' Round numbers using the more conventional rounding method - halfway goes up
+#'
+#' @description
+#'   This is a function that rounds numbers using the more conventional rounding method
+#'
+#' @details
+#'   The R programming language rounds numbers using "Bankers Rounding" where if the number is halfway, it goes to the nearest even number.
+#'   For example, 4.5 rounds to 4 rather than 5. This will lead to inconsistencies between the SQOUnified R package and the calculations of others.
+#'   As of today, August 28, 2024 the only SQO Calculation method adopted by the State Waterboard is the Excel calculator created by Darrin Greenstein at SCCWRP.
+#'   Excel rounds using the traditional arithmetic method, as do most people in the world.
+#'   Therefore this function is added as a utility to this R package to ensure consistency of rounding methods.
+#'   It is given the name "arithmetic round" because that is the name for this type of rounding, which is the most traditional, familiar method to most people.
+#'   R's default rounding scheme is called "bankers rounding"
+#'
+#' @param x a number
+#' @param digits the number of digits we will round to
+#'
+#' @export
+arithmetic.round <- function(x, digits = 0) {
+  adjust <- ifelse(x >= 0, 0.5, -0.5) * 10^(-digits)
+  round(x + adjust, digits = digits)
+}
+
