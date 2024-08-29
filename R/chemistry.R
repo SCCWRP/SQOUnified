@@ -31,7 +31,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog("\n\n## Chem CA LRM Function\n", logfile = logfile, verbose = verbose)
 
@@ -476,7 +476,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog("\n\n## Chem CSI Function\n", logfile = logfile, verbose = verbose)
 
@@ -986,7 +986,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   # ---- Initialize Logging ----
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog("\n# Chemistry SQO Main Function\n", logfile = logfile, verbose = verbose)
 
@@ -1273,7 +1273,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
 
-  writelog("\nEND Chem SQO Function\n", logfile = logfile, verbose = verbose)
+  writelog("\n# END Chem SQO Function\n", logfile = logfile, verbose = verbose)
 
   return(combined.final)
 
@@ -1314,7 +1314,7 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog("\n\n## Chemistry Preprocessing function (chemdata_prep)\n", logfile = logfile, verbose = verbose)
 

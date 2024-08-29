@@ -76,7 +76,7 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  
 
   writelog('\n### BEGIN: IBI function.\n', logfile = logfile, verbose = verbose)
 

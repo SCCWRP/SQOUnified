@@ -144,7 +144,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  
 
   writelog('\n## BEGIN: RBI function.\n', logfile = logfile, verbose = verbose)
 
@@ -391,7 +391,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
 
-  writelog('\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n', logfile = logfile, verbose = verbose)
 
   ### RBI Metrics
   # We are using a full join because if there are missing values, we might just get an empty data frame.
@@ -451,52 +451,9 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     verbose = verbose
   )
 
-  # Log the RBI calculation code
-  rbi_code <- "
-    rbi_scores <- rbi_metrics %>%
-        replace(., is.na(.), 0) %>%
-        mutate(scaled_NumTaxa = NumOfTaxa / 99) %>%
-        mutate(scaled_NumMolluscTaxa = NumOfMolluscTaxa / 28) %>%
-        mutate(scaled_NumCrustaceanTaxa = NumOfCrustaceanTaxa / 29) %>%
-        mutate(scaled_CrustaceanAbun = CrustaceanAbun / 1693) %>%
 
-        # TWV = Taxa Richness Weighted Value
-        mutate(TWV = scaled_NumTaxa + scaled_NumMolluscTaxa + scaled_NumCrustaceanTaxa + (0.25 * scaled_CrustaceanAbun)) %>%
-
-        # PIT = Positive Indicator Taxa
-        mutate(PIT = ((M_insidiosumAbun)^(1/4) / (473)^(1/4)) + ((A_diegensisAbun)^(1/4) / (27)^(1/4)) + ((G_littoreaAbun)^(1/4) / (15)^(1/4))) %>%
-
-        mutate(Raw_RBI = TWV + NIT + (2 * PIT)) %>%
-        dplyr::mutate(Score = (Raw_RBI - 0.03) / 4.69) %>%
-
-        # RBI Categories based on RBI scores (Technical manual page 71)
-        # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
-        # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
-        # It treats '>= 0.17' the same as '<= 0.16' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
-        dplyr::mutate(
-            Score = arithmetic.round(Score, 2),
-            Category = case_when(
-                (Score > 0.27) ~ 'Reference',
-                (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',
-                (Score >= 0.09 & Score <= 0.16) ~ 'Moderate Disturbance',
-                (Score < 0.09) ~ 'High Disturbance',
-                TRUE ~ NA_character_
-            )
-        ) %>%
-
-        # RBI Category Scores based on RBI scores
-        dplyr::mutate(`Category Score` = case_when(
-            (Category == 'Reference') ~ 1,
-            (Category == 'Low Disturbance') ~ 2,
-            (Category == 'Moderate Disturbance') ~ 3,
-            (Category == 'High Disturbance') ~ 4
-        )) %>%
-        dplyr::mutate(Index = 'RBI')
-    "
-  writelog("##### RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe\n  ", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog("##### You will find the steps taken here in page 70 of the Technical Manual (June 2021 edition)\n  ", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(rbi_code, logfile = logfile, verbose = verbose)
-
+  writelog("##### RBI is very math intensive and difficult to explain with writing - instead I will log the code that calculates the final dataframe\n  ", logfile = logfile, verbose = verbose)
+  writelog("##### You will find the steps taken here in page 70 of the Technical Manual (June 2021 edition)\n  ", logfile = logfile, verbose = verbose)
   # Compute the RBI scores.
   # This was not included in the queries that D. Gillet listed. We went through the Technical Manual (p. 69-71)
   # to find the appropriate calculations.

@@ -66,7 +66,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  
 
   writelog('\n### BEGIN: BRI function.\n', logfile = logfile, verbose = verbose)
 
@@ -178,12 +178,12 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
 
-  writelog('\nNext get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('\nThen Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- < 39.96 is Reference\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=39.96 and <49.15 is Low\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=49.15 and <73.27 is Reference\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('---- >=73.27 is High\n  ', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n#### Next get the Score - group by Stratum, StationID, SampleDate, Replicate and do: (sum of the tolerance scores)/(sum of fourthroot abundances)\n  ', logfile = logfile, verbose = verbose)
+  writelog('\n##### Then Get Categories (CASQO Technical Manual 3rd Edition Page 72 - Table 4.24)\n  ', logfile = logfile, verbose = verbose)
+  writelog('---- < 39.96 is Reference\n  ', logfile = logfile, verbose = verbose)
+  writelog('---- >=39.96 and <49.15 is Low\n  ', logfile = logfile, verbose = verbose)
+  writelog('---- >=49.15 and <=73.26 is Reference\n  ', logfile = logfile, verbose = verbose)
+  writelog('---- >73.26 is High\n  ', logfile = logfile, verbose = verbose)
 
 
 

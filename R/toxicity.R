@@ -48,7 +48,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog('\n## BEGIN: Tox Summary function.\n', logfile = logfile, verbose = verbose)
 
@@ -204,12 +204,12 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
   writelog('t.test function in R by default will treat them as two samples from two populations (not assuming equal variances)\n', logfile = logfile, verbose = verbose)
   writelog('The function call to t.test is this:\n', logfile = logfile, verbose = verbose)
   writelog("> t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2\n  ", logfile = logfile, verbose = verbose)
-  writelog("Further explanation of the function call:\n", logfile = logfile, verbose = verbose)
-  writelog("> x = result and y = result_control: These are the two vectors (samples) being compared.", logfile = logfile, verbose = verbose)
-  writelog("> mu = 0: The null hypothesis is that the difference between the means of the two samples is zero.", logfile = logfile, verbose = verbose)
-  writelog("> var.equal = F: The variances of the two samples are not assumed to be equal (Welch's t-test).", logfile = logfile, verbose = verbose)
-  writelog("> alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).", logfile = logfile, verbose = verbose)
-  writelog("> $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.", logfile = logfile, verbose = verbose)
+  writelog("\n#### Further explanation of the function call:\n", logfile = logfile, verbose = verbose)
+  writelog("---- x = result and y = result_control: These are the two vectors (samples) being compared.\n", logfile = logfile, verbose = verbose)
+  writelog("---- mu = 0: The null hypothesis is that the difference between the means of the two samples is zero.\n", logfile = logfile, verbose = verbose)
+  writelog("---- var.equal = F: The variances of the two samples are not assumed to be equal (Welch's t-test).\n", logfile = logfile, verbose = verbose)
+  writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).\n", logfile = logfile, verbose = verbose)
+  writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
   # Get the stats
   summary <- summary %>%
@@ -486,7 +486,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
 tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F) {
 
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog('\n# BEGIN: Tox SQO function.\n  ', logfile = logfile, verbose = verbose)
 
@@ -499,7 +499,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
 
   # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
-    "\n## Raw input to tox.sqo:\n  ",
+    "\n### Raw input to tox.sqo:\n  ",
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') # This will load a dataframe called 'toxresults' into your environment"),
     data = toxresults %>% head(25),
@@ -511,7 +511,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
 
   writelog(
-    "\n## Replace stations that may say '0' with the bight 'QA station' '0000'\n  ",
+    "\n### Replace stations that may say '0' with the bight 'QA station' '0000'\n  ",
     logfile = logfile,
     code = "
       # It is common that there is a station called '0' which is actually supposed to be a string of four zeros ('0000')
@@ -530,7 +530,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
   # Call tox summary function
   tox_nonintegrated1 <- tox.summary(toxresults, logfile = logfile, verbose = verbose)
   writelog(
-    "\n## Calling Tox Summary within Tox.SQO function\n  ",
+    "\n### Calling Tox Summary within Tox.SQO function\n  ",
     logfile = logfile,
     code = "
       # Call tox summary function
@@ -551,7 +551,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
       Category
     )
   writelog(
-    "\n## Selecting certain columns stationid, species, `Endpoint Method`, Score, Category\n  ",
+    "\n### Selecting certain columns stationid, species, Endpoint Method, Score, Category\n  ",
     logfile = logfile,
     code = "
       tox_nonintegrated2 <- tox_nonintegrated1 %>%
@@ -576,7 +576,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
     ) %>%
     select(-Species)
   writelog(
-    "\n## Isolate Genus - separate Genus from the Species\n  ",
+    "\n### Isolate Genus - separate Genus from the Species\n  ",
     logfile = logfile,
     code = "
       # Isolate the Genus
@@ -603,7 +603,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
       )
     )
   writelog(
-    "\n## Isolate Genus - separate Genus from the Species\n  ",
+    "\n### Isolate Genus - separate Genus from the Species\n  ",
     logfile = logfile,
     code = "
       # Define the Type of test based on Genus and Endpoint Method
@@ -630,7 +630,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
   writelog(
-    "\n## Create Category Score column\n  ",
+    "\n### Create Category Score column\n  ",
     logfile = logfile,
     code = "
       # Create category score column for purpose of final unified output
@@ -655,7 +655,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
         by = 'stationid'
       )
     writelog(
-      "\n## Include the stratum if it was provided in the initial toxresults\n  ",
+      "\n### Include the stratum if it was provided in the initial toxresults\n  ",
       logfile = logfile,
       code = "
       # Include the stratum if it was provided in the initial toxresults
@@ -673,9 +673,9 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
 
   }
 
-  writelog("### Explanation of assigning the Tox SQO Score based on the Manual", logfile = logfile, verbose = verbose)
+  writelog("\n#### Explanation of assigning the Tox SQO Score based on the Manual\n", logfile = logfile, verbose = verbose)
 
-  writelog("For Toxicity, we take the mean of SQO scores among the tox tests at the site (CASQO manual, June 2021 edition, page 109).\n--\n", logfile = logfile, verbose = verbose)
+  writelog("For Toxicity, we take the mean of SQO scores among the tox tests at the site (CASQO manual, June 2021 edition, page 109).\n", logfile = logfile, verbose = verbose)
 
   writelog("The score is the mean of the two, however, if one is missing, the score should come out to NA", logfile = logfile, verbose = verbose)
   writelog("This means that in this particular case, it should be na.rm = F", logfile = logfile, verbose = verbose)
@@ -730,7 +730,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
       )
     )
   writelog(
-    "\n## Determine if all necessary tests are present and assign a score for the site\n  ",
+    "\n### Determine if all necessary tests are present and assign a score for the site\n  ",
     logfile = logfile,
     code = "
       tox_integrated0 <- tox_nonintegrated %>%
@@ -771,7 +771,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
     select(stationid, Index, Score, Category, `Category Score`)
 
   writelog(
-    "\n## Assign Category and select final columns\n  ",
+    "\n### Assign Category and select final columns\n  ",
     logfile = logfile,
     code = '
       # Assign Category and select final columns
@@ -804,7 +804,7 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
       StationID, Index, Category
     )
   writelog(
-    "\n## Concat Integrated scores with the regular non integrated scores (scores for each test)\n  ",
+    "\n### Concat Integrated scores with the regular non integrated scores (scores for each test)\n  ",
     logfile = logfile,
     code = '
       # final output - integrated scores and scores of individual tests (non integrated scores)

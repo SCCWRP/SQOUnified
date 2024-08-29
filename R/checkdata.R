@@ -9,7 +9,7 @@ checkdata <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.pa
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  
 
   # check - the LOE must be valid. Benthic, Chemistry or Toxicity
   # certain abbvreviations are allowed

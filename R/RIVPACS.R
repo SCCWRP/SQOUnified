@@ -48,7 +48,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
   writelog('\n### BEGIN: RIVPACS function.\n  ', logfile = logfile, verbose = verbose)
   writelog('\nInformation on RIVPACS is on page 72 of the CASQO Technical Manual (June 2021 edition)\n', logfile = logfile, verbose = verbose)
@@ -480,11 +480,6 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   writelog('\n##### **BEGIN**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
-  # set up the hyphen log prefix - which hasnt yet worked as i want it to
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
-
-
-
   # Save the reference groups to an RData file
   tmp.filename <- 'benthic.rivpacs.socal.reference.groups.RData'
   if (verbose) {
@@ -594,7 +589,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
     # Align observed (user) data columns with reference data columns. Columns in same
     # order. Observed data may have a different number of taxa (columns) than
@@ -714,7 +709,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
       FormatObservedData <- function() {
 
         # set up the hyphen log prefix - which hasnt yet worked as i want it to
-        hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
         # Align observed (user) data columns with reference data columns. Columns in same
         # order. Observed data may have a different number of taxa (columns) than
@@ -1009,7 +1004,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
       CalculateExpectedData <- function() {
 
         # set up the hyphen log prefix - which hasn't yet worked as I want it to
-        hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
         # Calculate probability of sites belonging to groups. Follow RIVPACS assumption
         # of weighting the group probabilities by reference group size. Flags outlier
@@ -1104,7 +1099,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
     writelog('\n##### **BEGIN: Calculate Scores function.**\n', logfile = logfile, verbose = verbose)
 
@@ -1229,7 +1224,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     create_download_link(data = stats, logfile = logfile, filename = 'stats-dataframe-pass-fail.csv', linktext = 'Download stats dataframe with PASS/FAIL outliers', verbose = verbose)
 
 
-    writelog('\n## END: Calculate Scores function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **END: Calculate Scores function.**\n', logfile = logfile, verbose = verbose)
 
     return(stats)
 
@@ -1242,7 +1237,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
       CalculateScores <- function() {
 
         # set up the hyphen log prefix - which hasnt yet worked as i want it to
-        hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+
 
         # Bray-Curtis dissimilarity
         observed.score <- vector(mode = 'numeric', length = expected.data$n)
@@ -1319,7 +1314,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                   region = "scb")
   # Write to the logs for final results
   writelog(
-    '\n##### Final Results',
+    '\n#### Final SoCal RIVPACS Function Results',
     logfile = logfile,
     code = "
       results <- list(
@@ -1339,7 +1334,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
   create_download_link(data = data.frame(results$region), logfile = logfile, filename = 'final-results-region.csv', linktext = 'Download final results region', verbose = verbose)
 
 
-  writelog('\n#### **END**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n#### **END**: So Cal RIVPACS function.\n  \n  ', logfile = logfile, verbose = verbose)
 
   return(results)
 
