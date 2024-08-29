@@ -485,7 +485,7 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
     # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
     # It treats '>= 0.17' the same as '<= 0.16' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
     dplyr::mutate(
-        Score = arithmetic.round(Score, 2),
+        Score = round(Score, 2),
         Category = case_when(
             (Score > 0.27) ~ 'Reference',
             (Score >= 0.17 & Score <= 0.27) ~ 'Low Disturbance',

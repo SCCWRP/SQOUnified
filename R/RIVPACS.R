@@ -401,7 +401,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
   # Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
   rivpacs.score <- riv1 %>%
     dplyr::mutate(
-        Score = arithmetic.round(Score, 2),
+        Score = round(Score, 2),
         Category = case_when(
             (Score < 0.33) ~ "High Disturbance",
             ((Score >= 0.33 & Score < 0.75) | (Score > 1.25)) ~ "Moderate Disturbance",
@@ -431,7 +431,7 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
       # It treats '>= 0.75' the same as '<= 0.74' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
       rivpacs.score <- riv1 %>%
         dplyr::mutate(
-            Score = arithmetic.round(Score, 2),
+            Score = round(Score, 2),
             Category = case_when(
               Score < 0.33 ~ 'High Disturbance',
               (Score >= 0.33 & Score < 0.75) | (Score > 1.25) ~ 'Moderate Disturbance',
@@ -1164,8 +1164,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     O.over.E <- observed.score/expected.score
     stats <- data.frame(stations = row.names(observed.predictors),
                         O = observed.score,
-                        E = arithmetic.round(expected.score, digits = 4),
-                        O.over.E = arithmetic.round(O.over.E, digits = 4))
+                        E = round(expected.score, digits = 4),
+                        O.over.E = round(O.over.E, digits = 4))
     # Write to the logs for getting the stats dataframe
     writelog(
       '\nGet the stats dataframe',
@@ -1175,8 +1175,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
         stats <- data.frame(
           stations = row.names(observed.predictors),
           O = observed.score,
-          E = arithmetic.round(expected.score, digits = 4),
-          O.over.E = arithmetic.round(O.over.E, digits = 4)
+          E = round(expected.score, digits = 4),
+          O.over.E = round(O.over.E, digits = 4)
         )
       ",
       data = stats %>% head(25),
@@ -1286,8 +1286,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
         O.over.E <- observed.score / expected.score
         stats <- data.frame(stations = row.names(observed.predictors),
                             O = observed.score,
-                            E = arithmetic.round(expected.score, digits = 4),
-                            O.over.E = arithmetic.round(O.over.E, digits = 4))
+                            E = round(expected.score, digits = 4),
+                            O.over.E = round(O.over.E, digits = 4))
 
         # create outlier columns on that stats dataframe
         stats$outlier.05 <- expected.data$outliers$outlier.05

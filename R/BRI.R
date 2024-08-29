@@ -228,7 +228,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   # It treats "< 46.15" the same as "<= 46.14" which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
   bri5 <- bri4 %>%
     mutate(
-      Score = arithmetic.round(Score, 2),
+      Score = round(Score, 2),
       Category = case_when( (Score < 39.96) ~ "Reference",
                             (Score >= 39.96 & Score < 49.15) ~ "Low Disturbance",
                             (Score >= 49.15 & Score <= 73.26) ~ "Moderate Disturbance",
@@ -245,7 +245,7 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
       # It treats '< 46.15' the same as '<= 46.14' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
       bri5 <- bri4 %>%
         mutate(
-          Score = arithmetic.round(Score, 2),
+          Score = round(Score, 2),
           Category = case_when(
             Score < 39.96 ~ 'Reference',
             Score >= 39.96 & Score < 49.15 ~ 'Low Disturbance',
@@ -414,7 +414,7 @@ BRI.GenericOffshore.NH <- function(BenthicData) #BenthicData will need to be the
   #   group_by(stationid, sampledate, replicate, tot_abun, S,tol.flag) %>%
   #   summarise(tol.abun=sum(abundance), tol.s=length(taxon)) %>% #calculating percent of abundance or richness with a tolerance value per sample
   #   ungroup() %>%
-  #   mutate(pct_abun=arithmetic.round((tol.abun/tot_abun)*100, digits = 1), pct_taxa=arithmetic.round((tol.s/S)*100, digits=1)) %>%
+  #   mutate(pct_abun=round((tol.abun/tot_abun)*100, digits = 1), pct_taxa=round((tol.s/S)*100, digits=1)) %>%
   #   pivot_wider(id_cols =c(stationid, sampledate, replicate), names_from = tol.flag, values_from = c(pct_abun, pct_taxa) )#manipulating the shape of the data
 
 
