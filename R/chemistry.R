@@ -20,6 +20,8 @@
 #'
 #'    \code{MDL}
 #'
+#'    \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
+#'
 #'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
 #'
 #'    \code{labrep} (optional) - data will be filtered to where labrep = 1
@@ -458,6 +460,8 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 #'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
 #'
 #'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
 #'
@@ -976,6 +980,8 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #'
 #'    \code{MDL}
 #'
+#'    \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
+#'
 #'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
 #'
 #'    \code{labrep} (optional) - data will be filtered to where labrep = 1
@@ -1309,6 +1315,8 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
 #'
 #'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
 #'

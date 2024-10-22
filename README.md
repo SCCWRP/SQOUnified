@@ -46,6 +46,7 @@ The chemistry functions require a dataframe containing:
 - **Result**: The measurement value for the analyte.
 - **RL**: Reporting limit for the analyte.
 - **MDL**: Method detection limit.
+- **units**: (*optional*) - Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
 - **fieldrep**: (*optional*) - Data is filtered to where fieldrep = 1 if this column is included
 - **labrep**: (*optional*) - Data is filtered to where labrep = 1 if this column is included
 - **sampletypecode**: (*optional*) Data is filtered to where sampletypecode = Result in order to prevent inclusion of QA/QC samples
