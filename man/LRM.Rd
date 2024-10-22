@@ -19,6 +19,8 @@ LRM(chemdata)
 
    \code{MDL}
 
+   \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
+
    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
 
    \code{labrep} (optional) - data will be filtered to where labrep = 1

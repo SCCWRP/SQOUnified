@@ -16,6 +16,15 @@ install.packages(c("dbplyr","reshape2","vegan","dplyr","plyr","purrr","stringr",
 devtools::install_github("SCCWRP/SQOUnified")
 ```
 
+The package also comes with example data sets which are available when the package is loaded
+```r
+# load the package
+library(SQOUnified)
+
+# package comes with sample data - the dataframes are called 'benthic_sampledata', 'chem_sampledata', and 'tox_sampledata'
+SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
+```
+
 ## Usage
 
 
