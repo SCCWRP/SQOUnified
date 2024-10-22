@@ -22,7 +22,57 @@ devtools::install_github("SCCWRP/SQOUnified")
 
 ## Usage
 
-### 1. `SQOUnified` Function
+
+### Input Data Requirements for Benthic, Chemistry, and Toxicity Functions
+
+#### 1. Input Data for benthic functions (`benthic.sqo`, `BRI`,`RBI`,`IBI`,`RIVPACS`,`MAMBI`)
+
+The benthic functions require a dataframe with the following columns:
+
+- **StationID**: An alphanumeric identifier representing the sampling location.
+- **Replicate**: A numeric value indicating the replicate sample number taken at the location.
+- **SampleDate**: The date when the sample was collected.
+- **Latitude**: Latitude in decimal degrees; use a negative sign for Western Hemisphere coordinates.
+- **Longitude**: Longitude in decimal degrees; ensure a negative sign for Western coordinates.
+- **Taxon**: The name of the organism, formatted according to SCAMIT standards. If no organisms are present, use `NoOrganismsPresent` with an abundance of `0`.
+- **Abundance**: The number of each species observed in the sample.
+- **Salinity**: The salinity level (in PSU) at the sampling location.
+- **Stratum**: The habitat stratum (e.g., Bays, Estuaries).
+- **Exclude**: Information on whether the sample should be excluded.
+
+
+#### 2. Input Data for chemistry functions (`chem.sqo`, `chemdata_prep`, `CSI`, `LRM`)
+
+The chemistry functions require a dataframe containing:
+
+- **StationID**: Identifier for the station.
+- **AnalyteName**: Name of the chemical analyte.
+- **Result**: The measurement value for the analyte.
+- **RL**: Reporting limit for the analyte.
+- **MDL**: Method detection limit.
+- **fieldrep**: (optional) - Data is filtered to where fieldrep = 1 if this column is included
+- **labrep**: (optional) - Data is filtered to where labrep = 1 if this column is included
+- **sampletypecode**: (optional) Data is filtered to where sampletypecode = Result in order to prevent inclusion of QA/QC samples
+
+**Notes**:
+- Non-detect values should be marked as `-88`.
+- All measurements should be expressed on a dry-weight basis: metals in `mg/dry kg` and organic compounds in `ug/dry kg`.
+
+
+#### 3. Input Data for toxicity functions (`tox.sqo`, `tox.summary`)
+
+The toxicity functions require a dataframe containing:
+
+- **stationid**: Alphanumeric identifier of the location.
+- **toxbatch**: Identifier linking results to the control sample.
+- **species**: The genus and species of the tested organism.
+- **sampletypecode**: Type of sample (e.g., Grab, CNEG). Control samples must be included.
+- **matrix**: (optional) - Type of sample matrix (e.g., Whole Sediment, Sediment Water Interface). Be sure to not include Reference Toxicants
+- **labrep**: Numeric identifier for the lab replicate, typically with five replicates per station and species pair.
+- **result**: The percentage of survival or normal development observed in the test.
+
+
+### `SQOUnified` Function
 
 The primary function `SQOUnified` computes integrated sediment quality scores based on various lines of evidence: benthic, chemistry, and toxicity data. It requires input data for each category and outputs an integrated assessment.
 
@@ -48,14 +98,11 @@ print(result)
 - `tox`: A dataframe containing toxicity test results.
 
 
-### Input Data
-
-
-
-
 The function will compute and log the results for each of these inputs, generating an integrated score based on the criteria defined in the package.
 
-### 2. `chem.sqo`
+
+
+### `chem.sqo`
 
 The `chem.sqo` function evaluates the chemical condition of sediments using specific chemical metrics.
 
@@ -68,7 +115,7 @@ chem_results <- chem.sqo(chem_data)
 - **Input:** `chem_data` - A dataframe containing sediment chemistry data.
 - **Output:** A dataframe with SQO scores and categories for each station based on chemical criteria.
 
-### 3. `benthic.sqo`
+### `benthic.sqo`
 
 The `benthic.sqo` function computes benthic indices to evaluate the biological condition of the sediments.
 
@@ -81,7 +128,7 @@ benthic_results <- benthic.sqo(benthic_data)
 - **Input:** `benthic_data` - A dataframe containing benthic community data.
 - **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria.
 
-### 4. `tox.sqo`
+### `tox.sqo`
 
 The `tox.sqo` function assesses sediment toxicity by analyzing toxicity test results.
 
@@ -94,7 +141,7 @@ tox_results <- tox.sqo(tox_data)
 - **Input:** `tox_data` - A dataframe containing toxicity test results.
 - **Output:** A dataframe with SQO scores and categories for each station based on toxicity criteria.
 
-### 5. `tox.summary`
+### `tox.summary`
 
 The `tox.summary` function provides a summary of the toxicity results for easier interpretation and reporting.
 
@@ -106,6 +153,8 @@ tox_summary <- tox.summary(tox_data)
 
 - **Input:** `tox_data` - A dataframe containing toxicity test results.
 - **Output:** A summary dataframe providing an overview of toxicity conditions for all stations.
+
+
 
 ## Example Workflow
 
@@ -132,18 +181,13 @@ integrated_result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = 
 print(integrated_result)
 ```
 
-## Data Requirements
 
-Each function requires specific data formats:
-- **benthic data**: Dataframe with information on benthic community structure.
-- **chem data**: Dataframe with chemical concentrations.
-- **tox data**: Dataframe with toxicity test results.
-
-Ensure that the column names match the expected format specified in the package documentation for accurate computation.
 
 ## Contributing
 
-Contributions to `SQOUnified` are welcome. If you encounter any issues or have feature requests, please open an issue or submit a pull request on the GitHub repository.
+Contributions to `SQOUnified` are welcome, however, if you come across issues using the package, it would be preferable for one to submit an issue rather than a pull request in most cases. If you have a request for a feature(s) then please do not hesitate at all to post an issue on the github page.
+
+
 
 ## License
 
