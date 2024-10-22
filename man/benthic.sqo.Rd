@@ -28,9 +28,9 @@ benthic.sqo(benthic_data)
 
    \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
 
-   \code{Stratum} - ;
+   \code{Stratum} - The stratum under which the station falls (Bays, Estuaries, etc);
 
-   \code{Exclude} - ;}
+   \code{Exclude} - Yes or No;}
 }
 \description{
 This function will calculate, RBI, IBI, BRI, RIVPACS, MAMBI,

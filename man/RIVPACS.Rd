@@ -2,7 +2,7 @@
 % Please edit documentation in R/RIVPACS.R
 \name{RIVPACS}
 \alias{RIVPACS}
-\title{CRiver Invertebrate Prediction and Classification System (RIVPACS) Index and RIVPACS Condition Category
+\title{River Invertebrate Prediction and Classification System (RIVPACS) Index and RIVPACS Condition Category
 (SoCal only)}
 \usage{
 RIVPACS(benthic_data)

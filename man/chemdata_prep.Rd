@@ -7,17 +7,23 @@
 chemdata_prep(chemdata)
 }
 \arguments{
-\item{chemdata}{a dataframe with the following columns:
+\item{chemdata_prep.input}{a dataframe with the following columns:
 
-   \code{StationID},
+   \code{StationID}
 
-   \code{AnalyteName},
+   \code{AnalyteName}
 
-   \code{Result},
+   \code{Result}
 
-   \code{RL},
+   \code{RL}
 
-   \code{MDL}}
+   \code{MDL}
+
+   \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+
+   \code{labrep} (optional) - data will be filtered to where labrep = 1
+
+   \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)}
 }
 \description{
 This function will not only calculate CSI and LRM, but it

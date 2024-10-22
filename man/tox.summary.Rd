@@ -13,7 +13,7 @@ tox.summary(toxresults)
 
    The input dataframe is structured as follows
 
-   \strong{\code{toxresults}} -  a dataframe that contains the toxicity results
+   \strong{\code{lab}} -  (optional) The laboratory which performed the test
 
    \strong{\code{stationid}} - an alpha-numeric identifier of the location;
 
@@ -23,8 +23,7 @@ tox.summary(toxresults)
 
    \strong{\code{sampletypecode}} - The sampletype used Grab, CNEG etc. Control samples must be included
 
-   \strong{\code{matrix}} - Whole Sediment, Sediment Water Interface, etc. Probably useless to include.
-                   I Just have it to make sure they dont put Reference Toxicant
+   \strong{\code{matrix}} - (optional) Whole Sediment, Sediment Water Interface, etc. Be sure to not include Reference Toxicants
 
    \strong{\code{labrep}} - There should be 5 per station, species pair
 

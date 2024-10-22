@@ -29,30 +29,26 @@ The BRI is the abundance weighted pollution tolerance score of the organisms pre
   the BRI score, the more degraded the benthic community represented by the sample.
 }
 \details{
-The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
+The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
   the BRI score, the more degraded the benthic community represented by the sample.
 
   Two types of data are needed to calculate the BRI:
 
-  (1) the abundance of each species and
-  (2) its pollution tolerance score, P.
+  (1) the abundance of each species
+  (2) species-specific pollution tolerance score (aka, P Value)
 
-  The P values are available for most species present in the assemblage. Only species for which P values are avialable
-  are used in the BRI calculations. P values showld be obtained for the appropriate habitat and from the most
-  up-to-date list available.
+  Tolerance Values are stored in the Southern California SQO Species List provided with this coded. Species names are periodically
+  updated by benthic experts.
 
-  The first step in the BRI calculation is to compute the 4th root of the abundance of each taxon in the sample for
-  which P values are available. The next step is to multiply the 4th root abundance value by the P value, for each
-  taxon.
-
-  Next, separately sum all of the 4th roots of the abundances and all of the products of the 4th roots of abundance
-  and P values. Taxa that lack P values are not included in either sum. The next step is to calculate the BRI score
-  as:
+  The BRI is only calculated from those taxa with a tolerance score. The first step in the BRI calculation is to compute the 4th root
+  of the abundance of each taxon in the sample that have an associated tolerance score
+  The next step is to multiply the 4th root abundance value by the tolerance score for each taxon.
+  The next step is to sum all of the 4th root abundance values in a given sample.
+  The actual BRI score is calculated as:
 
   \deqn{ \frac{\sum \left(\sqrt[p]{\textrm{Abundance}} \right) \times P}{\sum \sqrt[p]{\textrm{Abundance}}} }
 
-  The last step is to compare the BRI score to the BRI threshold values in Table 5 to determine the BRI category and
-  category score.
+  The last step is to convert the BRI score to condition category using the category thresholds listed in Table 5.
 
   <Table 5. To be included in R markdown file>
 }

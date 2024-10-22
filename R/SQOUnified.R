@@ -1,4 +1,6 @@
 #' Compute the SQO index scores.
+#' Based on the Technical Manual - June 2021 edition
+#' https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
 #'
 #' @param benthic_data A data file string name that we want to compute SQO scores for.
 #' @param SQO A list of the type of SQO scores that we want to compute
@@ -17,11 +19,11 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.Rmd' ), verbose = F) {
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  
 
   #load("data/site_assessment_criteria.RData")
 
@@ -41,7 +43,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Benthic ----
   if (!is.null(benthic)) {
-    benthic <- benthic.sqo(benthic, logfile = file.path( dirname(logfile), 'Benthic', 'log.txt' ), verbose = verbose) %>%
+
+    benthiclogfile <- file.path( dirname(logfile), 'Benthic', 'benthiclog.Rmd' )
+    benthiclibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
+
+    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose) %>%
       mutate(LOE = 'Benthic') %>%
       select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -72,7 +80,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Chemistry ----
   if (!is.null(chem)) {
-    chem <- chem.sqo(chem, logfile = file.path( dirname(logfile), 'Chemistry', 'log.txt' ), verbose = verbose) %>%
+
+    chemlogfile <- file.path( dirname(logfile), 'Chemistry', 'chemlog.Rmd' )
+    chemlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs)
+
+    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {
@@ -88,7 +102,13 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   # ---- Toxicity ----
   if (!is.null(tox)) {
-    tox <- tox.sqo(tox, logfile = file.path( dirname(logfile), 'Toxicity', 'log.txt' ), verbose = verbose) %>%
+
+    toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
+    toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs)
+
+    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
   } else {

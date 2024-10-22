@@ -1,4 +1,4 @@
-#' CRiver Invertebrate Prediction and Classification System (RIVPACS) Index and RIVPACS Condition Category
+#' River Invertebrate Prediction and Classification System (RIVPACS) Index and RIVPACS Condition Category
 #' (SoCal only)
 #'
 #' @description
@@ -44,16 +44,44 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = T){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F){
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-  writelog('\nBEGIN: RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
-  writelog('*** DATA *** Input to RIVPACS function - RIVPACS-step0.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(benthic_data, logfile = file.path(dirname(logfile), 'RIVPACS-step0.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n### BEGIN: RIVPACS function.\n  ', logfile = logfile, verbose = verbose)
+  writelog('\nInformation on RIVPACS is on page 72 of the CASQO Technical Manual (June 2021 edition)\n', logfile = logfile, verbose = verbose)
+
+  # assign input data to a new variable name - avoids namespace conflicts in the RMarkdown log
+  # the input data gets modified so we would rather modify this copy of the input dataframe
+  benthic.rivpacs.input <- benthic_data
+  writelog(
+    '\n#### Rename input variable',
+    logfile = logfile,
+    code = 'benthic.rivpacs.input <- benthic_data',
+    data = benthic_data,
+    verbose = verbose
+  )
+
+  # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
+  rawinput.filename <- 'benthic.rivpacs.input.RData'
+  if (verbose) {
+    save(benthic.rivpacs.input, file = file.path( dirname(logfile), rawinput.filename ))
+  }
+
+  # Create code block and download link to RIVPACS input
+  writelog(
+    '\n#### Input to RIVPACS - RIVPACS-step0.csv',
+    logfile = logfile,
+    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'benthic.rivpacs.input' into your environment"),
+    data = benthic.rivpacs.input,
+    verbose = verbose
+  )
+  create_download_link(data = benthic.rivpacs.input, logfile = logfile, filename = 'RIVPACS-step0.csv', linktext = 'Download RIVPACS initial input', verbose = verbose)
+
+
+
 
 
   # Split to SoCal and SFBay.
@@ -61,155 +89,373 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
 
   # SCB Predictors - needs to be logged
-  scb.predictors <- data.frame(Latitude = benthic_data$Latitude,
-                               Longitude = benthic_data$Longitude,
-                               SampleDepth = benthic_data$SampleDepth) %>%
+  scb.predictors <- data.frame(Latitude = benthic.rivpacs.input$Latitude,
+                               Longitude = benthic.rivpacs.input$Longitude,
+                               SampleDepth = benthic.rivpacs.input$SampleDepth) %>%
+    dplyr::distinct()
+  # Create code block and download link to BRI input
+  writelog(
+    '\n#### SCB Predictors',
+    logfile = logfile,
+    code = '
+      scb.predictors <- data.frame(Latitude = benthic.rivpacs.input$Latitude,
+                               Longitude = benthic.rivpacs.input$Longitude,
+                               SampleDepth = benthic.rivpacs.input$SampleDepth) %>%
+        dplyr::distinct()
+    ',
+    data = scb.predictors %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = scb.predictors, logfile = logfile, filename = 'RIVPACS-SCB.Predictors.csv', linktext = 'Download RIVPACS initial input', verbose = verbose)
+
+
+
+
+  # RIVPACS Data Prep step 1 - rename taxa to Taxon
+  benthic.rivpacs.input <- benthic.rivpacs.input %>% dplyr::rename(Taxa = Taxon)
+  # Write to the logs for RIVPACS Data Prep step 1
+  writelog(
+    '\n#### RIVPACS Data Prep step 1 - rename taxa to Taxon',
+    logfile = logfile,
+    code = "
+      benthic.rivpacs.input <- benthic.rivpacs.input %>% dplyr::rename(Taxa = Taxon)",
+    data = benthic.rivpacs.input %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = benthic.rivpacs.input, logfile = logfile, filename = 'RIVPACS-DataPrep-step1.csv', linktext = 'Download RIVPACS Data Prep step 1', verbose = verbose)
+
+
+  # RIVPACS data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth - also set row names to StationID
+  scb.taxa <- benthic.rivpacs.input %>% dplyr::select(StationID, Latitude, Longitude, SampleDepth) %>%
     dplyr::distinct()
 
-  writelog('*** DATA *** RIVPACS-SCBpredictors-initial.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.predictors, logfile = file.path(dirname(logfile), 'RIVPACS-SCBpredictors-initial.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS data prep step 2
+  writelog(
+    '\n#### RIVPACS data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth',
+    logfile = logfile,
+    code = "
+      scb.taxa <- benthic.rivpacs.input %>%
+        dplyr::select(StationID, Latitude, Longitude, SampleDepth) %>%
+        dplyr::distinct()
+    ",
+    data = scb.taxa,
+    verbose = verbose
+  )
+  create_download_link(data = scb.taxa, logfile = logfile, filename = 'RIVPACS-DataPrep-step2.csv', linktext = 'Download RIVPACS Data Prep step 2', verbose = verbose)
 
-
-  # data prep step 1 - rename taxa to Taxon
-  writelog("Renamed Taxa to Taxon in the input data (benthic_data)", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  benthic_data <- benthic_data %>% dplyr::rename(Taxa = Taxon)
-
-  # data prep step 2 - get distinct records on StationID, Latitude, Longitude, SampleDepth - also set row names to StationID
-  writelog("get distinct records on StationID, Latitude, Longitude, SampleDepth - also set row names to StationID", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  scb.taxa <- benthic_data %>% dplyr::select(StationID, Latitude, Longitude, SampleDepth) %>%
-    dplyr::distinct()
-  writelog('*** DATA *** get distinct records on StationID, Latitude, Longitude, SampleDepth - also set row names to StationID - RIVPACS-SoCalPrep-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.taxa, logfile = file.path(dirname(logfile), 'RIVPACS-SoCalPrep-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-
-  # *Log scb.taxa
-
-  # data prep step 3 - set up the scb predictors
+  # RIVPACS data prep step 3 - set up the scb predictors
   row.names(scb.predictors) <- scb.taxa$StationID
   scb.predictors <- as.matrix(scb.predictors)
-  writelog('*** DATA *** SCB predictors with stationids - RIVPACS-SCBpredictors-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.predictors, logfile = file.path(dirname(logfile), 'RIVPACS-SCBpredictors-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
+
+  # Write to the logs for RIVPACS data prep step 3
+  writelog(
+    '\n#### RIVPACS data prep step 3 - set up the scb predictors',
+    logfile = logfile,
+    code = "
+      row.names(scb.predictors) <- scb.taxa$StationID
+      scb.predictors <- as.matrix(scb.predictors)
+    ",
+    data = scb.predictors %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = scb.predictors, logfile = logfile, filename = 'RIVPACS-DataPrep-step3.csv', linktext = 'Download RIVPACS Data Prep step 3', verbose = verbose)
 
 
-  # data prep step 4 - Filter to replicate one and get distinct values on StationID Taxa and Abundance
-  writelog("Filter to replicate one and get distinct values on StationID Taxa and Abundance", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  scb.taxa <- benthic_data %>%
+
+
+  # RIVPACS data prep step 4 - Filter to replicate one and get distinct values on StationID Taxa and Abundance
+  scb.taxa <- benthic.rivpacs.input %>%
     dplyr::filter(Replicate == 1) %>%
     dplyr::select(StationID, Taxa, Abundance) %>%
     dplyr::distinct()
-  writelog('*** DATA *** Filter to replicate one and get distinct values on StationID Taxa and Abundance - RIVPACS-SoCalPrep-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.taxa, logfile = file.path(dirname(logfile), 'RIVPACS-SoCalPrep-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS data prep step 4
+  writelog(
+    '\n#### RIVPACS data prep step 4 - Filter to replicate one and get distinct values on StationID, Taxa, and Abundance',
+    logfile = logfile,
+    code = "
+      scb.taxa <- benthic.rivpacs.input %>%
+        dplyr::filter(Replicate == 1) %>%
+        dplyr::select(StationID, Taxa, Abundance) %>%
+        dplyr::distinct()
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = scb.taxa, logfile = logfile, filename = 'RIVPACS-DataPrep-step4.csv', linktext = 'Download RIVPACS Data Prep step 4', verbose = verbose)
 
 
-  # Data prep step 5 - remove certain special characters from taxa name
-  writelog("Filter to replicate one and get distinct values on StationID Taxa and Abundance", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # RIVPACS Data prep step 5 - remove certain special characters from taxa name
   scb.taxa$Taxa <- gsub(" ", "_", scb.taxa$Taxa, fixed = TRUE)
   scb.taxa$Taxa <- gsub("(", "_", scb.taxa$Taxa, fixed = TRUE)
   scb.taxa$Taxa <- gsub(")", "_", scb.taxa$Taxa, fixed = TRUE)
-  writelog('*** DATA *** Filter to replicate one and get distinct values on StationID Taxa and Abundance - RIVPACS-SoCalPrep-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.taxa, logfile = file.path(dirname(logfile), 'RIVPACS-SoCalPrep-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+  # Write to the logs for RIVPACS data prep step 5
+  writelog(
+    '\n#### RIVPACS Data prep step 5 - remove certain special characters from taxa name',
+    logfile = logfile,
+    code = "
+      scb.taxa$Taxa <- gsub(' ', '_', scb.taxa$Taxa, fixed = TRUE)
+      scb.taxa$Taxa <- gsub('(', '_', scb.taxa$Taxa, fixed = TRUE)
+      scb.taxa$Taxa <- gsub(')', '_', scb.taxa$Taxa, fixed = TRUE)
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = scb.taxa, logfile = logfile, filename = 'RIVPACS-DataPrep-step5.csv', linktext = 'Download RIVPACS Data Prep step 5', verbose = verbose)
 
 
-  # Data prep step 6 - pivot the data out wide and make it a data.frame
-  writelog("pivot the data out wide and make it a data.frame", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # RIVPACS Data prep step 6 - pivot the data out wide and make it a data.frame
   scb.taxa <- scb.taxa %>%
     tidyr::pivot_wider(id_cols = "StationID", names_from = "Taxa",
                        values_from = "Abundance", values_fn = list(Abundance = list))
   scb.taxa <- as.data.frame(scb.taxa)
 
-  # Log the pivoting action
-  writelog('*** DATA *** pivot the data out wide and make it a data.frame - RIVPACS.SoCalPrep.step4.RData', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  # Save scb.taxa as an RData file
-  rdata_file_path <- file.path(dirname(logfile), 'RIVPACS.SoCalPrep.step4.RData')
-  RIVPACS.SoCalPrep.step4 <- scb.taxa
-  save(RIVPACS.SoCalPrep.step4, file = rdata_file_path)
-  # Log the saving action
-  writelog(paste('Saved scb.taxa as RData file:', rdata_file_path), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(paste('** NOTE ** I needed to save it as an RData file since there were objects in the dataframe that were not able to be written to a csv', rdata_file_path), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS data prep step 6
+  writelog(
+    '\n#### RIVPACS Data prep step 6 - pivot the data out wide and make it a data.frame',
+    logfile = logfile,
+    code = "
+      scb.taxa <- scb.taxa %>%
+        tidyr::pivot_wider(id_cols = 'StationID', names_from = 'Taxa',
+                           values_from = 'Abundance', values_fn = list(Abundance = list))
+      scb.taxa <- as.data.frame(scb.taxa)
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
 
-  # Data prep step 7 - ...
-  writelog("Take the last column of scb taxa", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # Convert lists to strings for CSV writing
+  scb.taxa_writable <- scb.taxa
+  scb.taxa_writable[] <- lapply(scb.taxa_writable, function(x) if(is.list(x)) sapply(x, toString) else x)
+
+  create_download_link(data = scb.taxa_writable, logfile = logfile, filename = 'RIVPACS-DataPrep-step6.csv', linktext = 'Download RIVPACS Data Prep step 6', verbose = verbose)
+
+
+  # RIVPACS Data prep step 7
   scb.taxa <- scb.taxa[, -1]
+  # Write to the logs for RIVPACS data prep step 7
+  writelog(
+    '\n#### RIVPACS Data prep step 7',
+    logfile = logfile,
+    code = "
+      scb.taxa <- scb.taxa[, -1]
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
 
-  # data prep step 8 - remove Abundance. from column names
+  # Convert lists to strings for CSV writing
+  scb.taxa_writable <- scb.taxa
+  scb.taxa_writable[] <- lapply(scb.taxa_writable, function(x) if(is.list(x)) sapply(x, toString) else x)
+
+  create_download_link(data = scb.taxa_writable, logfile = logfile, filename = 'RIVPACS-DataPrep-step7.csv', linktext = 'Download RIVPACS Data Prep step 7', verbose = verbose)
+
+  # RIVPACS data prep step 8 - remove Abundance. from column names
   colnames(scb.taxa) <- gsub("Abundance.", "", colnames(scb.taxa))
-  writelog('RIVPACS-SoCalPrep-step6', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  # writelog(paste(c('RIVPACS-SoCalPrep-step6', scb.taxa), collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('** NOTE ** RIVPACS-SoCalPrep-step6 was a very long list that cluttered the log - omitting logging for now', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS data prep step 8
+  writelog(
+    '\n#### RIVPACS data prep step 8 - remove Abundance. from column names',
+    logfile = logfile,
+    code = "
+      colnames(scb.taxa) <- gsub('Abundance.', '', colnames(scb.taxa))
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
+
+  # Convert lists to strings for CSV writing
+  scb.taxa_writable <- scb.taxa
+  scb.taxa_writable[] <- lapply(scb.taxa_writable, function(x) if(is.list(x)) sapply(x, toString) else x)
+
+  create_download_link(data = scb.taxa_writable, logfile = logfile, filename = 'RIVPACS-DataPrep-step8.csv', linktext = 'Download RIVPACS Data Prep step 8', verbose = verbose)
 
 
-  # data prep step 9 - Replace NAs with zero.
+
+  # RIVPACS data prep step 9 - Replace NAs with zero.
   scb.taxa[scb.taxa == "NULL"] <- 0
   scb.taxa = as.data.frame(lapply(scb.taxa, as.numeric))
   row.names(scb.taxa) <- row.names(scb.predictors)
-  writelog('*** DATA *** Replace NAs with zero. - RIVPACS-SoCalPrep-step7.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(scb.taxa, logfile = file.path(dirname(logfile), 'RIVPACS-SoCalPrep-step7.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS data prep step 9
+  writelog(
+    '\n#### RIVPACS data prep step 9 - Replace NAs with zero.',
+    logfile = logfile,
+    code = "
+      scb.taxa[scb.taxa == 'NULL'] <- 0
+      scb.taxa <- as.data.frame(lapply(scb.taxa, as.numeric))
+      row.names(scb.taxa) <- row.names(scb.predictors)
+    ",
+    data = scb.taxa %>% head(25),
+    verbose = verbose
+  )
+
+  # Convert lists to strings for CSV writing
+  scb.taxa_writable <- scb.taxa
+  scb.taxa_writable[] <- lapply(scb.taxa_writable, function(x) if(is.list(x)) sapply(x, toString) else x)
+
+  create_download_link(data = scb.taxa_writable, logfile = logfile, filename = 'RIVPACS-DataPrep-step8.csv', linktext = 'Download RIVPACS Data Prep step 8', verbose = verbose)
 
 
   # RIVPACS calculations. By default the functions use the example user data.
-  writelog('About to call SoCal RIVPACS within RIVPACS function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa, logfile = logfile, verbose = verbose)
-  writelog('Done calling SoCal RIVPACS within RIVPACS function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS calculations
+  writelog(
+    '\n#### RIVPACS calculations. By default the functions use the example user data.',
+    logfile = logfile,
+    code = "
+      socal <- SoCalRivpacs(observed.predictors = scb.predictors, observed.taxa = scb.taxa)
+    ",
+    verbose = verbose
+  )
+
+
 
   # the stations column of the oe table dataframe was being returned as a factor. Need to make that a character
-  writelog('Transform factor columns into characters', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
   socal$oe.table <- socal$oe.table %>%
     mutate_if(is.factor,as.character)
-  writelog('*** DATA *** SoCal OE Table - after making factor columns into characters - RIVPACS-socal-oe-factors-to-characters.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(socal$oe.table, logfile = file.path(dirname(logfile), 'RIVPACS-socal-oe-factors-to-characters.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
+  # Write to the logs for converting stations column to character in oe table dataframe
+  writelog(
+    '\n#### The stations column of the oe table dataframe was being returned as a factor. Need to make that a character',
+    logfile = logfile,
+    code = "
+      socal$oe.table <- socal$oe.table %>%
+        mutate_if(is.factor, as.character)
+    ",
+    data = socal$oe.table %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = socal$oe.table, logfile = logfile, filename = 'RIVPACS-socal.oe-table.csv', linktext = 'Download RIVPACS socal Observed/Expected table', verbose = verbose)
 
 
-
-
-  # **Please Log socal$oe.table**
 
   # Get the distinct values in benthic data based on StationID Replicate SampleDate Stratum
-  benthic_data <- benthic_data %>%
+  benthic.rivpacs.input <- benthic.rivpacs.input %>%
     dplyr::select(StationID, Replicate, SampleDate, Stratum) %>%
     dplyr::distinct()
 
-  writelog('*** DATA *** benthic data distinct on StationID, Replicate, SampleDate, Stratum - RIVPACS-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(benthic_data, logfile = file.path(dirname(logfile), 'RIVPACS-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for getting distinct values in benthic data based on StationID, Replicate, SampleDate, Stratum
+  writelog(
+    '\n#### Get the distinct values in benthic data based on StationID, Replicate, SampleDate, Stratum',
+    logfile = logfile,
+    code = "
+      benthic.rivpacs.input <- benthic.rivpacs.input %>%
+        dplyr::select(StationID, Replicate, SampleDate, Stratum) %>%
+        dplyr::distinct()
+    ",
+    data = benthic.rivpacs.input %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = benthic.rivpacs.input, logfile = logfile, filename = 'benthic-data-distinct.csv', linktext = 'Download distinct benthic data', verbose = verbose)
+
+
+
+
 
 
   # Calculate RIVPACS Scores
-
   # Riv step 0 - select stations and Observed/Expected
   riv0 <- socal$oe.table %>%
     dplyr::select(stations, O.over.E)
+  # Write to the logs for RIVPACS Scores calculation step 0
+  writelog(
+    '\n#### Calculate RIVPACS Scores\nRiv step 0 - select stations and Observed/Expected',
+    logfile = logfile,
+    code = "
+    riv0 <- socal$oe.table %>%
+      dplyr::select(stations, O.over.E)
+  ",
+    data = riv0 %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = riv0, logfile = logfile, filename = 'RIVPACS-Scores-step0.csv', linktext = 'Download RIVPACS Scores step 0', verbose = verbose)
 
-  writelog('*** DATA *** select stations and Observed/Expected - RIVPACS-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(riv0, logfile = file.path(dirname(logfile), 'RIVPACS-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
 
   # Riv step 1 - join with benthic data
   riv1 <- riv0 %>%
     dplyr::rename(StationID = stations, Score = O.over.E) %>%
-    dplyr::full_join(benthic_data) %>%
+    dplyr::full_join(benthic.rivpacs.input) %>%
     dplyr::mutate(Index = "RIVPACS")
 
-  writelog('*** DATA *** join with benthic data - RIVPACS-step3.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(riv0, logfile = file.path(dirname(logfile), 'RIVPACS-step3.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+  # Write to the logs for RIVPACS Scores calculation step 1
+  writelog(
+    '\n#### Riv step 1 - join with benthic data',
+    logfile = logfile,
+    code = "
+      riv1 <- riv0 %>%
+        dplyr::rename(StationID = stations, Score = O.over.E) %>%
+        dplyr::full_join(benthic.rivpacs.input) %>%
+        dplyr::mutate(Index = 'RIVPACS')
+    ",
+    data = riv1 %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = riv1, logfile = logfile, filename = 'RIVPACS-Scores-step1.csv', linktext = 'Download RIVPACS Scores step 1', verbose = verbose)
 
 
-  # Get the scores based on the thresholds
+
+
+
+
+  # Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf
   rivpacs.score <- riv1 %>%
-    dplyr::mutate(Category = case_when((Score <= 0.32) ~ "High Disturbance",
-                                       ((Score > 0.32 & Score <= 0.74) | (Score >= 1.26)) ~ "Moderate Disturbance",
-                                       ((Score > 0.74 & Score <= 0.90) | Score >= 1.10 & Score < 1.26) ~ "Low Disturbance",
-                                       (Score > 0.90 | Score < 1.10) ~ "Reference")) %>%
-    dplyr::mutate(`Category Score` = case_when(Category == "Reference" ~ 1,
-                                               Category == "Low Disturbance" ~ 2,
-                                               Category == "Moderate Disturbance" ~ 3,
-                                               Category == "High Disturbance" ~ 4)) %>%
+    dplyr::mutate(
+        Score = round(Score, 2),
+        Category = case_when(
+            (Score < 0.33) ~ "High Disturbance",
+            ((Score >= 0.33 & Score < 0.75) | (Score > 1.25)) ~ "Moderate Disturbance",
+            ((Score >= 0.75 & Score <= 0.90) | Score >= 1.10 & Score <= 1.25) ~ "Low Disturbance",
+            (Score > 0.90 & Score < 1.10) ~ "Reference"
+        )
+    ) %>%
+    dplyr::mutate(
+        `Category Score` = case_when(
+            Category == "Reference" ~ 1,
+            Category == "Low Disturbance" ~ 2,
+            Category == "Moderate Disturbance" ~ 3,
+            Category == "High Disturbance" ~ 4
+        )
+    ) %>%
     dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
+  # Write to the logs for getting scores based on thresholds
+  # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+  # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+  # It treats ">= 0.75" the same as "<= 0.74" which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
+  writelog(
+    '\n#### Get the scores based on the thresholds page 73 table 4.25 - https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf',
+    logfile = logfile,
+    code = "
+      # Round the score before comparison with the threshold cutoff values - since they are rounded to two decimal places
+      # Furthermore, when you read the technical manual, you can tell that the comparison is such that it expects the score to be rounded to two decimal places
+      # It treats '>= 0.75' the same as '<= 0.74' which means it is almost treating the Score as a discrete number which would not exceed more than two decimal places
+      rivpacs.score <- riv1 %>%
+        dplyr::mutate(
+            Score = round(Score, 2),
+            Category = case_when(
+              Score < 0.33 ~ 'High Disturbance',
+              (Score >= 0.33 & Score < 0.75) | (Score > 1.25) ~ 'Moderate Disturbance',
+              (Score >= 0.75 & Score <= 0.90) | (Score >= 1.10 & Score <= 1.25) ~ 'Low Disturbance',
+              (Score > 0.90 & Score < 1.10) ~ 'Reference'
+        )) %>%
+        dplyr::mutate(
+            `Category Score` = case_when(
+              Category == 'Reference' ~ 1,
+              Category == 'Low Disturbance' ~ 2,
+              Category == 'Moderate Disturbance' ~ 3,
+              Category == 'High Disturbance' ~ 4
+            )
+        ) %>%
+        dplyr::select(StationID, SampleDate, Replicate, Stratum, Index, Score, Category, `Category Score`)
+    ",
+    data = rivpacs.score %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = rivpacs.score, logfile = logfile, filename = 'RIVPACS-Scores.csv', linktext = 'Download RIVPACS Scores', verbose = verbose)
 
 
-  writelog('*** DATA *** Get the scores based on the thresholds - FINAL RIVPACS OUTPUT - RIVPACS-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(riv0, logfile = file.path(dirname(logfile), 'RIVPACS-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-
-  writelog('\nEND: RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n### END: RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
 
   return(rivpacs.score)
@@ -217,7 +463,10 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
 
 # ---- ORIGINAL RIVPACS FUNCTION ----
-# This is the original RIVPACS function. Called by the above function.
+#' This is the original RIVPACS function. Called by the function called "RIVPACS" which outputs the data in a more friendly format.
+#' This function does most of the heavy lifting though
+#' Exporting it so it can be more accessible
+#' @export
 SoCalRivpacs <- function(Pcutoff = 0.5,
                          reference.groups = socal.reference.groups,
                          observed.predictors = socal.example.habitat,
@@ -226,55 +475,121 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          reference.cov = socal.reference.covariance,
                          observed.taxa = socal.example.taxa,
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-                         verbose = T
+                         verbose = F
                          ) {
 
-  writelog('\nBEGIN: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n##### **BEGIN**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
-  # set up the hyphen log prefix - which hasnt yet worked as i want it to
-  hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
+  # Save the reference groups to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.reference.groups.RData'
+  if (verbose) {
+    save(reference.groups, file = file.path( dirname(logfile), tmp.filename ))
+  }
 
-  writelog("Begin Logging input to So Cal Rivpacs", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog(paste(c('Reference Groups: ', reference.groups), collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('So Cal RIVPACS observed predictors - observed.predictors.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(observed.predictors, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-observed.predictors.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
-
-  writelog('So Cal RIVPACS observed predictors - reference.taxa.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(reference.taxa, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-reference.taxa.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
-
-
-  writelog('So Cal RIVPACS observed predictors - group.means.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(group.means, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-group.means.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
-
-  writelog('So Cal RIVPACS observed predictors - reference.cov.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(reference.cov, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-reference.cov.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
-
-  writelog('So Cal RIVPACS observed predictors - observed.taxa.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(observed.taxa, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-observed.taxa.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix, include.row.names = T)
+  # Create code block and download link to reference.groups
+  writelog(
+    '\n##### SoCal RIVPACS Reference Groups',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.groups' into your environment"),
+    verbose = verbose
+  )
 
 
+  # Save the observed.predictors to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.observed.predictors.RData'
+  if (verbose) {
+    save(observed.predictors, file = file.path( dirname(logfile), tmp.filename ))
+  }
+  # Create code block and download link to observed.predictors
+  writelog(
+    '\n##### SoCal RIVPACS Observed Predictors',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'observed.predictors' into your environment"),
+    verbose = verbose
+  )
+
+
+  # Save the reference taxa to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.reference.taxa.RData'
+  if (verbose) {
+    save(reference.taxa, file = file.path(dirname(logfile), tmp.filename))
+  }
+  # Create code block and download link to reference.taxa
+  writelog(
+    '\n##### SoCal RIVPACS Reference Taxa',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.taxa' into your environment"),
+    verbose = verbose
+  )
+
+  # Save the group means to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.group.means.RData'
+  if (verbose) {
+    save(group.means, file = file.path(dirname(logfile), tmp.filename))
+  }
+  # Create code block and download link to group.means
+  writelog(
+    '\n##### SoCal RIVPACS Group Means',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'group.means' into your environment"),
+    verbose = verbose
+  )
+
+  # Save the reference covariance to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.reference.cov.RData'
+  if (verbose) {
+    save(reference.cov, file = file.path(dirname(logfile), tmp.filename))
+  }
+  # Create code block and download link to reference.cov
+  writelog(
+    '\n##### SoCal RIVPACS Reference Covariance',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'reference.cov' into your environment"),
+    verbose = verbose
+  )
+
+
+  # Save the observed taxa to an RData file
+  tmp.filename <- 'benthic.rivpacs.socal.observed.taxa.RData'
+  if (verbose) {
+    save(observed.taxa, file = file.path(dirname(logfile), tmp.filename))
+  }
+  # Create code block and download link to observed.taxa
+  writelog(
+    '\n##### SoCal RIVPACS Observed Taxa',
+    logfile = logfile,
+    code = paste0("load('", tmp.filename, "') ### This will load a dataframe called 'observed.taxa' into your environment"),
+    verbose = verbose
+  )
 
   # Pcutoff is the probability cutoff
+  # Log that so the user can see which value is being used
+  writelog( paste0("\n SoCal RIVPACS Pcutoff: " , Pcutoff), logfile = logfile, code = paste0("Pcutoff <- ", Pcutoff), verbose = verbose )
+
 
   # Names of predictor variables.
   predictor.variables <- c("Latitude", "Longitude", "SampleDepth")
+  # Write to the logs for names of predictor variables
+  writelog(
+    '\n##### Names of predictor variables.',
+    logfile = logfile,
+    code = "
+      predictor.variables <- c('Latitude', 'Longitude', 'SampleDepth')
+    ",
+    verbose = verbose
+  )
 
-  writelog('These are the predictor variables in socal rivpacs', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(paste(predictor.variables, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
-  # ----- Format Observed Data -----
 
+
+  # ----- Define function - Format Observed Data -----
   FormatObservedData <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-    writelog('\nBEGIN: FormatObservedData function (within SoCal RIVPACS.\n', logfile = logfile, verbose = verbose)
 
     # Align observed (user) data columns with reference data columns. Columns in same
     # order. Observed data may have a different number of taxa (columns) than
@@ -282,99 +597,210 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
     # Convert observed.taxa to presence/absence (0/1)
     tmp.pa <- observed.taxa
-
-    writelog('Observed Taxa - FormatObservedData-observed.taxa.csv', logfile = logfile, verbose = verbose)
-    writelog(observed.taxa, logfile = file.path(dirname(logfile), 'FormatObservedData-observed.taxa.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-
-    #tmp.pa <- lapply(tmp.pa, as.numeric)
     tmp.pa[tmp.pa > 0] <- 1
-
-    writelog('Observed Taxa converted to Presence Absence - FormatObservedData-observed.taxa.PA-step1.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(tmp.pa, logfile = file.path(dirname(logfile), 'FormatObservedData-observed.taxa.PA-step1.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+    # Write to the logs for converting observed.taxa to presence/absence (0/1)
+    writelog(
+      '\n##### Convert observed.taxa to presence/absence (0/1)',
+      logfile = logfile,
+      code = "
+        tmp.pa <- observed.taxa
+        tmp.pa[tmp.pa > 0] <- 1
+      ",
+      data = tmp.pa %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = tmp.pa, logfile = logfile, filename = 'observed-taxa-presence-absence.csv', linktext = 'Download observed taxa presence/absence', verbose = verbose)
 
 
     # Align rows using predictor variables.
     tmp.pa <- tmp.pa[row.names(observed.predictors), ]    # !!! is this required???
+    # Write to the logs for aligning rows using predictor variables
+    writelog(
+      '\n##### Align rows using predictor variables.',
+      logfile = logfile,
+      code = "
+        tmp.pa <- tmp.pa[row.names(observed.predictors), ]
+      ",
+      data = tmp.pa %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = tmp.pa, logfile = logfile, filename = 'aligned-observed-taxa.csv', linktext = 'Download aligned observed taxa', verbose = verbose)
 
 
     # Container matrix.
     n.observed.sites <- dim(tmp.pa)[1]
+    # Write to the logs for container matrix
+    writelog(
+      '\n##### Container matrix.',
+      logfile = logfile,
+      code = "
+        n.observed.sites <- dim(tmp.pa)[1]
+        print('n.observed.sites')
+        print(n.observed.sites)
+      ",
+      verbose = verbose
+    )
 
-    writelog(paste('Number of observed sites: ', n.observed.sites), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
+    # get number of reference taxa
     n.reference.taxa <- dim(reference.taxa)[2]
+    # Write to the logs for getting number of reference taxa
+    writelog(
+      '\n##### Get number of reference taxa',
+      logfile = logfile,
+      code = "
+        n.reference.taxa <- dim(reference.taxa)[2]
+        print('n.reference.taxa')
+        print(n.reference.taxa)
+      ",
+      verbose = verbose
+    )
 
-    writelog(paste('Number of referenced taxa: ', n.reference.taxa), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
+    # Observed Taxa presence absence matrix
     observed.taxa.pa <- matrix(rep(0, times = n.observed.sites * n.reference.taxa),
                                nrow = n.observed.sites, ncol = n.reference.taxa,
                                dimnames = list(rownames(tmp.pa), names(reference.taxa)))
+    # Write to the logs for Observed Taxa presence absence matrix
+    writelog(
+      '\n##### Observed Taxa presence absence matrix',
+      logfile = logfile,
+      code = "
+        observed.taxa.pa <- matrix(rep(0, times = n.observed.sites * n.reference.taxa),
+                                   nrow = n.observed.sites, ncol = n.reference.taxa,
+                                   dimnames = list(rownames(tmp.pa), names(reference.taxa)))
+      ",
+      data = observed.taxa.pa %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = observed.taxa.pa, logfile = logfile, filename = 'observed-taxa-pa-matrix.csv', linktext = 'Download Observed Taxa PA matrix', verbose = verbose)
 
-    writelog('Observed Taxa Presence Absence - step 2 - FormatObservedData-observed.taxa.PA-step2.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(observed.taxa.pa, logfile = file.path(dirname(logfile), 'FormatObservedData-observed.taxa.PA-step2.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-
-    writelog('match the observed taxa PA (step 2) with the taxa PA from step 1', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
     # Fill container with observed data.
     col.match <- match(dimnames(observed.taxa.pa)[[2]], dimnames(tmp.pa)[[2]])
-    #tmp.pa <- as.data.frame(lapply(tmp.pa, as.numeric))
-
-
-    writelog('replace columns of observed.taxa.pa with those of tmp.pa if the column names match\n', logfile = logfile, verbose = verbose)
     for(i in 1:n.reference.taxa) {
       if(!is.na(col.match[i])) observed.taxa.pa[, i] <- tmp.pa[, col.match[i]]
     }
+    # Write to the logs for filling container with observed data
+    writelog(
+      '\nFill container with observed data.',
+      logfile = logfile,
+      code = "
+        col.match <- match(dimnames(observed.taxa.pa)[[2]], dimnames(tmp.pa)[[2]])
+        for(i in 1:n.reference.taxa) {
+          if(!is.na(col.match[i])) observed.taxa.pa[, i] <- tmp.pa[, col.match[i]]
+        }
+      ",
+      data = observed.taxa.pa %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = observed.taxa.pa, logfile = logfile, filename = 'container-observed-data-filled.csv', linktext = 'Download observed taxa dataframe', verbose = verbose)
 
-    writelog('Final Observed Taxa PA - FormatObservedData-observed.taxa.PA-final.csv', logfile = logfile, verbose = verbose)
-    writelog(observed.taxa.pa, logfile = file.path(dirname(logfile), 'FormatObservedData-observed.taxa.PA-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-    writelog('\nEND: FormatObservedData function (within SoCal RIVPACS.\n', logfile = logfile, verbose = verbose)
 
     # The matrix observed.taxa.pa contains the observed.scores used for O/E.
     return(observed.taxa.pa)
 
   }
+  # Write to the logs for defining the FormatObservedData function
+  writelog(
+    '\n##### Define function - Format Observed Data',
+    logfile = logfile,
+    code = "
+      FormatObservedData <- function() {
 
-  writelog('About to Call the Final Observed Data function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+        # set up the hyphen log prefix - which hasnt yet worked as i want it to
 
+
+        # Align observed (user) data columns with reference data columns. Columns in same
+        # order. Observed data may have a different number of taxa (columns) than
+        # reference data.
+
+        # Convert observed.taxa to presence/absence (0/1)
+        tmp.pa <- observed.taxa
+        tmp.pa[tmp.pa > 0] <- 1
+
+        # Align rows using predictor variables.
+        tmp.pa <- tmp.pa[row.names(observed.predictors), ]    # !!! is this required???
+
+        # Container matrix.
+        n.observed.sites <- dim(tmp.pa)[1]
+
+        # get number of reference taxa
+        n.reference.taxa <- dim(reference.taxa)[2]
+
+        # Observed Taxa presence absence matrix
+        observed.taxa.pa <- matrix(rep(0, times = n.observed.sites * n.reference.taxa),
+                                   nrow = n.observed.sites, ncol = n.reference.taxa,
+                                   dimnames = list(rownames(tmp.pa), names(reference.taxa)))
+
+
+        # Fill container with observed data.
+        col.match <- match(dimnames(observed.taxa.pa)[[2]], dimnames(tmp.pa)[[2]])
+        for(i in 1:n.reference.taxa) {
+          if(!is.na(col.match[i])) observed.taxa.pa[, i] <- tmp.pa[, col.match[i]]
+        }
+
+        # The matrix observed.taxa.pa contains the observed.scores used for O/E.
+        return(observed.taxa.pa)
+      }
+    ",
+    verbose = verbose
+  )
+
+
+  # Call Format observed data function
   observed.data <- FormatObservedData(logfile = logfile, verbose = verbose)
+  # Write to the logs for calling FormatObservedData function
+  writelog(
+    '\n##### Call FormatObservedData function',
+    logfile = logfile,
+    code = "
+      observed.data <- FormatObservedData()
+    ",
+    data = observed.data %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = observed.data, logfile = logfile, filename = 'formatted-observed-data.csv', linktext = 'Download formatted observed data', verbose = verbose)
 
-  writelog('Done Calling the Final Observed Data function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('Output from the function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(observed.data, logfile = file.path(dirname(logfile), 'FormatObservedData-observed.taxa-function.output.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
 
-
-  # ----- Calculate Expected Data -----
-
+  # ----- Define Calculate Expected Data -----
   CalculateExpectedData <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
-    # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
-
-    writelog('\nBEGIN: Calculate Expected Data function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **BEGIN: Calculate Expected Data function.**\n', logfile = logfile, verbose = verbose)
 
     # Calculate probability of sites belonging to groups. Follow RIVPACS assumption
     # of weighting the group probabilities by reference group size. Flags outlier
     # sites, using the chi-squared statistic.
 
 
-    # Definitions.
+    # In Calcluate Expected Data Function - Definitions.
     n.predictor.variables <- length(predictor.variables)
     group.size <- table(reference.groups)
     n.groups <- length(group.size)
 
-    writelog( paste( c('N predictor variables', n.predictor.variables), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog('*** DATA *** Calculate Expected Data - Reference groups - CalculateExpectedData-reference.groups.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(group.size, logfile = file.path(dirname(logfile), 'CalculateExpectedData-reference.groups.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-    writelog( paste( c('N Groups', n.predictor.variables), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    # Write to the logs for Calculate Expected Data Function - Definitions
+    writelog(
+      '\n##### In Calculate Expected Data Function - Definitions',
+      logfile = logfile,
+      code = "
+        n.predictor.variables <- length(predictor.variables)
+        group.size <- table(reference.groups)
+        n.groups <- length(group.size)
+
+        print('n.predictor.variables')
+        print(n.predictor.variables)
+        print('group.size')
+        print(group.size)
+        print('n.groups')
+        print(n.groups)
+      ",
+      verbose = verbose
+    )
 
 
     # Chi-squared values for flagging outlier samples.
@@ -382,24 +808,63 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
     crit.01 <- qchisq(0.99, df = degrees.freedom)
     crit.05 <- qchisq(0.95, df = degrees.freedom)
 
-    writelog( paste( c('degrees.freedom', degrees.freedom), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog( paste( c('crit.01', crit.01), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog( paste( c('crit.05', crit.05), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    # Write to the logs for Chi-squared values for flagging outlier samples
+    writelog(
+      '\n##### Degrees of Freedom and Chi-squared values for flagging outlier samples.',
+      logfile = logfile,
+      code = "
+        degrees.freedom <- min(c(n.predictor.variables, (n.groups - 1)))
+        crit.01 <- qchisq(0.99, df = degrees.freedom)
+        crit.05 <- qchisq(0.95, df = degrees.freedom)
+
+        print('degrees freedom')
+        print(degrees.freedom)
+        print('crit.01')
+        print(crit.01)
+        print('crit.05')
+        print(crit.05)
+      ",
+      verbose = verbose
+    )
 
 
     # Container for probabilities.
     n.observed.sites.filtered <- dim(observed.predictors)[[1]]
-    writelog( paste( c('n.observed.sites.filtered', n.observed.sites.filtered), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+    # Write to the logs for container for probabilities
+    writelog(
+      '\n##### Container for probabilities.',
+      logfile = logfile,
+      code = "
+        n.observed.sites.filtered <- dim(observed.predictors)[[1]]
+        print('n.observed.sites.filtered')
+        print(n.observed.sites.filtered)
+      ",
+      verbose = verbose
+    )
 
 
+    # Group Probabilities
     group.probabilities <- matrix(rep(0, n.observed.sites.filtered * n.groups),
                                   nrow = n.observed.sites.filtered,
                                   dimnames = list(dimnames(observed.predictors)[[1]],
                                                   dimnames(group.means)[[1]]))
+    # Write to the logs for Group Probabilities
+    writelog(
+      '\n##### Group Probabilities',
+      logfile = logfile,
+      code = "
+        group.probabilities <- matrix(rep(0, n.observed.sites.filtered * n.groups),
+                                      nrow = n.observed.sites.filtered,
+                                      dimnames = list(dimnames(observed.predictors)[[1]],
+                                                      dimnames(group.means)[[1]]))
+      ",
+      data = group.probabilities,
+      verbose = verbose
+    )
+    create_download_link(data = group.probabilities, logfile = logfile, filename = 'group-probabilities-initial.csv', linktext = 'Download group probabilities (initial)', verbose = verbose)
 
 
-    writelog('*** DATA *** Group Probabilities - CalculateExpectedData-group-prob.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(group.probabilities, logfile = file.path(dirname(logfile), 'CalculateExpectedData-group-prob.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
 
     # Container for outlier flags and minimum distance.
@@ -407,14 +872,25 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                                outlier.01 = rep(0, n.observed.sites.filtered),
                                min.distance = rep(0, n.observed.sites.filtered),
                                row.names = dimnames(observed.predictors)[[1]])
+    # Write to the logs for container for outlier flags and minimum distance
+    writelog(
+      '\n##### Container for outlier flags and minimum distance.',
+      logfile = logfile,
+      code = "
+        outlier.flag <- data.frame(outlier.05 = rep(0, n.observed.sites.filtered),
+                                   outlier.01 = rep(0, n.observed.sites.filtered),
+                                   min.distance = rep(0, n.observed.sites.filtered),
+                                   row.names = dimnames(observed.predictors)[[1]])
+      ",
+      data = outlier.flag %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = outlier.flag, logfile = logfile, filename = 'outlier-flags-and-distance-initial.csv', linktext = 'Download outlier flags and distance (iniital)', verbose = verbose)
 
-    writelog('*** DATA *** Ouitlier flags - CalculateExpectedData-outlier.flags.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(outlier.flag, logfile = file.path(dirname(logfile), 'CalculateExpectedData-outlier.flags.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+
 
 
     # calculate group membership probabilities for each sample and find outliers.
-    writelog('Calculate group membership probabilities for each sample and find outliers.', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog('Get mahalanobis distance from each sample to each group mean', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
     for(i in 1:n.observed.sites.filtered) {
 
       # Squared Mahalanobis distance from current sample to each group mean.
@@ -434,168 +910,431 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
       if(outlier.flag$min.distance[i] > crit.01) outlier.flag[i, "outlier.01"] <- 1
 
     }
+    # Write to the logs for calculating group membership probabilities and finding outliers
+    writelog(
+      '\n##### Calculate group membership probabilities for each sample and find outliers.',
+      logfile = logfile,
+      code = "
+        for(i in 1:n.observed.sites.filtered) {
 
-    writelog('*** DATA *** Ouitlier flags AFTER distance calculation - CalculateExpectedData-outlier.flags-after-dist-calc.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(outlier.flag, logfile = file.path(dirname(logfile), 'CalculateExpectedData-outlier.flags-after-dist-calc.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+          # Squared Mahalanobis distance from current sample to each group mean.
+          distances <- mahalanobis(group.means,
+                                   observed.predictors[i,],
+                                   reference.cov,
+                                   inverted = TRUE)
+
+          group.probabilities[i,] <- group.size * exp(-0.5 * distances) # see Clarke et al. (2000)
+          group.probabilities[i,] <- group.probabilities[i, ] / sum(group.probabilities[i, ])
+
+          # Outlier criteria is minimum distance.
+          outlier.flag$min.distance[i] <- min(distances)
+
+          # Check for outliers. Each sample is either a pass (0) or fail (1).
+          if(outlier.flag$min.distance[i] > crit.05) outlier.flag[i, 'outlier.05'] <- 1
+          if(outlier.flag$min.distance[i] > crit.01) outlier.flag[i, 'outlier.01'] <- 1
+
+        }
+      ",
+      verbose = verbose
+    )
+    create_download_link(data = group.probabilities, logfile = logfile, filename = 'group-probabilities.csv', linktext = 'Download group probabilities', verbose = verbose)
+    create_download_link(data = outlier.flag, logfile = logfile, filename = 'outlier-flag.csv', linktext = 'Download outlier flag', verbose = verbose)
+
 
 
 
     # Occurrence frequencies of all taxa in the reference groups.
-    writelog('Get Occurrence frequencies of all taxa in the reference groups.', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
     freq.in.group <- apply(reference.taxa, 2,
                            function(x){tapply(x, reference.groups, function(y){sum(y) / length(y)})})
+    # Write to the logs for occurrence frequencies of all taxa in the reference groups
+    writelog(
+      '\n##### Occurrence frequencies of all taxa in the reference groups.',
+      logfile = logfile,
+      code = "
+        freq.in.group <- apply(reference.taxa, 2,
+                               function(x) { tapply(x, reference.groups, function(y) { sum(y) / length(y) }) })
+      ",
+      data = freq.in.group %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = freq.in.group, logfile = logfile, filename = 'occurrence-frequencies.csv', linktext = 'Download occurrence frequencies', verbose = verbose)
+
 
     # Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).
-    writelog('Get Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
     predicted.prob.all <- group.probabilities %*% freq.in.group
-
-    writelog('*** DATA *** Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4). - CalculateExpectedData-predicted.prob.all.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(predicted.prob.all, logfile = file.path(dirname(logfile), 'CalculateExpectedData-predicted.prob.all.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
+    # Write to the logs for Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4)
+    writelog(
+      '\n##### Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).',
+      logfile = logfile,
+      code = "
+        predicted.prob.all <- group.probabilities %*% freq.in.group
+      ",
+      data = predicted.prob.all %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = predicted.prob.all, logfile = logfile, filename = 'predicted-prob-all.csv', linktext = 'Download predicted probabilities', verbose = verbose)
 
 
     # predicted.prob.all are the predicted (expected) probabilites.
     expected.data <- list(predicted = predicted.prob.all, outliers = outlier.flag, n = n.observed.sites.filtered)
+    # Write to the logs for predicted probabilities
+    writelog(
+      '\n##### predicted.prob.all are the predicted (expected) probabilities.',
+      logfile = logfile,
+      code = "
+        expected.data <- list(predicted = predicted.prob.all, outliers = outlier.flag, n = n.observed.sites.filtered)
+      ",
+      verbose = verbose
+    )
+    create_download_link(data = predicted.prob.all, logfile = logfile, filename = 'expected-predicted-prob.csv', linktext = 'Download predicted probabilities', verbose = verbose)
+    #create_download_link(data = outlier.flag, logfile = logfile, filename = 'expected-outliers.csv', linktext = 'Download outliers', verbose = verbose)
+    #create_download_link(data = data.frame(n.observed.sites.filtered), logfile = logfile, filename = 'expected-n-sites.csv', linktext = 'Download number of observed sites', verbose = verbose)
 
-    writelog("Final output is a list of items which have already been written out:", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog('-- CalculateExpectedData-predicted.prob.all.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog('-- CalculateExpectedData-outlier.flags-after-dist-calc.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog('-- Also n.observed.sites.filtered which was printed earlier, but here it is again', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog( paste( c('n.observed.sites.filtered', n.observed.sites.filtered), collapse = ': '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
 
-
-    writelog('\nEND: Calculate Expected Data function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **END: Calculate Expected Data function.**\n', logfile = logfile, verbose = verbose)
 
     return(expected.data)
 
   }
+  # Write to the logs for defining CalculateExpectedData function
+  writelog(
+    '\n#### Define CalculateExpectedData function',
+    logfile = logfile,
+    code = "
+      CalculateExpectedData <- function() {
 
-  writelog('About to Call the Final Expected Data function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+        # set up the hyphen log prefix - which hasn't yet worked as I want it to
 
+
+        # Calculate probability of sites belonging to groups. Follow RIVPACS assumption
+        # of weighting the group probabilities by reference group size. Flags outlier
+        # sites, using the chi-squared statistic.
+
+        # In Calculate Expected Data Function - Definitions.
+        n.predictor.variables <- length(predictor.variables)
+        group.size <- table(reference.groups)
+        n.groups <- length(group.size)
+
+        # Chi-squared values for flagging outlier samples.
+        degrees.freedom <- min(c(n.predictor.variables, (n.groups - 1)))
+        crit.01 <- qchisq(0.99, df = degrees.freedom)
+        crit.05 <- qchisq(0.95, df = degrees.freedom)
+
+        # Container for probabilities.
+        n.observed.sites.filtered <- dim(observed.predictors)[[1]]
+
+        # Group Probabilities
+        group.probabilities <- matrix(rep(0, n.observed.sites.filtered * n.groups),
+                                      nrow = n.observed.sites.filtered,
+                                      dimnames = list(dimnames(observed.predictors)[[1]],
+                                                      dimnames(group.means)[[1]]))
+
+        # Container for outlier flags and minimum distance.
+        outlier.flag <- data.frame(outlier.05 = rep(0, n.observed.sites.filtered),
+                                   outlier.01 = rep(0, n.observed.sites.filtered),
+                                   min.distance = rep(0, n.observed.sites.filtered),
+                                   row.names = dimnames(observed.predictors)[[1]])
+
+        # Calculate group membership probabilities for each sample and find outliers.
+        for(i in 1:n.observed.sites.filtered) {
+
+          # Squared Mahalanobis distance from current sample to each group mean.
+          distances <- mahalanobis(group.means,
+                                   observed.predictors[i,],
+                                   reference.cov,
+                                   inverted = TRUE)
+
+          group.probabilities[i,] <- group.size * exp(-0.5 * distances) # see Clarke et al. (2000)
+          group.probabilities[i,] <- group.probabilities[i, ] / sum(group.probabilities[i, ])
+
+          # Outlier criteria is minimum distance.
+          outlier.flag$min.distance[i] <- min(distances)
+
+          # Check for outliers. Each sample is either a pass (0) or fail (1).
+          if(outlier.flag$min.distance[i] > crit.05) outlier.flag[i, 'outlier.05'] <- 1
+          if(outlier.flag$min.distance[i] > crit.01) outlier.flag[i, 'outlier.01'] <- 1
+
+        }
+
+        # Occurrence frequencies of all taxa in the reference groups.
+        freq.in.group <- apply(reference.taxa, 2,
+                               function(x){tapply(x, reference.groups, function(y){sum(y) / length(y)})})
+
+        # Matrix algebra form of the RIVPACS combining formula (Clarke et al. 2003, Eq. 4).
+        predicted.prob.all <- group.probabilities %*% freq.in.group
+
+        # predicted.prob.all are the predicted (expected) probabilities.
+        expected.data <- list(predicted = predicted.prob.all, outliers = outlier.flag, n = n.observed.sites.filtered)
+
+        return(expected.data)
+
+      }
+    ",
+    verbose = verbose
+  )
+
+
+  # Call CalculateExpectedData function
   expected.data <- CalculateExpectedData(logfile = logfile, verbose = verbose)
+  # Write to the logs for calling CalculateExpectedData function
+  writelog(
+    '\n#### Call CalculateExpectedData function',
+    logfile = logfile,
+    code = "
+      expected.data <- CalculateExpectedData()
+    ",
+    verbose = verbose
+  )
+  create_download_link(data = expected.data$predicted, logfile = logfile, filename = 'expected-predicted-prob.csv', linktext = 'Download predicted probabilities (returned from CalculateExpectedData function)', verbose = verbose)
+  create_download_link(data = expected.data$outliers, logfile = logfile, filename = 'expected-outliers.csv', linktext = 'Download outliers (returned from CalculateExpectedData function)', verbose = verbose)
+  create_download_link(data = data.frame(expected.data$n), logfile = logfile, filename = 'expected-n-sites.csv', linktext = 'Download number of observed sites (returned from CalculateExpectedData function)', verbose = verbose)
 
-  writelog('Done Calling the Final Expected Data function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('Output from the CalculateExpectedData function:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(expected.data, logfile = file.path(dirname(logfile), 'CalculateExpectedData-expected.data.output.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
 
-
-
-  # ----- Calculate Scores -----
-
+  # Define Calculate Scores Function -----
   CalculateScores <- function(
     logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
-    verbose = T
+    verbose = F
   ) {
 
     # set up the hyphen log prefix - which hasnt yet worked as i want it to
-    hyphen.log.prefix <- rep('-', (2 * (length(sys.calls))) - 1)
 
-    writelog('\nBEGIN: Calculate Scores function.\n', logfile = logfile, verbose = verbose)
 
+    writelog('\n##### **BEGIN: Calculate Scores function.**\n', logfile = logfile, verbose = verbose)
+
+    # Bray-Curtis dissimilarity
     observed.score <- vector(mode = "numeric", length = expected.data$n)
     expected.score <- vector(mode = "numeric", length = expected.data$n)
     BC <- vector(mode = "numeric", length = expected.data$n) # Bray-Curtis dissimilarity
+    # Write to the logs for Bray-Curtis dissimilarity
+    writelog(
+      '\n##### Bray-Curtis dissimilarity',
+      logfile = logfile,
+      code = "
+        observed.score <- vector(mode = 'numeric', length = expected.data$n)
+        expected.score <- vector(mode = 'numeric', length = expected.data$n)
+        BC <- vector(mode = 'numeric', length = expected.data$n) # Bray-Curtis dissimilarity
+      ",
+      data = data.frame(observed.score, expected.score, BC),
+      verbose = verbose
+    )
 
-    writelog("Calculating Observed, Expected, and Bray Curtis dissimilarity", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
     for(i in 1:expected.data$n) {
       tryCatch(
         {
-          predicted.prob <- expected.data$predicted[i, ] # predicted probabilities for current sample
+          # predicted probabilities for current sample
+          predicted.prob <- expected.data$predicted[i, ]
 
-          taxa.subset <- names(predicted.prob)[predicted.prob >= Pcutoff]  # subset of taxa with probabilities >= Pcutoff
+          # subset of taxa with probabilities >= Pcutoff
+          taxa.subset <- names(predicted.prob)[predicted.prob >= Pcutoff]
 
-          expected.prob <- predicted.prob[taxa.subset] # probabilites for subset of included taxa
+          # probabilities for subset of included taxa
+          expected.prob <- predicted.prob[taxa.subset]
 
-          observed.pa <- observed.data[i, taxa.subset] # observed presence/absence for those taxa
+          # observed presence/absence for those taxa
+          observed.pa <- observed.data[i, taxa.subset]
 
-          observed.score[i] <- sum(observed.pa) # observed richness (O)
-          expected.score[i] <- sum(expected.prob) # expected richness (E)
+          # observed richness (O)
+          observed.score[i] <- sum(observed.pa)
+
+          # expected richness (E)
+          expected.score[i] <- sum(expected.prob)
+
+          # BC value
           BC[i] <- sum(abs(observed.pa - expected.prob)) /
-            (observed.score[i] + expected.score[i]) # BC value
+            (observed.score[i] + expected.score[i])
         },
         error = function(e) {
-          observed.score[i] <- NA_real_ # observed richness (O)
-          expected.score[i] <- NA_real_ # expected richness (E)
-          BC[i] <- NA_real_ # BC value
+          # observed richness (O)
+          observed.score[i] <- NA_real_
+
+          # expected richness (E)
+          expected.score[i] <- NA_real_
+
+          # BC value
+          BC[i] <- NA_real_
         }
       )
-
-
     }
 
+
+
+    # Get the stats dataframe
     O.over.E <- observed.score/expected.score
-
-    writelog('Observed', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(paste(observed.score, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-    writelog('Expected', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(paste(expected.score, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-    writelog('BC Dissimilarity', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(paste(BC, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-    writelog('O.over.E before any rounding', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(paste(O.over.E, collapse = ', '), logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
     stats <- data.frame(stations = row.names(observed.predictors),
                         O = observed.score,
                         E = round(expected.score, digits = 4),
                         O.over.E = round(O.over.E, digits = 4))
+    # Write to the logs for getting the stats dataframe
+    writelog(
+      '\nGet the stats dataframe',
+      logfile = logfile,
+      code = "
+        O.over.E <- observed.score / expected.score
+        stats <- data.frame(
+          stations = row.names(observed.predictors),
+          O = observed.score,
+          E = round(expected.score, digits = 4),
+          O.over.E = round(O.over.E, digits = 4)
+        )
+      ",
+      data = stats %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = stats, logfile = logfile, filename = 'stats-dataframe.csv', linktext = 'Download stats dataframe', verbose = verbose)
 
-    writelog('All the above in a dataframe - rounding applied to Expected and Observed/Expected - SOCAL-RIVPACS-O.over.E-initial.csv:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(stats, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-O.over.E-initial.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
 
-    #     stats <- data.frame(stations = row.names(observed.predictors),
-    #                         O = observed.score,
-    #                         E = expected.score,
-    #                         O.over.E = O.over.E)
-
-
-    writelog('Set outlier columns and use to determine pass or fail', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
+    # create outlier columns on that stats dataframe
     stats$outlier.05 <- expected.data$outliers$outlier.05
     stats$outlier.01 <- expected.data$outliers$outlier.01
+    # Write to the logs for creating outlier columns on the stats dataframe
+    writelog(
+      '\n##### Create outlier columns on the stats dataframe',
+      logfile = logfile,
+      code = "
+        stats$outlier.05 <- expected.data$outliers$outlier.05
+        stats$outlier.01 <- expected.data$outliers$outlier.01
+      ",
+      data = stats,
+      verbose = verbose
+    )
+    create_download_link(data = stats, logfile = logfile, filename = 'stats-dataframe-with-outliers.csv', linktext = 'Download stats dataframe with outliers', verbose = verbose)
+
 
     # Convert to "PASS" or "FAIL"
     stats$outlier.05[stats$outlier.05 == 0] <- "PASS"
     stats$outlier.05[stats$outlier.05 == 1] <- "FAIL"
-
     stats$outlier.01[stats$outlier.01 == 0] <- "PASS"
     stats$outlier.01[stats$outlier.01 == 1] <- "FAIL"
+    # Write to the logs for converting outlier columns to "PASS" or "FAIL"
+    writelog(
+      '\n##### Convert outlier columns to "PASS" or "FAIL"',
+      logfile = logfile,
+      code = "
+        stats$outlier.05[stats$outlier.05 == 0] <- 'PASS'
+        stats$outlier.05[stats$outlier.05 == 1] <- 'FAIL'
+        stats$outlier.01[stats$outlier.01 == 0] <- 'PASS'
+        stats$outlier.01[stats$outlier.01 == 1] <- 'FAIL'
+      ",
+      data = stats %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = stats, logfile = logfile, filename = 'stats-dataframe-pass-fail.csv', linktext = 'Download stats dataframe with PASS/FAIL outliers', verbose = verbose)
 
-    #   mean.O.over.E <- mean(OE.stats$O.over.E)
-    #   stdev.O.over.E <- sqrt(var(OE.stats$O.over.E))
 
-    writelog('Final So Cal RIVPACS df - SOCAL-RIVPACS-O.over.E-final.csv:', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-    writelog(stats, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-O.over.E-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-
-    writelog('\nEND: Calculate Scores function.\n', logfile = logfile, verbose = verbose)
+    writelog('\n##### **END: Calculate Scores function.**\n', logfile = logfile, verbose = verbose)
 
     return(stats)
 
   }
+  # Write to the logs for defining CalculateScores function
+  writelog(
+    '\n##### Define CalculateScores function',
+    logfile = logfile,
+    code = "
+      CalculateScores <- function() {
 
+        # set up the hyphen log prefix - which hasnt yet worked as i want it to
+
+
+        # Bray-Curtis dissimilarity
+        observed.score <- vector(mode = 'numeric', length = expected.data$n)
+        expected.score <- vector(mode = 'numeric', length = expected.data$n)
+        BC <- vector(mode = 'numeric', length = expected.data$n) # Bray-Curtis dissimilarity
+
+        for(i in 1:expected.data$n) {
+          tryCatch(
+            {
+              # predicted probabilities for current sample
+              predicted.prob <- expected.data$predicted[i, ]
+
+              # subset of taxa with probabilities >= Pcutoff
+              taxa.subset <- names(predicted.prob)[predicted.prob >= Pcutoff]
+
+              # probabilities for subset of included taxa
+              expected.prob <- predicted.prob[taxa.subset]
+
+              # observed presence/absence for those taxa
+              observed.pa <- observed.data[i, taxa.subset]
+
+              # observed richness (O)
+              observed.score[i] <- sum(observed.pa)
+
+              # expected richness (E)
+              expected.score[i] <- sum(expected.prob)
+
+              # BC value
+              BC[i] <- sum(abs(observed.pa - expected.prob)) /
+                (observed.score[i] + expected.score[i])
+            },
+            error = function(e) {
+              # observed richness (O)
+              observed.score[i] <- NA_real_
+
+              # expected richness (E)
+              expected.score[i] <- NA_real_
+
+              # BC value
+              BC[i] <- NA_real_
+            }
+          )
+        }
+
+        # Get the stats dataframe
+        O.over.E <- observed.score / expected.score
+        stats <- data.frame(stations = row.names(observed.predictors),
+                            O = observed.score,
+                            E = round(expected.score, digits = 4),
+                            O.over.E = round(O.over.E, digits = 4))
+
+        # create outlier columns on that stats dataframe
+        stats$outlier.05 <- expected.data$outliers$outlier.05
+        stats$outlier.01 <- expected.data$outliers$outlier.01
+
+        # Convert to 'PASS' or 'FAIL'
+        stats$outlier.05[stats$outlier.05 == 0] <- 'PASS'
+        stats$outlier.05[stats$outlier.05 == 1] <- 'FAIL'
+        stats$outlier.01[stats$outlier.01 == 0] <- 'PASS'
+        stats$outlier.01[stats$outlier.01 == 1] <- 'FAIL'
+
+        return(stats)
+      }
+    ",
+    verbose = verbose
+  )
+
+
+  # Final Results
   results <- list(oe.table = CalculateScores(logfile = logfile, verbose = verbose),
                   observed = observed.data,
                   predicted = expected.data$predicted,
                   Pcutoff = Pcutoff,
                   region = "scb")
+  # Write to the logs for final results
+  writelog(
+    '\n#### Final SoCal RIVPACS Function Results',
+    logfile = logfile,
+    code = "
+      results <- list(
+        oe.table = CalculateScores(),
+        observed = observed.data,
+        predicted = expected.data$predicted,
+        Pcutoff = Pcutoff,
+        region = 'scb'
+      )
+    ",
+    verbose = verbose
+  )
+  create_download_link(data = results$oe.table, logfile = logfile, filename = 'final-results-oe-table.csv', linktext = 'Download final results OE table', verbose = verbose)
+  create_download_link(data = results$observed, logfile = logfile, filename = 'final-results-observed.csv', linktext = 'Download final results observed', verbose = verbose)
+  create_download_link(data = results$predicted, logfile = logfile, filename = 'final-results-predicted.csv', linktext = 'Download final results predicted', verbose = verbose)
+  create_download_link(data = data.frame(results$Pcutoff), logfile = logfile, filename = 'final-results-pcutoff.csv', linktext = 'Download final results Pcutoff', verbose = verbose)
+  create_download_link(data = data.frame(results$region), logfile = logfile, filename = 'final-results-region.csv', linktext = 'Download final results region', verbose = verbose)
 
-  writelog("SoCal RIVPACS output - apart from the O/E Table, which was already written out upon calling Calculate Scores (SOCAL-RIVPACS-O.over.E-final.csv)", logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog('observed - SOCAL-RIVPACS-observed.data-final.csv', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(results$observed, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-observed.data-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
 
-  writelog('SOCAL RIVPACS predicted', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog(results$predicted, logfile = file.path(dirname(logfile), 'SOCAL-RIVPACS-predicted-final.csv'), filetype = 'csv', verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog( paste('P Cutoff', results$Pcutoff, collapse = ': ') , logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-  writelog( paste('Region', results$region, collapse = ': ') , logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
-
-  writelog('\nEND: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose, prefix = hyphen.log.prefix)
+  writelog('\n#### **END**: So Cal RIVPACS function.\n  \n  ', logfile = logfile, verbose = verbose)
 
   return(results)
 
