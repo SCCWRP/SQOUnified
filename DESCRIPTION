@@ -29,11 +29,8 @@ License: CCO
 Encoding: UTF-8
 LazyData: true
 Imports: 
-  DBI,
   dbplyr,
   reshape2,
-  RPostgreSQL,
-  rstudioapi,
   vegan,
   dplyr,
   plyr,

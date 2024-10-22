@@ -34,9 +34,9 @@
 #'
 #'    \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
 #'
-#'    \code{Stratum} - ;
+#'    \code{Stratum} - The stratum under which the station falls (Bays, Estuaries, etc);
 #'
-#'    \code{Exclude} - ;
+#'    \code{Exclude} - Yes or No;
 #'
 #' @importFrom dplyr bind_rows
 #'

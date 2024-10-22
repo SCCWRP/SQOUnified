@@ -10,15 +10,21 @@
 #'
 #' @param chemdata a dataframe with the following headings:
 #'
-#'    \code{StationID},
+#'    \code{StationID}
 #'
-#'    \code{AnalyteName},
+#'    \code{AnalyteName}
 #'
-#'    \code{Result},
+#'    \code{Result}
 #'
-#'    \code{RL},
+#'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+#'
+#'    \code{labrep} (optional) - data will be filtered to where labrep = 1
+#'
+#'    \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)
 #'
 #' @examples
 #' data(chem_sampledata) # load sample data to your environment
@@ -443,34 +449,27 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 #'
 #' @param chemdata a dataframe with the following headings:
 #'
-#'    \code{StationID},
+#'    \code{StationID}
 #'
-#'    \code{AnalyteName},
+#'    \code{AnalyteName}
 #'
-#'    \code{Result},
+#'    \code{Result}
 #'
-#'    \code{RL},
+#'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+#'
+#'    \code{labrep} (optional) - data will be filtered to where labrep = 1
+#'
+#'    \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)
 #'
 #' @examples
 #' data(chem_sampledata) # load sample data to your environment
 #' CSI(chem_sampledata) # get scores and see output
 #'
 #' @export
-
-# Conversation with Darrin on April 16th 2020
-# We need to fix the rounding in this thing.
-# The fixes may also need to be implemented in the chemdata_prep function
-# Certain analytes result values need to be rounded to different numbers of decimal places
-# going off memory here. Darrin is the one to consult, and he can show the latest greatest version of the excel tool
-# Copper - 1
-# Lead  - 1
-# Mercury - 2
-# Zinc - 1
-# HPAH - 1
-# LPAH - 1
-# All the rest - 2
 CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F) {
   "csi_weight"
 
@@ -967,15 +966,21 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #'
 #' @param chemdata a dataframe with the following columns:
 #'
-#'    \code{StationID},
+#'    \code{StationID}
 #'
-#'    \code{AnalyteName},
+#'    \code{AnalyteName}
 #'
-#'    \code{Result},
+#'    \code{Result}
 #'
-#'    \code{RL},
+#'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+#'
+#'    \code{labrep} (optional) - data will be filtered to where labrep = 1
+#'
+#'    \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)
 #'
 #' @examples
 #' data(chem_sampledata) # load sample data to your environment
@@ -1295,15 +1300,21 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #'
 #' @param chemdata_prep.input a dataframe with the following columns:
 #'
-#'    \code{StationID},
+#'    \code{StationID}
 #'
-#'    \code{AnalyteName},
+#'    \code{AnalyteName}
 #'
-#'    \code{Result},
+#'    \code{Result}
 #'
-#'    \code{RL},
+#'    \code{RL}
 #'
 #'    \code{MDL}
+#'
+#'    \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+#'
+#'    \code{labrep} (optional) - data will be filtered to where labrep = 1
+#'
+#'    \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)
 #'
 #' @examples
 #' data(chem_sampledata) # load sample data to your environment

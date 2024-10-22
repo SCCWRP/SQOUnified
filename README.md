@@ -14,7 +14,7 @@ To install the `SQOUnified` package, you can use the `devtools` package. Ensure 
 
 ```r
 # Install necessary dependencies
-install.packages(c("dplyr", "tidyr", "purrr", "data.table", "ggplot2", "readr"))
+install.packages(c("dbplyr","reshape2","vegan","dplyr","plyr","purrr","stringr","tidyr"))
 
 # Install the package using devtools
 devtools::install_github("SCCWRP/SQOUnified")
@@ -33,9 +33,9 @@ The primary function `SQOUnified` computes integrated sediment quality scores ba
 library(SQOUnified)
 
 # Example data files
-benthic_data <- read.csv("path/to/benthic_data.csv")
-chem_data <- read.csv("path/to/chem_data.csv")
-tox_data <- read.csv("path/to/tox_data.csv")
+benthic_data <- read.csv("path/to/your/benthic_data.csv")
+chem_data <- read.csv("path/to/your/chem_data.csv")
+tox_data <- read.csv("path/to/your/tox_data.csv")
 
 # Run the function
 result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
@@ -46,6 +46,12 @@ print(result)
 - `benthic`: A dataframe containing benthic data for assessment.
 - `chem`: A dataframe containing chemical concentration data.
 - `tox`: A dataframe containing toxicity test results.
+
+
+### Input Data
+
+
+
 
 The function will compute and log the results for each of these inputs, generating an integrated score based on the criteria defined in the package.
 
