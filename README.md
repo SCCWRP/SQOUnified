@@ -46,9 +46,9 @@ The chemistry functions require a dataframe containing:
 - **Result**: The measurement value for the analyte.
 - **RL**: Reporting limit for the analyte.
 - **MDL**: Method detection limit.
-- **fieldrep**: (optional) - Data is filtered to where fieldrep = 1 if this column is included
-- **labrep**: (optional) - Data is filtered to where labrep = 1 if this column is included
-- **sampletypecode**: (optional) Data is filtered to where sampletypecode = Result in order to prevent inclusion of QA/QC samples
+- **fieldrep**: (*optional*) - Data is filtered to where fieldrep = 1 if this column is included
+- **labrep**: (*optional*) - Data is filtered to where labrep = 1 if this column is included
+- **sampletypecode**: (*optional*) Data is filtered to where sampletypecode = Result in order to prevent inclusion of QA/QC samples
 
 **Notes**:
 - Non-detect values should be marked as `-88`.
@@ -63,7 +63,7 @@ The toxicity functions require a dataframe containing:
 - **toxbatch**: Identifier linking results to the control sample.
 - **species**: The genus and species of the tested organism.
 - **sampletypecode**: Type of sample (e.g., Grab, CNEG). Control samples must be included.
-- **matrix**: (optional) - Type of sample matrix (e.g., Whole Sediment, Sediment Water Interface). Be sure to not include Reference Toxicants
+- **matrix**: (*optional*) - Type of sample matrix (e.g., Whole Sediment, Sediment Water Interface). Be sure to not include Reference Toxicants
 - **labrep**: Numeric identifier for the lab replicate, typically with five replicates per station and species pair.
 - **result**: The percentage of survival or normal development observed in the test.
 
