@@ -1,15 +1,8 @@
 # SQOUnified R Package
-  <!-- badges: start -->
-  [![Travis build status](https://travis-ci.com/SCCWRP/SQOUnified.svg?branch=master)](https://travis-ci.com/SCCWRP/SQOUnified)
-  <!-- badges: end -->
-
 
 The `SQOUnified` R package provides a suite of tools for assessing sediment quality based on multiple lines of evidence, including benthic indices, chemistry, and toxicity. The package integrates these assessments into a comprehensive site evaluation according to Sediment Quality Objectives (SQO).
 
 This is based on the [California Sediment Quality Objectives (CASQO) Technical Manual](http://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf)
-
-This is based on the <a href="http://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf" target="_blank">California Sediment Quality Objectives (CASQO) Technical Manual</a>.
-
 
 ## Installation
 
@@ -95,43 +88,31 @@ result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
 print(result)
 ```
 
-### Parameters
+#### Parameters
 - `benthic`: A dataframe containing benthic data for assessment.
 - `chem`: A dataframe containing chemical concentration data.
 - `tox`: A dataframe containing toxicity test results.
 
 
-The function will compute and log the results for each of these inputs, generating an integrated score based on the criteria defined in the package.
+The function will compute and log the results for each of these inputs, generating an integrated score based on the criteria defined in the package. The output dataframe also includes all individual scores and indices:
+- Integrated Chemistry Score
+- CSI
+- LRM
+- Integrated Toxicity Score
+- (Results from all the tox endpoint tests in the data, typically 'Mytilus NormDev' and 'Eohaustorius Survival')
+- Integrated Benthic Score
+- BRI
+- RBI
+- IBI
+- RIVPACS
+- MAMBI (Not used for calculation of SQO Score)
 
 
 
-### `chem.sqo`
 
-The `chem.sqo` function evaluates the chemical condition of sediments using specific chemical metrics.
+### Toxicity Functions
 
-**Usage:**
-
-```r
-chem_results <- chem.sqo(chem_data)
-```
-
-- **Input:** `chem_data` - A dataframe containing sediment chemistry data.
-- **Output:** A dataframe with SQO scores and categories for each station based on chemical criteria.
-
-### `benthic.sqo`
-
-The `benthic.sqo` function computes benthic indices to evaluate the biological condition of the sediments.
-
-**Usage:**
-
-```r
-benthic_results <- benthic.sqo(benthic_data)
-```
-
-- **Input:** `benthic_data` - A dataframe containing benthic community data.
-- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria.
-
-### `tox.sqo`
+#### `tox.sqo`
 
 The `tox.sqo` function assesses sediment toxicity by analyzing toxicity test results.
 
@@ -144,7 +125,7 @@ tox_results <- tox.sqo(tox_data)
 - **Input:** `tox_data` - A dataframe containing toxicity test results.
 - **Output:** A dataframe with SQO scores and categories for each station based on toxicity criteria.
 
-### `tox.summary`
+#### `tox.summary`
 
 The `tox.summary` function provides a summary of the toxicity results for easier interpretation and reporting.
 
@@ -158,6 +139,99 @@ tox_summary <- tox.summary(tox_data)
 - **Output:** A summary dataframe providing an overview of toxicity conditions for all stations.
 
 
+### Chemistry Functions
+
+#### `chem.sqo`
+
+The `chem.sqo` function evaluates the chemical condition of sediments using specific chemical metrics.
+
+**Usage:**
+
+```r
+chem_results <- chem.sqo(chem_data)
+```
+
+- **Input:** `chem_data` - A dataframe containing sediment chemistry data.
+- **Output:** A dataframe with SQO scores and categories for each station based on chemical criteria.
+
+#### `chemdata_prep`
+
+The `chemdata_prep` function reformats/prepares the data for getting the SQO score for the chemistry LOE
+
+**Usage:**
+
+```r
+chem <- chemdata_prep(chem_data)
+```
+
+- **Input:** `chem_data` - A dataframe containing sediment chemistry data.
+- **Output:** A dataframe prepared for SQO calculation for the chemistry LOE
+
+**NOTE:** When you put your raw chemistry data in the chemistry functions, this chemdata_prep function is called from within, so no need to preprocess the data before so long as it has those required columns
+
+
+
+#### `CSI`
+
+The `CSI` function calculates the Chemical Score Index for the input chemistry data
+
+**Usage:**
+
+```r
+csi.results <- CSI(chem_data)
+```
+
+- **Input:** `CSI` - A dataframe containing sediment chemistry data.
+- **Output:** A dataframe with the Chemical Score Index results
+
+
+#### `LRM`
+
+The `LRM` function calculates the Chemical Score Index for the input chemistry data
+
+**Usage:**
+
+```r
+lrm.results <- LRM(chem_data)
+```
+
+- **Input:** `LRM` - A dataframe containing sediment chemistry data.
+- **Output:** A dataframe with the Logistic Regression Model results
+
+
+
+
+
+### Benthic Functions
+#### `benthic.sqo`
+
+The `benthic.sqo` function computes benthic indices to evaluate the biological condition of the sediments.
+
+**Usage:**
+
+```r
+benthic_results <- benthic.sqo(benthic_data)
+```
+
+- **Input:** `benthic_data` - A dataframe containing benthic community data.
+- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria.
+
+#### `benthic.sqo`
+
+The `benthic.sqo` function computes benthic indices to evaluate the biological condition of the sediments.
+
+**Usage:**
+
+```r
+benthic_results <- benthic.sqo(benthic_data)
+```
+
+- **Input:** `benthic_data` - A dataframe containing benthic community data.
+- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria. It also contains the individual benthic index scores (BRI, RBI, IBI, RIVPACS and MAMBI)
+
+**NOTE:** It will be the same for each of the benthic functions - BRI, RBI, IBI, RIVPACS and MAMBI
+
+
 
 ## Example Workflow
 
@@ -169,15 +243,15 @@ benthic_data <- read.csv("path/to/benthic_data.csv")
 chem_data <- read.csv("path/to/chem_data.csv")
 tox_data <- read.csv("path/to/tox_data.csv")
 
-# Calculate individual SQO components
+# Calculate individual SQO components, if you would like
 benthic_results <- benthic.sqo(benthic_data)
 chem_results <- chem.sqo(chem_data)
 tox_results <- tox.sqo(tox_data)
 
-# Get a summary of the toxicity data
+# Get the tox summary table, on its own, if you would like
 tox_summary <- tox.summary(tox_data)
 
-# Compute the integrated SQO score
+# Compute the integrated SQO scores - a dataframe with all scores, including the overall site assessments
 integrated_result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
 
 # View the results
@@ -191,7 +265,3 @@ print(integrated_result)
 Contributions to `SQOUnified` are welcome, however, if you come across issues using the package, it would be preferable for one to submit an issue rather than a pull request in most cases. If you have a request for a feature(s) then please do not hesitate at all to post an issue on the github page.
 
 
-
-## License
-
-This package is licensed under the [MIT License](LICENSE).
