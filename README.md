@@ -21,12 +21,28 @@ The package also comes with example data sets which are available when the packa
 # load the package
 library(SQOUnified)
 
-# package comes with sample data - the dataframes are called 'benthic_sampledata', 'chem_sampledata', and 'tox_sampledata'
+# package comes with sample data
+# the dataframes are called 'benthic_sampledata', 'chem_sampledata', and 'tox_sampledata'
 SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
+
+### Other misc examples:
+# Benthic integrated SQO (returns all individual indices as well)
+benthic.sqo(benthic_sampledata)
+
+# Tox summary
+tox.summary(tox_sampledata)
+
+# Tox integrated SQO Score
+tox.sqo(tox_sampledata)
+
+# Chemical Score Index
+CSI(chem_sampledata)
+
+# Chemistry Integrated SQO Score
+chem.sqo(chem_sampledata)
 ```
 
 ## Usage
-
 
 ### Input Data Requirements for Benthic, Chemistry, and Toxicity Functions
 
@@ -77,6 +93,15 @@ The toxicity functions require a dataframe containing:
 - **labrep**: Numeric identifier for the lab replicate, typically with five replicates per station and species pair.
 - **result**: The percentage of survival or normal development observed in the test.
 
+
+
+## All Package Functions
+
+Below we will list all the functions of the SQOUnified package, grouped into 4 sections
+- SQOUnified
+- Toxicity
+- Chemistry
+- Benthic
 
 ### `SQOUnified` Function
 
