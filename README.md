@@ -8,6 +8,9 @@ The `SQOUnified` R package provides a suite of tools for assessing sediment qual
 
 This is based on the [California Sediment Quality Objectives (CASQO) Technical Manual](http://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf)
 
+This is based on the <a href="http://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf" target="_blank">California Sediment Quality Objectives (CASQO) Technical Manual</a>.
+
+
 ## Installation
 
 To install the `SQOUnified` package, you can use the `devtools` package. Ensure all dependencies are installed beforehand.
