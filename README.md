@@ -263,6 +263,6 @@ print(integrated_result)
 
 ## Contributing
 
-Contributions to `SQOUnified` are welcome, however, if you come across issues using the package, it would be preferable for one to submit an [issue](https://github.com/SCCWRP/SQOUnified/issues) rather than a pull request in most cases. If you have a request for a feature(s) then please do not hesitate at all to post an issue on the github page.
+Contributions to `SQOUnified` are welcome, however, if you come across issues using the package, it would be preferable for one to submit an [issue](https://github.com/SCCWRP/SQOUnified/issues) rather than a pull request in most cases. If you have a request for a feature(s) then please do not hesitate at all to post an [issue](https://github.com/SCCWRP/SQOUnified/issues).
 
 
