@@ -143,7 +143,7 @@ The function will compute and log the results for each of these inputs, generati
 - MAMBI (Not used for calculation of SQO Score)
 
 
-
+--
 
 ### Toxicity Functions
 
