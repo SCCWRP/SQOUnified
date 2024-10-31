@@ -1909,8 +1909,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   ppm_analytes <- c('Cadmium', 'Copper', 'Lead', 'Mercury', 'Zinc')
 
   # Define the acceptable units for ppm and ppb
-  acceptable_units_ppm <- c('ug/g', 'ug/g dw', 'ppm')
-  acceptable_units_ppb <- c('ng/g', 'ng/g dw', 'ppb')
+  acceptable_units_ppm <- c('ug/g', 'ug/g dw', 'mg/kg', 'mg/kg dw', 'ppm')
+  acceptable_units_ppb <- c('ng/g', 'ng/g dw', 'ug/kg','ug/kg dw', 'ppb')
 
   # Check if the units column exists
   if ('units' %in% names(chemdata.filtered.no.DDT)) {
@@ -1943,8 +1943,8 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       ppm_analytes <- c(\'Cadmium\', \'Copper\', \'Lead\', \'Mercury\', \'Zinc\')
 
       # Define the acceptable units for ppm and ppb
-      acceptable_units_ppm <- c(\'ug/g\', \'ug/g dw\', \'ppm\')
-      acceptable_units_ppb <- c(\'ng/g\', \'ng/g dw\', \'ppb\')
+      acceptable_units_ppm <- c(\'ug/g\', \'ug/g dw\', \'mg/kg\', \'mg/kg dw\', \'ppm\')
+      acceptable_units_ppb <- c(\'ng/g\', \'ng/g dw\', \'ug/kg\',\'ug/kg dw\', \'ppb\')
 
       # Check if the units column exists
       if (\'units\' %in% names(chemdata.filtered.no.DDT)) {
