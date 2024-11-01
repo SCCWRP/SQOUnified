@@ -1,96 +1,47 @@
-#' Compute the benthic response index (BRI) score and BRI condition category.
-#'
-#' @description
-#'   The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-#'   the BRI score, the more degraded the benthic community represented by the sample.
-#'
-#' @details
-#'   The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-#'   the BRI score, the more degraded the benthic community represented by the sample.
-#'
-#'   Two types of data are needed to calculate the BRI:
-#'
-#'   (1) the abundance of each species
-#'   (2) species-specific pollution tolerance score (aka, P Value)
-#'
-#'   Tolerance Values are stored in the Southern California SQO Species List provided with this coded. Species names are periodically
-#'   updated by benthic experts.
-#'
-#'   The BRI is only calculated from those taxa with a tolerance score. The first step in the BRI calculation is to compute the 4th root
-#'   of the abundance of each taxon in the sample that have an associated tolerance score
-#'   The next step is to multiply the 4th root abundance value by the tolerance score for each taxon.
-#'   The next step is to sum all of the 4th root abundance values in a given sample.
-#'   The actual BRI score is calculated as:
-#'
-#'   \deqn{ \frac{\sum \left(\sqrt[p]{\textrm{Abundance}} \right) \times P}{\sum \sqrt[p]{\textrm{Abundance}}} }
-#'
-#'   The last step is to convert the BRI score to condition category using the category thresholds listed in Table 5.
-#'
-#'   <Table 5. To be included in R markdown file>
-#'
-#'
-#'
-#' @param BenthicData a data frame with the following headings
-#'
-#'    \strong{\code{StationID}} - an alpha-numeric identifier of the location;
-#'
-#'    \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
-#'
-#'    \strong{\code{SampleDate}} - the date of sample collection;
-#'
-#'    \strong{\code{Latitude}} - latitude in decimal degrees;
-#'
-#'    \strong{\code{Longitude}} - longitude in decimal degrees.
-#'    Make sure there is a negative sign for the Western coordinates;
-#'
-#'    \strong{\code{Species}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-#'        use sp only or just the Genus. If no animals were present in the sample use
-#'        NoOrganismsPresent with 0 abundance;
-#'
-#' @usage
-#' BRI(benthic_data)
-#'
-#' @examples
-#' data(benthic_sampledata) # load sample data
-#' BRI(benthic_sampledata) # see the output
-#'
-#' @import vegan
-#' @import reshape2
-#' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
-#'
-#' @export
+# Compute the benthic response index (BRI) score and BRI condition category.
+#
+
+#   The BRI is the 4th root abundance weighted pollution tolerance score of the organisms present in a sample relative to the 4th root abundance
+#   of all taxa in the sample with a tolerance score (aka p-code, p-value). The higher the BRI score, the more degraded the sample. 
+#
+
+#   The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
+#   the BRI score, the more degraded the benthic community represented by the sample.
+#
+#   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Techincal Support Manual. SCCWRP
+#      Techincal Report 777
+#    Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five indicators of benthic community condition
+#       in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13
+#     Background concepts of the index can be found in Smith et al  2001. Benthic Resonspe Index for Assessing Infaunal Communities on the Southern
+#         California Mainland Shelf. Ecological Applications 11: 1073-1087
 
 
-BRI <- function(BenthicData) #BenthicData will need to be the species abundances for each sample in the correct format noted above and in support material
+
+SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=file_id) 
+  
 {
   #loading in packages needed to run function
   require(tidyverse)
   #loading in SQO species list that contains p codes, amongst other things
 
-  load("data/SoCal SQO LU 4_7_20.RData")
-  #I've created an issue, but we will need to periodically update the support files for the different indices,
-  # e.g., the SQO look up list or BRI ptaxa list.
-  # Do we want to date stamp the names of the dataframes and the RData files as they are updated? e.g., sqo.list.4_7_20 vs. a more generic name like sqo.list.
-  # if the former, we will need to update the internal call of the index functions to make sure it is pulling the correct version. However it is
-  # explicit as to what version is being used. Alternatively: if we do not date stamp the files, then the code would not need to be upadated each time the
-  # support file is updated. This requires less maintenance. However, it then becomes less clear which exact version of the the support file is being used.
-
+  load("Reference Files/SoCal SQO LU 4_7_20.RData")
+  
   #create empty dataframe to populate w/ bri scores
   bri.out.null<-tibble(stationid="dummy",
                        replicate=NaN,
                        sampledate=ymd("2000-01-1"),
                        index="BRI",
                        score=NaN,
-                       condition.category=NA,
-                       condition.category.score=NA,
+                       condition_category=NA,
+                       condition_category_score=NA,
                        note=NA)
 
-  #incase a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
+  #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-BenthicData %>%
     filter(taxon=="NoOrganismsPresent") %>%
-    mutate(index="BRI",score=NaN, condition.category="High Disturbance", condition.category.score=4, note="Defaunated Sample") %>%
-    select(-taxon, -salinity,-exclude, -abundance, -latitude, -longitude )
+    mutate(index="BRI",score=NaN, condition_category="High Disturbance", condition_category_score=4, note="Defaunated Sample") %>%
+    select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
   #matching p codes to taxa in the submitted data
   all.for.bri <- BenthicData %>%
@@ -104,9 +55,9 @@ BRI <- function(BenthicData) #BenthicData will need to be the species abundances
     summarise(Freq_of_Occ=length(stationid)) %>%
     ungroup() %>%
     drop_na(ToleranceScore)
-  #export as an interim file that the user can review
-  return(taxa_w_pvalue)
-  write.csv(taxa_w_pvalue, paste(output.path,"/", file.name, " interim - taxa with a tolerance score.csv", sep=""), row.names = FALSE)
+  #export as an interim file of taxa with a tolerance value that the user can review
+  
+  write.csv(taxa_w_pvalue, paste(output_path,"/", file_id, " SQO BRI interim 1 - taxa with a tolerance score.csv", sep=""), row.names = FALSE)
 
   #identify those taxa in the submitted data without a tolerance score and how many samples they occur in
   taxa_wo_pvalue<-all.for.bri%>%
@@ -116,24 +67,11 @@ BRI <- function(BenthicData) #BenthicData will need to be the species abundances
     filter(is.na(ToleranceScore)) %>%
     select(-ToleranceScore)
 
-  #export as an interim file that the user can review
-  return(taxa_wo_pvalue)
-  write.csv(taxa_wo_pvalue, paste(output.path, "/", file.name, " interim taxa without a tolerance score.csv", sep=""), row.names = FALSE)
+  #export as an interim file of taxa missing a tolerance value that the user can review
+  
+  write.csv(taxa_wo_pvalue, paste(output_path, "/", file_id, " SQO BRI interim 2 - taxa without a tolerance score.csv", sep=""), row.names = FALSE)
 
-  #calculate some summary values for context of index utility evaluation
-  # tol.inventory<-all.for.bri %>%
-  #   mutate(tol.flag=if_else(is.na(ToleranceScore), "wo_tol_value", "w_tol_value")) %>% #group taxa by those without and with a tolerance score
-  #   group_by(stationid, sampledate, replicate) %>%
-  #   mutate(tot_abun=sum(abundance), S=length(taxon)) %>% #calcualte total abundance and taxa richness for each sample
-  #   ungroup() %>%
-  #   group_by(stationid, sampledate, replicate, tot_abun, S,tol.flag) %>%
-  #   summarise(tol.abun=sum(abundance), tol.s=length(taxon)) %>% #calculating percent of abundance or richness with a tolerance value per sample
-  #   ungroup() %>%
-  #   mutate(pct_abun=round((tol.abun/tot_abun)*100, digits = 1), pct_taxa=round((tol.s/S)*100, digits=1)) %>%
-  #   pivot_wider(id_cols =c(stationid, sampledate, replicate), names_from = tol.flag, values_from = c(pct_abun, pct_taxa) )#manipulating the shape of the data
-
-
-
+  
   bri.out<-all.for.bri %>%
   drop_na(ToleranceScore) %>%
   mutate(fourthroot_abun = abundance ** 0.25,
@@ -143,34 +81,46 @@ BRI <- function(BenthicData) #BenthicData will need to be the species abundances
     select(stationid, sampledate, replicate, score) %>%
     # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays
     mutate(
-      condition.category = case_when( (score < 39.96) ~ "Reference",
+      condition_category = case_when( (score < 39.96) ~ "Reference",
                                 (score >= 39.96 & score < 49.15) ~ "Low Disturbance",
                                 (score >= 49.15 & score < 73.27) ~ "Moderate Disturbance",
                                 (score >= 73.27) ~ "High Disturbance"
     )) %>%
     # Output the BRI category score given the category for thresholds for Southern CA Marine Bays
     mutate(
-      condition.category.score = case_when( (condition.category == "Reference") ~ 1,
-                                      (condition.category == "Low Disturbance") ~ 2,
-                                      (condition.category == "Moderate Disturbance") ~ 3,
-                                      (condition.category == "High Disturbance") ~ 4 ),
-      index="BRI")
+      condition_category_score = case_when( (condition_category == "Reference") ~ 1,
+                                      (condition_category == "Low Disturbance") ~ 2,
+                                      (condition_category == "Moderate Disturbance") ~ 3,
+                                      (condition_category == "High Disturbance") ~ 4 ),
+      #index="BRI", 
+      note=NA)
 
+  bri.stations<-BenthicData %>% 
+    select(-taxon, -abundance, -exclude) %>% 
+    distinct()
+  
+  
   bri.out.2<-bri.out.null %>%
-    bind_rows(bri.out, defaunated)
+    bind_rows(bri.out, defaunated) %>% 
+    left_join(bri.stations, ., by=c("stationid", "sampledate", "replicate")) %>% 
+    mutate(note=case_when(is.na(condition_category)~"Unable to calculate BRI, likely no p-code taxa", 
+                          TRUE~note),
+           index="BRI")
+    
 
-  if(length(bri.out.2$stationid)>1)#if BRI scores are calculated, functin will drop the dummy data placeholders and report the data for the submitted samples
+  if(length(bri.out.2$stationid)>1)#if BRI scores are calculated, function will drop the dummy data placeholders and report the data for the submitted samples
   {
     bri.out.3<-bri.out.2 %>%
-      filter(stationid!="dummy") %>%
-      mutate(note=if_else(is.na(note), "none", note))
+      filter(stationid!="dummy") 
   }
 
 else
   {
-  bri.out.3<-bri.out.2 %>% # if BRI scores are not calculated, the functin will only report the dummy data placeholders
+  bri.out.3<-bri.out.2 %>% # if BRI scores are not calculated, the function will only report the dummy data placeholders
     mutate(note="BRI scores not caculated")
 }
+ 
+  write.csv(bri.out.3, paste(output_path, "/", file_id, "  SQO BRI scores.csv", sep=""), row.names = FALSE) 
   return(bri.out.3)
 }
 
