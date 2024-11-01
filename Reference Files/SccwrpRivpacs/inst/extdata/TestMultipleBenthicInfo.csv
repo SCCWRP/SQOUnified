@@ -1,0 +1,154 @@
+StationID,Taxa,Abundance,Spell Checker
+Dummy1,Achelia sp,5,Correct
+Dummy1,Amaeana occidentalis,1,Correct
+Dummy1,Ampelisca cristata,8,Correct
+Dummy1,Ampharete labrops,5,Correct
+Dummy1,Amphicteis scaphobranchiata,4,Correct
+Dummy1,Amphideutopus oculatus,1,Correct
+Dummy1,Amphiodia sp,4,Correct
+Dummy1,Aphelochaeta glandaria Cmplx,2,Correct
+Dummy1,Aphelochaeta monilaris,9,Correct
+Dummy1,Aphelochaeta petersenae,3,Correct
+Dummy1,Boccardia basilaria,1,Correct
+Dummy1,Cadulus aberrans,6,Correct
+Dummy1,Chaetozone corona,3,Correct
+Dummy1,Cirrophorus furcatus,1,Correct
+Dummy1,Cooperella subdiaphana,1,Correct
+Dummy1,Corbula porcella,1,Correct
+Dummy1,Cossura candida,2,Correct
+Dummy1,Cossura sp A,13,Correct
+Dummy1,Crangon nigromaculata,1,Correct
+Dummy1,Diopatra tridentata,3,Correct
+Dummy1,Euclymeninae,7,Correct
+Dummy1,Euphilomedes carcharodonta,4,Correct
+Dummy1,Glycera americana,3,Correct
+Dummy1,Gnathiidae,4,Correct
+Dummy1,Laonice cirrata,2,Correct
+Dummy1,Leitoscoloplos pugettensis,11,Correct
+Dummy1,Lineidae,1,Correct
+Dummy1,Listriella goleta,2,Correct
+Dummy1,Lucinisca nuttalli,2,Correct
+Dummy1,Lumbrineris japonica,3,Correct
+Dummy1,Lysippe sp,3,Correct
+Dummy1,Macoma yoldiformis,1,Correct
+Dummy1,Maldanidae,3,Correct
+Dummy1,Marphysa sp A,7,Correct
+Dummy1,Mediomastus sp,3,Correct
+Dummy1,Melinna sp,1,Correct
+Dummy1,Metasychis disparidentatus,1,Correct
+Dummy1,Monticellina cryptica,12,Correct
+Dummy1,Monticellina siblina,18,Correct
+Dummy1,Neomysis sp,3,Correct
+Dummy1,Neotrypaea sp,1,Correct
+Dummy1,Nereis procera,3,Correct
+Dummy1,Neverita reclusiana,1,Correct
+Dummy1,Notomastus sp,1,Correct
+Dummy1,Olivella baetica,1,Correct
+Dummy1,Paramage scutata,1,Correct
+Dummy1,Paraprionospio pinnata,2,Correct
+Dummy1,Petaloclymene pacifica,1,Correct
+Dummy1,Philine sp,1,Correct
+Dummy1,Phoronida,5,Correct
+Dummy1,Photis bifurcata,1,Correct
+Dummy1,Photis brevipes,2,Correct
+Dummy1,Photis californica,2,Correct
+Dummy1,Pista percyi,2,Correct
+Dummy1,Podarkeopsis glabrus,1,Correct
+Dummy1,Polycirrus sp,2,Correct
+Dummy1,Praxillella pacifica,2,Correct
+Dummy1,Prionospio (Prionospio) jubata,2,Correct
+Dummy1,Pyromaia tuberculata,1,Correct
+Dummy1,Rochefortia tumida,3,Correct
+Dummy1,Scolanthus sp B,1,Correct
+Dummy1,Scoletoma sp A,32,Correct
+Dummy1,Sphaerosyllis californiensis,1,Correct
+Dummy1,Spiochaetopterus costarum,4,Correct
+Dummy1,Spiophanes berkeleyorum,19,Correct
+Dummy1,Spiophanes duplex,16,Correct
+Dummy1,Streblosoma sp,4,Correct
+Dummy1,Tellina modesta,1,Correct
+Dummy1,Terebellides californica,1,Correct
+Dummy1,Theora lubrica,17,Correct
+Dummy1,Thyasira flexuosa,6,Correct
+Dummy1,Tubulanus sp,8,Correct
+Dummy1,Volvulella panamica,1,Correct
+DemoData,Acteocina inculta,1,Correct
+DemoData,Chione californiensis,1,Correct
+DemoData,Cossura sp A,1,Correct
+DemoData,Diadumene sp,11,Correct
+DemoData,Dorvillea (Schistomeringos) sp,5,Correct
+DemoData,Harmothoe imbricata Cmplx,4,Correct
+DemoData,Leptosynapta sp,1,Correct
+DemoData,Lyonsia californica,1,Correct
+DemoData,Mediomastus sp,1,Correct
+DemoData,Musculista senhousia,57,Correct
+DemoData,Paracerceis sculpta,214,Correct
+DemoData,Paranthura elegans,4,Correct
+DemoData,Pherusa capulata,3,Correct
+DemoData,Tectura depicta,8,Correct
+DemoData,Tryonia sp,2,Correct
+CA00-0004,Ampelisca abdita,2,Correct
+CA00-0004,Bivalvia,1,Correct
+CA00-0004,Cirratulidae,1,Correct
+CA00-0004,Eusarsiella zostericola,1,Correct
+CA00-0004,Exogone lourei,2,Correct
+CA00-0004,Gemma gemma,2,Correct
+CA00-0004,Glycinde polygnatha,7,Correct
+CA00-0004,Grandidierella japonica,10,Correct
+CA00-0004,Heteromastus filiformis,11,Correct
+CA00-0004,Heteromastus sp,77,Correct
+CA00-0004,Leitoscoloplos pugettensis,2,Correct
+CA00-0004,Mediomastus sp,7,Correct
+CA00-0004,Monocorophium acherusicum,1,Correct
+CA00-0004,Muricidae,1,Correct
+CA00-0004,Neanthes succinea,8,Correct
+CA00-0004,Oedicerotidae,1,Correct
+CA00-0004,Oligochaeta,8,Correct
+CA00-0004,Polydora cornuta,1,Correct
+CA00-0004,Scoletoma tetraura Cmplx,1,Correct
+CA00-0004,Streblospio benedicti,1,Correct
+CA00-0004,Terebellidae,1,Correct
+CA00-0004,Venerupis philippinarum,1,Correct
+CA00-0045,Ampelisca abdita,90,Correct
+CA00-0045,Bivalvia,3,Correct
+CA00-0045,Boccardiella ligerica,2,Correct
+CA00-0045,Busycotypus canaliculatus,2,Correct
+CA00-0045,Cirratulidae,1,Correct
+CA00-0045,Cirriformia sp,12,Correct
+CA00-0045,Cumella vulgaris,4,Correct
+CA00-0045,Dipolydora sp,3,Correct
+CA00-0045,Dorvillea (Schistomeringos) sp,7,Correct
+CA00-0045,Eusarsiella zostericola,12,Correct
+CA00-0045,Exogone lourei,158,Correct
+CA00-0045,Glycinde polygnatha,14,Correct
+CA00-0045,Gnorimosphaeroma oregonense,1,Correct
+CA00-0045,Grandidierella japonica,22,Correct
+CA00-0045,Harmothoe imbricata Cmplx,90,Correct
+CA00-0045,Harmothoinae,2,Correct
+CA00-0045,Heteromastus filiformis,18,Correct
+CA00-0045,Leitoscoloplos pugettensis,10,Correct
+CA00-0045,Marphysa sanguinea,9,Correct
+CA00-0045,Modiolus sp,7,Correct
+CA00-0045,Molgula sp,10,Correct
+CA00-0045,Monocorophium acherusicum,16,Correct
+CA00-0045,Musculista senhousia,18,Correct
+CA00-0045,Mya arenaria,1,Correct
+CA00-0045,Neanthes succinea,20,Correct
+CA00-0045,Nippoleucon hinumensis,25,Correct
+CA00-0045,Oligochaeta,66,Correct
+CA00-0045,Paleanotus bellis,3,Correct
+CA00-0045,Paranthura elegans,15,Correct
+CA00-0045,Podocopida,1,Correct
+CA00-0045,Polycirrus sp,8,Correct
+CA00-0045,Polydora cornuta,11,Correct
+CA00-0045,Pseudopolydora kempi,1,Correct
+CA00-0045,Pseudopolydora paucibranchiata,13,Correct
+CA00-0045,Sinocorophium alienense,1,Correct
+CA00-0045,Sphaerosyllis sp N1,5,Correct
+CA00-0045,Syllis (Typosyllis) nipponica,2,Correct
+CA00-0045,Syllis (Typosyllis) sp,2,Correct
+CA00-0045,Terebella sp,1,Correct
+CA00-0045,Tharyx sp,9,Correct
+CA00-0045,Turbellaria,6,Correct
+CA00-0045,Urosalpinx cinerea,2,Correct
+CA00-0045,Venerupis philippinarum,29,Correct

@@ -1,0 +1,14 @@
+Package: SccwrpRivpacs
+Type: Package
+Title: RIVPACS
+Version: 1.2
+Date: 2013-05-20
+Author: Nathan Dodder and Darrin Greenstein 
+Maintainer: Nathan Dodder <nathand@sccwrp.org>
+Depends: xtable
+Description: Implementation of River Invertebrate Prediction and Classification System (RIVPACS).
+License: BSD_2_clause + file LICENSE
+LazyData: yes
+BuildVignettes: no
+BuildManual: no
+Packaged: 2013-01-23 01:21:18 UTC; nathand
