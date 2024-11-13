@@ -1,16 +1,17 @@
-#Function designed to input benthic data for SQO calculation, calculate SQO Benthic Line of Evidence (BLOE), and direct
-#both interim and final output files
+#Function designed to input benthic data for SQO calculation, calculate SQO Benthic Line of Evidence (BLOE), calculate US M-AMBI,
+#and produce both interim and final output files
 
 #This function requires that you have the following packages installed on your machine:
 #       1. tidyverse
 #       2. naniar
 #       3. openxlsx
+#       4. vegan
 #
 # in your r environments you can install packages with:  install.packages(".......")
 
 ##################################################################################################################################
 # Instructions for use
-# The function has 4 required inputs:
+# The function has 3 required inputs:
 #      1. file_id - this is a quoted string for you to identify the data the BRI scores are associated with
 #           e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
 #      2. infauna_path - a quoted string detailing the name and location of the .csv file with infauna abundance
@@ -26,7 +27,7 @@
 #           latitude - station latitude in decimal degrees
 #           longitude - station longitude in decimal degrees (negative values for west longitudes)
 #           salinity - bottom salinity at time of sample collection in PSU
-#       4. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
+#       3. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
 ###########################################################  ########################################################################
 
 
@@ -36,12 +37,14 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   require(tidyverse)
   require(naniar)
   require(openxlsx)
+  require(vegan)
   source("SQO BRI - generic.R")
   source("IBI - generic.R")
   source("RBI - generic.R")
   source("RIVPACS - generic.R")
+  source("MAMBI - generic.R")
 
-  print(output_path)
+  print(paste("saving files to ", output_path, sep=""))
 
   #cleaning up the infauna data to be analyzed
   #standardizing the nomenclature of ommitted salinity or depth data to NA, so that it can be dealt with later
@@ -58,6 +61,10 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   rbi.scores.x<-RBI.generic(BenthicData, output_path, file_id)
 
   rivpacs.scores.x<-RIVPACS.generic(BenthicData, output_path, file_id)
+  
+  mambi.scores.x<-MAMBI.generic(BenthicData, EG_Ref_values = NULL, EG_Scheme = "Hybrid", output_path, file_id)
+  
+  
 
   # aggregating all of the individual index scores so they can be reviewed by the user and used to calculate the BLOE score
   all.sqo.scores.x<-bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x)
@@ -84,19 +91,43 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
                            salinity>=27 & !is.na(Note)~Note,
                            salinity>=27 & is.na(Note)~"None",
                            TRUE~"bob"),
+           BLOE_category=case_when(BLOE_score==1~"Reference",
+                                    BLOE_score==2~"Low Disturbance",
+                                    BLOE_score==3~"Moderate Disturbance",
+                                    BLOE_score==4~"High Disturbance")
            ) %>%
-    relocate(stationid, sampledate, replicate, BLOE_score, BRI_cond=BRI, IBI_cond=IBI, RBI_cond=RBI, Rivpacs_cond=Rivpacs) %>%
+    relocate(stationid, sampledate, replicate, BLOE_score, BLOE_category, BRI_cond=BRI, IBI_cond=IBI, RBI_cond=RBI, Rivpacs_cond=Rivpacs) %>%
     select(-Note)
+  
+  mambi.scores.sqoformat<-mambi.scores.x %>% #adjusting MAMBI output table to match the SQO BLOE indices format
+      mutate(MAMBI_cond=case_when(SQO_mambi_condition=="Reference"~1,
+                                SQO_mambi_condition=="Low Disturbance"~2,
+                                SQO_mambi_condition=="Moderate Disturbance"~3,
+                                SQO_mambi_condition=="High Disturbance"~4,
+                                TRUE~NA), .after=SQO_mambi_condition)
+  BLOE.scores.w.MAMBI<-BLOE.scores.x %>% 
+    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, MAMBI_cond, note ), by=c("stationid", "sampledate", "replicate")) %>% 
+    mutate(notes=case_when(note=="None"~notes,
+                             is.na(note)~notes,
+                             TRUE~paste(notes, note, sep="; "))) %>% 
+    select(-note) %>% 
+    relocate(MAMBI_cond, .after=Rivpacs_cond)
+  
   write.csv(BLOE.scores.x, file=paste(output_path, "/", file_id, " SQO integrated BLOE scores.csv", sep=""), row.names = FALSE)
+  
+  write.csv(BLOE.scores.w.MAMBI, file=paste(output_path, "/", file_id, " SQO integrated BLOE scores plus M-AMBI scores.csv", sep=""), row.names = FALSE)
 
   #exporting everything into a single excel workbook with the BLOE scores, but also a tab for each individual index
 
   #define sheet names for each data frame
-  dataset_names <- list("sqo_bloe"=BLOE.scores.x, "sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x, "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x)
+  # as M-AMBI is not included in the calculation of the traditional BLOE it is provided on a separate tab to avoid confusion. 
+  
+  dataset_names <- list("sqo_bloe"=BLOE.scores.x, "sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x, "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x, 
+                        "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI, "mambi"=mambi.scores.sqoformat)
 
   #export each data frame to separate sheets in same Excel file
   write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " SQO output summary.xlsx", sep=""))
 
-
+return(BLOE.scores.w.MAMBI)
 
 }

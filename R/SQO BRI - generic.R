@@ -14,7 +14,17 @@
 #       in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13
 #     Background concepts of the index can be found in Smith et al  2001. Benthic Resonspe Index for Assessing Infaunal Communities on the Southern
 #         California Mainland Shelf. Ecological Applications 11: 1073-1087
-
+#
+#
+#       NOTE: This code is designed to be run in the Bight Program's Generic SQO BLOE calculator wrapper function. However, the function can
+#             be run independently but the user must load the following into their R environment:
+#                 1. file_id - this is a quoted string for you to identify the data the BRI scores are associated with
+#                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
+#                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
+#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#
+# This function will produce a csv file of final SQO BRI scores for each sample, as well as csv files of interim tables detailing the taxa in the
+#     submitted data that have tolerance values assigned and one for taxa in the submitted data that do not have an tolerance value assigned.
 
 
 SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=file_id) 

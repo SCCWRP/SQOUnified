@@ -27,7 +27,17 @@
 #       in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13
 #     Background concepts of the index can be found in Hunt et al  2001. A large-scale categorization of sites in San Francisco Bay, USA,
 #         based on the sediment quality triad, toxicity identification evaluations, and gradient studies. Environmental Toxicology and Chemistry 20:1252-1265
-
+#
+#       NOTE: This code is designed to be run in the Bight Program's Generic SQO BLOE calculator wrapper function. However, the function can
+#             be run independently but the user must load the following into their R environment:
+#                 1. file_id - this is a quoted string for you to identify the data the RBI scores are associated with
+#                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
+#                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
+#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#
+# This function will produce a csv file of final RBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
+#     submitted data and how they are classified by the index, the benthic data classified into RBI metrics, and the raw and scaled metrics for 
+#     each sample.
 
 
 RBI.generic <- function(BenthicData, output_path, file_id)

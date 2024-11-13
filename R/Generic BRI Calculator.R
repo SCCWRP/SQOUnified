@@ -29,6 +29,8 @@ require(tidyverse)
 infauna <- read.csv(infauna_path) #the user's infauna to be submitted
 station_info<-read.csv(station_path) #the user's station information to be submitted
 
+print(paste("Saving files to ", getwd(),"/", output_path, sep=""))
+
 load("Reference Files/pcode.RData") #pcode values by depth and taxa associated with pcodes
 
 ###            Prep the data
@@ -104,12 +106,12 @@ bri_scores.2<-bri_scores %>%
 bri_station_info<-bri_scores.2 %>% #attaching station information to the BRI scores
   left_join(., station_info.2, by=c("station_id"))
 
-return(bri_station_info) #so you can see the scores in R Studio environment
+
 
 #Saving the final table of BRI scores to the specified output path
 write.csv(bri_station_info, paste(output_path, "/", file_id, " final file - BRI scores by station and replicate.csv", sep=""), row.names = FALSE)
 
-
+return(bri_station_info) #so you can see the scores in R Studio environment
 }
 
 

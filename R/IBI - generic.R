@@ -17,9 +17,19 @@
 #   Background concepts of the index can be found in Thompson and Lowe 2004. Assessment of macrobenthos response to sediment contamination in the
 #       San Francisco Estuary, California USA. Environmental Toxicology and Chemistry 23:2178-2187
 #   
-
+#       NOTE: This code is designed to be run in the Bight Program's Generic SQO BLOE calculator wrapper function. However, the function can
+#             be run independently but the user must load the following into their R environment:
+#                 1. file_id - this is a quoted string for you to identify the data the IBI scores are associated with
+#                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
+#                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
+#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#
+# This function will produce a csv file of final IBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
+#     submitted data and how they are classified by the index, as well as, the benthic data classified into IBI metrics.
 
 IBI.generic <- function(BenthicData, output_path, file_id)
+  
+{
   require(tidyverse)
   require(naniar)
   load("Reference Files/SoCal SQO LU 4_7_20.RData")
@@ -113,6 +123,7 @@ IBI.generic <- function(BenthicData, output_path, file_id)
     full_join(ibi3, by = c( "sampledate", "stationid", "replicate")) %>%
     full_join(ibi4, by = c( "sampledate", "stationid", "replicate"))
 
+  # Export a table of the data classified into IBI metrics for the user to reveiw before they are integrated
   write.csv(ibi_metrics, file = paste(output_path, "/", file_id, " SQO IBI interim 2 - IBI metric values.csv", sep=""),
             row.names = FALSE)
 

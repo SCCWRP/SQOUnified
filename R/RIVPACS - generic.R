@@ -14,6 +14,15 @@
 # framework of that model since the original conception of the index in 2008. Consequently this function loads and runs that modelling function (SoCalRivpacs v2.R)
 # and its associated data. The associated data file (socal.reference.taxa) can be updated as SQO-related taxonomy is updated.
 
+#       NOTE: This code is designed to be run in the Bight Program's Generic SQO BLOE calculator wrapper function. However, the function can
+#             be run independently but the user must load the following into their R environment:
+#                 1. file_id - this is a quoted string for you to identify the data the RIVPACS scores are associated with
+#                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
+#                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
+#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#
+# This function will produce a csv file of final RIVPACS scores for each sample,
+
 
 RIVPACS.generic <- function(BenthicData, output_path, file_id)
   {
