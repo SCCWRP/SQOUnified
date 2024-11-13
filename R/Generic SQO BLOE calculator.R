@@ -38,11 +38,11 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   require(naniar)
   require(openxlsx)
   require(vegan)
-  source("SQO BRI - generic.R")
-  source("IBI - generic.R")
-  source("RBI - generic.R")
-  source("RIVPACS - generic.R")
-  source("MAMBI - generic.R")
+  source("R/SQO BRI - generic.R")
+  source("R/IBI - generic.R")
+  source("R/RBI - generic.R")
+  source("R/RIVPACS - generic.R")
+  source("R/MAMBI - generic.R")
 
   print(paste("saving files to ", output_path, sep=""))
 
@@ -61,10 +61,10 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   rbi.scores.x<-RBI.generic(BenthicData, output_path, file_id)
 
   rivpacs.scores.x<-RIVPACS.generic(BenthicData, output_path, file_id)
-  
+
   mambi.scores.x<-MAMBI.generic(BenthicData, EG_Ref_values = NULL, EG_Scheme = "Hybrid", output_path, file_id)
-  
-  
+
+
 
   # aggregating all of the individual index scores so they can be reviewed by the user and used to calculate the BLOE score
   all.sqo.scores.x<-bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x)
@@ -98,31 +98,31 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
            ) %>%
     relocate(stationid, sampledate, replicate, BLOE_score, BLOE_category, BRI_cond=BRI, IBI_cond=IBI, RBI_cond=RBI, Rivpacs_cond=Rivpacs) %>%
     select(-Note)
-  
+
   mambi.scores.sqoformat<-mambi.scores.x %>% #adjusting MAMBI output table to match the SQO BLOE indices format
       mutate(MAMBI_cond=case_when(SQO_mambi_condition=="Reference"~1,
                                 SQO_mambi_condition=="Low Disturbance"~2,
                                 SQO_mambi_condition=="Moderate Disturbance"~3,
                                 SQO_mambi_condition=="High Disturbance"~4,
                                 TRUE~NA), .after=SQO_mambi_condition)
-  BLOE.scores.w.MAMBI<-BLOE.scores.x %>% 
-    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, MAMBI_cond, note ), by=c("stationid", "sampledate", "replicate")) %>% 
+  BLOE.scores.w.MAMBI<-BLOE.scores.x %>%
+    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, MAMBI_cond, note ), by=c("stationid", "sampledate", "replicate")) %>%
     mutate(notes=case_when(note=="None"~notes,
                              is.na(note)~notes,
-                             TRUE~paste(notes, note, sep="; "))) %>% 
-    select(-note) %>% 
+                             TRUE~paste(notes, note, sep="; "))) %>%
+    select(-note) %>%
     relocate(MAMBI_cond, .after=Rivpacs_cond)
-  
+
   write.csv(BLOE.scores.x, file=paste(output_path, "/", file_id, " SQO integrated BLOE scores.csv", sep=""), row.names = FALSE)
-  
+
   write.csv(BLOE.scores.w.MAMBI, file=paste(output_path, "/", file_id, " SQO integrated BLOE scores plus M-AMBI scores.csv", sep=""), row.names = FALSE)
 
   #exporting everything into a single excel workbook with the BLOE scores, but also a tab for each individual index
 
   #define sheet names for each data frame
-  # as M-AMBI is not included in the calculation of the traditional BLOE it is provided on a separate tab to avoid confusion. 
-  
-  dataset_names <- list("sqo_bloe"=BLOE.scores.x, "sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x, "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x, 
+  # as M-AMBI is not included in the calculation of the traditional BLOE it is provided on a separate tab to avoid confusion.
+
+  dataset_names <- list("sqo_bloe"=BLOE.scores.x, "sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x, "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x,
                         "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI, "mambi"=mambi.scores.sqoformat)
 
   #export each data frame to separate sheets in same Excel file
