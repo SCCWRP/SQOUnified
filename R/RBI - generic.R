@@ -21,7 +21,7 @@
 #   as Negative Indicator Taxa (NIT). These three meta-metrics are combined and scaled to values observed at reference sites in the southern California 
 #   calibration data set. 
 #   
-#   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Techincal Support Manual. SCCWRP
+#   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Technical Support Manual. SCCWRP
 #      Technical Report 777
 #    Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five indicators of benthic community condition
 #       in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13

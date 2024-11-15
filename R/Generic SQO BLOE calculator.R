@@ -17,8 +17,8 @@
 #      2. infauna_path - a quoted string detailing the name and location of the .csv file with infauna abundance
 #         data. Remember with path names, that R use forward slashes "/" not the normal backslash "\" that windows typically uses.
 #         All column names should be lower case. The expectation is that the file will have, at a minimum, a column for each of:
-#           station_id - unique identifier for that station, preferably formatted as character/text value
-#           sample_date - the date on which the sample was collected, must be in a mm/dd/yyyy format
+#           stationid - unique identifier for that station, preferably formatted as character/text value
+#           sampledate - the date on which the sample was collected, must be in a mm/dd/yyyy format
 #           replicate - a number identifying the replicate infauna sample collected from the specified station on the specified date
 #           taxon - character string identifying the organism. naming conventions should follow SCAMIT edition 12
 #           abundance - a numeric value indicating the number of individuals counted for the specified taxon from the sample

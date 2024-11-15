@@ -1,3 +1,18 @@
+#Function designed to input benthic data and station information for offshore BRI calculation
+#producing both interim and final output files
+
+#This function requires that you have the following packages installed on your machine:
+#       1. tidyverse
+#       
+#
+# in your r environments you can install packages with:  install.packages(".......")
+
+# The BRI is an abundance-weighted pollution tolerance index that assesses the condition of a given sample
+# based upon the tolerance/sensitivity to pollution of the fauna observed in a sample. Specifics on calibration and validateion
+# of the index can be found in Smith et al. 2001. Benthic Response Index for Assessing Infaunal Communities on the Southern California 
+# Mainland Shelf. Ecological applications 11:1073-1087
+
+
 ####################################################################_#############################################################
 # Instructions for use
 # The function has 4 required inputs:
@@ -21,7 +36,7 @@
  ###########################################################  ######################################################################## 
 
 
-offshore_bri_calc_ed12<-function(file_id, infauna_path, station_path, output_path)
+offshore_bri.generic<-function(file_id, infauna_path, station_path, output_path)
   {
 require(tidyverse)
   
@@ -76,6 +91,23 @@ write.csv(no.pcode, paste(output_path, "/", file_id, " interim file 3 - taxa w-o
 
 write.csv(all.4.bri, paste(output_path, "/", file_id, " interim file 4 - taxa and pcodes by sample.csv",sep=""), row.names=FALSE)
 
+# provide some guidance on index application based on water depth
+
+samp.depths<-station_info.2 %>% 
+  mutate(note=case_when(depth<=200~"none", #Bight practice is to only use the BRI to 200m depth
+                        depth>200 & depth <=324 ~ "Index calibrated to 324m, but Bight practice is only to apply to 200m",
+                        #The original Smith etl 2001 paper calibrated the BRI to 324m depth
+                        depth>324 ~ "BRI not reccommended at sample depth"))
+                        #There is some evidence (Gillett, D.J., Gilbane, L., and Schiff, K.C. 2019. Benthic Infauna of the Southern 
+                          #California Bight Continental Slope: Characterizing Community Structure for the Development of an Index of Disturbance. 
+                          #Camarillo (CA): US Department of the Interior, Bureau of Ocean Energy Management. OCS Study BOEM 2019-050. 157 p.) that
+                          #the BRI could be applied to 400m depth but that has not been fully vetted
+
+# output depth range applicability information for the user to review
+write.csv(samp.depths, paste(output_path, "/", file_id, " interim file 5 - BRI applicability for each sample.csv", sep=""), row.names=FALSE)
+
+
+
 ####          Calculate Scores
 
 bri_scores<-all.4.bri %>%  drop_na(tol_val) %>% #drop taxa w/o a pcode
@@ -104,7 +136,7 @@ bri_scores.2<-bri_scores %>%
   ungroup()
 
 bri_station_info<-bri_scores.2 %>% #attaching station information to the BRI scores
-  left_join(., station_info.2, by=c("station_id"))
+  left_join(., samp.depths, by=c("station_id"))
 
 
 
