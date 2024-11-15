@@ -22,7 +22,7 @@
 #           replicate - a number identifying the replicate infauna sample collected from the specified station on the specified date
 #           taxon - character string identifying the organism. naming conventions should follow SCAMIT edition 12
 #           abundance - a numeric value indicating the number of individuals counted for the specified taxon from the sample
-#           exclude - Yes or No value, idicating if the taxon name is ambiguous relative to other taxa in the sample
+#           exclude - Yes or No value, indicating if the taxon name is ambiguous relative to other taxa in the sample
 #           depth - station depth in meters
 #           latitude - station latitude in decimal degrees
 #           longitude - station longitude in decimal degrees (negative values for west longitudes)
