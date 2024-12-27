@@ -36,7 +36,8 @@ Imports:
   plyr,
   purrr,
   stringr,
-  tidyr
+  tidyr,
+  lubridate
 Depends: 
   R (>= 3.5.0)
 RoxygenNote: 7.1.2
