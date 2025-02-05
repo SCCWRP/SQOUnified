@@ -69,7 +69,16 @@ writelog <- function(content, logfile, filetype = 'text', append = T, verbose = 
 #' @examples
 #' init.log(logfile, sys.call())
 #' @export
-init.log <- function(logfile, base.func.name, type = 'text', current.time = Sys.time(), is.base.func = T, verbose = F, title = 'Log', libraries = c('rmarkdown')) {
+init.log <- function(
+    logfile,
+    base.func.name,
+    type = 'text',
+    current.time = Sys.time(),
+    is.base.func = T,
+    verbose = F,
+    title = 'Log',
+    libraries = c('rmarkdown','knitr','DT','tidyverse','SQOUnified')
+) {
 
   logfile = path.expand(logfile)
   logdir = dirname(logfile)

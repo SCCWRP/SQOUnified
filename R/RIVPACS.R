@@ -44,10 +44,11 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ), verbose = F){
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog('\n### BEGIN: RIVPACS function.\n  ', logfile = logfile, verbose = verbose)
@@ -474,7 +475,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          group.means = socal.reference.group.means,
                          reference.cov = socal.reference.covariance,
                          observed.taxa = socal.example.taxa,
-                         logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
+                         logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ),
                          verbose = F
                          ) {
 
@@ -584,7 +585,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   # ----- Define function - Format Observed Data -----
   FormatObservedData <- function(
-    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
+    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ),
     verbose = F
   ) {
 
@@ -767,7 +768,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   # ----- Define Calculate Expected Data -----
   CalculateExpectedData <- function(
-    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
+    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ),
     verbose = F
   ) {
 
@@ -1094,7 +1095,7 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
   # Define Calculate Scores Function -----
   CalculateScores <- function(
-    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ),
+    logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ),
     verbose = F
   ) {
 

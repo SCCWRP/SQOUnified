@@ -60,12 +60,13 @@
 #' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
 #'
 #' @export
-BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'BRIlog.Rmd'), verbose = F)
+BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRIlog.Rmd'), verbose = F)
 {
   # This (as of now) is the main function used by the R package
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog('\n### BEGIN: BRI function.\n', logfile = logfile, verbose = verbose)

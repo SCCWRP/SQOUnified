@@ -94,12 +94,13 @@
 #' @importFrom purrr map_dfr
 #' @export
 
-MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'log.txt' ), verbose = F)
+MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'MAMBI_Log.Rmd' ), verbose = F)
 {
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
-  
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+
 
   if (is.null(EG_Ref_values)) {
     EG_Ref_values <- EG_Ref

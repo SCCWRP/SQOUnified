@@ -34,11 +34,12 @@
 #'
 #' @import dplyr
 #' @export
-LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F)  {
+LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F)  {
   "lrm_table"
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog("\n\n## Chem CA LRM Function\n", logfile = logfile, verbose = verbose)
@@ -474,11 +475,12 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 #' CSI(chem_sampledata) # get scores and see output
 #'
 #' @export
-CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F) {
+CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F) {
   "csi_weight"
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog("\n\n## Chem CSI Function\n", logfile = logfile, verbose = verbose)
@@ -993,10 +995,11 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #' chem.sqo(chem_sampledata) # get scores and see output
 #'
 #' @export
-chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F, logtitle = 'Chemistry SQO Logs') {
+chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, logtitle = 'Chemistry SQO Logs') {
 
   # ---- Initialize Logging ----
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
 
 
   writelog("\n# Chemistry SQO Main Function\n", logfile = logfile, verbose = verbose)
@@ -1329,10 +1332,11 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #' chemdata_prep(chem_sampledata) # get scores and see output
 #'
 #' @export
-chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H:%M:%S"), 'chemlog.Rmd' ), verbose = F){
+chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F){
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog("\n\n## Chemistry Preprocessing function (chemdata_prep)\n", logfile = logfile, verbose = verbose)

@@ -46,7 +46,8 @@
 tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
 
   # Initialize Logging
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
 
   writelog('\n## BEGIN: Tox Summary function.\n', logfile = logfile, verbose = verbose)
@@ -485,7 +486,15 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
 #' @export
 tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
 
-  init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(
+    logfile,
+    base.func.name = sys.call(),
+    type = logfile.type,
+    current.time = Sys.time(),
+    is.base.func = length(sys.calls()) == 1,
+    verbose = verbose
+  )
 
 
   writelog('\n# BEGIN: Tox SQO function.\n  ', logfile = logfile, verbose = verbose)
