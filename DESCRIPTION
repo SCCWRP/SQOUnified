@@ -37,7 +37,11 @@ Imports:
   purrr,
   stringr,
   tidyr,
-  lubridate
+  lubridate,
+  DT,
+  tidyverse,
+  knitr,
+  rmarkdown
 Depends: 
   R (>= 3.5.0)
 RoxygenNote: 7.1.2
