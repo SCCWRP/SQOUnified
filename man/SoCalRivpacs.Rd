@@ -14,7 +14,7 @@ SoCalRivpacs(
   group.means = socal.reference.group.means,
   reference.cov = socal.reference.covariance,
   observed.taxa = socal.example.taxa,
-  logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H:\%M:\%S"),
+  logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S"),
     "log.txt"),
   verbose = F
 )

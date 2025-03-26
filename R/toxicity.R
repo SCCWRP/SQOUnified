@@ -24,6 +24,8 @@
 #'
 #'    \strong{\code{matrix}} - (optional) Whole Sediment, Sediment Water Interface, etc. Be sure to not include Reference Toxicants
 #'
+#'    \strong{\code{fieldrep}} - Field replicate
+#'
 #'    \strong{\code{labrep}} - There should be 5 per station, species pair
 #'
 #'    \strong{\code{result}} - the percentage that survived the test, or had normal development

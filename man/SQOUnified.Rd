@@ -10,7 +10,7 @@ SQOUnified(
   benthic = NULL,
   chem = NULL,
   tox = NULL,
-  logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H:\%M:\%S"),
+  logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S"),
     "log.Rmd"),
   verbose = F
 )
