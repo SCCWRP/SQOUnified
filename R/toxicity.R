@@ -161,7 +161,6 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # here we separate the controls from the rest of the samples
   controls <- tox.summary.input %>%
     filter(
-      stationid == '0000',
       (sampletypecode %in% control.sampletypes)
     )
 
@@ -211,7 +210,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # get rid of the controls. They will be merged later
   results <- tox.summary.input %>%
     filter(
-      ( (stationid != '0000') | (sampletypecode %in% results.sampletypes) )
+      sampletypecode %in% results.sampletypes
     )
 
   writelog(

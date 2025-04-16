@@ -1,7 +1,7 @@
 Package: SQOUnified
 Type: Package
 Title: Tools for calculating SQO scores based on three Lines of Evidence (Benthic, Tox, Chem)
-Version: 0.7.0
+Version: 0.7.1
 Date: 2024-08-28
 Description: Calculates Site Assessments based on the three lines of evidence as outlined in the CASQO Manual
             Benthic, Toxicity, and Chemistry
