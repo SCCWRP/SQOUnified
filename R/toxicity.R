@@ -3,8 +3,9 @@
 #'
 #' @description
 #' This function will calculate the tox summary,
-#'
-#' given an argument which is a dataframe of tox results data
+#' given an argument which is a dataframe of tox results data.
+#' By default, control samples will only be those with sampletypecode of CNEG. You may allow for others, such as CNSL.
+#' A warning will be issued if multiple controls are found within one batch
 #'
 #' @param toxresults a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
 #'    matrix, labrep, result. This data must also include the control samples
@@ -45,7 +46,7 @@
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
 # DEFAULT leave it out and do only grabs
-tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
+tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -70,13 +71,26 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
   )
   create_download_link(data = tox.summary.input, logfile = logfile, filename = 'tox.summary-input-step0.csv', linktext = 'Download Raw Input to Tox Summary', verbose = verbose)
 
-  # Display raw input data, create a download link for the knitted final RMarkdown output
+  # Ensure input arg values are defined in the R Markdown
   writelog(
-    "\n### Ensure the results.sampletypes argument is defined for the RMarkdown:\n  ",
+    "\n### Ensure the results/control.sampletypes arguments are defined for the RMarkdown:\n  ",
     logfile = logfile,
     code = paste0("results.sampletypes <- c('", paste0( results.sampletypes, collapse = "','" ), "')"  ),
     verbose = verbose
   )
+  writelog(
+    "\n",
+    logfile = logfile,
+    code = paste0("control.sampletypes <- c('", paste0( control.sampletypes, collapse = "','" ), "')"  ),
+    verbose = verbose
+  )
+  writelog(
+    "\n",
+    logfile = logfile,
+    code = paste0("include.controls <- ", include.controls),
+    verbose = verbose
+  )
+
 
 
   # write to the logs the sampletypes used for results
@@ -97,7 +111,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
   )
   create_download_link(data = tox.summary.input, logfile = logfile, filename = 'tox.summary-input-step0.1.csv', linktext = 'Download Input to Tox Summary with stationid of 0 replaced with 0000', verbose = verbose)
 
-  # replace negative result values with NA_real_ (-88's and -99's shouldnt be included, nor should the result value ever be negative)
+  # replace negative result values with NA_real_ (-88's and -99's shouldn't be included, nor should the result value ever be negative)
   tox.summary.input$result <- replace(tox.summary.input$result, tox.summary.input$result < 0, NA_real_)
   writelog(
     "\n### Replace negative result values with NA's:\n  ",
@@ -148,18 +162,51 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
   controls <- tox.summary.input %>%
     filter(
       stationid == '0000',
-      !(sampletypecode %in% results.sampletypes)
+      (sampletypecode %in% control.sampletypes)
     )
 
   writelog(
     "\n### Separate the controls from the rest of the samples:\n  ",
     logfile = logfile,
-    code = "controls <- tox.summary.input %>% filter( stationid == '0000', !(sampletypecode %in% results.sampletypes) )",
+    code = "controls <- tox.summary.input %>% filter( stationid == '0000', (sampletypecode %in% control.sampletypes) )",
     data = controls,
     verbose = verbose
   )
   create_download_link(data = controls, logfile = logfile, filename = 'tox.summary-controls.csv', linktext = 'Download Tox Summary Controls', verbose = verbose)
 
+
+  # Check for multiple controls within a batch
+  badcontrolbatches <- controls %>%
+    select(toxbatch, stationid, sampletypecode) %>%
+    distinct() %>%
+    group_by(toxbatch) %>%
+    summarize(controlcount = n()) %>%
+    filter(controlcount > 1) %>%
+    pull(toxbatch)
+
+
+  if (length(badcontrolbatches) > 0) {
+    warning(paste0("The following batches were found to have multiple controls: ", paste(badcontrolbatches, collapse = ", ") ) )
+  }
+
+  writelog(
+    "\n### Check for multiple controls within a batch:\n  ",
+    logfile = logfile,
+    code = '
+      badcontrolbatches <- controls %>%
+        select(toxbatch, stationid, sampletypecode) %>%
+        distinct() %>%
+        group_by(toxbatch) %>%
+        summarize(controlcount = n()) %>%
+        filter(controlcount > 1) %>%
+        pull(toxbatch)
+
+      if (length(badcontrolbatches) > 0) {
+        warning(paste0("Warning: The following batches were found to have multiple controls: ", paste(badcontrolbatches, collapse = ", ") ) )
+      }
+    ',
+    verbose = verbose
+  )
 
   # get rid of the controls. They will be merged later
   results <- tox.summary.input %>%
@@ -178,7 +225,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
 
 
   # Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'
-  summary <- results %>%
+  results_summary <- results %>%
     inner_join(
       controls,
       by = c('toxbatch','species','labrep','lab'),
@@ -188,17 +235,74 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
     "\n### Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
     logfile = logfile,
     code = "
-      summary <- results %>%
+      results_summary <- results %>%
         inner_join(
           controls,
           by = c('toxbatch','species','labrep','lab'),
           suffix = c('','_control')
         )
     ",
-    data = results %>% head(25),
+    data = results_summary %>% head(25),
     verbose = verbose
   )
-  create_download_link(data = results, logfile = logfile, filename = 'tox.summary-results-w-controls.csv', linktext = 'Download Tox Results joined with controls', verbose = verbose)
+  create_download_link(data = results_summary, logfile = logfile, filename = 'tox.summary-results-w-controls.csv', linktext = 'Download Tox Results joined with controls', verbose = verbose)
+
+  if(include.controls) {
+    # Join controls with the controls, so the control data is easily readable in one of the rows of the summary output
+    control_summary <- controls %>%
+      inner_join(
+        controls,
+        by = c('toxbatch','species','labrep','lab'),
+        suffix = c('','_control')
+      )
+    writelog(
+      "\n### Join controls with itself on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
+      logfile = logfile,
+      code = "
+        control_summary <- controls %>%
+          inner_join(
+            controls,
+            by = c('toxbatch','species','labrep','lab'),
+            suffix = c('','_control')
+          )
+      ",
+      data = control_summary %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = control_summary, logfile = logfile, filename = 'tox.summary-controls-w-controls.csv', linktext = 'Download Tox Controls joined with themselves', verbose = verbose)
+
+    # Stack the results and controls joined dataframes
+    summary <- rbind.fill(results_summary, control_summary)
+    writelog(
+      "\n### stack the previous two dataframes\n  ",
+      logfile = logfile,
+      code = "
+      summary <- plyr::rbind.fill(results_summary, control_summary)
+    ",
+      data = summary %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = summary, logfile = logfile, filename = 'tox.summary-results_controls-w-controls.csv', linktext = 'Download Tox Results joined with controls (just before calculating scores)', verbose = verbose)
+
+
+
+  } else {
+
+    # if the input says to not include controls in the summary table output, then set "summary" equal to "results_summary"
+    summary <- results_summary
+    writelog(
+      "\n### User opted not to include controls in summary table output - set the summary variable equal to results_summary\n  ",
+      logfile = logfile,
+      code = "
+        summary <- results_summary
+      ",
+      verbose = verbose
+    )
+
+  }
+
+
+
 
   writelog("\n#### Explanation of what the next steps are going to be",logfile = logfile, verbose = verbose)
   writelog('Group by lab, stationid, toxbatch, species, fieldrep, sampletypecode\n', logfile = logfile, verbose = verbose)
@@ -231,8 +335,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
       },
       error = function(err){
         if(all(result == result_control)){
-          # if the two vectors were exactly the same, they are not significantly different for obvious reasons
-          return(1)
+          # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
+          return(NA_real_)
         } else {
           # if they were two completely different constant vectors, then they are significantly different
           return(0)
@@ -244,7 +348,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
       pct_result_adj = (pct_result / pct_control) * 100,
       stddev = sd(result, na.rm = T),
       cv = stddev / pct_result,
-      n = n()
+      #n = n()
+      # April 15, 2025 - let n be the number of not-null replicate result values
+      n = sum(!is.na(result))
     ) %>%
     ungroup() %>%
     mutate(
@@ -272,8 +378,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
           },
           error = function(err){
             if(all(result == result_control)){
-              # if the two vectors were exactly the same, they are not significantly different for obvious reasons
-              return(1)
+              # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
+              return(NA_real_)
             } else {
               # if they were two completely different constant vectors, then they are significantly different
               return(0)
@@ -285,7 +391,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
           pct_result_adj = (pct_result / pct_control) * 100,
           stddev = sd(result, na.rm = T),
           cv = stddev / pct_result,
-          n = n()
+          n = sum(!is.na(result))
         ) %>%
         ungroup() %>%
         mutate(
@@ -486,7 +592,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), logf
 #' tox.sqo(tox_sampledata)
 #'
 #' @export
-tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
+tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F , logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F) {
 
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(
@@ -506,6 +612,26 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
   if (verbose) {
     save(toxresults, file = file.path( dirname(logfile), rawinput.filename ))
   }
+
+  # For the sake of running the RMarkdown - define the results.sampletypes and control.sampletypes vectors, and include.controls boolean
+  writelog(
+    "\n### Ensure the results/control.sampletypes arguments are defined for the RMarkdown:\n  ",
+    logfile = logfile,
+    code = paste0("results.sampletypes <- c('", paste0( results.sampletypes, collapse = "','" ), "')"  ),
+    verbose = verbose
+  )
+  writelog(
+    "\n",
+    logfile = logfile,
+    code = paste0("control.sampletypes <- c('", paste0( control.sampletypes, collapse = "','" ), "')"  ),
+    verbose = verbose
+  )
+  writelog(
+    "\n",
+    logfile = logfile,
+    code = paste0("include.controls <- ", include.controls),
+    verbose = verbose
+  )
 
 
   # Display raw input data, create a download link for the knitted final RMarkdown output
@@ -539,13 +665,25 @@ tox.sqo <- function(toxresults, logfile = file.path(getwd(), 'logs', format(Sys.
   )
 
   # Call tox summary function
-  tox_nonintegrated1 <- tox.summary(toxresults, logfile = logfile, verbose = verbose)
+  tox_nonintegrated1 <- tox.summary(
+    toxresults,
+    results.sampletypes = results.sampletypes,
+    control.sampletypes = control.sampletypes,
+    include.controls = include.controls,
+    logfile = logfile,
+    verbose = verbose
+  )
   writelog(
     "\n### Calling Tox Summary within Tox.SQO function\n  ",
     logfile = logfile,
     code = "
       # Call tox summary function
-      tox_nonintegrated1 <- tox.summary(toxresults)
+      tox_nonintegrated1 <- tox.summary(
+        toxresults,
+        results.sampletypes = results.sampletypes,
+        control.sampletypes = control.sampletypes,
+        include.controls = include.controls
+      )
     ",
     data = tox_nonintegrated1 %>% head(25),
     verbose = verbose
