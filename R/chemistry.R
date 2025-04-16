@@ -34,7 +34,7 @@
 #'
 #' @import dplyr
 #' @export
-LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F)  {
+LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, knitlog = F)  {
   "lrm_table"
 
   # Initialize Logging
@@ -435,9 +435,30 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 
   writelog("##### END Chem LRM Function\n", logfile = logfile, verbose = verbose)
 
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) =='rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
+
+
   return(chemdata_lrm.final)
 
-# uncomment to make the above block a function again
 }
 
 
@@ -476,7 +497,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 #'
 #' @import dplyr
 #' @export
-CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F) {
+CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, knitlog = F) {
   "csi_weight"
 
   # Initialize Logging
@@ -959,6 +980,28 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
   # Serve it up for download
   create_download_link(data = chemdata_csi.final, logfile = logfile, filename = 'CSI_Final.csv', linktext = 'Download CSI Final (Final DataFrame within CSI Function)', verbose = verbose)
 
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) =='rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
+
+
   return(chemdata_csi.final)
 }
 
@@ -997,7 +1040,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #'
 #' @import dplyr
 #' @export
-chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, logtitle = 'Chemistry SQO Logs') {
+chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, logtitle = 'Chemistry SQO Logs', knitlog = F) {
 
   # ---- Initialize Logging ----
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -1291,6 +1334,26 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 
   writelog("\n# END Chem SQO Function\n", logfile = logfile, verbose = verbose)
 
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
+
   return(combined.final)
 
 }
@@ -1335,7 +1398,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #'
 #' @import dplyr
 #' @export
-chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F){
+chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, knitlog = F){
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -2254,6 +2317,28 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
 
 
   writelog("\n#### END Function: chemdata_prep\n", logfile = logfile, verbose = verbose)
+
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
+
 
 
   return(chemdata.preprocessed.final)

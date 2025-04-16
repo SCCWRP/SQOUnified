@@ -44,7 +44,7 @@
 
 #---- RIVPACS WRAPPER FUNCTION ----
 # This is what we will use for RIVPACS
-RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ), verbose = F){
+RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ), verbose = F, knitlog = F){
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -458,6 +458,25 @@ RIVPACS <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sy
 
   writelog('\n### END: RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
 
   return(rivpacs.score)
 }
@@ -476,7 +495,8 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
                          reference.cov = socal.reference.covariance,
                          observed.taxa = socal.example.taxa,
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.txt' ),
-                         verbose = F
+                         verbose = F,
+                         knitlog = F
                          ) {
 
   writelog('\n##### **BEGIN**: So Cal RIVPACS function.\n', logfile = logfile, verbose = verbose)
@@ -1336,6 +1356,26 @@ SoCalRivpacs <- function(Pcutoff = 0.5,
 
 
   writelog('\n#### **END**: So Cal RIVPACS function.\n  \n  ', logfile = logfile, verbose = verbose)
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
 
   return(results)
 

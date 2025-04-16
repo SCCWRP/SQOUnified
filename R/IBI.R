@@ -71,7 +71,7 @@
 #
 ##########################################################################################################################
 #' @export
-IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'IBIlog.Rmd'), verbose = F)
+IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'IBIlog.Rmd'), verbose = F, knitlog = F)
 {
 
   # Initialize Logging
@@ -404,6 +404,25 @@ IBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
   create_download_link(data = ibi_final, logfile = logfile, filename = 'IBI-final-scores.csv', linktext = 'Download final IBI scores', verbose = verbose)
 
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
 
 
   writelog('\n### END: IBI function.\n', logfile = logfile, verbose = verbose)
