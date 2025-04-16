@@ -474,6 +474,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
 #' data(chem_sampledata) # load sample data to your environment
 #' CSI(chem_sampledata) # get scores and see output
 #'
+#' @import dplyr
 #' @export
 CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F) {
   "csi_weight"
@@ -994,6 +995,7 @@ CSI <- function(chemdata.csi.input, preprocessed = F, logfile = file.path(getwd(
 #' data(chem_sampledata) # load sample data to your environment
 #' chem.sqo(chem_sampledata) # get scores and see output
 #'
+#' @import dplyr
 #' @export
 chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F, logtitle = 'Chemistry SQO Logs') {
 
@@ -1331,6 +1333,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
 #' data(chem_sampledata) # load sample data to your environment
 #' chemdata_prep(chem_sampledata) # get scores and see output
 #'
+#' @import dplyr
 #' @export
 chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'chemlog.Rmd' ), verbose = F){
 

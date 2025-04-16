@@ -39,7 +39,6 @@ Imports:
   tidyr,
   lubridate,
   DT,
-  tidyverse,
   knitr,
   rmarkdown
 Depends: 
