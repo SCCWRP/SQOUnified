@@ -89,7 +89,7 @@ RIVPACS.generic <- function(BenthicData, output_path, file_id)
     left_join(., sampleids, by="sample_id")
 
 
-   # gathering the station information associated with each sample to associate theme later
+   # gathering the station information associated with each sample to associate them later
    oe.stations<-BenthicData %>%
     select(-taxon, -abundance, -exclude) %>%
     distinct()
@@ -104,26 +104,29 @@ RIVPACS.generic <- function(BenthicData, output_path, file_id)
   rivpacs.scores <- oe.tab %>%
     rename(score=O.over.E) %>%
     select(-sample_id) %>%
-    mutate(condition_category = case_when((score <= 0.32) ~ "High Disturbance",
-                                       ((score > 0.32 & score <= 0.74) | (score >= 1.26)) ~ "Moderate Disturbance",
-                                       ((score > 0.74 & score <= 0.90) | score >= 1.10 & score < 1.26) ~ "Low Disturbance",
-                                       (score > 0.90 | score < 1.10) ~ "Reference"),
-           condition_category_score = case_when(condition_category == "Reference" ~ 1,
-                                               condition_category == "Low Disturbance" ~ 2,
-                                               condition_category == "Moderate Disturbance" ~ 3,
-                                               condition_category == "High Disturbance" ~ 4),
+    mutate(
            #David Gillett added this flag to call the user's attention that the sample may be outside the calibration dataset for the RIVPACS model
            #David Gillett thinks this is not necessarily a reason to dismiss the RIVPACS index score, but to be skeptical and examine it further
            note=case_when(outlier.01=='FAIL'~"Caution-Sample Outside RIVPACS habitat model",
                           TRUE~ NA),
-           index="Rivpacs") %>%
-    bind_rows(defaunated,.) #add the defaunated samples back in
+           index="Rivpacs") %>% 
+     relocate(., stationid, sampledate, replicate, O, E, index, score, outlier.05, outlier.01, note)
 
    #output RIVPACS O:E details for the use to review
    write.csv(rivpacs.scores, file=paste(output_path,"/", file_id, " SQO RIVPACS interim file - OE details.csv", sep="" ), row.names = FALSE)
 
   #clean up scores and add associated station information to match other index outputs
    rivpacs.scores.2<-rivpacs.scores %>%
+     mutate(condition_category = case_when((score <= 0.32) ~ "High Disturbance",
+                                           ((score > 0.32 & score <= 0.74) | (score >= 1.26)) ~ "Moderate Disturbance",
+                                           ((score > 0.74 & score <= 0.90) | score >= 1.10 & score < 1.26) ~ "Low Disturbance",
+                                           (score > 0.90 | score < 1.10) ~ "Reference"),
+            condition_category_score = case_when(condition_category == "Reference" ~ 1,
+                                                 condition_category == "Low Disturbance" ~ 2,
+                                                 condition_category == "Moderate Disturbance" ~ 3,
+                                                 condition_category == "High Disturbance" ~ 4)) %>% 
+    
+    bind_rows(defaunated,.) %>% #add the defaunated samples back in
     select(-O, -E, -outlier.05, -outlier.01) %>%
     left_join(oe.stations, ., by=c("stationid", "sampledate", "replicate"))
 

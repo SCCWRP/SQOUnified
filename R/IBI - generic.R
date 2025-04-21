@@ -58,7 +58,12 @@ IBI.generic <- function(BenthicData, output_path, file_id)
     filter(taxon!="NoOrganismsPresent")
 
   #Export data so the user knows what is going to used in subsequent calculations
-  write.csv(ibi_data, file = paste(output_path, "/", file_id, " SQO IBI interim 1 - data to be analyzed with SQO designations assigned.csv", sep=""),
+  
+  ibi_data.review<-ibi_data %>% 
+    mutate(Notomastus_flag=if_else(str_detect(taxon,"Notomastus"), 1, 0)) %>% 
+    select(stationid, sampledate, replicate, taxon, abundance, exclude, Mollusc, IBISensitive, Notomastus_flag)
+    
+  write.csv(ibi_data.review, file = paste(output_path, "/", file_id, " SQO IBI interim 1 - data to be analyzed with SQO designations assigned.csv", sep=""),
             row.names = FALSE)
 
 
@@ -103,17 +108,6 @@ IBI.generic <- function(BenthicData, output_path, file_id)
   row.names(ibi_ref_ranges_table) <- c("NumOfTaxa", "NumOfMolluscTaxa", "NotomastusAbun", "PctSensTaxa")
 
 
-  ### IBI category response ranges for Southern California Marine Bays
-  ### [ Table 4.20 - CASQO Technical Manual page 68-69]
-  ibi_category_response_table <- data.frame(ibi_score = as.factor(c(0, 1, 2, 3, 4)),
-                                            category = as.factor(c("Reference",
-                                                                   "Low Disturbance",
-                                                                   "Moderate Disturbance",
-                                                                   "High Disturbance",
-                                                                   "High Disturbance")),
-                                            category_score = as.factor(c(1, 2, 3, 4, 4)))
-
-
   ### IBI Metrics:
   # We stitch together all the necessary IBI metrics to determine the IBI index.
   # Each of the metrics is then compared to the tables listed above (Table 5.4 and Table 5.5) to determine the IBI score,
@@ -126,25 +120,40 @@ IBI.generic <- function(BenthicData, output_path, file_id)
   # Export a table of the data classified into IBI metrics for the user to reveiw before they are integrated
   write.csv(ibi_metrics, file = paste(output_path, "/", file_id, " SQO IBI interim 2 - IBI metric values.csv", sep=""),
             row.names = FALSE)
-
-  # Calculate IBI score
-  ibi.scores<-ibi_metrics %>%
-  # The IBI score is set to zero before comparison the reference range.
-    mutate(score = 0) %>%
-    # For each metric that is out of the reference range (above or below), the IBI score goes up by one.
-    mutate(score = if_else((NumOfTaxa < ibi_ref_ranges_table["NumOfTaxa",]$ref_low  | NumOfTaxa > ibi_ref_ranges_table["NumOfTaxa",]$ref_high),
-                           score + 1, score)) %>%
-    mutate(score = if_else((NumOfMolluscTaxa < ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_low  | NumOfMolluscTaxa > ibi_ref_ranges_table["NumOfMolluscTaxa",]$ref_high),
-                           score + 1, score)) %>%
-    mutate(score = if_else((NotomastusAbun < ibi_ref_ranges_table["NotomastusAbun",]$ref_low  | NotomastusAbun > ibi_ref_ranges_table["NotomastusAbun",]$ref_high),
-                           score + 1, score)) %>%
-    mutate(score = if_else((PctSensTaxa < ibi_ref_ranges_table["PctSensTaxa",]$ref_low  | PctSensTaxa > ibi_ref_ranges_table["PctSensTaxa",]$ref_high),
-                           score + 1, score)) %>%
-    # The IBI score is then compared to condition category response ranges (Table 5.5) to determine the IBI category and category score.
-    mutate(condition_category = case_when(score == 0 ~ "Reference", score == 1 ~ "Low Disturbance", score == 2 ~ "Moderate Disturbance", (score == 3 | score == 4) ~ "High Disturbance")) %>%
-    mutate(condition_category_score = case_when(score == 0 ~ 1, score == 1 ~ 2, score == 2 ~ 3, (score == 3 | score == 4) ~ 4)) %>%
-    mutate(index = "IBI")
-
+  
+  
+  
+  ### Reference ranges for IBI metrics in Southern California Marine Bays against which sample values are compared
+  ### [ Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68 ]
+  ibi_ref_ranges_table <- data.frame(metric = c("NumOfTaxa", "NumOfMolluscTaxa", "NotomastusAbun", "PctSensTaxa"),
+                                     ref_low = c(13, 2, 0, 19),
+                                     ref_high = c(99, 25, 59, 47.1))
+ 
+  
+  # Calculate IBI scores
+  ibi.scores<-ibi_metrics %>% 
+    #rearrange data to make scoring cleaner
+    pivot_longer(., cols=c(-stationid, -sampledate, -replicate), names_to = "metric", values_to = "value") %>% 
+    #add in the reference site ranges for comparison
+    left_join(.,ibi_ref_ranges_table, by="metric") %>% 
+    #IBI score starts at 0 and for each metric out of reference rance (< or >), the score increases by 1
+    mutate(out_of_range=case_when(value<ref_low | value>ref_high ~1,
+                                  TRUE~0)) %>% 
+    group_by(stationid, sampledate, replicate) %>% 
+    summarise(score=sum(out_of_range)) %>% 
+    ungroup() %>% 
+    #convert IBI scores to SQO categories and category scores
+    mutate(index="IBI", .before=score) %>% 
+    mutate(condition_category = case_when(score == 0 ~ "Reference", 
+                                          score == 1 ~ "Low Disturbance", 
+                                          score == 2 ~ "Moderate Disturbance", 
+                                          score %in%c(3,4) ~ "High Disturbance"),
+           condition_category_score = case_when(score == 0 ~ 1, 
+                                                score == 1 ~ 2, 
+                                                score == 2 ~ 3, 
+                                                score %in%c(3,4) ~ 4))
+  
+ 
   #gathering the station information (i.e., non-taxonomic data) for each site
 
   ibi.stations<-BenthicData %>%
@@ -171,13 +180,13 @@ IBI.generic <- function(BenthicData, output_path, file_id)
 
 
 
+
+ 
+# Export the final scores to the location designated by the output path   
+  write.csv(ibi.out.2, paste(output_path, "/", file_id, " SQO IBI scores.csv", sep=""), row.names = FALSE)
+
 # Export the final scores to the general R environment
    return(ibi.out.2)
- 
-# Exort the final scores to the location designated by the output path   
-  write.csv(ibi.out.2, paste(output_path, "/", file_id, "  SQO IBI score.csv", sep=""), row.names = FALSE)
-
-
 
 
 }

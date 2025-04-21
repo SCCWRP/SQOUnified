@@ -94,11 +94,7 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
     mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG))
 
 
-  #TODO: Need to fix these lines!!!
-  # azoic.samples<-Input_File.0 %>%
-  #   filter(Taxon=="No Organisms Present") %>%
-  #   select(StationID, Replicate, SampleDate, Latitude, Longitude, SalZone, Stratum)
-
+ 
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-Input_File.0 %>%
@@ -114,11 +110,6 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
   Input_File<-Input_File.0 %>% filter(taxon != "NoOrganismsPresent")
 
 
-  #calculate total abundance
-  # total.abundance<-Input_File %>%
-  #   group_by(stationid, replicate, sampledate) %>%
-  #   summarise(Tot_abun=sum(abundance)) %>%
-  #   ungroup()
 
   Sample.info<-Input_File %>%
     select(stationid, replicate, sampledate, latitude, longitude, salinity, Coast, SalZone) %>%
@@ -141,7 +132,7 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
     group_by(taxon, EG) %>%
     summarise(total_abundance=sum(abundance))
 
-  write.csv(taxa_w_EG, file=paste(output_path, "/", file_id, " M-AMBI interim output - taxa with EG values.csv", sep=""), row.names = FALSE)
+  write.csv(taxa_w_EG, file=paste(output_path, "/", file_id, " M-AMBI interim 1 - taxa with EG values.csv", sep=""), row.names = FALSE)
 
   # Export interim file with all taxa in submitted data without an assigned EG value for user to review
   taxa_wo_EG<-EG.Assignment %>%
@@ -149,7 +140,7 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
     group_by(taxon) %>%
     summarise(total_abundance=sum(abundance))
 
-  write.csv(taxa_wo_EG, file=paste(output_path, "/", file_id, " M-AMBI interim output - taxa without EG values.csv", sep=""), row.names = FALSE)
+  write.csv(taxa_wo_EG, file=paste(output_path, "/", file_id, " M-AMBI interim 2 - taxa without EG values.csv", sep=""), row.names = FALSE)
 
 
     # EG.Assignment.cast<-data.frame(NoEG=numeric(),

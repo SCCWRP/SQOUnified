@@ -21,7 +21,7 @@
 #   as Negative Indicator Taxa (NIT). These three meta-metrics are combined and scaled to values observed at reference sites in the southern California 
 #   calibration data set. 
 #   
-#   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Technical Support Manual. SCCWRP
+#   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Techincal Support Manual. SCCWRP
 #      Technical Report 777
 #    Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five indicators of benthic community condition
 #       in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13
@@ -73,7 +73,13 @@ require(naniar)
     filter(taxon!="NoOrganismsPresent")
 
  #Export data so the user knows what is going to used in subsequent calculations
-   write.csv(rbi_data, file = paste(output_path, "/", file_id, " SQO RBI interim 1 - data to be analyzed with SQO designations assigned.csv", sep=""),
+  rbi_data.review<-rbi_data %>% 
+    mutate(rich_flag=if_else(Phylum!="", 1,0),
+           pit_flag=if_else(taxon%in%c("Monocorophium insidiosum", "Asthenothaerus diegensis","Goniada littorea"),1,0),
+           nit_flag=if_else(taxon%in%c("Capitella capitata Cmplx","Oligochaeta"), 1,0)) %>% 
+    select(stationid, sampledate, replicate, taxon, abundance, exclude, Mollusc, Crustacean, rich_flag, pit_flag, nit_flag) 
+  
+  write.csv(rbi_data.review, file = paste(output_path, "/", file_id, " SQO RBI interim 1 - data to be analyzed with SQO designations assigned.csv", sep=""),
             row.names = FALSE)
 
   
@@ -197,7 +203,9 @@ require(naniar)
             index = "RBI")
 
   #Export an interim file with the raw and scaled rbi metrics for user review
-  write.csv(rbi_scaled, file = paste(output_path, "/", file_id, " SQO RBI interim 3 - scaled RBI metrics.csv ", sep=""), row.names = FALSE)
+  rbi_scaled.review<-rbi_scaled %>% 
+    select(-condition_category, -condition_category_score) %>% 
+  write.csv(., file = paste(output_path, "/", file_id, " SQO RBI interim 3 - scaled RBI metrics.csv ", sep=""), row.names = FALSE)
 
 
   #gathering the station information (i.e., non-taxonomic data) for each site
@@ -222,11 +230,11 @@ require(naniar)
     rbi.out.2<-rbi.out %>% # if RBI scores are not calculated, the function will only report the dummy data placeholders
       mutate(note="RBI scores not caculated")
   }
-  return(rbi.out.2)
-  write.csv(rbi.out.2, paste(output_path, "/", file_id, "  SQO RBI score.csv", sep=""), row.names = FALSE)
+ 
+  write.csv(rbi.out.2, paste(output_path, "/", file_id, " SQO RBI scores.csv", sep=""), row.names = FALSE)
 
 
-   
+  return(rbi.out.2)  
 
 
 

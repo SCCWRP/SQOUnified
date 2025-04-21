@@ -130,7 +130,7 @@ else
     mutate(note="BRI scores not caculated")
 }
  
-  write.csv(bri.out.3, paste(output_path, "/", file_id, "  SQO BRI scores.csv", sep=""), row.names = FALSE) 
+  write.csv(bri.out.3, paste(output_path, "/", file_id, " SQO BRI scores.csv", sep=""), row.names = FALSE) 
   return(bri.out.3)
 }
 
