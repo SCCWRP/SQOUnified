@@ -53,16 +53,27 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
     mutate(sampledate=mdy(sampledate))
 
   #running each of the individual benthic indices
+  print("Running SQO BRI")
 
   bri.scores.x<-SQO.BRI.generic(BenthicData, output_path, file_id)
 
+  print("Running SQO IBI")
+
   ibi.scores.x<-IBI.generic(BenthicData, output_path, file_id)
+
+  print("Running SQO RBI")
 
   rbi.scores.x<-RBI.generic(BenthicData, output_path, file_id)
 
+  print("Running SQO RIVPACS")
+
   rivpacs.scores.x<-RIVPACS.generic(BenthicData, output_path, file_id)
 
+  print("Running M-AMBI")
+
   mambi.scores.x<-MAMBI.generic(BenthicData, EG_Ref_values = NULL, EG_Scheme = "Hybrid", output_path, file_id)
+
+
 
 
 

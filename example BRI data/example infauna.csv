@@ -1,761 +1,774 @@
-"station_id","replicate","sample_date","taxon","abundance","exclude"
-"BOEM23-002",1,2023-09-26,"Westwoodilla tone",1,"No"
-"BOEM23-002",1,2023-09-26,"Foxiphalus cognatus",2,"No"
-"BOEM23-001",1,2023-09-26,"Cuspidaria parapodema",1,"No"
-"BOEM23-001",1,2023-09-26,"Tellina carpenteri",8,"No"
-"BOEM23-001",1,2023-09-26,"Axinopsida serricata",1,"No"
-"BOEM23-001",1,2023-09-26,"Spatangoida",3,"No"
-"BOEM23-001",1,2023-09-26,"Amphipoda",2,"No"
-"BOEM23-001",1,2023-09-26,"Ampelisca hancocki",1,"No"
-"BOEM23-001",1,2023-09-26,"Ampelisca sp",4,"No"
-"BOEM23-001",1,2023-09-26,"Tritella tenuissima",1,"No"
-"BOEM23-001",1,2023-09-26,"Photis sp",4,"No"
-"BOEM23-001",1,2023-09-26,"Hippomedon sp",5,"No"
-"BOEM23-001",1,2023-09-26,"Rhepoxynius bicuspidatus",3,"No"
-"BOEM23-001",1,2023-09-26,"Diastylis crenellata",2,"No"
-"BOEM23-001",1,2023-09-26,"Eudorella truncatula",1,"No"
-"BOEM23-001",1,2023-09-26,"Eudorellopsis longirostris",1,"No"
-"BOEM23-001",1,2023-09-26,"Procampylaspis caenosa",1,"No"
-"BOEM23-001",1,2023-09-26,"Haliophasma geminata",2,"No"
-"BOEM23-001",1,2023-09-26,"Caecognathia crenulatifrons",3,"No"
-"BOEM23-001",1,2023-09-26,"Ilyarachna acarina",1,"No"
-"BOEM23-001",1,2023-09-26,"Munnogonium tillerae",3,"No"
-"BOEM23-001",1,2023-09-26,"Tanaella propinquus",5,"No"
-"BOEM23-001",1,2023-09-26,"Amphiodia digitata",12,"No"
-"BOEM23-001",1,2023-09-26,"Ophiura luetkenii",3,"No"
-"BOEM23-001",1,2023-09-26,"Podocopa",1,"No"
-"BOEM23-001",1,2023-09-26,"Euphilomedes producta",19,"No"
-"BOEM23-001",1,2023-09-26,"Decamastus gracilis",10,"No"
-"BOEM23-001",1,2023-09-26,"Mediomastus sp",3,"No"
-"BOEM23-001",1,2023-09-26,"Notomastus latericeus",1,"No"
-"BOEM23-001",1,2023-09-26,"Euclymeninae",8,"Yes"
-"BOEM23-001",1,2023-09-26,"Euclymeninae sp A",2,"No"
-"BOEM23-001",1,2023-09-26,"Nephtys ferruginea",3,"No"
-"BOEM23-001",1,2023-09-26,"Onuphidae",1,"Yes"
-"BOEM23-001",1,2023-09-26,"Mooreonuphis segmentispadix",51,"No"
-"BOEM23-001",1,2023-09-26,"Pholoe glabra",1,"No"
-"BOEM23-001",1,2023-09-26,"Malmgreniella baschi",1,"No"
-"BOEM23-001",1,2023-09-26,"Subadyte mexicana",1,"No"
-"BOEM23-001",1,2023-09-26,"Syllis heterochaeta",1,"No"
-"BOEM23-001",1,2023-09-26,"Melinna oculata",2,"No"
-"BOEM23-001",1,2023-09-26,"Spiochaetopterus costarum Cmplx",3,"No"
-"BOEM23-001",1,2023-09-26,"Cirratulidae",4,"No"
-"BOEM23-001",1,2023-09-26,"Pectinaria californiensis",1,"No"
-"BOEM23-001",1,2023-09-26,"Sabellidae",2,"No"
-"BOEM23-001",1,2023-09-26,"Paraprionospio alata",1,"No"
-"BOEM23-001",1,2023-09-26,"Prionospio sp",4,"No"
-"BOEM23-001",1,2023-09-26,"Spiophanes berkeleyorum",11,"No"
-"BOEM23-001",1,2023-09-26,"Terebellidae",7,"Yes"
-"BOEM23-001",1,2023-09-26,"Phisidia sanctaemariae",32,"No"
-"BOEM23-001",1,2023-09-26,"Polycirrus sp",1,"No"
-"BOEM23-001",1,2023-09-26,"Levinsenia gracilis",1,"No"
-"BOEM23-002",1,2023-09-26,"Cuspidaria parapodema",1,"No"
-"BOEM23-002",1,2023-09-26,"Amygdalum pallidulum",1,"No"
-"BOEM23-002",1,2023-09-26,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-002",1,2023-09-26,"Tellina carpenteri",10,"No"
-"BOEM23-002",1,2023-09-26,"Thyasira flexuosa",1,"No"
-"BOEM23-002",1,2023-09-26,"Ampelisca sp",2,"No"
-"BOEM23-002",1,2023-09-26,"Tritella tenuissima",1,"No"
-"BOEM23-002",1,2023-09-26,"Photis sp",1,"No"
-"BOEM23-002",1,2023-09-26,"Hippomedon sp",5,"No"
-"BOEM23-002",1,2023-09-26,"Rhepoxynius bicuspidatus",2,"No"
-"BOEM23-002",1,2023-09-26,"Anonyx lilljeborgi",3,"No"
-"BOEM23-002",1,2023-09-26,"Diastylis crenellata",4,"No"
-"BOEM23-002",1,2023-09-26,"Eudorella truncatula",1,"No"
-"BOEM23-002",1,2023-09-26,"Haliophasma geminata",3,"No"
-"BOEM23-002",1,2023-09-26,"Gnathiidae",1,"No"
-"BOEM23-002",1,2023-09-26,"Munnogonium tillerae",1,"No"
-"BOEM23-002",1,2023-09-26,"Nebalia pugettensis Cmplx",1,"No"
-"BOEM23-002",1,2023-09-26,"Tanaopsis cadieni",1,"No"
-"BOEM23-002",1,2023-09-26,"Amphiodia digitata",6,"No"
-"BOEM23-002",1,2023-09-26,"Euphilomedes producta",1,"No"
-"BOEM23-002",1,2023-09-26,"Notomastus latericeus",2,"No"
-"BOEM23-002",1,2023-09-26,"Praxillella pacifica",7,"No"
-"BOEM23-002",1,2023-09-26,"Glycera oxycephala",3,"No"
-"BOEM23-002",1,2023-09-26,"Lumbrineris latreilli",1,"No"
-"BOEM23-002",1,2023-09-26,"Mooreonuphis segmentispadix",25,"No"
-"BOEM23-002",1,2023-09-26,"Eulalia sp",1,"No"
-"BOEM23-002",1,2023-09-26,"Phyllodoce groenlandica",2,"No"
-"BOEM23-002",1,2023-09-26,"Subadyte mexicana",1,"No"
-"BOEM23-002",1,2023-09-26,"Spiochaetopterus costarum Cmplx",24,"No"
-"BOEM23-002",1,2023-09-26,"Aphelochaeta glandaria Cmplx",2,"No"
-"BOEM23-002",1,2023-09-26,"Pectinaria californiensis",2,"No"
-"BOEM23-002",1,2023-09-26,"Dipolydora socialis",1,"No"
-"BOEM23-002",1,2023-09-26,"Paraprionospio alata",2,"No"
-"BOEM23-002",1,2023-09-26,"Prionospio dubia",1,"No"
-"BOEM23-002",1,2023-09-26,"Prionospio sp",4,"Yes"
-"BOEM23-002",1,2023-09-26,"Spiophanes berkeleyorum",3,"No"
-"BOEM23-002",1,2023-09-26,"Terebellidae",2,"Yes"
-"BOEM23-002",1,2023-09-26,"Pista wui",6,"No"
-"BOEM23-002",1,2023-09-26,"Cadulus californicus",4,"No"
-"BOEM23-002",1,2023-09-26,"Phascolion sp A",1,"No"
-"BOEM23-003",1,2023-09-26,"Astropecten californicus",2,"No"
-"BOEM23-003",1,2023-09-26,"Bivalvia",2,"No"
-"BOEM23-003",1,2023-09-26,"Cuspidaria parapodema",1,"No"
-"BOEM23-003",1,2023-09-26,"Amygdalum pallidulum",1,"No"
-"BOEM23-003",1,2023-09-26,"Parvilucina tenuisculpta",2,"No"
-"BOEM23-003",1,2023-09-26,"Tellina carpenteri",7,"No"
-"BOEM23-003",1,2023-09-26,"Brissopsis pacifica",1,"No"
-"BOEM23-003",1,2023-09-26,"Cylichna diegensis",1,"No"
-"BOEM23-003",1,2023-09-26,"Volvulella cylindrica",1,"No"
-"BOEM23-003",1,2023-09-26,"Ampelisca hancocki",3,"No"
-"BOEM23-003",1,2023-09-26,"Byblis veleronis",1,"No"
-"BOEM23-003",1,2023-09-26,"Acidostoma hancocki",1,"No"
-"BOEM23-003",1,2023-09-26,"Hippomedon sp",4,"No"
-"BOEM23-003",1,2023-09-26,"Westwoodilla tone",3,"No"
-"BOEM23-003",1,2023-09-26,"Halicoides synopiae",1,"No"
-"BOEM23-003",1,2023-09-26,"Rhepoxynius bicuspidatus",3,"No"
-"BOEM23-003",1,2023-09-26,"Rhepoxynius daboius",2,"No"
-"BOEM23-003",1,2023-09-26,"Anonyx lilljeborgi",1,"No"
-"BOEM23-003",1,2023-09-26,"Diastylis crenellata",10,"No"
-"BOEM23-003",1,2023-09-26,"Eudorella truncatula",1,"No"
-"BOEM23-003",1,2023-09-26,"Leucon magnadentatus",1,"No"
-"BOEM23-003",1,2023-09-26,"Haliophasma geminata",1,"No"
-"BOEM23-003",1,2023-09-26,"Amphipholis squamata",1,"No"
-"BOEM23-003",1,2023-09-26,"Euphilomedes carcharodonta",1,"No"
-"BOEM23-003",1,2023-09-26,"Mediomastus sp",27,"No"
-"BOEM23-003",1,2023-09-26,"Notomastus latericeus",4,"No"
-"BOEM23-003",1,2023-09-26,"Maldanidae",2,"Yes"
-"BOEM23-003",1,2023-09-26,"Maldane sarsi",3,"No"
-"BOEM23-003",1,2023-09-26,"Praxillella pacifica",5,"No"
-"BOEM23-005",1,2023-09-26,"Falcidens longus",1,"No"
-"BOEM23-003",1,2023-09-26,"Paranaitis polynoides",1,"No"
-"BOEM23-003",1,2023-09-26,"Nephtys caecoides",1,"No"
-"BOEM23-003",1,2023-09-26,"Onuphidae",1,"Yes"
-"BOEM23-003",1,2023-09-26,"Mooreonuphis segmentispadix",76,"No"
-"BOEM23-003",1,2023-09-26,"Parexogone molesta",1,"No"
-"BOEM23-003",1,2023-09-26,"Spiochaetopterus costarum Cmplx",54,"No"
-"BOEM23-003",1,2023-09-26,"Cirratulidae",1,"No"
-"BOEM23-003",1,2023-09-26,"Magelona berkeleyi",1,"No"
-"BOEM23-003",1,2023-09-26,"Pectinaria californiensis",4,"No"
-"BOEM23-003",1,2023-09-26,"Paraprionospio alata",10,"No"
-"BOEM23-003",1,2023-09-26,"Spiophanes berkeleyorum",13,"No"
-"BOEM23-003",1,2023-09-26,"Aricidea (Acmira) catherinae",1,"No"
-"BOEM23-003",1,2023-09-26,"Antalis pretiosa",1,"No"
-"BOEM23-003",1,2023-09-26,"Phascolion sp A",1,"No"
-"BOEM23-004",1,2023-09-26,"Tubulanidae",3,"No"
-"BOEM23-004",1,2023-09-26,"Lineus bilineatus",1,"No"
-"BOEM23-004",1,2023-09-26,"Cuspidaria parapodema",1,"No"
-"BOEM23-004",1,2023-09-26,"Parvilucina tenuisculpta",5,"No"
-"BOEM23-004",1,2023-09-26,"Tellina carpenteri",7,"No"
-"BOEM23-004",1,2023-09-26,"Thyasira flexuosa",3,"No"
-"BOEM23-004",1,2023-09-26,"Pentamera populifera",1,"No"
-"BOEM23-004",1,2023-09-26,"Ampelisca pacifica",1,"No"
-"BOEM23-004",1,2023-09-26,"Ampelisca sp",2,"No"
-"BOEM23-004",1,2023-09-26,"Westwoodilla tone",3,"No"
-"BOEM23-004",1,2023-09-26,"Rhepoxynius bicuspidatus",1,"No"
-"BOEM23-004",1,2023-09-26,"Bruzelia tuberculata",2,"No"
-"BOEM23-004",1,2023-09-26,"Diastylis crenellata",3,"No"
-"BOEM23-004",1,2023-09-26,"Diastylis pellucida",1,"No"
-"BOEM23-004",1,2023-09-26,"Haliophasma geminata",5,"No"
-"BOEM23-004",1,2023-09-26,"Caecognathia crenulatifrons",1,"No"
-"BOEM23-004",1,2023-09-26,"Munnogonium tillerae",2,"No"
-"BOEM23-004",1,2023-09-26,"Tanaella propinquus",1,"No"
-"BOEM23-004",1,2023-09-26,"Amphiodia urtica",7,"No"
-"BOEM23-004",1,2023-09-26,"Mediomastus sp",22,"No"
-"BOEM23-004",1,2023-09-26,"Notomastus latericeus",15,"No"
-"BOEM23-004",1,2023-09-26,"Maldanidae",3,"Yes"
-"BOEM23-004",1,2023-09-26,"Maldane sarsi",4,"No"
-"BOEM23-004",1,2023-09-26,"Praxillella pacifica",13,"No"
-"BOEM23-004",1,2023-09-26,"Chloeia pinnata",1,"No"
-"BOEM23-004",1,2023-09-26,"Glycera americana",1,"No"
-"BOEM23-004",1,2023-09-26,"Hemipodia simplex",1,"No"
-"BOEM23-004",1,2023-09-26,"Scoletoma sp C",1,"No"
-"BOEM23-004",1,2023-09-26,"Nephtys caecoides",3,"No"
-"BOEM23-004",1,2023-09-26,"Mooreonuphis segmentispadix",53,"No"
-"BOEM23-004",1,2023-09-26,"Pholoe glabra",1,"No"
-"BOEM23-004",1,2023-09-26,"Sthenelais tertiaglabra",1,"No"
-"BOEM23-004",1,2023-09-26,"Parexogone molesta",1,"No"
-"BOEM23-004",1,2023-09-26,"Lysippe sp A",1,"No"
-"BOEM23-004",1,2023-09-26,"Spiochaetopterus costarum Cmplx",38,"No"
-"BOEM23-004",1,2023-09-26,"Cirratulidae",2,"No"
-"BOEM23-004",1,2023-09-26,"Owenia johnsoni",2,"No"
-"BOEM23-004",1,2023-09-26,"Dipolydora socialis",1,"No"
-"BOEM23-004",1,2023-09-26,"Paraprionospio alata",13,"No"
-"BOEM23-004",1,2023-09-26,"Prionospio sp",3,"No"
-"BOEM23-004",1,2023-09-26,"Spiophanes berkeleyorum",16,"No"
-"BOEM23-004",1,2023-09-26,"Terebellidae",8,"Yes"
-"BOEM23-004",1,2023-09-26,"Pista wui",3,"No"
-"BOEM23-004",1,2023-09-26,"Leitoscoloplos pugettensis",1,"No"
-"BOEM23-004",1,2023-09-26,"Aricidea (Acmira) catherinae",3,"No"
-"BOEM23-004",1,2023-09-26,"Aricidea (Acmira) lopezi",1,"No"
-"BOEM23-004",1,2023-09-26,"Phascolion sp A",1,"No"
-"BOEM23-005",1,2023-09-26,"Ascidiacea",1,"No"
-"BOEM23-005",1,2023-09-26,"Cuspidaria parapodema",1,"No"
-"BOEM23-005",1,2023-09-26,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-005",1,2023-09-26,"Tellina carpenteri",2,"No"
-"BOEM23-005",1,2023-09-26,"Axinopsida serricata",3,"No"
-"BOEM23-005",1,2023-09-26,"Echinoidea",3,"No"
-"BOEM23-005",1,2023-09-26,"Brissopsis pacifica",6,"No"
-"BOEM23-005",1,2023-09-26,"Cylichna diegensis",1,"No"
-"BOEM23-005",1,2023-09-26,"Pentamera populifera",1,"No"
-"BOEM23-005",1,2023-09-26,"Ampelisca agassizi",1,"No"
-"BOEM23-005",1,2023-09-26,"Ampelisca careyi",1,"No"
-"BOEM23-005",1,2023-09-26,"Ampelisca sp",3,"No"
-"BOEM23-005",1,2023-09-26,"Tritella tenuissima",3,"No"
-"BOEM23-005",1,2023-09-26,"Photis brevipes",5,"No"
-"BOEM23-005",1,2023-09-26,"Westwoodilla tone",2,"No"
-"BOEM23-005",1,2023-09-26,"Nicippe tumida",1,"No"
-"BOEM23-005",1,2023-09-26,"Eyakia robusta",3,"No"
-"BOEM23-005",1,2023-09-26,"Rhepoxynius bicuspidatus",1,"No"
-"BOEM23-005",1,2023-09-26,"Diastylis crenellata",4,"No"
-"BOEM23-005",1,2023-09-26,"Diastylis sentosa",1,"No"
-"BOEM23-005",1,2023-09-26,"Eudorellopsis longirostris",1,"No"
-"BOEM23-005",1,2023-09-26,"Campylaspis rubromaculata",1,"No"
-"BOEM23-005",1,2023-09-26,"Haliophasma geminata",2,"No"
-"BOEM23-005",1,2023-09-26,"Caecognathia crenulatifrons",6,"No"
-"BOEM23-005",1,2023-09-26,"Ophiuroidea",1,"No"
-"BOEM23-005",1,2023-09-26,"Amphiodia urtica",13,"No"
-"BOEM23-005",1,2023-09-26,"Amphipholis squamata",1,"No"
-"BOEM23-005",1,2023-09-26,"Euphilomedes producta",10,"No"
-"BOEM23-005",1,2023-09-26,"Decamastus gracilis",4,"No"
-"BOEM23-005",1,2023-09-26,"Mediomastus sp",1,"No"
-"BOEM23-005",1,2023-09-26,"Maldane sarsi",1,"No"
-"BOEM23-005",1,2023-09-26,"Praxillella pacifica",8,"No"
-"BOEM23-005",1,2023-09-26,"Glycinde armigera",1,"No"
-"BOEM23-005",1,2023-09-26,"Nephtys caecoides",2,"No"
-"BOEM23-005",1,2023-09-26,"Mooreonuphis segmentispadix",5,"No"
-"BOEM23-005",1,2023-09-26,"Malmgreniella scriptoria",1,"No"
-"BOEM23-005",1,2023-09-26,"Spiochaetopterus costarum Cmplx",6,"No"
-"BOEM23-005",1,2023-09-26,"Cirratulidae",1,"No"
-"BOEM23-005",1,2023-09-26,"Pectinaria californiensis",5,"No"
-"BOEM23-005",1,2023-09-26,"Laonice sp",1,"No"
-"BOEM23-005",1,2023-09-26,"Paraprionospio alata",3,"No"
-"BOEM23-005",1,2023-09-26,"Prionospio sp",1,"No"
-"BOEM23-005",1,2023-09-26,"Spiophanes berkeleyorum",9,"No"
-"BOEM23-005",1,2023-09-26,"Pista wui",3,"No"
-"BOEM23-005",1,2023-09-26,"Polycirrus sp",1,"No"
-"BOEM23-005",1,2023-09-26,"Nephasoma sp",12,"No"
-"BOEM23-006",1,2023-09-27,"Falcidens longus",1,"No"
-"BOEM23-006",1,2023-09-27,"Cuspidaria parapodema",2,"No"
-"BOEM23-006",1,2023-09-27,"Axinopsida serricata",1,"No"
-"BOEM23-006",1,2023-09-27,"Brissopsis pacifica",1,"No"
-"BOEM23-006",1,2023-09-27,"Ampelisca careyi",1,"No"
-"BOEM23-006",1,2023-09-27,"Ampelisca hancocki",2,"No"
-"BOEM23-006",1,2023-09-27,"Ampelisca sp",3,"No"
-"BOEM23-006",1,2023-09-27,"Caprella mendax",1,"No"
-"BOEM23-006",1,2023-09-27,"Photis brevipes",5,"No"
-"BOEM23-006",1,2023-09-27,"Aruga holmesi",2,"No"
-"BOEM23-006",1,2023-09-27,"Westwoodilla tone",1,"No"
-"BOEM23-006",1,2023-09-27,"Rhepoxynius bicuspidatus",2,"No"
-"BOEM23-006",1,2023-09-27,"Diastylis crenellata",1,"No"
-"BOEM23-006",1,2023-09-27,"Caecognathia crenulatifrons",1,"No"
-"BOEM23-006",1,2023-09-27,"Amphiodia urtica",2,"No"
-"BOEM23-006",1,2023-09-27,"Euphilomedes producta",1,"No"
-"BOEM23-006",1,2023-09-27,"Decamastus gracilis",1,"No"
-"BOEM23-006",1,2023-09-27,"Glycera nana",1,"No"
-"BOEM23-006",1,2023-09-27,"Aglaophamus verrilli",1,"No"
-"BOEM23-006",1,2023-09-27,"Nephtys ferruginea",1,"No"
-"BOEM23-006",1,2023-09-27,"Onuphis sp HYP2",1,"No"
-"BOEM23-006",1,2023-09-27,"Paradiopatra parva",5,"No"
-"BOEM23-006",1,2023-09-27,"Spiochaetopterus costarum Cmplx",1,"No"
-"BOEM23-006",1,2023-09-27,"Pectinaria californiensis",2,"No"
-"BOEM23-006",1,2023-09-27,"Laonice sp",1,"No"
-"BOEM23-006",1,2023-09-27,"Paraprionospio alata",5,"No"
-"BOEM23-006",1,2023-09-27,"Spiophanes berkeleyorum",10,"No"
-"BOEM23-006",1,2023-09-27,"Pista estevanica",1,"No"
-"BOEM23-006",1,2023-09-27,"Pista wui",5,"No"
-"BOEM23-006",1,2023-09-27,"Phascolion sp A",3,"No"
-"BOEM23-007",1,2023-09-27,"Tubulanidae",1,"No"
-"BOEM23-007",1,2023-09-27,"Halcampa decemtentaculata",3,"No"
-"BOEM23-007",1,2023-09-27,"Ceriantharia",1,"No"
-"BOEM23-007",1,2023-09-27,"Ennucula tenuis",1,"No"
-"BOEM23-007",1,2023-09-27,"Tellina carpenteri",1,"No"
-"BOEM23-007",1,2023-09-27,"Axinopsida serricata",1,"No"
-"BOEM23-007",1,2023-09-27,"Amphipoda",1,"No"
-"BOEM23-007",1,2023-09-27,"Ampelisca careyi",1,"No"
-"BOEM23-007",1,2023-09-27,"Ampelisca pacifica",1,"No"
-"BOEM23-007",1,2023-09-27,"Ampelisca sp",3,"No"
-"BOEM23-007",1,2023-09-27,"Photis sp",2,"No"
-"BOEM23-007",1,2023-09-27,"Protomedeia sp",2,"No"
-"BOEM23-007",1,2023-09-27,"Cephalophoxoides homilis",1,"No"
-"BOEM23-007",1,2023-09-27,"Rhepoxynius bicuspidatus",1,"No"
-"BOEM23-007",1,2023-09-27,"Hemilamprops californicus",1,"No"
-"BOEM23-007",1,2023-09-27,"Eudorella truncatula",2,"No"
-"BOEM23-007",1,2023-09-27,"Haliophasma geminata",1,"No"
-"BOEM23-007",1,2023-09-27,"Caecognathia crenulatifrons",3,"No"
-"BOEM23-007",1,2023-09-27,"Araphura breviaria",1,"No"
-"BOEM23-007",1,2023-09-27,"Tanaella propinquus",1,"No"
-"BOEM23-007",1,2023-09-27,"Amphiodia urtica",41,"No"
-"BOEM23-007",1,2023-09-27,"Euphilomedes producta",2,"No"
-"BOEM23-007",1,2023-09-27,"Mediomastus sp",2,"No"
-"BOEM23-007",1,2023-09-27,"Cossura sp",1,"No"
-"BOEM23-007",1,2023-09-27,"Maldanidae",10,"Yes"
-"BOEM23-007",1,2023-09-27,"Euclymeninae sp B",1,"No"
-"BOEM23-007",1,2023-09-27,"Maldane sarsi",1,"No"
-"BOEM23-007",1,2023-09-27,"Praxillella pacifica",4,"No"
-"BOEM23-007",1,2023-09-27,"Travisia pupa",2,"No"
-"BOEM23-007",1,2023-09-27,"Chloeia pinnata",7,"No"
-"BOEM23-007",1,2023-09-27,"Glycinde armigera",1,"No"
-"BOEM23-007",1,2023-09-27,"Lumbrineridae",1,"Yes"
-"BOEM23-007",1,2023-09-27,"Lumbrineris latreilli",2,"No"
-"BOEM23-007",1,2023-09-27,"Nephtyidae",1,"Yes"
-"BOEM23-007",1,2023-09-27,"Aglaophamus verrilli",1,"No"
-"BOEM23-007",1,2023-09-27,"Nephtys caecoides",1,"No"
-"BOEM23-007",1,2023-09-27,"Mooreonuphis segmentispadix",3,"No"
-"BOEM23-007",1,2023-09-27,"Pholoe glabra",4,"No"
-"BOEM23-007",1,2023-09-27,"Phyllodoce groenlandica",1,"No"
-"BOEM23-007",1,2023-09-27,"Sthenelais tertiaglabra",1,"No"
-"BOEM23-007",1,2023-09-27,"Sthenelanella uniformis",2,"No"
-"BOEM23-007",1,2023-09-27,"Ampharetidae",1,"Yes"
-"BOEM23-007",1,2023-09-27,"Anobothrus gracilis",2,"No"
-"BOEM23-007",1,2023-09-27,"Lysippe sp B",1,"No"
-"BOEM23-007",1,2023-09-27,"Spiochaetopterus costarum Cmplx",3,"No"
-"BOEM23-007",1,2023-09-27,"Cirratulidae",2,"Yes"
-"BOEM23-007",1,2023-09-27,"Kirkegaardia siblina",1,"No"
-"BOEM23-007",1,2023-09-27,"Bradabyssa pilosa",2,"No"
-"BOEM23-007",1,2023-09-27,"Pectinaria californiensis",1,"No"
-"BOEM23-007",1,2023-09-27,"Paraprionospio alata",4,"No"
-"BOEM23-007",1,2023-09-27,"Prionospio sp",9,"Yes"
-"BOEM23-007",1,2023-09-27,"Spiophanes berkeleyorum",42,"No"
-"BOEM23-007",1,2023-09-27,"Terebellidae",2,"Yes"
-"BOEM23-007",1,2023-09-27,"Pista wui",1,"No"
-"BOEM23-007",1,2023-09-27,"Terebellides californica",1,"No"
-"BOEM23-007",1,2023-09-27,"Levinsenia gracilis",1,"No"
-"BOEM23-007",1,2023-09-27,"Polyschides quadrifissatus",1,"No"
-"BOEM23-007",1,2023-09-27,"Phascolion sp A",1,"No"
-"BOEM23-008",1,2023-09-27,"Gastropteron pacificum",1,"No"
-"BOEM23-008",1,2023-09-27,"Ampelisca careyi",1,"No"
-"BOEM23-008",1,2023-09-27,"Ampelisca hancocki",1,"No"
-"BOEM23-008",1,2023-09-27,"Ampelisca pacifica",1,"No"
-"BOEM23-008",1,2023-09-27,"Ampelisca sp",2,"No"
-"BOEM23-008",1,2023-09-27,"Byblis sp",1,"No"
-"BOEM23-008",1,2023-09-27,"Photis sp",1,"No"
-"BOEM23-008",1,2023-09-27,"Aruga holmesi",1,"No"
-"BOEM23-008",1,2023-09-27,"Rhepoxynius sp",1,"No"
-"BOEM23-008",1,2023-09-27,"Diastylis crenellata",5,"No"
-"BOEM23-008",1,2023-09-27,"Eudorella truncatula",2,"No"
-"BOEM23-008",1,2023-09-27,"Caecognathia crenulatifrons",4,"No"
-"BOEM23-008",1,2023-09-27,"Munnogonium tillerae",1,"No"
-"BOEM23-008",1,2023-09-27,"Pleurogonium sp A",1,"No"
-"BOEM23-008",1,2023-09-27,"Chondrochelia dubia Cmplx",1,"No"
-"BOEM23-008",1,2023-09-27,"Amphiodia urtica",29,"No"
-"BOEM23-008",1,2023-09-27,"Cylindroleberididae",1,"No"
-"BOEM23-008",1,2023-09-27,"Euphilomedes producta",7,"No"
-"BOEM23-008",1,2023-09-27,"Harbansus sp SD1",1,"No"
-"BOEM23-008",1,2023-09-27,"Decamastus gracilis",10,"No"
-"BOEM23-008",1,2023-09-27,"Mediomastus sp",13,"No"
-"BOEM23-008",1,2023-09-27,"Cossura sp A",3,"No"
-"BOEM23-008",1,2023-09-27,"Travisia pupa",2,"No"
-"BOEM23-008",1,2023-09-27,"Chloeia pinnata",10,"No"
-"BOEM23-008",1,2023-09-27,"Glycera americana",2,"No"
-"BOEM23-008",1,2023-09-27,"Lumbrineridae",1,"Yes"
-"BOEM23-008",1,2023-09-27,"Lumbrineris latreilli",5,"No"
-"BOEM23-008",1,2023-09-27,"Nephtys ferruginea",1,"No"
-"BOEM23-008",1,2023-09-27,"Onuphis sp HYP2",6,"No"
-"BOEM23-008",1,2023-09-27,"Pholoe glabra",6,"No"
-"BOEM23-008",1,2023-09-27,"Phyllodoce groenlandica",1,"No"
-"BOEM23-008",1,2023-09-27,"Parexogone molesta",2,"No"
-"BOEM23-008",1,2023-09-27,"Cirratulidae",3,"No"
-"BOEM23-008",1,2023-09-27,"Pectinaria californiensis",2,"No"
-"BOEM23-008",1,2023-09-27,"Paraprionospio alata",8,"No"
-"BOEM23-008",1,2023-09-27,"Prionospio sp",14,"No"
-"BOEM23-008",1,2023-09-27,"Spiophanes berkeleyorum",13,"No"
-"BOEM23-008",1,2023-09-27,"Sternaspis affinis",4,"No"
-"BOEM23-008",1,2023-09-27,"Amage anops",3,"No"
-"BOEM23-008",1,2023-09-27,"Terebellides californica",1,"No"
-"BOEM23-008",1,2023-09-27,"Aricidea (Acmira) catherinae",1,"No"
-"BOEM23-008",1,2023-09-27,"Levinsenia gracilis",3,"No"
-"BOEM23-009",1,2023-09-27,"Actiniaria",2,"No"
-"BOEM23-009",1,2023-09-27,"Stylatula sp",0,"No"
-"BOEM23-009",1,2023-09-27,"Falcidens longus",1,"No"
-"BOEM23-009",1,2023-09-27,"Cuspidaria parapodema",1,"No"
-"BOEM23-009",1,2023-09-27,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-009",1,2023-09-27,"Molpadia intermedia",1,"No"
-"BOEM23-009",1,2023-09-27,"Ampelisca careyi",1,"No"
-"BOEM23-009",1,2023-09-27,"Ampelisca hancocki",1,"No"
-"BOEM23-009",1,2023-09-27,"Ampelisca pacifica",1,"No"
-"BOEM23-009",1,2023-09-27,"Ampelisca sp",6,"No"
-"BOEM23-009",1,2023-09-27,"Byblis sp",1,"No"
-"BOEM23-009",1,2023-09-27,"Protomedeia sp",1,"No"
-"BOEM23-009",1,2023-09-27,"Nicippe tumida",2,"No"
-"BOEM23-009",1,2023-09-27,"Cephalophoxoides homilis",2,"No"
-"BOEM23-009",1,2023-09-27,"Rhepoxynius bicuspidatus",2,"No"
-"BOEM23-009",1,2023-09-27,"Diastylis crenellata",1,"No"
-"BOEM23-009",1,2023-09-27,"Eudorella truncatula",4,"No"
-"BOEM23-009",1,2023-09-27,"Haliophasma geminata",1,"No"
-"BOEM23-009",1,2023-09-27,"Caecognathia crenulatifrons",1,"No"
-"BOEM23-009",1,2023-09-27,"Amphiodia urtica",44,"No"
-"BOEM23-009",1,2023-09-27,"Euphilomedes producta",6,"No"
-"BOEM23-009",1,2023-09-27,"Decamastus gracilis",1,"No"
-"BOEM23-009",1,2023-09-27,"Mediomastus sp",4,"No"
-"BOEM23-009",1,2023-09-27,"Cossura sp A",1,"No"
-"BOEM23-009",1,2023-09-27,"Maldanidae",2,"Yes"
-"BOEM23-009",1,2023-09-27,"Maldane sarsi",6,"No"
-"BOEM23-009",1,2023-09-27,"Praxillella gracilis",1,"No"
-"BOEM23-009",1,2023-09-27,"Praxillella pacifica",1,"No"
-"BOEM23-009",1,2023-09-27,"Travisia pupa",1,"No"
-"BOEM23-009",1,2023-09-27,"Acoetes pacifica",1,"No"
-"BOEM23-009",1,2023-09-27,"Chloeia pinnata",6,"No"
-"BOEM23-009",1,2023-09-27,"Aglaophamus verrilli",5,"No"
-"BOEM23-009",1,2023-09-27,"Nephtys caecoides",1,"No"
-"BOEM23-009",1,2023-09-27,"Nephtys ferruginea",1,"No"
-"BOEM23-009",1,2023-09-27,"Mooreonuphis segmentispadix",7,"No"
-"BOEM23-009",1,2023-09-27,"Pholoe glabra",2,"No"
-"BOEM23-009",1,2023-09-27,"Spiochaetopterus costarum Cmplx",2,"No"
-"BOEM23-009",1,2023-09-27,"Chaetozone hartmanae",1,"No"
-"BOEM23-009",1,2023-09-27,"Paraprionospio alata",2,"No"
-"BOEM23-009",1,2023-09-27,"Prionospio sp",4,"No"
-"BOEM23-009",1,2023-09-27,"Spiophanes berkeleyorum",21,"No"
-"BOEM23-009",1,2023-09-27,"Sternaspis affinis",1,"No"
-"BOEM23-009",1,2023-09-27,"Levinsenia gracilis",2,"No"
-"BOEM23-009",1,2023-09-27,"Nephasoma sp",1,"No"
-"BOEM23-010",1,2023-09-27,"Tubulanidae",5,"No"
-"BOEM23-010",1,2023-09-27,"Cuspidaria parapodema",2,"No"
-"BOEM23-010",1,2023-09-27,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-010",1,2023-09-27,"Tellina carpenteri",2,"No"
-"BOEM23-010",1,2023-09-27,"Oligochaeta",1,"No"
-"BOEM23-010",1,2023-09-27,"Echinoidea",1,"No"
-"BOEM23-010",1,2023-09-27,"Epitonium sawinae",1,"No"
-"BOEM23-010",1,2023-09-27,"Pentamera pediparva",1,"No"
-"BOEM23-010",1,2023-09-27,"Amphipoda",1,"No"
-"BOEM23-010",1,2023-09-27,"Ampelisca sp",4,"No"
-"BOEM23-010",1,2023-09-27,"Photis brevipes",3,"No"
-"BOEM23-010",1,2023-09-27,"Photis lacia",3,"No"
-"BOEM23-010",1,2023-09-27,"Photis sp",3,"No"
-"BOEM23-010",1,2023-09-27,"Oedicerotidae",1,"No"
-"BOEM23-010",1,2023-09-27,"Nicippe tumida",1,"No"
-"BOEM23-010",1,2023-09-27,"Cephalophoxoides homilis",3,"No"
-"BOEM23-010",1,2023-09-27,"Rhepoxynius bicuspidatus",1,"No"
-"BOEM23-010",1,2023-09-27,"Diastylis crenellata",17,"No"
-"BOEM23-010",1,2023-09-27,"Eudorella truncatula",10,"No"
-"BOEM23-010",1,2023-09-27,"Eudorellopsis longirostris",5,"No"
-"BOEM23-010",1,2023-09-27,"Decapoda",1,"No"
-"BOEM23-010",1,2023-09-27,"Caecognathia crenulatifrons",5,"No"
-"BOEM23-010",1,2023-09-27,"Ilyarachna acarina",1,"No"
-"BOEM23-010",1,2023-09-27,"Akanthophoreus cf gracilis",1,"No"
-"BOEM23-010",1,2023-09-27,"Chondrochelia dubia Cmplx",1,"No"
-"BOEM23-010",1,2023-09-27,"Tanaella propinquus",5,"No"
-"BOEM23-010",1,2023-09-27,"Amphichondrius granulatus",5,"No"
-"BOEM23-010",1,2023-09-27,"Amphiodia digitata",7,"No"
-"BOEM23-010",1,2023-09-27,"Amphiodia urtica",1,"No"
-"BOEM23-010",1,2023-09-27,"Dougaloplus amphacanthus",2,"No"
-"BOEM23-010",1,2023-09-27,"Euphilomedes producta",22,"No"
-"BOEM23-010",1,2023-09-27,"Decamastus gracilis",11,"No"
-"BOEM23-010",1,2023-09-27,"Mediomastus sp",121,"No"
-"BOEM23-010",1,2023-09-27,"Cossura sp A",4,"No"
-"BOEM23-010",1,2023-09-27,"Euclymeninae",5,"Yes"
-"BOEM23-010",1,2023-09-27,"Maldane sarsi",2,"No"
-"BOEM23-010",1,2023-09-27,"Praxillella pacifica",1,"No"
-"BOEM23-010",1,2023-09-27,"Travisia pupa",1,"No"
-"BOEM23-010",1,2023-09-27,"Chloeia pinnata",2,"No"
-"BOEM23-010",1,2023-09-27,"Marphysa sp",1,"No"
-"BOEM23-010",1,2023-09-27,"Glycera americana",5,"No"
-"BOEM23-010",1,2023-09-27,"Glycinde armigera",2,"No"
-"BOEM23-010",1,2023-09-27,"Lumbrineris latreilli",5,"No"
-"BOEM23-010",1,2023-09-27,"Scoletoma tetraura Cmplx",1,"No"
-"BOEM23-010",1,2023-09-27,"Nephtys ferruginea",5,"No"
-"BOEM23-010",1,2023-09-27,"Mooreonuphis segmentispadix",33,"No"
-"BOEM23-010",1,2023-09-27,"Pholoe glabra",1,"No"
-"BOEM23-010",1,2023-09-27,"Eteone pigmentata",1,"No"
-"BOEM23-010",1,2023-09-27,"Phyllodoce groenlandica",1,"No"
-"BOEM23-010",1,2023-09-27,"Malmgreniella sp A",1,"No"
-"BOEM23-010",1,2023-09-27,"Exogone lourei",4,"No"
-"BOEM23-010",1,2023-09-27,"Parexogone molesta",1,"No"
-"BOEM23-010",1,2023-09-27,"Spiochaetopterus costarum Cmplx",9,"No"
-"BOEM23-010",1,2023-09-27,"Cirratulidae",23,"Yes"
-"BOEM23-010",1,2023-09-27,"Kirkegaardia siblina",2,"No"
-"BOEM23-010",1,2023-09-27,"Pectinaria californiensis",1,"No"
-"BOEM23-010",1,2023-09-27,"Sabellidae",2,"No"
-"BOEM23-010",1,2023-09-27,"Euchone incolor",1,"No"
-"BOEM23-010",1,2023-09-27,"Laonice nuchala",3,"No"
-"BOEM23-010",1,2023-09-27,"Paraprionospio alata",7,"No"
-"BOEM23-010",1,2023-09-27,"Prionospio lighti",1,"No"
-"BOEM23-010",1,2023-09-27,"Prionospio sp",12,"Yes"
-"BOEM23-010",1,2023-09-27,"Spiophanes berkeleyorum",33,"No"
-"BOEM23-010",1,2023-09-27,"Phisidia sanctaemariae",24,"No"
-"BOEM23-010",1,2023-09-27,"Pista wui",3,"No"
-"BOEM23-010",1,2023-09-27,"Aricidea (Acmira) catherinae",7,"No"
-"BOEM23-010",1,2023-09-27,"Cirrophorus branchiatus",2,"No"
-"BOEM23-010",1,2023-09-27,"Levinsenia gracilis",10,"No"
-"BOEM23-010",1,2023-09-27,"Phascolion sp A",4,"No"
-"BOEM23-011",1,2023-09-25,"Phoronis sp",7,"No"
-"BOEM23-011",1,2023-09-25,"Listriolobus pelodes",2,"No"
-"BOEM23-011",1,2023-09-25,"Edwardsia sp",1,"No"
-"BOEM23-011",1,2023-09-25,"Virgularia agassizii",0,"No"
-"BOEM23-011",1,2023-09-25,"Bivalvia",5,"No"
-"BOEM23-011",1,2023-09-25,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-011",1,2023-09-25,"Tellina carpenteri",1,"No"
-"BOEM23-011",1,2023-09-25,"Axinopsida serricata",2,"No"
-"BOEM23-011",1,2023-09-25,"Compsomyax subdiaphana",4,"No"
-"BOEM23-011",1,2023-09-25,"Schizocardium sp",1,"No"
-"BOEM23-011",1,2023-09-25,"Philine auriformis",1,"No"
-"BOEM23-011",1,2023-09-25,"Molpadia intermedia",1,"No"
-"BOEM23-011",1,2023-09-25,"Protomedeia articulata Cmplx",8,"No"
-"BOEM23-011",1,2023-09-25,"Listriella eriopisa",1,"No"
-"BOEM23-011",1,2023-09-25,"Listriella goleta",3,"No"
-"BOEM23-011",1,2023-09-25,"Aruga holmesi",1,"No"
-"BOEM23-011",1,2023-09-25,"Heterophoxus conlanae",1,"No"
-"BOEM23-011",1,2023-09-25,"Rathbunixa occidentalis Cmplx",1,"No"
-"BOEM23-011",1,2023-09-25,"Caecognathia crenulatifrons",1,"No"
-"BOEM23-011",1,2023-09-25,"Ophiuroidea",5,"No"
-"BOEM23-011",1,2023-09-25,"Amphiodia urtica",6,"No"
-"BOEM23-011",1,2023-09-25,"Marphysa disjuncta",1,"No"
-"BOEM23-011",1,2023-09-25,"Lumbrineridae",1,"Yes"
-"BOEM23-011",1,2023-09-25,"Eranno lagunae",3,"No"
-"BOEM23-011",1,2023-09-25,"Aglaophamus verrilli",2,"No"
-"BOEM23-011",1,2023-09-25,"Nephtys ferruginea",1,"No"
-"BOEM23-011",1,2023-09-25,"Gymnonereis crosslandi",23,"No"
-"BOEM23-011",1,2023-09-25,"Diopatra sp",1,"No"
-"BOEM23-011",1,2023-09-25,"Malmgreniella baschi",2,"No"
-"BOEM23-011",1,2023-09-25,"Poecilochaetus martini",2,"No"
-"BOEM23-011",1,2023-09-25,"Poecilochaetus sp",3,"Yes"
-"BOEM23-011",1,2023-09-25,"Spionidae",1,"No"
-"BOEM23-011",1,2023-09-25,"Paraprionospio alata",5,"No"
-"BOEM23-011",1,2023-09-25,"Spiophanes berkeleyorum",3,"No"
-"BOEM23-011",1,2023-09-25,"Sternaspis affinis",2,"No"
-"BOEM23-011",1,2023-09-25,"Terebellides sp",3,"No"
-"BOEM23-012",1,2023-09-25,"Nemertea",2,"No"
-"BOEM23-012",1,2023-09-25,"Listriolobus pelodes",1,"No"
-"BOEM23-012",1,2023-09-25,"Edwardsia sp",2,"No"
-"BOEM23-012",1,2023-09-25,"Astropecten californicus",1,"No"
-"BOEM23-012",1,2023-09-25,"Bivalvia",4,"No"
-"BOEM23-012",1,2023-09-25,"Periploma planiusculum",1,"No"
-"BOEM23-012",1,2023-09-25,"Nuculana sp A",2,"No"
-"BOEM23-012",1,2023-09-25,"Kurtiella tumida",1,"No"
-"BOEM23-012",1,2023-09-25,"Ampelisca pacifica",2,"No"
-"BOEM23-012",1,2023-09-25,"Byblis millsi",1,"No"
-"BOEM23-012",1,2023-09-25,"Rathbunixa occidentalis Cmplx",1,"No"
-"BOEM23-012",1,2023-09-25,"Amphiodia digitata",5,"No"
-"BOEM23-012",1,2023-09-25,"Amphiodia urtica",7,"No"
-"BOEM23-012",1,2023-09-25,"Euclymeninae",1,"No"
-"BOEM23-012",1,2023-09-25,"Maldane sarsi",1,"No"
-"BOEM23-012",1,2023-09-25,"Rhodine bitorquata",1,"No"
-"BOEM23-012",1,2023-09-25,"Aglaophamus verrilli",11,"No"
-"BOEM23-012",1,2023-09-25,"Nephtys ferruginea",1,"No"
-"BOEM23-012",1,2023-09-25,"Gymnonereis crosslandi",1,"No"
-"BOEM23-012",1,2023-09-25,"Paradiopatra parva",3,"No"
-"BOEM23-012",1,2023-09-25,"Spiophanes berkeleyorum",8,"No"
-"BOEM23-012",1,2023-09-25,"Terebellides californica",3,"No"
-"BOEM23-013",1,2023-09-25,"Tubulanidae",1,"No"
-"BOEM23-013",1,2023-09-25,"Bivalvia",1,"No"
-"BOEM23-013",1,2023-09-25,"Compsomyax subdiaphana",1,"No"
-"BOEM23-013",1,2023-09-25,"Oligochaeta",2,"No"
-"BOEM23-013",1,2023-09-25,"Cephalaspidea",1,"No"
-"BOEM23-013",1,2023-09-25,"Chiridota sp",1,"No"
-"BOEM23-013",1,2023-09-25,"Ampelisca hancocki",1,"No"
-"BOEM23-013",1,2023-09-25,"Ampelisca sp",1,"No"
-"BOEM23-013",1,2023-09-25,"Amphideutopus oculatus",1,"No"
-"BOEM23-013",1,2023-09-25,"Protomedeia articulata Cmplx",5,"No"
-"BOEM23-013",1,2023-09-25,"Caecognathia crenulatifrons",1,"No"
-"BOEM23-013",1,2023-09-25,"Ophiuroidea",2,"No"
-"BOEM23-013",1,2023-09-25,"Amphiodia digitata",2,"No"
-"BOEM23-013",1,2023-09-25,"Dougaloplus amphacanthus",1,"No"
-"BOEM23-013",1,2023-09-25,"Capitella capitata Cmplx",2,"No"
-"BOEM23-013",1,2023-09-25,"Mediomastus sp",11,"No"
-"BOEM23-013",1,2023-09-25,"Cossura candida",1,"No"
-"BOEM23-013",1,2023-09-25,"Cossura sp A",1,"No"
-"BOEM23-013",1,2023-09-25,"Euclymeninae",1,"No"
-"BOEM23-013",1,2023-09-25,"Maldane sarsi",1,"No"
-"BOEM23-013",1,2023-09-25,"Leodice americana",1,"No"
-"BOEM23-013",1,2023-09-25,"Marphysa disjuncta",1,"No"
-"BOEM23-013",1,2023-09-25,"Glycera nana",1,"No"
-"BOEM23-013",1,2023-09-25,"Lumbrineridae",2,"Yes"
-"BOEM23-013",1,2023-09-25,"Eranno lagunae",5,"No"
-"BOEM23-013",1,2023-09-25,"Aglaophamus verrilli",2,"No"
-"BOEM23-013",1,2023-09-25,"Nephtys ferruginea",1,"No"
-"BOEM23-013",1,2023-09-25,"Gymnonereis crosslandi",9,"No"
-"BOEM23-013",1,2023-09-25,"Sthenelais tertiaglabra",1,"No"
-"BOEM23-013",1,2023-09-25,"Cirratulidae",1,"No"
-"BOEM23-013",1,2023-09-25,"Poecilochaetus martini",1,"No"
-"BOEM23-013",1,2023-09-25,"Paraprionospio alata",1,"No"
-"BOEM23-013",1,2023-09-25,"Prionospio lighti",5,"No"
-"BOEM23-013",1,2023-09-25,"Prionospio sp",2,"No"
-"BOEM23-013",1,2023-09-25,"Spiophanes berkeleyorum",5,"No"
-"BOEM23-013",1,2023-09-25,"Pista elongata",2,"No"
-"BOEM23-013",1,2023-09-25,"Terebellides sp",2,"Yes"
-"BOEM23-013",1,2023-09-25,"Terebellides sp Type C",1,"No"
-"BOEM23-013",1,2023-09-25,"Levinsenia gracilis",5,"No"
-"BOEM23-014",1,2023-09-25,"Listriolobus pelodes",1,"No"
-"BOEM23-014",1,2023-09-25,"Tubulanidae",2,"No"
-"BOEM23-014",1,2023-09-25,"Edwardsia sp",2,"No"
-"BOEM23-014",1,2023-09-25,"Bivalvia",4,"No"
-"BOEM23-014",1,2023-09-25,"Ennucula tenuis",1,"No"
-"BOEM23-014",1,2023-09-25,"Kurtiella tumida",3,"No"
-"BOEM23-014",1,2023-09-25,"Tellina carpenteri",1,"No"
-"BOEM23-014",1,2023-09-25,"Compsomyax subdiaphana",2,"No"
-"BOEM23-014",1,2023-09-25,"Schizocardium sp",2,"No"
-"BOEM23-014",1,2023-09-25,"Philine sp",1,"No"
-"BOEM23-014",1,2023-09-25,"Protomedeia articulata Cmplx",9,"No"
-"BOEM23-014",1,2023-09-25,"Rathbunixa occidentalis Cmplx",1,"No"
-"BOEM23-014",1,2023-09-25,"Mediomastus sp",2,"No"
-"BOEM23-014",1,2023-09-25,"Cossura sp A",5,"No"
-"BOEM23-014",1,2023-09-25,"Euclymeninae",1,"No"
-"BOEM23-014",1,2023-09-25,"Maldanidae",1,"Yes"
-"BOEM23-014",1,2023-09-25,"Maldane sarsi",1,"No"
-"BOEM23-014",1,2023-09-25,"Ninoe tridentata",1,"No"
-"BOEM23-014",1,2023-09-25,"Scoletoma sp C",3,"No"
-"BOEM23-014",1,2023-09-25,"Aglaophamus verrilli",5,"No"
-"BOEM23-014",1,2023-09-25,"Gymnonereis crosslandi",6,"No"
-"BOEM23-014",1,2023-09-25,"Paradiopatra parva",2,"No"
-"BOEM23-014",1,2023-09-25,"Cirratulidae",3,"No"
-"BOEM23-014",1,2023-09-25,"Dipolydora socialis",2,"No"
-"BOEM23-014",1,2023-09-25,"Laonice sp",1,"No"
-"BOEM23-014",1,2023-09-25,"Paraprionospio alata",2,"No"
-"BOEM23-014",1,2023-09-25,"Spiophanes berkeleyorum",6,"No"
-"BOEM23-014",1,2023-09-25,"Pista sp",1,"No"
-"BOEM23-014",1,2023-09-25,"Terebellides sp",4,"No"
-"BOEM23-014",1,2023-09-25,"Levinsenia gracilis",7,"No"
-"BOEM23-014",1,2023-09-25,"Antalis pretiosa",1,"No"
-"BOEM23-015",1,2023-09-25,"Listriolobus pelodes",1,"No"
-"BOEM23-015",1,2023-09-25,"Bivalvia",6,"No"
-"BOEM23-015",1,2023-09-25,"Thracia trapezoides",1,"No"
-"BOEM23-015",1,2023-09-25,"Ennucula tenuis",3,"No"
-"BOEM23-015",1,2023-09-25,"Tellina carpenteri",2,"No"
-"BOEM23-015",1,2023-09-25,"Axinopsida serricata",3,"No"
-"BOEM23-015",1,2023-09-25,"Compsomyax subdiaphana",1,"No"
-"BOEM23-015",1,2023-09-25,"Schizocardium sp",1,"No"
-"BOEM23-015",1,2023-09-25,"Glottidia albida",1,"No"
-"BOEM23-015",1,2023-09-25,"Ampelisca brevisimulata",4,"No"
-"BOEM23-015",1,2023-09-25,"Ampelisca pacifica",1,"No"
-"BOEM23-015",1,2023-09-25,"Ampelisca sp",3,"No"
-"BOEM23-015",1,2023-09-25,"Protomedeia articulata Cmplx",18,"No"
-"BOEM23-015",1,2023-09-25,"Listriella goleta",3,"No"
-"BOEM23-015",1,2023-09-25,"Heterophoxus conlanae",4,"No"
-"BOEM23-015",1,2023-09-25,"Rathbunixa occidentalis Cmplx",3,"No"
-"BOEM23-015",1,2023-09-25,"Ophiuroidea",1,"No"
-"BOEM23-015",1,2023-09-25,"Amphiodia digitata",3,"No"
-"BOEM23-015",1,2023-09-25,"Dougaloplus amphacanthus",2,"No"
-"BOEM23-015",1,2023-09-25,"Cossura sp A",2,"No"
-"BOEM23-015",1,2023-09-25,"Maldanidae",1,"No"
-"BOEM23-015",1,2023-09-25,"Leodice americana",1,"No"
-"BOEM23-015",1,2023-09-25,"Marphysa disjuncta",9,"No"
-"BOEM23-015",1,2023-09-25,"Glycera nana",1,"No"
-"BOEM23-015",1,2023-09-25,"Eranno lagunae",2,"No"
-"BOEM23-015",1,2023-09-25,"Aglaophamus verrilli",1,"No"
-"BOEM23-015",1,2023-09-25,"Gymnonereis crosslandi",9,"No"
-"BOEM23-015",1,2023-09-25,"Paradiopatra parva",1,"No"
-"BOEM23-015",1,2023-09-25,"Phyllodoce groenlandica",1,"No"
-"BOEM23-015",1,2023-09-25,"Malmgreniella baschi",1,"No"
-"BOEM23-015",1,2023-09-25,"Tenonia priops",1,"No"
-"BOEM23-015",1,2023-09-25,"Sthenelais berkeleyi",1,"No"
-"BOEM23-015",1,2023-09-25,"Poecilochaetus martini",4,"No"
-"BOEM23-015",1,2023-09-25,"Boccardia proboscidea",1,"No"
-"BOEM23-015",1,2023-09-25,"Paraprionospio alata",3,"No"
-"BOEM23-015",1,2023-09-25,"Spiophanes berkeleyorum",13,"No"
-"BOEM23-015",1,2023-09-25,"Sternaspis affinis",1,"No"
-"BOEM23-015",1,2023-09-25,"Terebellinae",1,"No"
-"BOEM23-015",1,2023-09-25,"Amaeana sp",1,"No"
-"BOEM23-015",1,2023-09-25,"Terebellides californica",4,"No"
-"BOEM23-015",1,2023-09-25,"Levinsenia gracilis",1,"No"
-"BOEM23-015",1,2023-09-25,"Antalis pretiosa",1,"No"
-"BOEM23-016",1,2023-09-25,"Tubulanidae",2,"No"
-"BOEM23-016",1,2023-09-25,"Edwardsia sp",4,"No"
-"BOEM23-016",1,2023-09-25,"Bivalvia",3,"No"
-"BOEM23-016",1,2023-09-25,"Keenaea centifilosa",1,"No"
-"BOEM23-016",1,2023-09-25,"Kurtiella tumida",1,"No"
-"BOEM23-016",1,2023-09-25,"Tellina carpenteri",1,"No"
-"BOEM23-016",1,2023-09-25,"Compsomyax subdiaphana",2,"No"
-"BOEM23-016",1,2023-09-25,"Schizocardium sp",1,"No"
-"BOEM23-016",1,2023-09-25,"Protomedeia articulata Cmplx",2,"No"
-"BOEM23-016",1,2023-09-25,"Listriella goleta",2,"No"
-"BOEM23-016",1,2023-09-25,"Rathbunixa occidentalis Cmplx",2,"No"
-"BOEM23-016",1,2023-09-25,"Scleroplax schmitti",1,"No"
-"BOEM23-016",1,2023-09-25,"Caecognathia crenulatifrons",2,"No"
-"BOEM23-016",1,2023-09-25,"Ophiuroidea",8,"No"
-"BOEM23-016",1,2023-09-25,"Amphiodia digitata",4,"No"
-"BOEM23-016",1,2023-09-25,"Euclymeninae",1,"Yes"
-"BOEM23-016",1,2023-09-25,"Metasychis disparidentatus",1,"No"
-"BOEM23-016",1,2023-09-25,"Praxillella pacifica",2,"No"
-"BOEM23-016",1,2023-09-25,"Glycera nana",1,"No"
-"BOEM23-016",1,2023-09-25,"Aglaophamus verrilli",1,"No"
-"BOEM23-016",1,2023-09-25,"Gymnonereis crosslandi",6,"No"
-"BOEM23-016",1,2023-09-25,"Paradiopatra parva",2,"No"
-"BOEM23-016",1,2023-09-25,"Pectinaria californiensis",2,"No"
-"BOEM23-016",1,2023-09-25,"Poecilochaetus sp",1,"No"
-"BOEM23-016",1,2023-09-25,"Spiophanes berkeleyorum",14,"No"
-"BOEM23-016",1,2023-09-25,"Pista estevanica",1,"No"
-"BOEM23-016",1,2023-09-25,"Terebellides californica",1,"No"
-"BOEM23-016",1,2023-09-25,"Antalis pretiosa",1,"No"
-"BOEM23-017",1,2023-09-25,"Tubulanidae",4,"No"
-"BOEM23-017",1,2023-09-25,"Edwardsia sp",1,"No"
-"BOEM23-017",1,2023-09-25,"Ceriantharia",1,"No"
-"BOEM23-017",1,2023-09-25,"Ennucula tenuis",1,"No"
-"BOEM23-017",1,2023-09-25,"Parvilucina tenuisculpta",1,"No"
-"BOEM23-017",1,2023-09-25,"Tellina carpenteri",1,"No"
-"BOEM23-017",1,2023-09-25,"Axinopsida serricata",3,"No"
-"BOEM23-017",1,2023-09-25,"Compsomyax subdiaphana",1,"No"
-"BOEM23-017",1,2023-09-25,"Schizocardium sp",1,"No"
-"BOEM23-017",1,2023-09-25,"Kurtzia arteaga",1,"No"
-"BOEM23-017",1,2023-09-25,"Ampelisca pacifica",3,"No"
-"BOEM23-017",1,2023-09-25,"Protomedeia articulata Cmplx",3,"No"
-"BOEM23-017",1,2023-09-25,"Listriella goleta",2,"No"
-"BOEM23-017",1,2023-09-25,"Caecognathia crenulatifrons",4,"No"
-"BOEM23-017",1,2023-09-25,"Amphiodia digitata",8,"No"
-"BOEM23-017",1,2023-09-25,"Maldane sarsi",2,"No"
-"BOEM23-017",1,2023-09-25,"Aglaophamus verrilli",5,"No"
-"BOEM23-017",1,2023-09-25,"Gymnonereis crosslandi",2,"No"
-"BOEM23-017",1,2023-09-25,"Phyllodoce groenlandica",1,"No"
-"BOEM23-017",1,2023-09-25,"Melinna oculata",1,"No"
-"BOEM23-017",1,2023-09-25,"Amage scutata",1,"No"
-"BOEM23-017",1,2023-09-25,"Paraprionospio alata",1,"No"
-"BOEM23-017",1,2023-09-25,"Spiophanes berkeleyorum",3,"No"
-"BOEM23-017",1,2023-09-25,"Terebellides californica",1,"No"
-"BOEM23-017",1,2023-09-25,"Terebellides sp Type C",7,"No"
-"BOEM23-017",1,2023-09-25,"Levinsenia gracilis",1,"No"
-"BOEM23-018",1,2023-09-25,"Phoronis sp",4,"No"
-"BOEM23-018",1,2023-09-25,"Listriolobus pelodes",2,"No"
-"BOEM23-018",1,2023-09-25,"Tubulanidae",2,"No"
-"BOEM23-018",1,2023-09-25,"Cerebratulus californiensis",1,"No"
-"BOEM23-018",1,2023-09-25,"Edwardsia sp",2,"No"
-"BOEM23-018",1,2023-09-25,"Bivalvia",1,"No"
-"BOEM23-018",1,2023-09-25,"Lyonsia sp",1,"No"
-"BOEM23-018",1,2023-09-25,"Pandora sp",1,"No"
-"BOEM23-018",1,2023-09-25,"Saxicavella pacifica",4,"No"
-"BOEM23-018",1,2023-09-25,"Crenella decussata",1,"No"
-"BOEM23-018",1,2023-09-25,"Ennucula tenuis",1,"No"
-"BOEM23-018",1,2023-09-25,"Macoma sp",1,"No"
-"BOEM23-018",1,2023-09-25,"Tellina carpenteri",2,"No"
-"BOEM23-018",1,2023-09-25,"Axinopsida serricata",3,"No"
-"BOEM23-018",1,2023-09-25,"Compsomyax subdiaphana",2,"No"
-"BOEM23-018",1,2023-09-25,"Kurtzia arteaga",2,"No"
-"BOEM23-018",1,2023-09-25,"Leptosynapta sp",1,"No"
-"BOEM23-018",1,2023-09-25,"Molpadia intermedia",1,"No"
-"BOEM23-018",1,2023-09-25,"Glottidia albida",1,"No"
-"BOEM23-018",1,2023-09-25,"Ampelisca pacifica",2,"No"
-"BOEM23-018",1,2023-09-25,"Ampelisca sp",4,"No"
-"BOEM23-018",1,2023-09-25,"Byblis millsi",2,"No"
-"BOEM23-018",1,2023-09-25,"Amphideutopus oculatus",8,"No"
-"BOEM23-018",1,2023-09-25,"Caprella mendax",2,"No"
-"BOEM23-018",1,2023-09-25,"Protomedeia articulata Cmplx",9,"No"
-"BOEM23-018",1,2023-09-25,"Listriella goleta",3,"No"
-"BOEM23-018",1,2023-09-25,"Oedicerotidae",1,"No"
-"BOEM23-018",1,2023-09-25,"Westwoodilla tone",1,"No"
-"BOEM23-018",1,2023-09-25,"Caecognathia crenulatifrons",3,"No"
-"BOEM23-018",1,2023-09-25,"Chondrochelia dubia Cmplx",1,"No"
-"BOEM23-018",1,2023-09-25,"Ophiuroidea",4,"No"
-"BOEM23-018",1,2023-09-25,"Amphiodia digitata",20,"No"
-"BOEM23-018",1,2023-09-25,"Ophiura luetkenii",1,"No"
-"BOEM23-018",1,2023-09-25,"Capitella capitata Cmplx",2,"No"
-"BOEM23-018",1,2023-09-25,"Mediomastus sp",3,"No"
-"BOEM23-018",1,2023-09-25,"Euclymeninae sp A",5,"No"
-"BOEM23-018",1,2023-09-25,"Rhodine bitorquata",1,"No"
-"BOEM23-018",1,2023-09-25,"Aphrodita sp",1,"No"
-"BOEM23-018",1,2023-09-25,"Leodice americana",2,"No"
-"BOEM23-018",1,2023-09-25,"Glycera nana",1,"No"
-"BOEM23-018",1,2023-09-25,"Eranno lagunae",1,"No"
-"BOEM23-018",1,2023-09-25,"Aglaophamus verrilli",2,"No"
-"BOEM23-018",1,2023-09-25,"Gymnonereis crosslandi",20,"No"
-"BOEM23-018",1,2023-09-25,"Paradiopatra parva",3,"No"
-"BOEM23-018",1,2023-09-25,"Phyllodoce groenlandica",1,"No"
-"BOEM23-018",1,2023-09-25,"Malmgreniella baschi",3,"No"
-"BOEM23-018",1,2023-09-25,"Sthenelais berkeleyi",1,"No"
-"BOEM23-018",1,2023-09-25,"Glyphanostomum pallescens",1,"No"
-"BOEM23-018",1,2023-09-25,"Melinna oculata",1,"No"
-"BOEM23-018",1,2023-09-25,"Pectinaria californiensis",1,"No"
-"BOEM23-018",1,2023-09-25,"Dipolydora socialis",1,"No"
-"BOEM23-018",1,2023-09-25,"Paraprionospio alata",3,"No"
-"BOEM23-018",1,2023-09-25,"Spiophanes berkeleyorum",10,"No"
-"BOEM23-018",1,2023-09-25,"Sternaspis affinis",3,"No"
-"BOEM23-018",1,2023-09-25,"Trichobranchus hancocki",3,"No"
-"BOEM23-018",1,2023-09-25,"Terebellides sp Type C",5,"No"
-"BOEM23-018",1,2023-09-25,"Levinsenia gracilis",1,"No"
-"BOEM23-018",1,2023-09-25,"Antalis pretiosa",1,"No"
-"BOEM23-019",1,2023-09-27,"Virgulariidae",0,"No"
-"BOEM23-019",1,2023-09-27,"Nuculana sp A",1,"No"
-"BOEM23-019",1,2023-09-27,"Molpadia intermedia",1,"No"
-"BOEM23-019",1,2023-09-27,"Ophiuroidea",3,"No"
-"BOEM23-019",1,2023-09-27,"Amphiodia digitata",2,"No"
-"BOEM23-019",1,2023-09-27,"Antalis pretiosa",1,"No"
-"BOEM23-020",1,2023-09-27,"Haliophasma geminata",2,"No"
-"BOEM23-020",1,2023-09-27,"Amphiodia digitata",6,"No"
+stationid,replicate,sampledate,taxon,abundance,exclude
+djg-001,1,7/6/1975,NoOrganismsPresent,0,No
+djg-002,1,9/26/2023,Cuspidaria parapodema,1,No
+djg-002,1,9/26/2023,Tellina carpenteri,8,No
+djg-002,1,9/26/2023,Axinopsida serricata,1,No
+djg-002,1,9/26/2023,Spatangoida,3,No
+djg-002,1,9/26/2023,Amphipoda,2,No
+djg-002,1,9/26/2023,Ampelisca hancocki,1,No
+djg-002,1,9/26/2023,Ampelisca sp,4,No
+djg-002,1,9/26/2023,Tritella tenuissima,1,No
+djg-002,1,9/26/2023,Photis sp,4,No
+djg-002,1,9/26/2023,Hippomedon sp,5,No
+djg-002,1,9/26/2023,Rhepoxynius bicuspidatus,3,No
+djg-002,1,9/26/2023,Diastylis crenellata,2,No
+BOEM23-002,1,9/26/2023,Westwoodilla tone,1,No
+BOEM23-002,1,9/26/2023,Foxiphalus cognatus,2,No
+BOEM23-001,1,9/26/2023,Cuspidaria parapodema,1,No
+BOEM23-001,1,9/26/2023,Tellina carpenteri,8,No
+BOEM23-001,1,9/26/2023,Axinopsida serricata,1,No
+BOEM23-001,1,9/26/2023,Spatangoida,3,No
+BOEM23-001,1,9/26/2023,Amphipoda,2,No
+BOEM23-001,1,9/26/2023,Ampelisca hancocki,1,No
+BOEM23-001,1,9/26/2023,Ampelisca sp,4,No
+BOEM23-001,1,9/26/2023,Tritella tenuissima,1,No
+BOEM23-001,1,9/26/2023,Photis sp,4,No
+BOEM23-001,1,9/26/2023,Hippomedon sp,5,No
+BOEM23-001,1,9/26/2023,Rhepoxynius bicuspidatus,3,No
+BOEM23-001,1,9/26/2023,Diastylis crenellata,2,No
+BOEM23-001,1,9/26/2023,Eudorella truncatula,1,No
+BOEM23-001,1,9/26/2023,Eudorellopsis longirostris,1,No
+BOEM23-001,1,9/26/2023,Procampylaspis caenosa,1,No
+BOEM23-001,1,9/26/2023,Haliophasma geminata,2,No
+BOEM23-001,1,9/26/2023,Caecognathia crenulatifrons,3,No
+BOEM23-001,1,9/26/2023,Ilyarachna acarina,1,No
+BOEM23-001,1,9/26/2023,Munnogonium tillerae,3,No
+BOEM23-001,1,9/26/2023,Tanaella propinquus,5,No
+BOEM23-001,1,9/26/2023,Amphiodia digitata,12,No
+BOEM23-001,1,9/26/2023,Ophiura luetkenii,3,No
+BOEM23-001,1,9/26/2023,Podocopa,1,No
+BOEM23-001,1,9/26/2023,Euphilomedes producta,19,No
+BOEM23-001,1,9/26/2023,Decamastus gracilis,10,No
+BOEM23-001,1,9/26/2023,Mediomastus sp,3,No
+BOEM23-001,1,9/26/2023,Notomastus latericeus,1,No
+BOEM23-001,1,9/26/2023,Euclymeninae,8,Yes
+BOEM23-001,1,9/26/2023,Euclymeninae sp A,2,No
+BOEM23-001,1,9/26/2023,Nephtys ferruginea,3,No
+BOEM23-001,1,9/26/2023,Onuphidae,1,Yes
+BOEM23-001,1,9/26/2023,Mooreonuphis segmentispadix,51,No
+BOEM23-001,1,9/26/2023,Pholoe glabra,1,No
+BOEM23-001,1,9/26/2023,Malmgreniella baschi,1,No
+BOEM23-001,1,9/26/2023,Subadyte mexicana,1,No
+BOEM23-001,1,9/26/2023,Syllis heterochaeta,1,No
+BOEM23-001,1,9/26/2023,Melinna oculata,2,No
+BOEM23-001,1,9/26/2023,Spiochaetopterus costarum Cmplx,3,No
+BOEM23-001,1,9/26/2023,Cirratulidae,4,No
+BOEM23-001,1,9/26/2023,Pectinaria californiensis,1,No
+BOEM23-001,1,9/26/2023,Sabellidae,2,No
+BOEM23-001,1,9/26/2023,Paraprionospio alata,1,No
+BOEM23-001,1,9/26/2023,Prionospio sp,4,No
+BOEM23-001,1,9/26/2023,Spiophanes berkeleyorum,11,No
+BOEM23-001,1,9/26/2023,Terebellidae,7,Yes
+BOEM23-001,1,9/26/2023,Phisidia sanctaemariae,32,No
+BOEM23-001,1,9/26/2023,Polycirrus sp,1,No
+BOEM23-001,1,9/26/2023,Levinsenia gracilis,1,No
+BOEM23-002,1,9/26/2023,Cuspidaria parapodema,1,No
+BOEM23-002,1,9/26/2023,Amygdalum pallidulum,1,No
+BOEM23-002,1,9/26/2023,Parvilucina tenuisculpta,1,No
+BOEM23-002,1,9/26/2023,Tellina carpenteri,10,No
+BOEM23-002,1,9/26/2023,Thyasira flexuosa,1,No
+BOEM23-002,1,9/26/2023,Ampelisca sp,2,No
+BOEM23-002,1,9/26/2023,Tritella tenuissima,1,No
+BOEM23-002,1,9/26/2023,Photis sp,1,No
+BOEM23-002,1,9/26/2023,Hippomedon sp,5,No
+BOEM23-002,1,9/26/2023,Rhepoxynius bicuspidatus,2,No
+BOEM23-002,1,9/26/2023,Anonyx lilljeborgi,3,No
+BOEM23-002,1,9/26/2023,Diastylis crenellata,4,No
+BOEM23-002,1,9/26/2023,Eudorella truncatula,1,No
+BOEM23-002,1,9/26/2023,Haliophasma geminata,3,No
+BOEM23-002,1,9/26/2023,Gnathiidae,1,No
+BOEM23-002,1,9/26/2023,Munnogonium tillerae,1,No
+BOEM23-002,1,9/26/2023,Nebalia pugettensis Cmplx,1,No
+BOEM23-002,1,9/26/2023,Tanaopsis cadieni,1,No
+BOEM23-002,1,9/26/2023,Amphiodia digitata,6,No
+BOEM23-002,1,9/26/2023,Euphilomedes producta,1,No
+BOEM23-002,1,9/26/2023,Notomastus latericeus,2,No
+BOEM23-002,1,9/26/2023,Praxillella pacifica,7,No
+BOEM23-002,1,9/26/2023,Glycera oxycephala,3,No
+BOEM23-002,1,9/26/2023,Lumbrineris latreilli,1,No
+BOEM23-002,1,9/26/2023,Mooreonuphis segmentispadix,25,No
+BOEM23-002,1,9/26/2023,Eulalia sp,1,No
+BOEM23-002,1,9/26/2023,Phyllodoce groenlandica,2,No
+BOEM23-002,1,9/26/2023,Subadyte mexicana,1,No
+BOEM23-002,1,9/26/2023,Spiochaetopterus costarum Cmplx,24,No
+BOEM23-002,1,9/26/2023,Aphelochaeta glandaria Cmplx,2,No
+BOEM23-002,1,9/26/2023,Pectinaria californiensis,2,No
+BOEM23-002,1,9/26/2023,Dipolydora socialis,1,No
+BOEM23-002,1,9/26/2023,Paraprionospio alata,2,No
+BOEM23-002,1,9/26/2023,Prionospio dubia,1,No
+BOEM23-002,1,9/26/2023,Prionospio sp,4,Yes
+BOEM23-002,1,9/26/2023,Spiophanes berkeleyorum,3,No
+BOEM23-002,1,9/26/2023,Terebellidae,2,Yes
+BOEM23-002,1,9/26/2023,Pista wui,6,No
+BOEM23-002,1,9/26/2023,Cadulus californicus,4,No
+BOEM23-002,1,9/26/2023,Phascolion sp A,1,No
+BOEM23-003,1,9/26/2023,Astropecten californicus,2,No
+BOEM23-003,1,9/26/2023,Bivalvia,2,No
+BOEM23-003,1,9/26/2023,Cuspidaria parapodema,1,No
+BOEM23-003,1,9/26/2023,Amygdalum pallidulum,1,No
+BOEM23-003,1,9/26/2023,Parvilucina tenuisculpta,2,No
+BOEM23-003,1,9/26/2023,Tellina carpenteri,7,No
+BOEM23-003,1,9/26/2023,Brissopsis pacifica,1,No
+BOEM23-003,1,9/26/2023,Cylichna diegensis,1,No
+BOEM23-003,1,9/26/2023,Volvulella cylindrica,1,No
+BOEM23-003,1,9/26/2023,Ampelisca hancocki,3,No
+BOEM23-003,1,9/26/2023,Byblis veleronis,1,No
+BOEM23-003,1,9/26/2023,Acidostoma hancocki,1,No
+BOEM23-003,1,9/26/2023,Hippomedon sp,4,No
+BOEM23-003,1,9/26/2023,Westwoodilla tone,3,No
+BOEM23-003,1,9/26/2023,Halicoides synopiae,1,No
+BOEM23-003,1,9/26/2023,Rhepoxynius bicuspidatus,3,No
+BOEM23-003,1,9/26/2023,Rhepoxynius daboius,2,No
+BOEM23-003,1,9/26/2023,Anonyx lilljeborgi,1,No
+BOEM23-003,1,9/26/2023,Diastylis crenellata,10,No
+BOEM23-003,1,9/26/2023,Eudorella truncatula,1,No
+BOEM23-003,1,9/26/2023,Leucon magnadentatus,1,No
+BOEM23-003,1,9/26/2023,Haliophasma geminata,1,No
+BOEM23-003,1,9/26/2023,Amphipholis squamata,1,No
+BOEM23-003,1,9/26/2023,Euphilomedes carcharodonta,1,No
+BOEM23-003,1,9/26/2023,Mediomastus sp,27,No
+BOEM23-003,1,9/26/2023,Notomastus latericeus,4,No
+BOEM23-003,1,9/26/2023,Maldanidae,2,Yes
+BOEM23-003,1,9/26/2023,Maldane sarsi,3,No
+BOEM23-003,1,9/26/2023,Praxillella pacifica,5,No
+BOEM23-005,1,9/26/2023,Falcidens longus,1,No
+BOEM23-003,1,9/26/2023,Paranaitis polynoides,1,No
+BOEM23-003,1,9/26/2023,Nephtys caecoides,1,No
+BOEM23-003,1,9/26/2023,Onuphidae,1,Yes
+BOEM23-003,1,9/26/2023,Mooreonuphis segmentispadix,76,No
+BOEM23-003,1,9/26/2023,Parexogone molesta,1,No
+BOEM23-003,1,9/26/2023,Spiochaetopterus costarum Cmplx,54,No
+BOEM23-003,1,9/26/2023,Cirratulidae,1,No
+BOEM23-003,1,9/26/2023,Magelona berkeleyi,1,No
+BOEM23-003,1,9/26/2023,Pectinaria californiensis,4,No
+BOEM23-003,1,9/26/2023,Paraprionospio alata,10,No
+BOEM23-003,1,9/26/2023,Spiophanes berkeleyorum,13,No
+BOEM23-003,1,9/26/2023,Aricidea (Acmira) catherinae,1,No
+BOEM23-003,1,9/26/2023,Antalis pretiosa,1,No
+BOEM23-003,1,9/26/2023,Phascolion sp A,1,No
+BOEM23-004,1,9/26/2023,Tubulanidae,3,No
+BOEM23-004,1,9/26/2023,Lineus bilineatus,1,No
+BOEM23-004,1,9/26/2023,Cuspidaria parapodema,1,No
+BOEM23-004,1,9/26/2023,Parvilucina tenuisculpta,5,No
+BOEM23-004,1,9/26/2023,Tellina carpenteri,7,No
+BOEM23-004,1,9/26/2023,Thyasira flexuosa,3,No
+BOEM23-004,1,9/26/2023,Pentamera populifera,1,No
+BOEM23-004,1,9/26/2023,Ampelisca pacifica,1,No
+BOEM23-004,1,9/26/2023,Ampelisca sp,2,No
+BOEM23-004,1,9/26/2023,Westwoodilla tone,3,No
+BOEM23-004,1,9/26/2023,Rhepoxynius bicuspidatus,1,No
+BOEM23-004,1,9/26/2023,Bruzelia tuberculata,2,No
+BOEM23-004,1,9/26/2023,Diastylis crenellata,3,No
+BOEM23-004,1,9/26/2023,Diastylis pellucida,1,No
+BOEM23-004,1,9/26/2023,Haliophasma geminata,5,No
+BOEM23-004,1,9/26/2023,Caecognathia crenulatifrons,1,No
+BOEM23-004,1,9/26/2023,Munnogonium tillerae,2,No
+BOEM23-004,1,9/26/2023,Tanaella propinquus,1,No
+BOEM23-004,1,9/26/2023,Amphiodia urtica,7,No
+BOEM23-004,1,9/26/2023,Mediomastus sp,22,No
+BOEM23-004,1,9/26/2023,Notomastus latericeus,15,No
+BOEM23-004,1,9/26/2023,Maldanidae,3,Yes
+BOEM23-004,1,9/26/2023,Maldane sarsi,4,No
+BOEM23-004,1,9/26/2023,Praxillella pacifica,13,No
+BOEM23-004,1,9/26/2023,Chloeia pinnata,1,No
+BOEM23-004,1,9/26/2023,Glycera americana,1,No
+BOEM23-004,1,9/26/2023,Hemipodia simplex,1,No
+BOEM23-004,1,9/26/2023,Scoletoma sp C,1,No
+BOEM23-004,1,9/26/2023,Nephtys caecoides,3,No
+BOEM23-004,1,9/26/2023,Mooreonuphis segmentispadix,53,No
+BOEM23-004,1,9/26/2023,Pholoe glabra,1,No
+BOEM23-004,1,9/26/2023,Sthenelais tertiaglabra,1,No
+BOEM23-004,1,9/26/2023,Parexogone molesta,1,No
+BOEM23-004,1,9/26/2023,Lysippe sp A,1,No
+BOEM23-004,1,9/26/2023,Spiochaetopterus costarum Cmplx,38,No
+BOEM23-004,1,9/26/2023,Cirratulidae,2,No
+BOEM23-004,1,9/26/2023,Owenia johnsoni,2,No
+BOEM23-004,1,9/26/2023,Dipolydora socialis,1,No
+BOEM23-004,1,9/26/2023,Paraprionospio alata,13,No
+BOEM23-004,1,9/26/2023,Prionospio sp,3,No
+BOEM23-004,1,9/26/2023,Spiophanes berkeleyorum,16,No
+BOEM23-004,1,9/26/2023,Terebellidae,8,Yes
+BOEM23-004,1,9/26/2023,Pista wui,3,No
+BOEM23-004,1,9/26/2023,Leitoscoloplos pugettensis,1,No
+BOEM23-004,1,9/26/2023,Aricidea (Acmira) catherinae,3,No
+BOEM23-004,1,9/26/2023,Aricidea (Acmira) lopezi,1,No
+BOEM23-004,1,9/26/2023,Phascolion sp A,1,No
+BOEM23-005,1,9/26/2023,Ascidiacea,1,No
+BOEM23-005,1,9/26/2023,Cuspidaria parapodema,1,No
+BOEM23-005,1,9/26/2023,Parvilucina tenuisculpta,1,No
+BOEM23-005,1,9/26/2023,Tellina carpenteri,2,No
+BOEM23-005,1,9/26/2023,Axinopsida serricata,3,No
+BOEM23-005,1,9/26/2023,Echinoidea,3,No
+BOEM23-005,1,9/26/2023,Brissopsis pacifica,6,No
+BOEM23-005,1,9/26/2023,Cylichna diegensis,1,No
+BOEM23-005,1,9/26/2023,Pentamera populifera,1,No
+BOEM23-005,1,9/26/2023,Ampelisca agassizi,1,No
+BOEM23-005,1,9/26/2023,Ampelisca careyi,1,No
+BOEM23-005,1,9/26/2023,Ampelisca sp,3,No
+BOEM23-005,1,9/26/2023,Tritella tenuissima,3,No
+BOEM23-005,1,9/26/2023,Photis brevipes,5,No
+BOEM23-005,1,9/26/2023,Westwoodilla tone,2,No
+BOEM23-005,1,9/26/2023,Nicippe tumida,1,No
+BOEM23-005,1,9/26/2023,Eyakia robusta,3,No
+BOEM23-005,1,9/26/2023,Rhepoxynius bicuspidatus,1,No
+BOEM23-005,1,9/26/2023,Diastylis crenellata,4,No
+BOEM23-005,1,9/26/2023,Diastylis sentosa,1,No
+BOEM23-005,1,9/26/2023,Eudorellopsis longirostris,1,No
+BOEM23-005,1,9/26/2023,Campylaspis rubromaculata,1,No
+BOEM23-005,1,9/26/2023,Haliophasma geminata,2,No
+BOEM23-005,1,9/26/2023,Caecognathia crenulatifrons,6,No
+BOEM23-005,1,9/26/2023,Ophiuroidea,1,No
+BOEM23-005,1,9/26/2023,Amphiodia urtica,13,No
+BOEM23-005,1,9/26/2023,Amphipholis squamata,1,No
+BOEM23-005,1,9/26/2023,Euphilomedes producta,10,No
+BOEM23-005,1,9/26/2023,Decamastus gracilis,4,No
+BOEM23-005,1,9/26/2023,Mediomastus sp,1,No
+BOEM23-005,1,9/26/2023,Maldane sarsi,1,No
+BOEM23-005,1,9/26/2023,Praxillella pacifica,8,No
+BOEM23-005,1,9/26/2023,Glycinde armigera,1,No
+BOEM23-005,1,9/26/2023,Nephtys caecoides,2,No
+BOEM23-005,1,9/26/2023,Mooreonuphis segmentispadix,5,No
+BOEM23-005,1,9/26/2023,Malmgreniella scriptoria,1,No
+BOEM23-005,1,9/26/2023,Spiochaetopterus costarum Cmplx,6,No
+BOEM23-005,1,9/26/2023,Cirratulidae,1,No
+BOEM23-005,1,9/26/2023,Pectinaria californiensis,5,No
+BOEM23-005,1,9/26/2023,Laonice sp,1,No
+BOEM23-005,1,9/26/2023,Paraprionospio alata,3,No
+BOEM23-005,1,9/26/2023,Prionospio sp,1,No
+BOEM23-005,1,9/26/2023,Spiophanes berkeleyorum,9,No
+BOEM23-005,1,9/26/2023,Pista wui,3,No
+BOEM23-005,1,9/26/2023,Polycirrus sp,1,No
+BOEM23-005,1,9/26/2023,Nephasoma sp,12,No
+BOEM23-006,1,9/27/2023,Falcidens longus,1,No
+BOEM23-006,1,9/27/2023,Cuspidaria parapodema,2,No
+BOEM23-006,1,9/27/2023,Axinopsida serricata,1,No
+BOEM23-006,1,9/27/2023,Brissopsis pacifica,1,No
+BOEM23-006,1,9/27/2023,Ampelisca careyi,1,No
+BOEM23-006,1,9/27/2023,Ampelisca hancocki,2,No
+BOEM23-006,1,9/27/2023,Ampelisca sp,3,No
+BOEM23-006,1,9/27/2023,Caprella mendax,1,No
+BOEM23-006,1,9/27/2023,Photis brevipes,5,No
+BOEM23-006,1,9/27/2023,Aruga holmesi,2,No
+BOEM23-006,1,9/27/2023,Westwoodilla tone,1,No
+BOEM23-006,1,9/27/2023,Rhepoxynius bicuspidatus,2,No
+BOEM23-006,1,9/27/2023,Diastylis crenellata,1,No
+BOEM23-006,1,9/27/2023,Caecognathia crenulatifrons,1,No
+BOEM23-006,1,9/27/2023,Amphiodia urtica,2,No
+BOEM23-006,1,9/27/2023,Euphilomedes producta,1,No
+BOEM23-006,1,9/27/2023,Decamastus gracilis,1,No
+BOEM23-006,1,9/27/2023,Glycera nana,1,No
+BOEM23-006,1,9/27/2023,Aglaophamus verrilli,1,No
+BOEM23-006,1,9/27/2023,Nephtys ferruginea,1,No
+BOEM23-006,1,9/27/2023,Onuphis sp HYP2,1,No
+BOEM23-006,1,9/27/2023,Paradiopatra parva,5,No
+BOEM23-006,1,9/27/2023,Spiochaetopterus costarum Cmplx,1,No
+BOEM23-006,1,9/27/2023,Pectinaria californiensis,2,No
+BOEM23-006,1,9/27/2023,Laonice sp,1,No
+BOEM23-006,1,9/27/2023,Paraprionospio alata,5,No
+BOEM23-006,1,9/27/2023,Spiophanes berkeleyorum,10,No
+BOEM23-006,1,9/27/2023,Pista estevanica,1,No
+BOEM23-006,1,9/27/2023,Pista wui,5,No
+BOEM23-006,1,9/27/2023,Phascolion sp A,3,No
+BOEM23-007,1,9/27/2023,Tubulanidae,1,No
+BOEM23-007,1,9/27/2023,Halcampa decemtentaculata,3,No
+BOEM23-007,1,9/27/2023,Ceriantharia,1,No
+BOEM23-007,1,9/27/2023,Ennucula tenuis,1,No
+BOEM23-007,1,9/27/2023,Tellina carpenteri,1,No
+BOEM23-007,1,9/27/2023,Axinopsida serricata,1,No
+BOEM23-007,1,9/27/2023,Amphipoda,1,No
+BOEM23-007,1,9/27/2023,Ampelisca careyi,1,No
+BOEM23-007,1,9/27/2023,Ampelisca pacifica,1,No
+BOEM23-007,1,9/27/2023,Ampelisca sp,3,No
+BOEM23-007,1,9/27/2023,Photis sp,2,No
+BOEM23-007,1,9/27/2023,Protomedeia sp,2,No
+BOEM23-007,1,9/27/2023,Cephalophoxoides homilis,1,No
+BOEM23-007,1,9/27/2023,Rhepoxynius bicuspidatus,1,No
+BOEM23-007,1,9/27/2023,Hemilamprops californicus,1,No
+BOEM23-007,1,9/27/2023,Eudorella truncatula,2,No
+BOEM23-007,1,9/27/2023,Haliophasma geminata,1,No
+BOEM23-007,1,9/27/2023,Caecognathia crenulatifrons,3,No
+BOEM23-007,1,9/27/2023,Araphura breviaria,1,No
+BOEM23-007,1,9/27/2023,Tanaella propinquus,1,No
+BOEM23-007,1,9/27/2023,Amphiodia urtica,41,No
+BOEM23-007,1,9/27/2023,Euphilomedes producta,2,No
+BOEM23-007,1,9/27/2023,Mediomastus sp,2,No
+BOEM23-007,1,9/27/2023,Cossura sp,1,No
+BOEM23-007,1,9/27/2023,Maldanidae,10,Yes
+BOEM23-007,1,9/27/2023,Euclymeninae sp B,1,No
+BOEM23-007,1,9/27/2023,Maldane sarsi,1,No
+BOEM23-007,1,9/27/2023,Praxillella pacifica,4,No
+BOEM23-007,1,9/27/2023,Travisia pupa,2,No
+BOEM23-007,1,9/27/2023,Chloeia pinnata,7,No
+BOEM23-007,1,9/27/2023,Glycinde armigera,1,No
+BOEM23-007,1,9/27/2023,Lumbrineridae,1,Yes
+BOEM23-007,1,9/27/2023,Lumbrineris latreilli,2,No
+BOEM23-007,1,9/27/2023,Nephtyidae,1,Yes
+BOEM23-007,1,9/27/2023,Aglaophamus verrilli,1,No
+BOEM23-007,1,9/27/2023,Nephtys caecoides,1,No
+BOEM23-007,1,9/27/2023,Mooreonuphis segmentispadix,3,No
+BOEM23-007,1,9/27/2023,Pholoe glabra,4,No
+BOEM23-007,1,9/27/2023,Phyllodoce groenlandica,1,No
+BOEM23-007,1,9/27/2023,Sthenelais tertiaglabra,1,No
+BOEM23-007,1,9/27/2023,Sthenelanella uniformis,2,No
+BOEM23-007,1,9/27/2023,Ampharetidae,1,Yes
+BOEM23-007,1,9/27/2023,Anobothrus gracilis,2,No
+BOEM23-007,1,9/27/2023,Lysippe sp B,1,No
+BOEM23-007,1,9/27/2023,Spiochaetopterus costarum Cmplx,3,No
+BOEM23-007,1,9/27/2023,Cirratulidae,2,Yes
+BOEM23-007,1,9/27/2023,Kirkegaardia siblina,1,No
+BOEM23-007,1,9/27/2023,Bradabyssa pilosa,2,No
+BOEM23-007,1,9/27/2023,Pectinaria californiensis,1,No
+BOEM23-007,1,9/27/2023,Paraprionospio alata,4,No
+BOEM23-007,1,9/27/2023,Prionospio sp,9,Yes
+BOEM23-007,1,9/27/2023,Spiophanes berkeleyorum,42,No
+BOEM23-007,1,9/27/2023,Terebellidae,2,Yes
+BOEM23-007,1,9/27/2023,Pista wui,1,No
+BOEM23-007,1,9/27/2023,Terebellides californica,1,No
+BOEM23-007,1,9/27/2023,Levinsenia gracilis,1,No
+BOEM23-007,1,9/27/2023,Polyschides quadrifissatus,1,No
+BOEM23-007,1,9/27/2023,Phascolion sp A,1,No
+BOEM23-008,1,9/27/2023,Gastropteron pacificum,1,No
+BOEM23-008,1,9/27/2023,Ampelisca careyi,1,No
+BOEM23-008,1,9/27/2023,Ampelisca hancocki,1,No
+BOEM23-008,1,9/27/2023,Ampelisca pacifica,1,No
+BOEM23-008,1,9/27/2023,Ampelisca sp,2,No
+BOEM23-008,1,9/27/2023,Byblis sp,1,No
+BOEM23-008,1,9/27/2023,Photis sp,1,No
+BOEM23-008,1,9/27/2023,Aruga holmesi,1,No
+BOEM23-008,1,9/27/2023,Rhepoxynius sp,1,No
+BOEM23-008,1,9/27/2023,Diastylis crenellata,5,No
+BOEM23-008,1,9/27/2023,Eudorella truncatula,2,No
+BOEM23-008,1,9/27/2023,Caecognathia crenulatifrons,4,No
+BOEM23-008,1,9/27/2023,Munnogonium tillerae,1,No
+BOEM23-008,1,9/27/2023,Pleurogonium sp A,1,No
+BOEM23-008,1,9/27/2023,Chondrochelia dubia Cmplx,1,No
+BOEM23-008,1,9/27/2023,Amphiodia urtica,29,No
+BOEM23-008,1,9/27/2023,Cylindroleberididae,1,No
+BOEM23-008,1,9/27/2023,Euphilomedes producta,7,No
+BOEM23-008,1,9/27/2023,Harbansus sp SD1,1,No
+BOEM23-008,1,9/27/2023,Decamastus gracilis,10,No
+BOEM23-008,1,9/27/2023,Mediomastus sp,13,No
+BOEM23-008,1,9/27/2023,Cossura sp A,3,No
+BOEM23-008,1,9/27/2023,Travisia pupa,2,No
+BOEM23-008,1,9/27/2023,Chloeia pinnata,10,No
+BOEM23-008,1,9/27/2023,Glycera americana,2,No
+BOEM23-008,1,9/27/2023,Lumbrineridae,1,Yes
+BOEM23-008,1,9/27/2023,Lumbrineris latreilli,5,No
+BOEM23-008,1,9/27/2023,Nephtys ferruginea,1,No
+BOEM23-008,1,9/27/2023,Onuphis sp HYP2,6,No
+BOEM23-008,1,9/27/2023,Pholoe glabra,6,No
+BOEM23-008,1,9/27/2023,Phyllodoce groenlandica,1,No
+BOEM23-008,1,9/27/2023,Parexogone molesta,2,No
+BOEM23-008,1,9/27/2023,Cirratulidae,3,No
+BOEM23-008,1,9/27/2023,Pectinaria californiensis,2,No
+BOEM23-008,1,9/27/2023,Paraprionospio alata,8,No
+BOEM23-008,1,9/27/2023,Prionospio sp,14,No
+BOEM23-008,1,9/27/2023,Spiophanes berkeleyorum,13,No
+BOEM23-008,1,9/27/2023,Sternaspis affinis,4,No
+BOEM23-008,1,9/27/2023,Amage anops,3,No
+BOEM23-008,1,9/27/2023,Terebellides californica,1,No
+BOEM23-008,1,9/27/2023,Aricidea (Acmira) catherinae,1,No
+BOEM23-008,1,9/27/2023,Levinsenia gracilis,3,No
+BOEM23-009,1,9/27/2023,Actiniaria,2,No
+BOEM23-009,1,9/27/2023,Stylatula sp,0,No
+BOEM23-009,1,9/27/2023,Falcidens longus,1,No
+BOEM23-009,1,9/27/2023,Cuspidaria parapodema,1,No
+BOEM23-009,1,9/27/2023,Parvilucina tenuisculpta,1,No
+BOEM23-009,1,9/27/2023,Molpadia intermedia,1,No
+BOEM23-009,1,9/27/2023,Ampelisca careyi,1,No
+BOEM23-009,1,9/27/2023,Ampelisca hancocki,1,No
+BOEM23-009,1,9/27/2023,Ampelisca pacifica,1,No
+BOEM23-009,1,9/27/2023,Ampelisca sp,6,No
+BOEM23-009,1,9/27/2023,Byblis sp,1,No
+BOEM23-009,1,9/27/2023,Protomedeia sp,1,No
+BOEM23-009,1,9/27/2023,Nicippe tumida,2,No
+BOEM23-009,1,9/27/2023,Cephalophoxoides homilis,2,No
+BOEM23-009,1,9/27/2023,Rhepoxynius bicuspidatus,2,No
+BOEM23-009,1,9/27/2023,Diastylis crenellata,1,No
+BOEM23-009,1,9/27/2023,Eudorella truncatula,4,No
+BOEM23-009,1,9/27/2023,Haliophasma geminata,1,No
+BOEM23-009,1,9/27/2023,Caecognathia crenulatifrons,1,No
+BOEM23-009,1,9/27/2023,Amphiodia urtica,44,No
+BOEM23-009,1,9/27/2023,Euphilomedes producta,6,No
+BOEM23-009,1,9/27/2023,Decamastus gracilis,1,No
+BOEM23-009,1,9/27/2023,Mediomastus sp,4,No
+BOEM23-009,1,9/27/2023,Cossura sp A,1,No
+BOEM23-009,1,9/27/2023,Maldanidae,2,Yes
+BOEM23-009,1,9/27/2023,Maldane sarsi,6,No
+BOEM23-009,1,9/27/2023,Praxillella gracilis,1,No
+BOEM23-009,1,9/27/2023,Praxillella pacifica,1,No
+BOEM23-009,1,9/27/2023,Travisia pupa,1,No
+BOEM23-009,1,9/27/2023,Acoetes pacifica,1,No
+BOEM23-009,1,9/27/2023,Chloeia pinnata,6,No
+BOEM23-009,1,9/27/2023,Aglaophamus verrilli,5,No
+BOEM23-009,1,9/27/2023,Nephtys caecoides,1,No
+BOEM23-009,1,9/27/2023,Nephtys ferruginea,1,No
+BOEM23-009,1,9/27/2023,Mooreonuphis segmentispadix,7,No
+BOEM23-009,1,9/27/2023,Pholoe glabra,2,No
+BOEM23-009,1,9/27/2023,Spiochaetopterus costarum Cmplx,2,No
+BOEM23-009,1,9/27/2023,Chaetozone hartmanae,1,No
+BOEM23-009,1,9/27/2023,Paraprionospio alata,2,No
+BOEM23-009,1,9/27/2023,Prionospio sp,4,No
+BOEM23-009,1,9/27/2023,Spiophanes berkeleyorum,21,No
+BOEM23-009,1,9/27/2023,Sternaspis affinis,1,No
+BOEM23-009,1,9/27/2023,Levinsenia gracilis,2,No
+BOEM23-009,1,9/27/2023,Nephasoma sp,1,No
+BOEM23-010,1,9/27/2023,Tubulanidae,5,No
+BOEM23-010,1,9/27/2023,Cuspidaria parapodema,2,No
+BOEM23-010,1,9/27/2023,Parvilucina tenuisculpta,1,No
+BOEM23-010,1,9/27/2023,Tellina carpenteri,2,No
+BOEM23-010,1,9/27/2023,Oligochaeta,1,No
+BOEM23-010,1,9/27/2023,Echinoidea,1,No
+BOEM23-010,1,9/27/2023,Epitonium sawinae,1,No
+BOEM23-010,1,9/27/2023,Pentamera pediparva,1,No
+BOEM23-010,1,9/27/2023,Amphipoda,1,No
+BOEM23-010,1,9/27/2023,Ampelisca sp,4,No
+BOEM23-010,1,9/27/2023,Photis brevipes,3,No
+BOEM23-010,1,9/27/2023,Photis lacia,3,No
+BOEM23-010,1,9/27/2023,Photis sp,3,No
+BOEM23-010,1,9/27/2023,Oedicerotidae,1,No
+BOEM23-010,1,9/27/2023,Nicippe tumida,1,No
+BOEM23-010,1,9/27/2023,Cephalophoxoides homilis,3,No
+BOEM23-010,1,9/27/2023,Rhepoxynius bicuspidatus,1,No
+BOEM23-010,1,9/27/2023,Diastylis crenellata,17,No
+BOEM23-010,1,9/27/2023,Eudorella truncatula,10,No
+BOEM23-010,1,9/27/2023,Eudorellopsis longirostris,5,No
+BOEM23-010,1,9/27/2023,Decapoda,1,No
+BOEM23-010,1,9/27/2023,Caecognathia crenulatifrons,5,No
+BOEM23-010,1,9/27/2023,Ilyarachna acarina,1,No
+BOEM23-010,1,9/27/2023,Akanthophoreus cf gracilis,1,No
+BOEM23-010,1,9/27/2023,Chondrochelia dubia Cmplx,1,No
+BOEM23-010,1,9/27/2023,Tanaella propinquus,5,No
+BOEM23-010,1,9/27/2023,Amphichondrius granulatus,5,No
+BOEM23-010,1,9/27/2023,Amphiodia digitata,7,No
+BOEM23-010,1,9/27/2023,Amphiodia urtica,1,No
+BOEM23-010,1,9/27/2023,Dougaloplus amphacanthus,2,No
+BOEM23-010,1,9/27/2023,Euphilomedes producta,22,No
+BOEM23-010,1,9/27/2023,Decamastus gracilis,11,No
+BOEM23-010,1,9/27/2023,Mediomastus sp,121,No
+BOEM23-010,1,9/27/2023,Cossura sp A,4,No
+BOEM23-010,1,9/27/2023,Euclymeninae,5,Yes
+BOEM23-010,1,9/27/2023,Maldane sarsi,2,No
+BOEM23-010,1,9/27/2023,Praxillella pacifica,1,No
+BOEM23-010,1,9/27/2023,Travisia pupa,1,No
+BOEM23-010,1,9/27/2023,Chloeia pinnata,2,No
+BOEM23-010,1,9/27/2023,Marphysa sp,1,No
+BOEM23-010,1,9/27/2023,Glycera americana,5,No
+BOEM23-010,1,9/27/2023,Glycinde armigera,2,No
+BOEM23-010,1,9/27/2023,Lumbrineris latreilli,5,No
+BOEM23-010,1,9/27/2023,Scoletoma tetraura Cmplx,1,No
+BOEM23-010,1,9/27/2023,Nephtys ferruginea,5,No
+BOEM23-010,1,9/27/2023,Mooreonuphis segmentispadix,33,No
+BOEM23-010,1,9/27/2023,Pholoe glabra,1,No
+BOEM23-010,1,9/27/2023,Eteone pigmentata,1,No
+BOEM23-010,1,9/27/2023,Phyllodoce groenlandica,1,No
+BOEM23-010,1,9/27/2023,Malmgreniella sp A,1,No
+BOEM23-010,1,9/27/2023,Exogone lourei,4,No
+BOEM23-010,1,9/27/2023,Parexogone molesta,1,No
+BOEM23-010,1,9/27/2023,Spiochaetopterus costarum Cmplx,9,No
+BOEM23-010,1,9/27/2023,Cirratulidae,23,Yes
+BOEM23-010,1,9/27/2023,Kirkegaardia siblina,2,No
+BOEM23-010,1,9/27/2023,Pectinaria californiensis,1,No
+BOEM23-010,1,9/27/2023,Sabellidae,2,No
+BOEM23-010,1,9/27/2023,Euchone incolor,1,No
+BOEM23-010,1,9/27/2023,Laonice nuchala,3,No
+BOEM23-010,1,9/27/2023,Paraprionospio alata,7,No
+BOEM23-010,1,9/27/2023,Prionospio lighti,1,No
+BOEM23-010,1,9/27/2023,Prionospio sp,12,Yes
+BOEM23-010,1,9/27/2023,Spiophanes berkeleyorum,33,No
+BOEM23-010,1,9/27/2023,Phisidia sanctaemariae,24,No
+BOEM23-010,1,9/27/2023,Pista wui,3,No
+BOEM23-010,1,9/27/2023,Aricidea (Acmira) catherinae,7,No
+BOEM23-010,1,9/27/2023,Cirrophorus branchiatus,2,No
+BOEM23-010,1,9/27/2023,Levinsenia gracilis,10,No
+BOEM23-010,1,9/27/2023,Phascolion sp A,4,No
+BOEM23-011,1,9/25/2023,Phoronis sp,7,No
+BOEM23-011,1,9/25/2023,Listriolobus pelodes,2,No
+BOEM23-011,1,9/25/2023,Edwardsia sp,1,No
+BOEM23-011,1,9/25/2023,Virgularia agassizii,0,No
+BOEM23-011,1,9/25/2023,Bivalvia,5,No
+BOEM23-011,1,9/25/2023,Parvilucina tenuisculpta,1,No
+BOEM23-011,1,9/25/2023,Tellina carpenteri,1,No
+BOEM23-011,1,9/25/2023,Axinopsida serricata,2,No
+BOEM23-011,1,9/25/2023,Compsomyax subdiaphana,4,No
+BOEM23-011,1,9/25/2023,Schizocardium sp,1,No
+BOEM23-011,1,9/25/2023,Philine auriformis,1,No
+BOEM23-011,1,9/25/2023,Molpadia intermedia,1,No
+BOEM23-011,1,9/25/2023,Protomedeia articulata Cmplx,8,No
+BOEM23-011,1,9/25/2023,Listriella eriopisa,1,No
+BOEM23-011,1,9/25/2023,Listriella goleta,3,No
+BOEM23-011,1,9/25/2023,Aruga holmesi,1,No
+BOEM23-011,1,9/25/2023,Heterophoxus conlanae,1,No
+BOEM23-011,1,9/25/2023,Rathbunixa occidentalis Cmplx,1,No
+BOEM23-011,1,9/25/2023,Caecognathia crenulatifrons,1,No
+BOEM23-011,1,9/25/2023,Ophiuroidea,5,No
+BOEM23-011,1,9/25/2023,Amphiodia urtica,6,No
+BOEM23-011,1,9/25/2023,Marphysa disjuncta,1,No
+BOEM23-011,1,9/25/2023,Lumbrineridae,1,Yes
+BOEM23-011,1,9/25/2023,Eranno lagunae,3,No
+BOEM23-011,1,9/25/2023,Aglaophamus verrilli,2,No
+BOEM23-011,1,9/25/2023,Nephtys ferruginea,1,No
+BOEM23-011,1,9/25/2023,Gymnonereis crosslandi,23,No
+BOEM23-011,1,9/25/2023,Diopatra sp,1,No
+BOEM23-011,1,9/25/2023,Malmgreniella baschi,2,No
+BOEM23-011,1,9/25/2023,Poecilochaetus martini,2,No
+BOEM23-011,1,9/25/2023,Poecilochaetus sp,3,Yes
+BOEM23-011,1,9/25/2023,Spionidae,1,No
+BOEM23-011,1,9/25/2023,Paraprionospio alata,5,No
+BOEM23-011,1,9/25/2023,Spiophanes berkeleyorum,3,No
+BOEM23-011,1,9/25/2023,Sternaspis affinis,2,No
+BOEM23-011,1,9/25/2023,Terebellides sp,3,No
+BOEM23-012,1,9/25/2023,Nemertea,2,No
+BOEM23-012,1,9/25/2023,Listriolobus pelodes,1,No
+BOEM23-012,1,9/25/2023,Edwardsia sp,2,No
+BOEM23-012,1,9/25/2023,Astropecten californicus,1,No
+BOEM23-012,1,9/25/2023,Bivalvia,4,No
+BOEM23-012,1,9/25/2023,Periploma planiusculum,1,No
+BOEM23-012,1,9/25/2023,Nuculana sp A,2,No
+BOEM23-012,1,9/25/2023,Kurtiella tumida,1,No
+BOEM23-012,1,9/25/2023,Ampelisca pacifica,2,No
+BOEM23-012,1,9/25/2023,Byblis millsi,1,No
+BOEM23-012,1,9/25/2023,Rathbunixa occidentalis Cmplx,1,No
+BOEM23-012,1,9/25/2023,Amphiodia digitata,5,No
+BOEM23-012,1,9/25/2023,Amphiodia urtica,7,No
+BOEM23-012,1,9/25/2023,Euclymeninae,1,No
+BOEM23-012,1,9/25/2023,Maldane sarsi,1,No
+BOEM23-012,1,9/25/2023,Rhodine bitorquata,1,No
+BOEM23-012,1,9/25/2023,Aglaophamus verrilli,11,No
+BOEM23-012,1,9/25/2023,Nephtys ferruginea,1,No
+BOEM23-012,1,9/25/2023,Gymnonereis crosslandi,1,No
+BOEM23-012,1,9/25/2023,Paradiopatra parva,3,No
+BOEM23-012,1,9/25/2023,Spiophanes berkeleyorum,8,No
+BOEM23-012,1,9/25/2023,Terebellides californica,3,No
+BOEM23-013,1,9/25/2023,Tubulanidae,1,No
+BOEM23-013,1,9/25/2023,Bivalvia,1,No
+BOEM23-013,1,9/25/2023,Compsomyax subdiaphana,1,No
+BOEM23-013,1,9/25/2023,Oligochaeta,2,No
+BOEM23-013,1,9/25/2023,Cephalaspidea,1,No
+BOEM23-013,1,9/25/2023,Chiridota sp,1,No
+BOEM23-013,1,9/25/2023,Ampelisca hancocki,1,No
+BOEM23-013,1,9/25/2023,Ampelisca sp,1,No
+BOEM23-013,1,9/25/2023,Amphideutopus oculatus,1,No
+BOEM23-013,1,9/25/2023,Protomedeia articulata Cmplx,5,No
+BOEM23-013,1,9/25/2023,Caecognathia crenulatifrons,1,No
+BOEM23-013,1,9/25/2023,Ophiuroidea,2,No
+BOEM23-013,1,9/25/2023,Amphiodia digitata,2,No
+BOEM23-013,1,9/25/2023,Dougaloplus amphacanthus,1,No
+BOEM23-013,1,9/25/2023,Capitella capitata Cmplx,2,No
+BOEM23-013,1,9/25/2023,Mediomastus sp,11,No
+BOEM23-013,1,9/25/2023,Cossura candida,1,No
+BOEM23-013,1,9/25/2023,Cossura sp A,1,No
+BOEM23-013,1,9/25/2023,Euclymeninae,1,No
+BOEM23-013,1,9/25/2023,Maldane sarsi,1,No
+BOEM23-013,1,9/25/2023,Leodice americana,1,No
+BOEM23-013,1,9/25/2023,Marphysa disjuncta,1,No
+BOEM23-013,1,9/25/2023,Glycera nana,1,No
+BOEM23-013,1,9/25/2023,Lumbrineridae,2,Yes
+BOEM23-013,1,9/25/2023,Eranno lagunae,5,No
+BOEM23-013,1,9/25/2023,Aglaophamus verrilli,2,No
+BOEM23-013,1,9/25/2023,Nephtys ferruginea,1,No
+BOEM23-013,1,9/25/2023,Gymnonereis crosslandi,9,No
+BOEM23-013,1,9/25/2023,Sthenelais tertiaglabra,1,No
+BOEM23-013,1,9/25/2023,Cirratulidae,1,No
+BOEM23-013,1,9/25/2023,Poecilochaetus martini,1,No
+BOEM23-013,1,9/25/2023,Paraprionospio alata,1,No
+BOEM23-013,1,9/25/2023,Prionospio lighti,5,No
+BOEM23-013,1,9/25/2023,Prionospio sp,2,No
+BOEM23-013,1,9/25/2023,Spiophanes berkeleyorum,5,No
+BOEM23-013,1,9/25/2023,Pista elongata,2,No
+BOEM23-013,1,9/25/2023,Terebellides sp,2,Yes
+BOEM23-013,1,9/25/2023,Terebellides sp Type C,1,No
+BOEM23-013,1,9/25/2023,Levinsenia gracilis,5,No
+BOEM23-014,1,9/25/2023,Listriolobus pelodes,1,No
+BOEM23-014,1,9/25/2023,Tubulanidae,2,No
+BOEM23-014,1,9/25/2023,Edwardsia sp,2,No
+BOEM23-014,1,9/25/2023,Bivalvia,4,No
+BOEM23-014,1,9/25/2023,Ennucula tenuis,1,No
+BOEM23-014,1,9/25/2023,Kurtiella tumida,3,No
+BOEM23-014,1,9/25/2023,Tellina carpenteri,1,No
+BOEM23-014,1,9/25/2023,Compsomyax subdiaphana,2,No
+BOEM23-014,1,9/25/2023,Schizocardium sp,2,No
+BOEM23-014,1,9/25/2023,Philine sp,1,No
+BOEM23-014,1,9/25/2023,Protomedeia articulata Cmplx,9,No
+BOEM23-014,1,9/25/2023,Rathbunixa occidentalis Cmplx,1,No
+BOEM23-014,1,9/25/2023,Mediomastus sp,2,No
+BOEM23-014,1,9/25/2023,Cossura sp A,5,No
+BOEM23-014,1,9/25/2023,Euclymeninae,1,No
+BOEM23-014,1,9/25/2023,Maldanidae,1,Yes
+BOEM23-014,1,9/25/2023,Maldane sarsi,1,No
+BOEM23-014,1,9/25/2023,Ninoe tridentata,1,No
+BOEM23-014,1,9/25/2023,Scoletoma sp C,3,No
+BOEM23-014,1,9/25/2023,Aglaophamus verrilli,5,No
+BOEM23-014,1,9/25/2023,Gymnonereis crosslandi,6,No
+BOEM23-014,1,9/25/2023,Paradiopatra parva,2,No
+BOEM23-014,1,9/25/2023,Cirratulidae,3,No
+BOEM23-014,1,9/25/2023,Dipolydora socialis,2,No
+BOEM23-014,1,9/25/2023,Laonice sp,1,No
+BOEM23-014,1,9/25/2023,Paraprionospio alata,2,No
+BOEM23-014,1,9/25/2023,Spiophanes berkeleyorum,6,No
+BOEM23-014,1,9/25/2023,Pista sp,1,No
+BOEM23-014,1,9/25/2023,Terebellides sp,4,No
+BOEM23-014,1,9/25/2023,Levinsenia gracilis,7,No
+BOEM23-014,1,9/25/2023,Antalis pretiosa,1,No
+BOEM23-015,1,9/25/2023,Listriolobus pelodes,1,No
+BOEM23-015,1,9/25/2023,Bivalvia,6,No
+BOEM23-015,1,9/25/2023,Thracia trapezoides,1,No
+BOEM23-015,1,9/25/2023,Ennucula tenuis,3,No
+BOEM23-015,1,9/25/2023,Tellina carpenteri,2,No
+BOEM23-015,1,9/25/2023,Axinopsida serricata,3,No
+BOEM23-015,1,9/25/2023,Compsomyax subdiaphana,1,No
+BOEM23-015,1,9/25/2023,Schizocardium sp,1,No
+BOEM23-015,1,9/25/2023,Glottidia albida,1,No
+BOEM23-015,1,9/25/2023,Ampelisca brevisimulata,4,No
+BOEM23-015,1,9/25/2023,Ampelisca pacifica,1,No
+BOEM23-015,1,9/25/2023,Ampelisca sp,3,No
+BOEM23-015,1,9/25/2023,Protomedeia articulata Cmplx,18,No
+BOEM23-015,1,9/25/2023,Listriella goleta,3,No
+BOEM23-015,1,9/25/2023,Heterophoxus conlanae,4,No
+BOEM23-015,1,9/25/2023,Rathbunixa occidentalis Cmplx,3,No
+BOEM23-015,1,9/25/2023,Ophiuroidea,1,No
+BOEM23-015,1,9/25/2023,Amphiodia digitata,3,No
+BOEM23-015,1,9/25/2023,Dougaloplus amphacanthus,2,No
+BOEM23-015,1,9/25/2023,Cossura sp A,2,No
+BOEM23-015,1,9/25/2023,Maldanidae,1,No
+BOEM23-015,1,9/25/2023,Leodice americana,1,No
+BOEM23-015,1,9/25/2023,Marphysa disjuncta,9,No
+BOEM23-015,1,9/25/2023,Glycera nana,1,No
+BOEM23-015,1,9/25/2023,Eranno lagunae,2,No
+BOEM23-015,1,9/25/2023,Aglaophamus verrilli,1,No
+BOEM23-015,1,9/25/2023,Gymnonereis crosslandi,9,No
+BOEM23-015,1,9/25/2023,Paradiopatra parva,1,No
+BOEM23-015,1,9/25/2023,Phyllodoce groenlandica,1,No
+BOEM23-015,1,9/25/2023,Malmgreniella baschi,1,No
+BOEM23-015,1,9/25/2023,Tenonia priops,1,No
+BOEM23-015,1,9/25/2023,Sthenelais berkeleyi,1,No
+BOEM23-015,1,9/25/2023,Poecilochaetus martini,4,No
+BOEM23-015,1,9/25/2023,Boccardia proboscidea,1,No
+BOEM23-015,1,9/25/2023,Paraprionospio alata,3,No
+BOEM23-015,1,9/25/2023,Spiophanes berkeleyorum,13,No
+BOEM23-015,1,9/25/2023,Sternaspis affinis,1,No
+BOEM23-015,1,9/25/2023,Terebellinae,1,No
+BOEM23-015,1,9/25/2023,Amaeana sp,1,No
+BOEM23-015,1,9/25/2023,Terebellides californica,4,No
+BOEM23-015,1,9/25/2023,Levinsenia gracilis,1,No
+BOEM23-015,1,9/25/2023,Antalis pretiosa,1,No
+BOEM23-016,1,9/25/2023,Tubulanidae,2,No
+BOEM23-016,1,9/25/2023,Edwardsia sp,4,No
+BOEM23-016,1,9/25/2023,Bivalvia,3,No
+BOEM23-016,1,9/25/2023,Keenaea centifilosa,1,No
+BOEM23-016,1,9/25/2023,Kurtiella tumida,1,No
+BOEM23-016,1,9/25/2023,Tellina carpenteri,1,No
+BOEM23-016,1,9/25/2023,Compsomyax subdiaphana,2,No
+BOEM23-016,1,9/25/2023,Schizocardium sp,1,No
+BOEM23-016,1,9/25/2023,Protomedeia articulata Cmplx,2,No
+BOEM23-016,1,9/25/2023,Listriella goleta,2,No
+BOEM23-016,1,9/25/2023,Rathbunixa occidentalis Cmplx,2,No
+BOEM23-016,1,9/25/2023,Scleroplax schmitti,1,No
+BOEM23-016,1,9/25/2023,Caecognathia crenulatifrons,2,No
+BOEM23-016,1,9/25/2023,Ophiuroidea,8,No
+BOEM23-016,1,9/25/2023,Amphiodia digitata,4,No
+BOEM23-016,1,9/25/2023,Euclymeninae,1,Yes
+BOEM23-016,1,9/25/2023,Metasychis disparidentatus,1,No
+BOEM23-016,1,9/25/2023,Praxillella pacifica,2,No
+BOEM23-016,1,9/25/2023,Glycera nana,1,No
+BOEM23-016,1,9/25/2023,Aglaophamus verrilli,1,No
+BOEM23-016,1,9/25/2023,Gymnonereis crosslandi,6,No
+BOEM23-016,1,9/25/2023,Paradiopatra parva,2,No
+BOEM23-016,1,9/25/2023,Pectinaria californiensis,2,No
+BOEM23-016,1,9/25/2023,Poecilochaetus sp,1,No
+BOEM23-016,1,9/25/2023,Spiophanes berkeleyorum,14,No
+BOEM23-016,1,9/25/2023,Pista estevanica,1,No
+BOEM23-016,1,9/25/2023,Terebellides californica,1,No
+BOEM23-016,1,9/25/2023,Antalis pretiosa,1,No
+BOEM23-017,1,9/25/2023,Tubulanidae,4,No
+BOEM23-017,1,9/25/2023,Edwardsia sp,1,No
+BOEM23-017,1,9/25/2023,Ceriantharia,1,No
+BOEM23-017,1,9/25/2023,Ennucula tenuis,1,No
+BOEM23-017,1,9/25/2023,Parvilucina tenuisculpta,1,No
+BOEM23-017,1,9/25/2023,Tellina carpenteri,1,No
+BOEM23-017,1,9/25/2023,Axinopsida serricata,3,No
+BOEM23-017,1,9/25/2023,Compsomyax subdiaphana,1,No
+BOEM23-017,1,9/25/2023,Schizocardium sp,1,No
+BOEM23-017,1,9/25/2023,Kurtzia arteaga,1,No
+BOEM23-017,1,9/25/2023,Ampelisca pacifica,3,No
+BOEM23-017,1,9/25/2023,Protomedeia articulata Cmplx,3,No
+BOEM23-017,1,9/25/2023,Listriella goleta,2,No
+BOEM23-017,1,9/25/2023,Caecognathia crenulatifrons,4,No
+BOEM23-017,1,9/25/2023,Amphiodia digitata,8,No
+BOEM23-017,1,9/25/2023,Maldane sarsi,2,No
+BOEM23-017,1,9/25/2023,Aglaophamus verrilli,5,No
+BOEM23-017,1,9/25/2023,Gymnonereis crosslandi,2,No
+BOEM23-017,1,9/25/2023,Phyllodoce groenlandica,1,No
+BOEM23-017,1,9/25/2023,Melinna oculata,1,No
+BOEM23-017,1,9/25/2023,Amage scutata,1,No
+BOEM23-017,1,9/25/2023,Paraprionospio alata,1,No
+BOEM23-017,1,9/25/2023,Spiophanes berkeleyorum,3,No
+BOEM23-017,1,9/25/2023,Terebellides californica,1,No
+BOEM23-017,1,9/25/2023,Terebellides sp Type C,7,No
+BOEM23-017,1,9/25/2023,Levinsenia gracilis,1,No
+BOEM23-018,1,9/25/2023,Phoronis sp,4,No
+BOEM23-018,1,9/25/2023,Listriolobus pelodes,2,No
+BOEM23-018,1,9/25/2023,Tubulanidae,2,No
+BOEM23-018,1,9/25/2023,Cerebratulus californiensis,1,No
+BOEM23-018,1,9/25/2023,Edwardsia sp,2,No
+BOEM23-018,1,9/25/2023,Bivalvia,1,No
+BOEM23-018,1,9/25/2023,Lyonsia sp,1,No
+BOEM23-018,1,9/25/2023,Pandora sp,1,No
+BOEM23-018,1,9/25/2023,Saxicavella pacifica,4,No
+BOEM23-018,1,9/25/2023,Crenella decussata,1,No
+BOEM23-018,1,9/25/2023,Ennucula tenuis,1,No
+BOEM23-018,1,9/25/2023,Macoma sp,1,No
+BOEM23-018,1,9/25/2023,Tellina carpenteri,2,No
+BOEM23-018,1,9/25/2023,Axinopsida serricata,3,No
+BOEM23-018,1,9/25/2023,Compsomyax subdiaphana,2,No
+BOEM23-018,1,9/25/2023,Kurtzia arteaga,2,No
+BOEM23-018,1,9/25/2023,Leptosynapta sp,1,No
+BOEM23-018,1,9/25/2023,Molpadia intermedia,1,No
+BOEM23-018,1,9/25/2023,Glottidia albida,1,No
+BOEM23-018,1,9/25/2023,Ampelisca pacifica,2,No
+BOEM23-018,1,9/25/2023,Ampelisca sp,4,No
+BOEM23-018,1,9/25/2023,Byblis millsi,2,No
+BOEM23-018,1,9/25/2023,Amphideutopus oculatus,8,No
+BOEM23-018,1,9/25/2023,Caprella mendax,2,No
+BOEM23-018,1,9/25/2023,Protomedeia articulata Cmplx,9,No
+BOEM23-018,1,9/25/2023,Listriella goleta,3,No
+BOEM23-018,1,9/25/2023,Oedicerotidae,1,No
+BOEM23-018,1,9/25/2023,Westwoodilla tone,1,No
+BOEM23-018,1,9/25/2023,Caecognathia crenulatifrons,3,No
+BOEM23-018,1,9/25/2023,Chondrochelia dubia Cmplx,1,No
+BOEM23-018,1,9/25/2023,Ophiuroidea,4,No
+BOEM23-018,1,9/25/2023,Amphiodia digitata,20,No
+BOEM23-018,1,9/25/2023,Ophiura luetkenii,1,No
+BOEM23-018,1,9/25/2023,Capitella capitata Cmplx,2,No
+BOEM23-018,1,9/25/2023,Mediomastus sp,3,No
+BOEM23-018,1,9/25/2023,Euclymeninae sp A,5,No
+BOEM23-018,1,9/25/2023,Rhodine bitorquata,1,No
+BOEM23-018,1,9/25/2023,Aphrodita sp,1,No
+BOEM23-018,1,9/25/2023,Leodice americana,2,No
+BOEM23-018,1,9/25/2023,Glycera nana,1,No
+BOEM23-018,1,9/25/2023,Eranno lagunae,1,No
+BOEM23-018,1,9/25/2023,Aglaophamus verrilli,2,No
+BOEM23-018,1,9/25/2023,Gymnonereis crosslandi,20,No
+BOEM23-018,1,9/25/2023,Paradiopatra parva,3,No
+BOEM23-018,1,9/25/2023,Phyllodoce groenlandica,1,No
+BOEM23-018,1,9/25/2023,Malmgreniella baschi,3,No
+BOEM23-018,1,9/25/2023,Sthenelais berkeleyi,1,No
+BOEM23-018,1,9/25/2023,Glyphanostomum pallescens,1,No
+BOEM23-018,1,9/25/2023,Melinna oculata,1,No
+BOEM23-018,1,9/25/2023,Pectinaria californiensis,1,No
+BOEM23-018,1,9/25/2023,Dipolydora socialis,1,No
+BOEM23-018,1,9/25/2023,Paraprionospio alata,3,No
+BOEM23-018,1,9/25/2023,Spiophanes berkeleyorum,10,No
+BOEM23-018,1,9/25/2023,Sternaspis affinis,3,No
+BOEM23-018,1,9/25/2023,Trichobranchus hancocki,3,No
+BOEM23-018,1,9/25/2023,Terebellides sp Type C,5,No
+BOEM23-018,1,9/25/2023,Levinsenia gracilis,1,No
+BOEM23-018,1,9/25/2023,Antalis pretiosa,1,No
+BOEM23-019,1,9/27/2023,Virgulariidae,0,No
+BOEM23-019,1,9/27/2023,Nuculana sp A,1,No
+BOEM23-019,1,9/27/2023,Molpadia intermedia,1,No
+BOEM23-019,1,9/27/2023,Ophiuroidea,3,No
+BOEM23-019,1,9/27/2023,Amphiodia digitata,2,No
+BOEM23-019,1,9/27/2023,Antalis pretiosa,1,No
+BOEM23-020,1,9/27/2023,Haliophasma geminata,2,No
+BOEM23-020,1,9/27/2023,Amphiodia digitata,6,No

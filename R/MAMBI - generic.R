@@ -89,12 +89,14 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
 
 
   EG_to_use <- EG_Ref_values %>%
-    select(Taxon, Exclude, all_of(EG_Scheme) )%>%
-    rename(EG=EG_Scheme) %>%
-    mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG))
+    #something in the update of Tidyverse/dplyr prevents the usage of a vector (i.e., EG_Scheme) in a select statement
+    #the appropriate syntax is pass the vector into a all_of() or any_of() statement. FWIW, rename is wrapper around select
+    rename(EG=any_of(EG_Scheme)) %>%
+    mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG)) %>%
+    select(Taxon, Exclude, EG)
 
 
- 
+
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-Input_File.0 %>%
@@ -301,7 +303,8 @@ MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", o
   {
 
     TF.EG.Assignment <- EG.Assignment %>% filter(SalZone=="TF")
-    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(.,Taxon, Exclude, EG=EG_Scheme, Oligochaeta)
+    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>%
+      select(.,Taxon, Exclude, EG=any_of(EG_Scheme), Oligochaeta)
 
    # calculate AMBI scores for each sample
      TF.AMBI.Scores <- TF.EG.Assignment %>%
