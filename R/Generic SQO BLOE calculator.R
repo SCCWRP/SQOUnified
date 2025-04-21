@@ -67,17 +67,18 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
 
 
   # aggregating all of the individual index scores so they can be reviewed by the user and used to calculate the BLOE score
-  all.sqo.scores.x<-bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x)
+  all.sqo.scores.x<-bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x) %>%
+    arrange(., stationid, sampledate, replicate, index)
 
 
-  write.csv(all.sqo.scores.x, file=paste(output_path, "/", file_id, "SQO BLOE interim - all benthic indices scores.csv", sep=""), row.names = FALSE)
+  write.csv(all.sqo.scores.x, file=paste(output_path, "/", file_id, " SQO BLOE interim - all benthic indices scores.csv", sep=""), row.names = FALSE)
 
 
   BLOE.scores.x<-all.sqo.scores.x %>%
 
     group_by(stationid, sampledate, replicate) %>%
-    #Integrating the four seperate indices by calculating the median of the scores and rounding up to the next integer
-    mutate(BLOE_score=ceiling(median(condition_category_score, na.remove=TRUE)),
+    #Integrating the four separate indices by calculating the median of the scores and rounding up to the next integer
+    mutate(BLOE_score=ceiling(median(condition_category_score, na.rm=TRUE)),
               Note=str_flatten(note, collapse=",")) %>%
     ungroup() %>%
     pivot_wider(id_cols=c(-score, -condition_category,  -note),
@@ -106,12 +107,13 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
                                 SQO_mambi_condition=="High Disturbance"~4,
                                 TRUE~NA), .after=SQO_mambi_condition)
   BLOE.scores.w.MAMBI<-BLOE.scores.x %>%
-    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, MAMBI_cond, note ), by=c("stationid", "sampledate", "replicate")) %>%
+    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, SQO_mambi_condition, MAMBI_cond, note ), by=c("stationid", "sampledate", "replicate")) %>%
     mutate(notes=case_when(note=="None"~notes,
                              is.na(note)~notes,
                              TRUE~paste(notes, note, sep="; "))) %>%
     select(-note) %>%
-    relocate(MAMBI_cond, .after=Rivpacs_cond)
+    rename(MAMBI_SQO_Cat=SQO_mambi_condition) %>%
+    relocate(MAMBI_SQO_Cat, MAMBI_cond, .after=Rivpacs_cond)
 
   write.csv(BLOE.scores.x, file=paste(output_path, "/", file_id, " SQO integrated BLOE scores.csv", sep=""), row.names = FALSE)
 
@@ -126,7 +128,7 @@ SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
                         "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI, "mambi"=mambi.scores.sqoformat)
 
   #export each data frame to separate sheets in same Excel file
-  write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " SQO output summary.xlsx", sep=""))
+  write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " SQO BLOE output summary.xlsx", sep=""))
 
 return(BLOE.scores.w.MAMBI)
 
