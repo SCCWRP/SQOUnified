@@ -2,23 +2,92 @@
 % Please edit documentation in R/SQOUnified.R
 \name{SQOUnified}
 \alias{SQOUnified}
-\title{Compute the SQO index scores.}
+\title{Compute the SQO index scores.
+Based on the Technical Manual - June 2021 edition
+https://ftp.sccwrp.org/pub/download/DOCUMENTS/TechnicalReports/777_CASQO_TechnicalManual.pdf}
 \usage{
-data(benthic_data)
-data(site_assessment_criteria)
+SQOUnified(
+  benthic = NULL,
+  chem = NULL,
+  tox = NULL,
+  logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H:\%M:\%S"),
+    "log.Rmd"),
+  verbose = F
+)
 }
 \arguments{
-\item{benthic_data}{A data file string name that we want to compute SQO scores for.}
+\item{benthic}{a data frame. This data frame must contain the following
+ information with these headings:
 
-\item{SQO}{A list of the type of SQO scores that we want to compute
-(e.g., \code{c("MAMBI", "RBI")}).
-The default is \code{"all"}, meaning that all scores will be computed.}
+   \code{StationID} - an alpha-numeric identifier of the location;
+
+   \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
+
+   \code{SampleDate} - the date of sample collection;
+
+   \code{Latitude} - latitude in decimal degrees;
+
+   \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+
+   \code{Taxon} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
+       use sp only or just the Genus. If no animals were present in the sample use
+       NoOrganismsPresent with 0 abundance;
+
+   \code{Abundance} - the number of each Species observed in a sample;
+
+   \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
+
+   \code{Stratum} - The stratum under which the station falls (Bays, Estuaries, etc);
+
+   \code{Exclude} - Yes or No;}
+
+\item{chem}{a dataframe with the following columns:
+
+   \code{StationID}
+
+   \code{AnalyteName}
+
+   \code{Result}
+
+   \code{RL}
+
+   \code{MDL}
+
+   \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
+
+   \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+
+   \code{labrep} (optional) - data will be filtered to where labrep = 1
+
+   \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)}
+
+\item{toxresults}{a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
+   matrix, labrep, result. This data must also include the control samples
+   (stationcode 0000, sampletypecode CNEG etc)
+
+   The input dataframe is structured as follows
+
+   \strong{\code{lab}} -  (optional) The laboratory which performed the test
+
+   \strong{\code{stationid}} - an alpha-numeric identifier of the location;
+
+   \strong{\code{toxbatch}} - the toxbatch id - used to join with the control sample
+
+   \strong{\code{species}} - The Genus and species of the animale that was tested
+
+   \strong{\code{sampletypecode}} - The sampletype used Grab, CNEG etc. Control samples must be included
+
+   \strong{\code{matrix}} - (optional) Whole Sediment, Sediment Water Interface, etc. Be sure to not include Reference Toxicants
+
+   \strong{\code{labrep}} - There should be 5 per station, species pair
+
+   \strong{\code{result}} - the percentage that survived the test, or had normal development}
 }
 \description{
-Compute the SQO index scores.
+When this function is called, it will calculate scores based on whatever data is passed into it.
+If Chem, Tox, and Benthic are provided, integrated scores will be calculated based on the 3 LOE's.
 }
 \examples{
-SQOUnified(benthic_data = benthic_data, LOE = "all")
-SQOUnified(benthic_data = benthic_data, LOW = 'tox')
+SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
 
 }

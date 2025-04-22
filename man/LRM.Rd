@@ -9,15 +9,23 @@ LRM(chemdata)
 \arguments{
 \item{chemdata}{a dataframe with the following headings:
 
-   \code{StationID},
+   \code{StationID}
 
-   \code{AnalyteName},
+   \code{AnalyteName}
 
-   \code{Result},
+   \code{Result}
 
-   \code{RL},
+   \code{RL}
 
-   \code{MDL}}
+   \code{MDL}
+
+   \code{units} (optional) -  Metals should be in mg/dry kg (mg/kg dw) and all organic constituents should be in ug/dry kg (ug/kg dw).
+
+   \code{fieldrep} (optional) - data will be filtered to where fieldrep = 1
+
+   \code{labrep} (optional) - data will be filtered to where labrep = 1
+
+   \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)}
 }
 \description{
 This function calculates the Logistic Regression Model score
