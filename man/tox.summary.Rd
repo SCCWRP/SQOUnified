@@ -33,8 +33,9 @@ tox.summary(toxresults)
 }
 \description{
 This function will calculate the tox summary,
-
-given an argument which is a dataframe of tox results data
+given an argument which is a dataframe of tox results data.
+By default, control samples will only be those with sampletypecode of CNEG. You may allow for others, such as CNSL.
+A warning will be issued if multiple controls are found within one batch
 }
 \examples{
 data(tox_sampledata)

@@ -139,7 +139,7 @@
 #' @export
 
 # RBI ----
-RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'RBIlog.Rmd'), verbose = F)
+RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'RBIlog.Rmd'), verbose = F, knitlog = F)
 {
 
   # Initialize Logging
@@ -553,6 +553,26 @@ RBI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
 
 
   writelog('\n### END: RBI function.\n', logfile = logfile, verbose = verbose)
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
 
   return(rbi_scores)
 

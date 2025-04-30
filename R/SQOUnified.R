@@ -86,7 +86,7 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -117,7 +117,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
     init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
 
-    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose) %>%
+    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = knitlog) %>%
       mutate(LOE = 'Benthic') %>%
       select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -134,6 +134,8 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
       # and sampledates are used to distinguish the station at different times
       # The Bight program however, which only samples every 5 years, puts the year of the sample in the stationid
       select(-c(Replicate,SampleDate))
+
+    writelog('See the Benthic subdirectory for the benthic SQO logs', logfile = logfile, verbose = verbose)
 
   } else {
     benthic = data.frame(
@@ -154,9 +156,12 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
     init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs)
 
-    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose) %>%
+    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = knitlog) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
+
+    writelog('See the Chemistry subdirectory for the chemistry SQO logs', logfile = logfile, verbose = verbose)
+
   } else {
     chem = data.frame(
       StationID = c(),
@@ -176,9 +181,12 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
     init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs)
 
-    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose) %>%
+    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = knitlog) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
+
+    writelog('See the Toxicity subdirectory for the toxicity SQO logs', logfile = logfile, verbose = verbose)
+
   } else {
     tox <- data.frame(
       StationID = c(),
@@ -233,6 +241,8 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
   )
 
   writelog('Done computing ALL SQO scores', logfile = logfile, verbose = verbose)
+
+  # Not worth knitting the main SQOUnified log to HTML, as it just tells them to look at the subfolders
 
   return(out)
 

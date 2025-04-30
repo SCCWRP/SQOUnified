@@ -94,7 +94,7 @@
 #' @importFrom purrr map_dfr
 #' @export
 
-MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'MAMBI_Log.Rmd' ), verbose = F)
+MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'MAMBI_Log.Rmd' ), verbose = F, knitlog = F)
 {
 
   # Initialize Logging
@@ -418,6 +418,26 @@ MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile =
       #rename(B13_Stratum = Stratum) %>%
       bind_rows(.,azoic.samples) %>%
       mutate(Index = "M-AMBI")
+  }
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
   }
 
   return(Overall.Results)

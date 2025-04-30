@@ -12,7 +12,7 @@ init.log(
   is.base.func = T,
   verbose = F,
   title = "Log",
-  libraries = c("rmarkdown", "knitr", "DT", "tidyverse", "SQOUnified")
+  libraries = c("rmarkdown", "knitr", "DT", "dplyr", "tidyr", "stringr", "SQOUnified")
 )
 }
 \arguments{

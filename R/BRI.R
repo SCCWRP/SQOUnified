@@ -60,7 +60,7 @@
 #' @importFrom dplyr left_join filter rename select mutate group_by summarize summarise case_when
 #'
 #' @export
-BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRIlog.Rmd'), verbose = F)
+BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRIlog.Rmd'), verbose = F, knitlog = F)
 {
   # This (as of now) is the main function used by the R package
 
@@ -295,9 +295,28 @@ BRI <- function(BenthicData, logfile = file.path(getwd(), 'logs', format(Sys.tim
   )
   create_download_link(data = bri_final, logfile = logfile, filename = 'BRI-final.csv', linktext = 'Download BRI Final Step', verbose = verbose)
 
-
-
   writelog('\n### END: BRI function.\n', logfile = logfile, verbose = verbose)
+
+  if (verbose && knitlog) {
+    if ( tolower(tools::file_ext(logfile)) =='rmd' ) {
+
+      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+
+      print(paste0("Rendering ", logfile, " to ", html_file))
+      rmarkdown::render(
+        input = logfile,
+        output_file = html_file,
+        output_format = "html_document",
+        quiet = TRUE
+      )
+      print("Done")
+
+    } else {
+      fn_name <- as.character(sys.call()[[1]])
+      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
+    }
+  }
+
 
   return(bri_final)
 }
