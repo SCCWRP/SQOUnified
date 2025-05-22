@@ -379,7 +379,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
       qacode = ifelse("qacode" %in% names(summary), collapse_qacodes(qacode),  NA_character_),
       treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      comments = ifelse("comments" %in% names(summary), paste(unique(summary[["comments"]] %>% as.character() ), collapse = ';' ),  NA_character_),
+      comments = ifelse("comments" %in% names(summary), paste(unique(trimws(comments[trimws(comments) != ""]) %>% as.character() ), collapse = '; ' ),  NA_character_),
       dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_)
     ) %>%
     ungroup() %>%
