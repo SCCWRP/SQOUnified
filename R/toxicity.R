@@ -316,6 +316,18 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).\n", logfile = logfile, verbose = verbose)
   writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
+  # Check for all result/control NA
+  check_df <- summary %>%
+    group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+    summarize(
+      allna = all(is.na(result)) || all(is.na(result_control))
+    ) %>%
+    filter(allna)
+  badtoxbatches <- check_df %>% pull(toxbatch) %>% unique()
+  warning(
+      paste(paste("For the toxbatches", paste(badtoxbatches, collapse=", ")), ": all results and/or control results were missing values.", collapse="", sep="")
+  )
+
   # Get the stats
   summary <- summary %>%
     group_by(
