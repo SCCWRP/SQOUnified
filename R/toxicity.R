@@ -364,11 +364,11 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         }
       }
       ),
-      pct_result = mean(result, na.rm = T),
-      pct_control = mean(result_control, na.rm = T),
-      pct_result_adj = (pct_result / pct_control) * 100,
+      treatment_mean = mean(result, na.rm = T),
+      control_mean = mean(result_control, na.rm = T),
+      pct_control = (treatment_mean / control_mean) * 100,
       stddev = sd(result, na.rm = T),
-      cv = stddev / pct_result,
+      cv = stddev / treatment_mean,
 
       # April 15, 2025 - let n be the number of not-null replicate result values
       n = sum(!is.na(result)),
@@ -470,16 +470,16 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # CASQO Technical Manual page 106-108 (June 2021 Edition)
       sqo_category_value_initial = case_when(
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-        (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
+        (endpoint_method != 'Growth') & (treatment_mean >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == 'Growth') & (pct_result_adj >= nontox) ~ 1,
+        (endpoint_method == 'Growth') & (pct_control >= nontox) ~ 1,
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
-        # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
-        pct_result_adj >= lowtox ~ 2,
-        # if modtox <= pct_result_adj < lowtox, put it in the moderate toxicity category - always
-        pct_result_adj >= modtox ~ 3,
+        # if lowtox <= pct_control < nontox, put it in the low toxicity category - always
+        pct_control >= lowtox ~ 2,
+        # if modtox <= pct_control < lowtox, put it in the moderate toxicity category - always
+        pct_control >= modtox ~ 3,
         # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-        pct_result_adj < modtox ~ 4,
+        pct_control < modtox ~ 4,
         TRUE ~ NA_real_
       ),
       sqo_category_value = if_else(
@@ -548,8 +548,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       toxbatch = toxbatch,
       sampletypecode = sampletypecode,
       `P Value` = p,
-      `Mean` = pct_result,
-      `Control Adjusted Mean` = pct_result_adj,
+      `Mean` = treatment_mean,
+      `Control Adjusted Mean` = pct_control,
       `Endpoint Method` = endpoint_method,
       `Standard Deviation` = stddev,
       `Coefficient of Variance` = cv,
