@@ -316,9 +316,16 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).\n", logfile = logfile, verbose = verbose)
   writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
+  collapse_qacodes <- function(vec) {
+    all_elements <- unlist(strsplit(vec, ",\\s*"))
+    all_elements_trimmed <- trimws(all_elements)
+    unique_codes <- unique(all_elements_trimmed)
+    sorted_codes <- sort(unique_codes)
+    paste(sorted_codes, collapse = ", ")
+  }
   # Check for all result/control NA
   check_df <- summary %>%
-    group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+    group_by(lab, stationid, toxbatch, species, endpoint, fieldrep, sampletypecode, matrix) %>%
     summarize(
       allna = all(is.na(result)) || all(is.na(result_control))
     ) %>%
@@ -331,7 +338,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # Get the stats
   summary <- summary %>%
     group_by(
-      lab, stationid, toxbatch, species, fieldrep, sampletypecode
+      lab, stationid, toxbatch, species, endpoint, fieldrep, sampletypecode, matrix
     ) %>%
     summarize(
       p = tryCatch({
@@ -362,7 +369,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       pct_result_adj = (pct_result / pct_control) * 100,
       stddev = sd(result, na.rm = T),
       cv = stddev / pct_result,
-      #n = n()
+
       # April 15, 2025 - let n be the number of not-null replicate result values
       n = sum(!is.na(result)),
 
@@ -370,12 +377,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
       # These columns may or may not be there in the original data
       units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-      endpoint = ifelse("endpoint" %in% names(summary), paste(unique(summary[["endpoint"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      qacode = ifelse("qacode" %in% names(summary), paste(unique(summary[["qacode"]] %>% as.character() ), collapse = ';' ),  NA_character_),
+      qacode = ifelse("qacode" %in% names(summary), collapse_qacodes(qacode),  NA_character_),
       treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
       comments = ifelse("comments" %in% names(summary), paste(unique(summary[["comments"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      matrix = ifelse("matrix" %in% names(summary), paste(unique(summary[["matrix"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_)
     ) %>%
     ungroup() %>%
     mutate(
