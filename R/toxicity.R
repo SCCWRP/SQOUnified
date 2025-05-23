@@ -366,7 +366,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       ),
       treatment_mean = mean(result, na.rm = T),
       control_mean = mean(result_control, na.rm = T),
-      pct_control = (treatment_mean / control_mean) * 100,
+      pctcontrol = (treatment_mean / control_mean) * 100,
       stddev = sd(result, na.rm = T),
       cv = stddev / treatment_mean,
 
@@ -472,14 +472,14 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
         (endpoint_method != 'Growth') & (treatment_mean >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == 'Growth') & (pct_control >= nontox) ~ 1,
+        (endpoint_method == 'Growth') & (pctcontrol >= nontox) ~ 1,
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
         # if lowtox <= pct_control < nontox, put it in the low toxicity category - always
-        pct_control >= lowtox ~ 2,
+        pctcontrol >= lowtox ~ 2,
         # if modtox <= pct_control < lowtox, put it in the moderate toxicity category - always
-        pct_control >= modtox ~ 3,
+        pctcontrol >= modtox ~ 3,
         # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-        pct_control < modtox ~ 4,
+        pctcontrol < modtox ~ 4,
         TRUE ~ NA_real_
       ),
       sqo_category_value = if_else(
@@ -549,7 +549,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       sampletypecode = sampletypecode,
       `P Value` = p,
       `Mean` = treatment_mean,
-      `Control Adjusted Mean` = pct_control,
+      `Control Adjusted Mean` = pctcontrol,
       `Endpoint Method` = endpoint_method,
       `Standard Deviation` = stddev,
       `Coefficient of Variance` = cv,
