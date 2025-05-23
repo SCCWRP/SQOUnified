@@ -317,7 +317,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
   collapse_qacodes <- function(vec) {
-    all_elements <- unlist(strsplit(vec, ",\\s*"))
+    all_elements <- unlist(strsplit(unlist(strsplit(vec, ",\\s*")), ""))
     all_elements_trimmed <- trimws(all_elements)
     unique_codes <- unique(all_elements_trimmed)
     sorted_codes <- sort(unique_codes)
