@@ -316,13 +316,27 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).\n", logfile = logfile, verbose = verbose)
   writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
-  collapse_qacodes <- function(vec) {
-    all_elements <- unlist(strsplit(unlist(strsplit(vec, ",\\s*")), ""))
+  # Collapse QA codes from things like "A; A, O" to "A, O"
+  collapse_qacodes <- function(qacode_vec) {
+    all_elements <- unlist(strsplit(unlist(strsplit(qacode_vec, ",\\s*")), ""))
     all_elements_trimmed <- trimws(all_elements)
     unique_codes <- unique(all_elements_trimmed)
     sorted_codes <- sort(unique_codes)
     paste(sorted_codes, collapse = ", ")
   }
+
+  # Collapse comments down to unique, non-empty columns
+  collapse_comments <- function(comments_vec) {
+    comments <- na.omit(comments_vec)
+    unique_and_not_empty <- unique(comments[trimws(comments) != ""])
+    paste(unique_and_not_empty %>% as.character(), collapse = '; ')
+  }
+
+  # For replacing NA with -88
+  replace_na_with_negative <- function(x) {
+    ifelse(is.na(x), -88, x)
+  }
+
   # Check for all result/control NA
   check_df <- summary %>%
     group_by(lab, stationid, toxbatch, species, endpoint, fieldrep, sampletypecode, matrix) %>%
@@ -364,11 +378,11 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         }
       }
       ),
-      treatment_mean = mean(result, na.rm = T),
-      control_mean = mean(result_control, na.rm = T),
-      pctcontrol = (treatment_mean / control_mean) * 100,
-      stddev = sd(result, na.rm = T),
-      cv = stddev / treatment_mean,
+      treatment_mean = replace_na_with_negative(mean(result, na.rm = T)),
+      control_mean = replace_na_with_negative(mean(result_control, na.rm = T)),
+      pctcontrol = replace_na_with_negative((treatment_mean / control_mean) * 100),
+      stddev = replace_na_with_negative(sd(result, na.rm = T)),
+      cv = replace_na_with_negative(stddev / treatment_mean),
 
       # April 15, 2025 - let n be the number of not-null replicate result values
       n = sum(!is.na(result)),
@@ -379,8 +393,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
       qacode = ifelse("qacode" %in% names(summary), collapse_qacodes(qacode),  NA_character_),
       treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      comments = ifelse("comments" %in% names(summary), paste(unique(trimws(comments[trimws(comments) != ""]) %>% as.character() ), collapse = '; ' ),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+      comments = ifelse("comments" %in% names(summary), collapse_comments(comments),  NA_character_),
+      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  -88)
     ) %>%
     ungroup() %>%
     mutate(
