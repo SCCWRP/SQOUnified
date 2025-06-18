@@ -221,6 +221,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
 
   # Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'
+  ##### I THINK THIS IS WHERE WE'RE LOSING CNEG ROWS WHEN THERE ARE MORE THAN 5
+  ##### LABREPS BECAUSE OF THE INNER JOIN ON LABREP. ~ADDISON
   results_summary <- results %>%
     inner_join(
       controls,
