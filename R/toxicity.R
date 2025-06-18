@@ -97,9 +97,6 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog("These are the sampletypes which are to be analyzed as actual results (Typically Grab or Grab/QA):\n  ", logfile = logfile, verbose = verbose)
   writelog(paste0(results.sampletypes, collapse = ', '), logfile = logfile, verbose = verbose)
 
-  # I think this needs to be here to load to the local environment
-  "tox_categories"
-
   # replace stationid of 0 with the Bight QA StationID of 0000
   tox.summary.input$stationid <- replace(tox.summary.input$stationid, tox.summary.input$stationid %>% as.character() == '0', '0000')
   writelog(
