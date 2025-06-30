@@ -393,7 +393,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       qacode = ifelse("qacode" %in% names(summary), collapse_qacodes(qacode),  NA_character_),
       treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
       comments = ifelse("comments" %in% names(summary), collapse_comments(comments),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  -88)
+      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  -88),
+      matrix
     ) %>%
     ungroup() %>%
     mutate(
