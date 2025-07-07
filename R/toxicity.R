@@ -354,13 +354,13 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # New - include these columns in the output summary table
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
       # These columns may or may not be there in the original data
-      units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-      endpoint = ifelse("endpoint" %in% names(summary), paste(unique(summary[["endpoint"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      qacode = ifelse("qacode" %in% names(summary), paste(unique(summary[["qacode"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      comments = ifelse("comments" %in% names(summary), paste(unique(summary[["comments"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      matrix = ifelse("matrix" %in% names(summary), paste(unique(summary[["matrix"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+      units     = if ("units" %in% names(pick(everything()))) paste(unique(as.character(units)), collapse = ";") else NA_character_,
+      endpoint  = if ("endpoint" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = ";") else NA_character_,
+      qacode    = if ("qacode" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = ";") else NA_character_,
+      treatment = if ("treatment" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = ";") else NA_character_,
+      comments  = if ("comments" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = ";") else NA_character_,
+      dilution  = if ("dilution" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = ";") else NA_character_,
+      matrix    = if ("matrix" %in% names(pick(everything()))) paste(unique(as.character(matrix)), collapse = ";") else NA_character_
     ) %>%
     ungroup() %>%
     mutate(
@@ -402,13 +402,13 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           stddev = sd(result, na.rm = T),
           cv = stddev / pct_result,
           n = sum(!is.na(result)),
-          units = ifelse(\"units\" %in% names(summary), paste(unique(summary[[\"units\"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-          endpoint = ifelse(\"endpoint\" %in% names(summary), paste(unique(summary[[\"endpoint\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          qacode = ifelse(\"qacode\" %in% names(summary), paste(unique(summary[[\"qacode\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          treatment = ifelse(\"treatment\" %in% names(summary), paste(unique(summary[[\"treatment\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          comments = ifelse(\"comments\" %in% names(summary), paste(unique(summary[[\"comments\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          dilution = ifelse(\"dilution\" %in% names(summary), paste(unique(summary[[\"dilution\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          matrix = ifelse(\"matrix\" %in% names(summary), paste(unique(summary[[\"matrix\"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+          units     = if (\"units\" %in% names(pick(everything()))) paste(unique(as.character(units)), collapse = \";\") else NA_character_,
+          endpoint  = if (\"endpoint\" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = \";\") else NA_character_,
+          qacode    = if (\"qacode\" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = \";\") else NA_character_,
+          treatment = if (\"treatment\" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = \";\") else NA_character_,
+          comments  = if (\"comments\" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = \";\") else NA_character_,
+          dilution  = if (\"dilution\" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = \";\") else NA_character_,
+          matrix    = if (\"matrix\" %in% names(pick(everything()))) paste(unique(as.character(matrix)), collapse = \";\") else NA_character_
         ) %>%
         ungroup() %>%
         mutate(
