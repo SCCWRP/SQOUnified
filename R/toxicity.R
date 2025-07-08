@@ -319,7 +319,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # Get the stats
   summary <- summary %>%
     group_by(
-      lab, stationid, toxbatch, species, fieldrep, sampletypecode
+      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
     ) %>%
     summarize(
       p = tryCatch({
@@ -373,7 +373,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # Get the stats
       summary <- summary %>%
         group_by(
-          lab, stationid, toxbatch, species, fieldrep, sampletypecode
+          across(any_of(c(\"lab\", \"stationid\", \"toxbatch\", \"species\", \"dilution\", \"fieldrep\", \"sampletypecode\")))
         ) %>%
         summarize(
           p = tryCatch({
