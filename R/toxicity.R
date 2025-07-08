@@ -356,7 +356,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # These columns may or may not be there in the original data
       units     = if ("units" %in% names(pick(everything()))) paste(unique(as.character(units)), collapse = ";") else NA_character_,
       endpoint  = if ("endpoint" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = ";") else NA_character_,
-      qacode    = if ("qacode" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = ";") else NA_character_,
+      qacode    = if ("qacode" %in% names(pick(everything()))) paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(character_group), ""), "[:alpha:]"))), collapse = ", ") else NA_character_,
       treatment = if ("treatment" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = ";") else NA_character_,
       comments  = if ("comments" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = ";") else NA_character_,
       dilution  = if ("dilution" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = ";") else NA_character_,
@@ -404,7 +404,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           n = sum(!is.na(result)),
           units     = if (\"units\" %in% names(pick(everything()))) paste(unique(as.character(units)), collapse = \";\") else NA_character_,
           endpoint  = if (\"endpoint\" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = \";\") else NA_character_,
-          qacode    = if (\"qacode\" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = \";\") else NA_character_,
+          qacode    = if (\"qacode\" %in% names(pick(everything()))) paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(character_group), \"\"), \"[:alpha:]\"))), collapse = \", \") else NA_character_,
           treatment = if (\"treatment\" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = \";\") else NA_character_,
           comments  = if (\"comments\" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = \";\") else NA_character_,
           dilution  = if (\"dilution\" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = \";\") else NA_character_,
