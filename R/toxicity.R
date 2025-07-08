@@ -300,6 +300,26 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   }
 
+  # Check for all result/control NA
+  check_all_na <- summary %>%
+    group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+    summarize(
+      allna = all(is.na(result)) || all(is.na(result_control))
+    ) %>%
+    filter(allna)
+  badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
+  if (length(badtoxbatches) > 0)
+    warning(
+      paste(
+        paste(
+          "For the toxbatches ",
+          str_flatten_comma(badtoxbatches),
+          ": all results and/or control results were missing values",
+          sep = ""
+        )
+      )
+    )
+
 
 
 
@@ -333,7 +353,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         )
       },
       error = function(err){
-        if(all(result == result_control)){
+        if(all(is.na(result)) || all(is.na(result_control))){
+          # It is possible for one or both of these two vectors to be all NA values.
+          return(NA_real_)
+        } else if (all(result == result_control)) {
           # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
           return(NA_real_)
         } else {
