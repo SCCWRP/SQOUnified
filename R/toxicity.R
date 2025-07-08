@@ -333,7 +333,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         ) %>%
         filter(allna)
       badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
-      if (length(badtoxbatches) > 0)
+      if (is_tibble(badtoxbatches) && count(badtoxbatches))
         warning(
           paste(
             paste(
