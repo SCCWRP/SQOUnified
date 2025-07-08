@@ -358,7 +358,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       endpoint  = if ("endpoint" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = ";") else NA_character_,
       qacode    = if ("qacode" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = ";") else NA_character_,
       treatment = if ("treatment" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = ";") else NA_character_,
-      comments  = if ("comments" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = ";") else NA_character_,
+      comments  = if ("comments" %in% names(pick(everything())))
+                    comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
+                  else NA_character_,
       dilution  = if ("dilution" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = ";") else NA_character_,
       matrix    = if ("matrix" %in% names(pick(everything()))) paste(unique(as.character(matrix)), collapse = ";") else NA_character_
     ) %>%
@@ -406,7 +408,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           endpoint  = if (\"endpoint\" %in% names(pick(everything()))) paste(unique(as.character(endpoint)), collapse = \";\") else NA_character_,
           qacode    = if (\"qacode\" %in% names(pick(everything()))) paste(unique(as.character(qacode)), collapse = \";\") else NA_character_,
           treatment = if (\"treatment\" %in% names(pick(everything()))) paste(unique(as.character(treatment)), collapse = \";\") else NA_character_,
-          comments  = if (\"comments\" %in% names(pick(everything()))) paste(unique(as.character(comments)), collapse = \";\") else NA_character_,
+          comments  = if (\"comments\" %in% names(pick(everything())))
+                        comments %>% stringr::str_trim() %>% dplyr::na_if(\"\") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse=\"; \")
+                      else NA_character_,
           dilution  = if (\"dilution\" %in% names(pick(everything()))) paste(unique(as.character(dilution)), collapse = \";\") else NA_character_,
           matrix    = if (\"matrix\" %in% names(pick(everything()))) paste(unique(as.character(matrix)), collapse = \";\") else NA_character_
         ) %>%
