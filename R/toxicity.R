@@ -320,6 +320,32 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       )
     )
 
+  writelog(
+    "\n### User opted not to include controls in summary table output - set the summary variable equal to results_summary\n  ",
+    logfile = logfile,
+    code = '
+      # Check for all result/control NA
+      check_all_na <- summary %>%
+        group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+        summarize(
+          allna = all(is.na(result)) || all(is.na(result_control))
+        ) %>%
+        filter(allna)
+      badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
+      if (length(badtoxbatches) > 0)
+        warning(
+          paste(
+            paste(
+              "For the toxbatches ",
+              str_flatten_comma(badtoxbatches),
+              ": all results and/or control results were missing values",
+              sep = ""
+            )
+          )
+        )
+      ',
+    verbose = verbose
+  )
 
 
 
