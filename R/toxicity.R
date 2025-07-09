@@ -357,7 +357,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
       endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
       qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(unique(as.character(qacode)), collapse = ";"), NA_character_),
-      treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+      treatment = ifelse ("treatment" %in% names(pick(everything())), case_when(
+        treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")
+      ), NA_character_),
       comments  = ifelse ("comments" %in% names(pick(everything())), paste(unique(as.character(comments)), collapse = ";"), NA_character_),
       dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
       matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
@@ -412,7 +415,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
           endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
           qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(unique(as.character(qacode)), collapse = ";"), NA_character_),
-          treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())), case_when(
+            treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+            .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")
+          ), NA_character_),
           comments  = ifelse ("comments" %in% names(pick(everything())), paste(unique(as.character(comments)), collapse = ";"), NA_character_),
           dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
           matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
