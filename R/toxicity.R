@@ -41,7 +41,6 @@
 #' @importFrom plyr rbind.fill
 #' @importFrom stats t.test
 #' @importFrom tidyr separate
-#' @importFrom tibble is_tibble
 #' @import dplyr
 #' @export
 

@@ -29,19 +29,18 @@ License: CCO
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    dbplyr,
-    reshape2,
-    vegan,
-    dplyr,
-    plyr,
-    purrr,
-    stringr,
-    tidyr,
-    lubridate,
-    DT,
-    knitr,
-    rmarkdown,
-    tibble
+  dbplyr,
+  reshape2,
+  vegan,
+  dplyr,
+  plyr,
+  purrr,
+  stringr,
+  tidyr,
+  lubridate,
+  DT,
+  knitr,
+  rmarkdown
 Depends: 
   R (>= 3.5.0)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.2.3
