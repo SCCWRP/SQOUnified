@@ -322,7 +322,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     )
 
   writelog(
-    "\n### User opted not to include controls in summary table output - set the summary variable equal to results_summary\n  ",
+    "\n### For a group, all of the means for the treatment or the control groups were missing. Warn the user.\n  ",
     logfile = logfile,
     code = '
       # Check for all result/control NA
