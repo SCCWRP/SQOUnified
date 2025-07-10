@@ -371,12 +371,12 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     summarize(
       p = tryCatch({
         # it errors out when you pass two constant vectors as the first two arguments
-        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
       },
       warning = function(w){
         # If there was a warning, we still want the output of the function
         return(
-          t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+          t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
         )
       },
       error = function(err){
@@ -404,22 +404,23 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # New - include these columns in the output summary table
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
       # These columns may or may not be there in the original data
-      units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-      endpoint = ifelse("endpoint" %in% names(summary), paste(unique(summary[["endpoint"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      qacode = ifelse("qacode" %in% names(summary), paste(unique(summary[["qacode"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      comments = ifelse("comments" %in% names(summary), paste(unique(summary[["comments"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      matrix = ifelse("matrix" %in% names(summary), paste(unique(summary[["matrix"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+      units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+      endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+      qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(unique(as.character(qacode)), collapse = ";"), NA_character_),
+      treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+      comments  = ifelse ("comments" %in% names(pick(everything())), paste(unique(as.character(comments)), collapse = ";"), NA_character_),
+      dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
+      matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
     ) %>%
     ungroup() %>%
     mutate(
       sigdiff = if_else(p < 0.05, TRUE, FALSE)
     )
+
   writelog(
     "\n### Get the tox summary statistics\n  ",
     logfile = logfile,
-    code = "
+    code = '
       # Get the stats
       summary <- summary %>%
         group_by(
@@ -428,12 +429,12 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         summarize(
           p = tryCatch({
             # it errors out when you pass two constant vectors as the first two arguments
-            t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+            t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
           },
           warning = function(w){
             # If there was a warning, we still want the output of the function
             return(
-              t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+              t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
             )
           },
           error = function(err){
@@ -454,20 +455,26 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           pct_result_adj = (pct_result / pct_control) * 100,
           stddev = sd(result, na.rm = T),
           cv = stddev / pct_result,
+          #n = n()
+          # April 15, 2025 - let n be the number of not-null replicate result values
           n = sum(!is.na(result)),
-          units = ifelse(\"units\" %in% names(summary), paste(unique(summary[[\"units\"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-          endpoint = ifelse(\"endpoint\" %in% names(summary), paste(unique(summary[[\"endpoint\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          qacode = ifelse(\"qacode\" %in% names(summary), paste(unique(summary[[\"qacode\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          treatment = ifelse(\"treatment\" %in% names(summary), paste(unique(summary[[\"treatment\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          comments = ifelse(\"comments\" %in% names(summary), paste(unique(summary[[\"comments\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          dilution = ifelse(\"dilution\" %in% names(summary), paste(unique(summary[[\"dilution\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          matrix = ifelse(\"matrix\" %in% names(summary), paste(unique(summary[[\"matrix\"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+
+          # New - include these columns in the output summary table
+          # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
+          # These columns may or may not be there in the original data
+          units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+          endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+          qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(unique(as.character(qacode)), collapse = ";"), NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+          comments  = ifelse ("comments" %in% names(pick(everything())), paste(unique(as.character(comments)), collapse = ";"), NA_character_),
+          dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
+          matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
         ) %>%
         ungroup() %>%
         mutate(
           sigdiff = if_else(p < 0.05, TRUE, FALSE)
         )
-    ",
+    ',
     data = summary %>% head(25),
     verbose = verbose
   )
