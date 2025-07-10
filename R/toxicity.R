@@ -407,7 +407,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
       endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
       qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "), NA_character_),
-      treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+      treatment = ifelse ("treatment" %in% names(pick(everything())), case_when(
+        treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")
+      ), NA_character_),
       comments  = if ("comments" %in% names(pick(everything())))
         comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
       else NA_character_,
@@ -466,7 +469,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
           endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
           qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "), NA_character_),
-          treatment = ifelse ("treatment" %in% names(pick(everything())), paste(unique(as.character(treatment)), collapse = ";"), NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())), case_when(
+            treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+            .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")
+          ), NA_character_),
           comments  = if ("comments" %in% names(pick(everything())))
             comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
           else NA_character_,
