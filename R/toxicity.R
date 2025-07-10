@@ -366,7 +366,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # Get the stats
   summary <- summary %>%
     group_by(
-      lab, stationid, toxbatch, species, fieldrep, sampletypecode
+      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
     ) %>%
     summarize(
       p = tryCatch({
@@ -411,7 +411,6 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       comments  = if ("comments" %in% names(pick(everything())))
         comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
       else NA_character_,
-      dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
       matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
     ) %>%
     ungroup() %>%
@@ -426,7 +425,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       # Get the stats
       summary <- summary %>%
         group_by(
-          lab, stationid, toxbatch, species, fieldrep, sampletypecode
+          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
         ) %>%
         summarize(
           p = tryCatch({
@@ -460,6 +459,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           #n = n()
           # April 15, 2025 - let n be the number of not-null replicate result values
           n = sum(!is.na(result)),
+
           # New - include these columns in the output summary table
           # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
           # These columns may or may not be there in the original data
@@ -470,7 +470,6 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           comments  = if ("comments" %in% names(pick(everything())))
             comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
           else NA_character_,
-          dilution  = ifelse ("dilution" %in% names(pick(everything())), paste(unique(as.character(dilution)), collapse = ";"), NA_character_),
           matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
         ) %>%
         ungroup() %>%
