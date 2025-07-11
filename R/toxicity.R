@@ -302,7 +302,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   # Check for all result/control NA
   check_all_na <- summary %>%
-    group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+    group_by(
+      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
+    ) %>%
     summarize(
       allna = all(is.na(result)) || all(is.na(result_control))
     ) %>%
@@ -326,7 +328,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     code = '
       # Check for all result/control NA
       check_all_na <- summary %>%
-        group_by(lab, stationid, toxbatch, species, fieldrep, sampletypecode) %>%
+        group_by(
+          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
+        ) %>%
         summarize(
           allna = all(is.na(result)) || all(is.na(result_control))
         ) %>%
