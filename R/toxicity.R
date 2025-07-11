@@ -417,7 +417,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
                                     .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
                           NA_character_),
       comments  = ifelse ("comments" %in% names(pick(everything())),
-                          comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; "),
+                          comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>% stringr::str_flatten(collapse="; "),
                           NA_character_),
       matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
     ) %>%
