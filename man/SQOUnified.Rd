@@ -12,7 +12,8 @@ SQOUnified(
   tox = NULL,
   logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S"),
     "log.Rmd"),
-  verbose = F
+  verbose = F,
+  knitlog = F
 )
 }
 \arguments{
