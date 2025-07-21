@@ -158,7 +158,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     create_download_link(data = tox.summary.input, logfile = logfile, filename = 'tox.summary-input-step0.2.2.csv', linktext = 'Download Input to Tox Summary with fieldrep column added', verbose = verbose)
   }
 
-  # here we separate the controls from the rest of the samples
+  # Separate the controls from the rest of the samples
   controls <- tox.summary.input %>%
     filter(
       (sampletypecode %in% control.sampletypes)
@@ -167,7 +167,13 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog(
     "\n### Separate the controls from the rest of the samples:\n  ",
     logfile = logfile,
-    code = "controls <- tox.summary.input %>% filter( stationid == '0000', (sampletypecode %in% control.sampletypes) )",
+    code = '
+      # Separate the controls from the rest of the samples
+      controls <- tox.summary.input %>%
+        filter(
+          (sampletypecode %in% control.sampletypes)
+        )
+    ',
     data = controls,
     verbose = verbose
   )
