@@ -233,19 +233,19 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   results_summary <- results %>%
     full_join(
       controls,
-      by = c('toxbatch','species','labrep','lab'),
-      suffix = c('','_control')
+      by = c("toxbatch", "species", "labrep", "lab"),
+      suffix = c("", "_control")
     )
   writelog(
     "\n### Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
     logfile = logfile,
     code = '
       results_summary <- results %>%
-        full_join(
-          controls,
-          by = c('toxbatch','species','labrep','lab'),
-          suffix = c('','_control')
-        )
+      full_join(
+        controls,
+        by = c("toxbatch", "species", "labrep", "lab"),
+        suffix = c("", "_control")
+      )
     ',
     data = results_summary %>% head(25),
     verbose = verbose
@@ -540,9 +540,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       sqo_category_value_initial = case_when(
         sampletypecode %in% control.sampletypes ~ NA_real_,
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-        (endpoint_method != 'Growth') & (result_mean >= nontox) ~ 1,
+        (endpoint_method != "Growth") & (result_mean >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == 'Growth') & (pct_control >= nontox) ~ 1,
+        (endpoint_method == "Growth") & (pct_control >= nontox) ~ 1,
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
         # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
         pct_control >= lowtox ~ 2,
@@ -559,10 +559,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         sqo_category_value_initial
       ),
       sqo_category = case_when(
-        sqo_category_value == 1 ~ 'Nontoxic',
-        sqo_category_value == 2 ~ 'Low Toxicity',
-        sqo_category_value == 3 ~ 'Moderate Toxicity',
-        sqo_category_value == 4 ~ 'High Toxicity',
+        sqo_category_value == 1 ~ "Nontoxic",
+        sqo_category_value == 2 ~ "Low Toxicity",
+        sqo_category_value == 3 ~ "Moderate Toxicity",
+        sqo_category_value == 4 ~ "High Toxicity",
         TRUE ~ NA_character_
       )
     )
@@ -576,9 +576,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           sqo_category_value_initial = case_when(
             sampletypecode %in% control.sampletypes ~ NA_real_,
             # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-            (endpoint_method != 'Growth') & (result_mean >= nontox) ~ 1,
+            (endpoint_method != "Growth") & (result_mean >= nontox) ~ 1,
             # for Growth, we consider the control adjusted mean percentage
-            (endpoint_method == 'Growth') & (pct_control >= nontox) ~ 1,
+            (endpoint_method == "Growth") & (pct_control >= nontox) ~ 1,
             # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
             # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
             pct_control >= lowtox ~ 2,
@@ -595,10 +595,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
             sqo_category_value_initial
           ),
           sqo_category = case_when(
-            sqo_category_value == 1 ~ 'Nontoxic',
-            sqo_category_value == 2 ~ 'Low Toxicity',
-            sqo_category_value == 3 ~ 'Moderate Toxicity',
-            sqo_category_value == 4 ~ 'High Toxicity',
+            sqo_category_value == 1 ~ "Nontoxic",
+            sqo_category_value == 2 ~ "Low Toxicity",
+            sqo_category_value == 3 ~ "Moderate Toxicity",
+            sqo_category_value == 4 ~ "High Toxicity",
             TRUE ~ NA_character_
           )
         )
