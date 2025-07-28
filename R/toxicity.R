@@ -530,6 +530,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     mutate(
       # CASQO Technical Manual page 106-108 (June 2021 Edition)
       sqo_category_value_initial = case_when(
+        sampletypecode %in% control.sampletypes ~ NA_real_,
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
         (endpoint_method != 'Growth') & (result_mean >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
