@@ -239,14 +239,14 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog(
     "\n### Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
     logfile = logfile,
-    code = "
+    code = '
       results_summary <- results %>%
-        inner_join(
+        full_join(
           controls,
           by = c('toxbatch','species','labrep','lab'),
           suffix = c('','_control')
         )
-    ",
+    ',
     data = results_summary %>% head(25),
     verbose = verbose
   )
@@ -353,7 +353,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
             )
           )
         )
-      ',
+    ',
     verbose = verbose
   )
 
@@ -471,26 +471,32 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           ),
           result_mean = mean(result, na.rm = T),
           control_mean = mean(result_control, na.rm = T),
-          pct_control = (result_mean / control_mean) * 100,
+          pct_control = ifelse(all(is.na(result_control)),
+                               NA_real_,
+                               (100 * (result_mean %>% purrr::discard(is.na)) / (control_mean %>% purrr::discard(is.na)))),
           stddev = sd(result, na.rm = T),
           cv = stddev / result_mean,
           #n = n()
           # April 15, 2025 - let n be the number of not-null replicate result values
-          n = sum(!is.na(result)),
+          n = length(result %>% purrr::discard(is.na)),
 
           # New - include these columns in the output summary table
           # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
           # These columns may or may not be there in the original data
           units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
           endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-          qacode    = ifelse ("qacode" %in% names(pick(everything())), paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "), NA_character_),
-          treatment = ifelse ("treatment" %in% names(pick(everything())), case_when(
-            treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
-            .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")
-          ), NA_character_),
-          comments  = if ("comments" %in% names(pick(everything())))
-            comments %>% stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_flatten(collapse="; ")
-          else NA_character_,
+          qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
+                              paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
+                              NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())),
+                              case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+                                        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
+                              NA_character_),
+          comments  = ifelse ("comments" %in% names(pick(everything())),
+                              comments %>%
+                                stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                                stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
+                              NA_character_),
           matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
         ) %>%
         ungroup() %>%
@@ -562,11 +568,13 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     )
   writelog(
     "\n### Assign SQO categories\n  ",
-    code = "
+    code = '
+      # Assign SQO categories
       summary <- summary %>%
         mutate(
           # CASQO Technical Manual page 106-108 (June 2021 Edition)
           sqo_category_value_initial = case_when(
+            sampletypecode %in% control.sampletypes ~ NA_real_,
             # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
             (endpoint_method != 'Growth') & (result_mean >= nontox) ~ 1,
             # for Growth, we consider the control adjusted mean percentage
@@ -594,7 +602,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
             TRUE ~ NA_character_
           )
         )
-    ",
+    ',
     data = summary %>% head(25),
     logfile = logfile,
     verbose = verbose
@@ -623,7 +631,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   writelog(
     "\n### Finalize selection and naming of columns\n  ",
-    code = "
+    code = '
       # Finalize selection and naming of columns
       summary <- summary %>%
         select(-c(nontox, lowtox, modtox, hightox)) %>%
@@ -634,15 +642,15 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           toxbatch = toxbatch,
           sampletypecode = sampletypecode,
           `P Value` = p,
-          `Mean` = pct_result,
-          `Control Adjusted Mean` = pct_result_adj,
+          `Mean` = result_mean,
+          `Control Adjusted Mean` = pct_control,
           `Endpoint Method` = endpoint_method,
           `Standard Deviation` = stddev,
           `Coefficient of Variance` = cv,
           Score = sqo_category_value,
           Category = sqo_category
         )
-    ",
+    ',
     data = summary %>% head(25),
     logfile = logfile,
     verbose = verbose
