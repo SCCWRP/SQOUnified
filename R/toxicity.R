@@ -39,7 +39,7 @@
 #' tox.summary(tox_sampledata)
 #'
 #' @importFrom plyr rbind.fill
-#' @importFrom stats t.test
+#' @importFrom stats t.test na.omit
 #' @importFrom tidyr separate
 #' @import dplyr
 #' @export
@@ -231,7 +231,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   # Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'
   results_summary <- results %>%
-    inner_join(
+    full_join(
       controls,
       by = c('toxbatch','species','labrep','lab'),
       suffix = c('','_control')
@@ -403,19 +403,21 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       ),
       result_mean = mean(result, na.rm = T),
       control_mean = mean(result_control, na.rm = T),
-      pct_control = (result_mean / control_mean) * 100,
+      pct_control = ifelse(all(is.na(result_control)),
+                           NA_real_,
+                           (100 * (result_mean %>% purrr::discard(is.na)) / (control_mean %>% purrr::discard(is.na)))),
       stddev = sd(result, na.rm = T),
       cv = stddev / result_mean,
       #n = n()
       # April 15, 2025 - let n be the number of not-null replicate result values
-      n = sum(!is.na(result)),
+      n = length(result %>% purrr::discard(is.na)),
 
       # New - include these columns in the output summary table
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
       # These columns may or may not be there in the original data
       units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
       endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-      qacode    = ifelse ("qacode" %in% names(pick(everything())),
+      qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
                           paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
                           NA_character_),
       treatment = ifelse ("treatment" %in% names(pick(everything())),
