@@ -374,25 +374,42 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   # Get the stats
   summary <- summary %>%
+    dplyr::filter(sampletypecode %in% c(results.sampletypes, control.sampletypes)) %>%
+    dplyr::mutate(
+      accepted_results = dplyr::case_when(
+        stringr::str_detect(qacode, "A") ~ result,
+        TRUE ~ NA_real_
+      ),
+      accepted_results_control = dplyr::case_when(
+        stringr::str_detect(qacode, "A") ~ result_control,
+        TRUE ~ NA_real_
+      )
+    ) %>%
     group_by(
       across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
     ) %>%
     summarize(
       p = tryCatch({
         # it errors out when you pass two constant vectors as the first two arguments
-        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
+        t.test(
+          x = accepted_results %>% purrr::discard(is.na),
+          y = accepted_results_control %>% purrr::discard(is.na),
+          mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
       },
       warning = function(w){
         # If there was a warning, we still want the output of the function
         return(
-          t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
+          t.test(
+            x = accepted_results %>% purrr::discard(is.na),
+            y = accepted_results_control %>% purrr::discard(is.na),
+            mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
         )
       },
       error = function(err){
-        if(all(is.na(result)) || all(is.na(result_control))){
+        if(all(is.na(accepted_results)) || all(is.na(accepted_results_control))){
           # It is possible for one or both of these two vectors to be all NA values.
           return(NA_real_)
-        } else if (all(result == result_control)) {
+        } else if (all(accepted_results == accepted_results_control)) {
           # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
           return(NA_real_)
         } else {
@@ -401,16 +418,16 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         }
       }
       ),
-      result_mean = mean(result, na.rm = T),
-      control_mean = mean(result_control, na.rm = T),
-      pct_control = ifelse(all(is.na(result_control)),
+      result_mean = mean(accepted_results, na.rm = T),
+      control_mean = mean(accepted_results_control, na.rm = T),
+      pct_control = ifelse(all(is.na(accepted_results_control)),
                            NA_real_,
-                           (100 * (result_mean %>% purrr::discard(is.na)) / (control_mean %>% purrr::discard(is.na)))),
-      stddev = sd(result, na.rm = T),
+                           (100 * (result_mean / control_mean))),
+      stddev = sd(accepted_results, na.rm = T),
       cv = stddev / result_mean,
       #n = n()
       # April 15, 2025 - let n be the number of not-null replicate result values
-      n = length(result %>% purrr::discard(is.na)),
+      n = length(accepted_results %>% purrr::discard(is.na)),
 
       # New - include these columns in the output summary table
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
