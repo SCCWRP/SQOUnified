@@ -46,7 +46,7 @@
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
 # DEFAULT leave it out and do only grabs
-tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
+tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
