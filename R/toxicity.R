@@ -401,13 +401,16 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
         }
       }
       ),
-      result_mean = mean(result, na.rm = T),
-      control_mean = mean(result_control, na.rm = T),
-      pct_control = ifelse(all(is.na(result_control)),
-                           NA_real_,
-                           (100 * (result_mean %>% purrr::discard(is.na)) / (control_mean %>% purrr::discard(is.na)))),
-      stddev = sd(result, na.rm = T),
-      cv = stddev / result_mean,
+
+      # mean can return NaN or NA in certain cases.
+      result_mean = mean(result, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+      control_mean = mean(result_control, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+      # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
+      pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
+      stddev = sd(result, na.rm = TRUE),
+      # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
+      cv = stddev / dplyr::na_if(result_mean, 0),
+
       #n = n()
       # April 15, 2025 - let n be the number of not-null replicate result values
       n = length(result %>% purrr::discard(is.na)),
@@ -469,13 +472,16 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
             }
           }
           ),
-          result_mean = mean(result, na.rm = T),
-          control_mean = mean(result_control, na.rm = T),
-          pct_control = ifelse(all(is.na(result_control)),
-                               NA_real_,
-                               (100 * (result_mean %>% purrr::discard(is.na)) / (control_mean %>% purrr::discard(is.na)))),
-          stddev = sd(result, na.rm = T),
-          cv = stddev / result_mean,
+
+          # mean returns NaN if the vector is empty. Handle that case.
+          result_mean = mean(result, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
+          control_mean = mean(result_control, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
+          # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
+          pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
+          stddev = sd(result, na.rm = TRUE),
+          # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
+          cv = stddev / dplyr::na_if(result_mean, 0),
+
           #n = n()
           # April 15, 2025 - let n be the number of not-null replicate result values
           n = length(result %>% purrr::discard(is.na)),
