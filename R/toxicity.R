@@ -39,14 +39,14 @@
 #' tox.summary(tox_sampledata)
 #'
 #' @importFrom plyr rbind.fill
-#' @importFrom stats t.test
+#' @importFrom stats t.test na.omit
 #' @importFrom tidyr separate
 #' @import dplyr
 #' @export
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
-# DEFAULT leave it out and do only grabs
-tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
+# DEFAULT leave it out and do only Results
+tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -158,7 +158,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     create_download_link(data = tox.summary.input, logfile = logfile, filename = 'tox.summary-input-step0.2.2.csv', linktext = 'Download Input to Tox Summary with fieldrep column added', verbose = verbose)
   }
 
-  # here we separate the controls from the rest of the samples
+  # Separate the controls from the rest of the samples
   controls <- tox.summary.input %>%
     filter(
       (sampletypecode %in% control.sampletypes)
@@ -167,7 +167,13 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   writelog(
     "\n### Separate the controls from the rest of the samples:\n  ",
     logfile = logfile,
-    code = "controls <- tox.summary.input %>% filter( stationid == '0000', (sampletypecode %in% control.sampletypes) )",
+    code = '
+      # Separate the controls from the rest of the samples
+      controls <- tox.summary.input %>%
+        filter(
+          (sampletypecode %in% control.sampletypes)
+        )
+    ',
     data = controls,
     verbose = verbose
   )
@@ -225,22 +231,22 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   # Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'
   results_summary <- results %>%
-    inner_join(
+    full_join(
       controls,
-      by = c('toxbatch','species','labrep','lab'),
-      suffix = c('','_control')
+      by = c("toxbatch", "species", "labrep", "lab"),
+      suffix = c("", "_control")
     )
   writelog(
     "\n### Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
     logfile = logfile,
-    code = "
+    code = '
       results_summary <- results %>%
-        inner_join(
-          controls,
-          by = c('toxbatch','species','labrep','lab'),
-          suffix = c('','_control')
-        )
-    ",
+      full_join(
+        controls,
+        by = c("toxbatch", "species", "labrep", "lab"),
+        suffix = c("", "_control")
+      )
+    ',
     data = results_summary %>% head(25),
     verbose = verbose
   )
@@ -300,6 +306,56 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   }
 
+  # Check for all result/control NA
+  check_all_na <- summary %>%
+    group_by(
+      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
+    ) %>%
+    summarize(
+      allna = all(is.na(result)) || all(is.na(result_control))
+    ) %>%
+    filter(allna)
+  badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
+  if (is.vector(badtoxbatches) && length(badtoxbatches))
+    warning(
+      paste(
+        paste(
+          "For the toxbatches ",
+          str_flatten_comma(badtoxbatches),
+          ": all results and/or control results were missing values",
+          sep = ""
+        )
+      )
+    )
+
+  writelog(
+    "\n### For a group, all of the means for the treatment or the control groups were missing. Warn the user.\n  ",
+    logfile = logfile,
+    code = '
+      # Check for all result/control NA
+      check_all_na <- summary %>%
+        group_by(
+          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
+        ) %>%
+        summarize(
+          allna = all(is.na(result)) || all(is.na(result_control))
+        ) %>%
+        filter(allna)
+      badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
+      if (is.vector(badtoxbatches) && length(badtoxbatches))
+        warning(
+          paste(
+            paste(
+              "For the toxbatches ",
+              str_flatten_comma(badtoxbatches),
+              ": all results and/or control results were missing values",
+              sep = ""
+            )
+          )
+        )
+    ',
+    verbose = verbose
+  )
 
 
 
@@ -319,21 +375,24 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
   # Get the stats
   summary <- summary %>%
     group_by(
-      lab, stationid, toxbatch, species, fieldrep, sampletypecode
+      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
     ) %>%
     summarize(
       p = tryCatch({
         # it errors out when you pass two constant vectors as the first two arguments
-        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
       },
       warning = function(w){
         # If there was a warning, we still want the output of the function
         return(
-          t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+          t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
         )
       },
       error = function(err){
-        if(all(result == result_control)){
+        if(all(is.na(result)) || all(is.na(result_control))){
+          # It is possible for one or both of these two vectors to be all NA values.
+          return(NA_real_)
+        } else if (all(result == result_control)) {
           # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
           return(NA_real_)
         } else {
@@ -342,52 +401,69 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         }
       }
       ),
-      pct_result = mean(result, na.rm = T),
-      pct_control = mean(result_control, na.rm = T),
-      pct_result_adj = (pct_result / pct_control) * 100,
-      stddev = sd(result, na.rm = T),
-      cv = stddev / pct_result,
+
+      # mean can return NaN or NA in certain cases.
+      result_mean = mean(result, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+      control_mean = mean(result_control, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+      # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
+      pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
+      stddev = sd(result, na.rm = TRUE),
+      # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
+      cv = stddev / dplyr::na_if(result_mean, 0),
+
       #n = n()
       # April 15, 2025 - let n be the number of not-null replicate result values
-      n = sum(!is.na(result)),
+      n = length(result %>% purrr::discard(is.na)),
 
       # New - include these columns in the output summary table
       # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
       # These columns may or may not be there in the original data
-      units = ifelse("units" %in% names(summary), paste(unique(summary[["units"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-      endpoint = ifelse("endpoint" %in% names(summary), paste(unique(summary[["endpoint"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      qacode = ifelse("qacode" %in% names(summary), paste(unique(summary[["qacode"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      treatment = ifelse("treatment" %in% names(summary), paste(unique(summary[["treatment"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      comments = ifelse("comments" %in% names(summary), paste(unique(summary[["comments"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      dilution = ifelse("dilution" %in% names(summary), paste(unique(summary[["dilution"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-      matrix = ifelse("matrix" %in% names(summary), paste(unique(summary[["matrix"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+      units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+      endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+      qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
+                          paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
+                          NA_character_),
+      treatment = ifelse ("treatment" %in% names(pick(everything())),
+                          case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+                                    .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
+                          NA_character_),
+      comments  = ifelse ("comments" %in% names(pick(everything())),
+                          comments %>%
+                            stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                            stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
+                          NA_character_),
+      matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
     ) %>%
     ungroup() %>%
     mutate(
       sigdiff = if_else(p < 0.05, TRUE, FALSE)
     )
+
   writelog(
     "\n### Get the tox summary statistics\n  ",
     logfile = logfile,
-    code = "
+    code = '
       # Get the stats
       summary <- summary %>%
         group_by(
-          lab, stationid, toxbatch, species, fieldrep, sampletypecode
+          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
         ) %>%
         summarize(
           p = tryCatch({
             # it errors out when you pass two constant vectors as the first two arguments
-            t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+            t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
           },
           warning = function(w){
             # If there was a warning, we still want the output of the function
             return(
-              t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2
+              t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
             )
           },
           error = function(err){
-            if(all(result == result_control)){
+            if(all(is.na(result)) || all(is.na(result_control))){
+              # It is possible for one or both of these two vectors to be all NA values.
+              return(NA_real_)
+            } else if (all(result == result_control)) {
               # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
               return(NA_real_)
             } else {
@@ -396,25 +472,44 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
             }
           }
           ),
-          pct_result = mean(result, na.rm = T),
-          pct_control = mean(result_control, na.rm = T),
-          pct_result_adj = (pct_result / pct_control) * 100,
-          stddev = sd(result, na.rm = T),
-          cv = stddev / pct_result,
-          n = sum(!is.na(result)),
-          units = ifelse(\"units\" %in% names(summary), paste(unique(summary[[\"units\"]] %>% as.character() ), collapse = ';' ) ,  NA_character_),
-          endpoint = ifelse(\"endpoint\" %in% names(summary), paste(unique(summary[[\"endpoint\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          qacode = ifelse(\"qacode\" %in% names(summary), paste(unique(summary[[\"qacode\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          treatment = ifelse(\"treatment\" %in% names(summary), paste(unique(summary[[\"treatment\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          comments = ifelse(\"comments\" %in% names(summary), paste(unique(summary[[\"comments\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          dilution = ifelse(\"dilution\" %in% names(summary), paste(unique(summary[[\"dilution\"]] %>% as.character() ), collapse = ';' ),  NA_character_),
-          matrix = ifelse(\"matrix\" %in% names(summary), paste(unique(summary[[\"matrix\"]] %>% as.character() ), collapse = ';' ),  NA_character_)
+
+          # mean returns NaN if the vector is empty. Handle that case.
+          result_mean = mean(result, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
+          control_mean = mean(result_control, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
+          # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
+          pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
+          stddev = sd(result, na.rm = TRUE),
+          # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
+          cv = stddev / dplyr::na_if(result_mean, 0),
+
+          #n = n()
+          # April 15, 2025 - let n be the number of not-null replicate result values
+          n = length(result %>% purrr::discard(is.na)),
+
+          # New - include these columns in the output summary table
+          # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
+          # These columns may or may not be there in the original data
+          units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+          endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+          qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
+                              paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
+                              NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())),
+                              case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+                                        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
+                              NA_character_),
+          comments  = ifelse ("comments" %in% names(pick(everything())),
+                              comments %>%
+                                stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                                stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
+                              NA_character_),
+          matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
         ) %>%
         ungroup() %>%
         mutate(
           sigdiff = if_else(p < 0.05, TRUE, FALSE)
         )
-    ",
+    ',
     data = summary %>% head(25),
     verbose = verbose
   )
@@ -449,17 +544,18 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
     mutate(
       # CASQO Technical Manual page 106-108 (June 2021 Edition)
       sqo_category_value_initial = case_when(
+        sampletypecode %in% control.sampletypes ~ NA_real_,
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-        (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
+        (endpoint_method != "Growth") & (result_mean >= nontox) ~ 1,
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == 'Growth') & (pct_result_adj >= nontox) ~ 1,
+        (endpoint_method == "Growth") & (pct_control >= nontox) ~ 1,
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
         # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
-        pct_result_adj >= lowtox ~ 2,
+        pct_control >= lowtox ~ 2,
         # if modtox <= pct_result_adj < lowtox, put it in the moderate toxicity category - always
-        pct_result_adj >= modtox ~ 3,
+        pct_control >= modtox ~ 3,
         # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-        pct_result_adj < modtox ~ 4,
+        pct_control < modtox ~ 4,
         TRUE ~ NA_real_
       ),
       sqo_category_value = if_else(
@@ -469,31 +565,33 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
         sqo_category_value_initial
       ),
       sqo_category = case_when(
-        sqo_category_value == 1 ~ 'Nontoxic',
-        sqo_category_value == 2 ~ 'Low Toxicity',
-        sqo_category_value == 3 ~ 'Moderate Toxicity',
-        sqo_category_value == 4 ~ 'High Toxicity',
+        sqo_category_value == 1 ~ "Nontoxic",
+        sqo_category_value == 2 ~ "Low Toxicity",
+        sqo_category_value == 3 ~ "Moderate Toxicity",
+        sqo_category_value == 4 ~ "High Toxicity",
         TRUE ~ NA_character_
       )
     )
   writelog(
     "\n### Assign SQO categories\n  ",
-    code = "
+    code = '
+      # Assign SQO categories
       summary <- summary %>%
         mutate(
           # CASQO Technical Manual page 106-108 (June 2021 Edition)
           sqo_category_value_initial = case_when(
+            sampletypecode %in% control.sampletypes ~ NA_real_,
             # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-            (endpoint_method != 'Growth') & (pct_result >= nontox) ~ 1,
+            (endpoint_method != "Growth") & (result_mean >= nontox) ~ 1,
             # for Growth, we consider the control adjusted mean percentage
-            (endpoint_method == 'Growth') & (pct_result_adj >= nontox) ~ 1,
+            (endpoint_method == "Growth") & (pct_control >= nontox) ~ 1,
             # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
             # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
-            pct_result_adj >= lowtox ~ 2,
+            pct_control >= lowtox ~ 2,
             # if modtox <= pct_result_adj < lowtox, put it in the moderate toxicity category - always
-            pct_result_adj >= modtox ~ 3,
+            pct_control >= modtox ~ 3,
             # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-            pct_result_adj < modtox ~ 4,
+            pct_control < modtox ~ 4,
             TRUE ~ NA_real_
           ),
           sqo_category_value = if_else(
@@ -503,14 +601,14 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
             sqo_category_value_initial
           ),
           sqo_category = case_when(
-            sqo_category_value == 1 ~ 'Nontoxic',
-            sqo_category_value == 2 ~ 'Low Toxicity',
-            sqo_category_value == 3 ~ 'Moderate Toxicity',
-            sqo_category_value == 4 ~ 'High Toxicity',
+            sqo_category_value == 1 ~ "Nontoxic",
+            sqo_category_value == 2 ~ "Low Toxicity",
+            sqo_category_value == 3 ~ "Moderate Toxicity",
+            sqo_category_value == 4 ~ "High Toxicity",
             TRUE ~ NA_character_
           )
         )
-    ",
+    ',
     data = summary %>% head(25),
     logfile = logfile,
     verbose = verbose
@@ -528,8 +626,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
       toxbatch = toxbatch,
       sampletypecode = sampletypecode,
       `P Value` = p,
-      `Mean` = pct_result,
-      `Control Adjusted Mean` = pct_result_adj,
+      `Mean` = result_mean,
+      `Control Adjusted Mean` = pct_control,
       `Endpoint Method` = endpoint_method,
       `Standard Deviation` = stddev,
       `Coefficient of Variance` = cv,
@@ -539,7 +637,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
 
   writelog(
     "\n### Finalize selection and naming of columns\n  ",
-    code = "
+    code = '
       # Finalize selection and naming of columns
       summary <- summary %>%
         select(-c(nontox, lowtox, modtox, hightox)) %>%
@@ -550,15 +648,15 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Grab'), cont
           toxbatch = toxbatch,
           sampletypecode = sampletypecode,
           `P Value` = p,
-          `Mean` = pct_result,
-          `Control Adjusted Mean` = pct_result_adj,
+          `Mean` = result_mean,
+          `Control Adjusted Mean` = pct_control,
           `Endpoint Method` = endpoint_method,
           `Standard Deviation` = stddev,
           `Coefficient of Variance` = cv,
           Score = sqo_category_value,
           Category = sqo_category
         )
-    ",
+    ',
     data = summary %>% head(25),
     logfile = logfile,
     verbose = verbose
