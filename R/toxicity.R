@@ -380,7 +380,10 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     summarize(
       p = tryCatch({
         # it errors out when you pass two constant vectors as the first two arguments
-        t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
+        result_control_for_pvalue_calc = summary |>
+          dplyr::filter(toxbatch == 'Batch 3' & sampletypecode_control == 'CNEG') |>
+          select(result_control)
+        t.test(x = result, y = result_control_for_pvalue_calc, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
       },
       warning = function(w){
         # If there was a warning, we still want the output of the function
