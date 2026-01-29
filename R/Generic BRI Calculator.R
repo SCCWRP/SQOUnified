@@ -18,72 +18,72 @@
 #           latitude - station latitude in decimal degrees
 #           longitude - station longitude in decimal degrees (negative values for west longitudes)
 #       4. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
- ###########################################################  ######################################################################## 
+ ###########################################################  ########################################################################
 
 
-offshore_bri_calc_ed12<-function(file_id, infauna_path, station_path, output_path)
+offshore_bri_calc_ed14<-function(file_id, infauna_path, station_path, output_path)
   {
 require(tidyverse)
-  
+
 ####Input files
 infauna <- read.csv(infauna_path) #the user's infauna to be submitted
 station_info<-read.csv(station_path) #the user's station information to be submitted
 
 print(paste("Saving files to ", getwd(),"/", output_path, sep=""))
 
-load("Reference Files/pcode.RData") #pcode values by depth and taxa associated with pcodes
+load("Reference Files/pcode_14.RData") #pcode values by depth and taxa associated with pcodes
 
 ###            Prep the data
 
 #ensuring data are in the correct formats
-station_info.2<-station_info %>% 
+station_info.2<-station_info %>%
   mutate(stationid=as.character(stationid),
          depth=as.numeric(depth))
-infauna.2<-infauna %>% 
+infauna.2<-infauna %>%
   mutate(stationid=as.character(stationid),
          abundance=as.numeric(abundance),
          sampledate=mdy(sampledate),
          sample_id=paste(stationid, sampledate, replicate, sep="_"))
 
 #joining taxa names, and counts to depth and geographic information by the station field
-taxa_to_calc<-infauna.2 %>% select(sample_id, stationid, replicate,sampledate,taxon, abundance) %>% 
-  left_join(., select(station_info.2,stationid, depth, latitude, longitude), by="stationid") %>% 
+taxa_to_calc<-infauna.2 %>% select(sample_id, stationid, replicate,sampledate,taxon, abundance) %>%
+  left_join(., select(station_info.2,stationid, depth, latitude, longitude), by="stationid") %>%
   arrange(sample_id, desc(abundance))
 
 #output the joined taxa-station info for review
-write.csv(taxa_to_calc, paste(output_path, "/", file_id, " interim file 1 - taxa to be analyzed.csv", sep=""), row.names = FALSE) 
+write.csv(taxa_to_calc, paste(output_path, "/", file_id, " interim file 1 - taxa to be analyzed.csv", sep=""), row.names = FALSE)
 
 #rearranging the pcode values to make them easier to join to the taxa
-pcodes.2<-pcodes %>% 
+pcodes.2<-pcodes %>%
   pivot_longer(cols=-p_code, names_to="bri_dz", values_to="tol_val") %>%
   drop_na(tol_val)
 
 #joining pcode values to the taxa based upon the depth zone (bri_dz)
 all.4.bri<-taxa_to_calc %>% mutate(bri_dz=case_when(depth<25~"shallow", depth>=25&depth<=35~"shallow_mid",depth>35&depth<110~"mid",
                                                     depth>=110&depth<=130~"mid_deep",depth>130&depth<=324~"deep",
-                                                    TRUE~"out_of_range")) %>% 
-  #filter(abundance>0) %>% 
-  left_join(.,ptaxa,by=c("taxon"="taxon_name")) %>% 
+                                                    TRUE~"out_of_range")) %>%
+  #filter(abundance>0) %>%
+  left_join(.,ed.14.ptaxa,by=c("taxon")) %>% #### the name of the dataframe should be changed w/ every update of the code/taxonomy list
   left_join(.,pcodes.2, by=c("p_code", "bri_dz"))
 
 # output taxa with their p-codes for review
 with.pcode<-all.4.bri %>% distinct(taxon, bri_dz,p_code) %>% drop_na(p_code) %>% arrange(taxon)
-write.csv(with.pcode, paste(output_path, "/", file_id, " interim file 2 - taxa w assigned pcodes.csv", sep=""), row.names = FALSE) 
+write.csv(with.pcode, paste(output_path, "/", file_id, " interim file 2 - taxa w assigned pcodes.csv", sep=""), row.names = FALSE)
 
 
 
 # output taxa without p-codes for review
 no.pcode<-all.4.bri %>% distinct(taxon, bri_dz,p_code) %>% filter(is.na(p_code)) %>% arrange(taxon)
-write.csv(no.pcode, paste(output_path, "/", file_id, " interim file 3 - taxa w-o pcodes.csv", sep=""), row.names = FALSE) 
+write.csv(no.pcode, paste(output_path, "/", file_id, " interim file 3 - taxa w-o pcodes.csv", sep=""), row.names = FALSE)
 
 write.csv(all.4.bri, paste(output_path, "/", file_id, " interim file 4 - taxa and pcodes by sample.csv",sep=""), row.names=FALSE)
 
 ####          Calculate Scores
 
-#pulling out defaunated samples and classifying them as Defaunation with a score of 5
-defaunated<-all.4.bri %>% 
-  filter(taxon=="NoOrganismsPresent") %>% 
-  select(sample_id, stationid, sampledate, replicate) %>% 
+#pulling out defaunated samples and classifying them as Defaunation and assigning a score of 5 (i.e., the worst)
+defaunated<-all.4.bri %>%
+  filter(taxon=="NoOrganismsPresent") %>%
+  select(sample_id, stationid, sampledate, replicate) %>%
   mutate(tot_bri_abun=0,
          tot_cube_abun=0,
          numerator=NaN,
@@ -95,9 +95,9 @@ defaunated.samps<-unique(defaunated$sample_id)
 
 
 #pulling out the samples outside the range of the index. They get no scores nor condition classification
-too.deep<-all.4.bri %>% 
-  filter(bri_dz=="out_of_range") %>% 
-  distinct(sample_id, stationid, sampledate, replicate) %>% 
+too.deep<-all.4.bri %>%
+  filter(bri_dz=="out_of_range") %>%
+  distinct(sample_id, stationid, sampledate, replicate) %>%
   mutate(tot_bri_abun=NaN,
          tot_cube_abun=NaN,
          numerator=NaN,
@@ -113,7 +113,7 @@ bri_scores<-all.4.bri %>%  drop_na(tol_val) %>% #drop taxa w/o a pcode
          tol_score=tol_val*cube_abun) %>% #multiplying cube root abundance by pcode tolerance values
   ungroup()
 
-bri_scores.2<-bri_scores %>% 
+bri_scores.2<-bri_scores %>%
   group_by(sample_id, stationid, sampledate,replicate, tot_bri_abun, tot_cube_abun) %>%
   summarise(numerator=sum(tol_score)) %>% #summing the cube root abundance weighted tolerance scores by station (numerator in BRI calculation)
   ungroup() %>%
@@ -127,26 +127,35 @@ bri_scores.2<-bri_scores %>%
                              bri_score>=25&bri_score<34~2,
                              bri_score>=34&bri_score<44~3,
                              bri_score>=44&bri_score<72~4,
-                             bri_score>=72~5)) %>% 
-  ungroup() %>% 
-  bind_rows(., defaunated, too.deep) 
+                             bri_score>=72~5)) %>%
+  ungroup() %>%
+  bind_rows(., defaunated, too.deep)
 
 bri_station_info<-bri_scores.2 %>% #attaching station information to the BRI scores
-  left_join(., station_info.2, by=c("stationid")) %>% 
+  left_join(., station_info.2, by=c("stationid")) %>%
   #add in index useage notes for each sample so the user can be aware
   mutate(note=case_when(sample_id%in%c(defaunated.samps)~"No fauna in sample",
                         tot_bri_abun==0~"Caution - No organisms with P-code in Sample",
                         depth>200 & depth<=324 ~"Caution - Sample deeper than Bight reccommendations but within BRI calibration",
                         depth>324~"Do Not Use - Sample deeper than BRI calibration",
-                        TRUE~"None")) %>% 
+                        TRUE~"None")) %>%
   #remove cloumns used in calculation but probably not relevant to user
-  select(., -tot_bri_abun, -tot_cube_abun, -numerator) %>% 
+  select(., -tot_bri_abun, -tot_cube_abun, -numerator) %>%
   relocate(depth, latitude, longitude, .after = replicate)
 
 
 
 #Saving the final table of BRI scores to the specified output path
 write.csv(bri_station_info, paste(output_path, "/", file_id, " final file - BRI scores by station and replicate.csv", sep=""), row.names = FALSE)
+
+#exporting everything into a single excel workbook with the BRI Scores and all of the interim files  for review
+
+#define sheet names for each data frame
+dataset_names <- list("final - BRI Scores"=bri_station_info, "int_1 - taxa submitted"=taxa_to_calc, "int_2 - taxa w pcode"=with.pcode,
+                      "int_3 - taxa wo pcode"=no.pcode, "int_4 - all taxa by sample"=all.4.bri)
+
+#export each data frame to separate sheets in same Excel file
+write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " Offshore BRI output summary.xlsx", sep=""))
 
 return(bri_station_info) #so you can see the scores in R Studio environment
 }
