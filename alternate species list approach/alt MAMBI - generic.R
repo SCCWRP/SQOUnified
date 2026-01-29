@@ -94,7 +94,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
     mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG))
 
 
- 
+
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-Input_File.0 %>%
@@ -301,7 +301,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   {
 
     TF.EG.Assignment <- EG.Assignment %>% filter(SalZone=="TF")
-    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(.,Taxon, Exclude, EG=EG_Scheme, Oligochaeta)
+    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(.,Taxon, Exclude, EG=all_of(EG_Scheme), Oligochaeta)
 
    # calculate AMBI scores for each sample
      TF.AMBI.Scores <- TF.EG.Assignment %>%
