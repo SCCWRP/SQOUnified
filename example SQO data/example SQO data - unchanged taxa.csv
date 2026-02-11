@@ -1,0 +1,493 @@
+stationid,replicate,taxon,abundance,exclude,sampledate,salinity,latitude,longitude,depth
+poor-001,1,Ampharete sp,5,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Ampharetidae,8,Yes,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphicteis sp,8,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphiduros sp,8,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphipholis sp,5,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphipoda,5,Yes,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphiporus bimaculatus,5,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphiporus californicus,51,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Amphiporus cruentatus,1,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Ampithoe valida,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Anoplodactylus nodosus,1,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Anoplodactylus viridintestinalis,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aonides sp,1,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aoroides intermedia,4,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aphelochaeta glandaria Cmplx,22,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aphelochaeta petersenae,200,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Apistobranchus ornatus,1,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aricidea (Acmira) simplex,7,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Aruga sp,7,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Berthella sp,5,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Boccardiella hamata,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Capitella capitata Cmplx,52,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Chironomidae,50,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Gnorimosphaeroma oregonense,123,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Grandidierella japonica,145,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Marphysa angelensis,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Marphysa stylobranchiata,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Monocorophium insidiosum,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Phoronida,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Polydora nuchalis,123,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Pontogeneia rostrata,52,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Protohyale frequens,2,No,9/19/2018,28,33.75301,-118.1053,3
+poor-001,1,Tryonia sp,100,No,9/19/2018,28,33.75301,-118.1053,3
+good_001,1,Acanthodoris hudsoni,24,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Acanthodoris rhodoceras,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Achelia simplissima,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Achelia sp,9,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Acidostoma hancocki,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Acteocina culcitella,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Acteocina harpa,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Acteocina sp,1,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Actiniaria,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Adula diegensis,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Aegires albopunctatus,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Aglaja ocelligera,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Aglaja sp,1,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Allorchestes angusta,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alpheidae,4,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alpheopsis equidactylus,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alpheus bellimanus,15,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alpheus clamator,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alpheus sp,5,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Alvania compacta,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Amaeana occidentalis,8,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Amathia sp,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Amathimysis trigibba,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Amblyosyllis sp,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Americhelidium sp,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca agassizi,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca brachycladus,3,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca cristata,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca lobata,3,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca milleri,50,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca pugetica,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca romigi,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampelisca sp,5,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampharete acutifrons,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampharete sp,2,Yes,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Amphioplus strongyloplax,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ampithoe plumulosa,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Aphelochaeta monilaris,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Argissa hamatipes,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Aricidea (Acmira) catherinae,6,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Axiothella sp,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Bispira sp,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Caprella natalensis,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Caulleriella pacifica,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Chaetozone corona,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Cirrophorus furcatus,65,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Cooperella subdiaphana,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Cossura candida,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Crangon alaskensis,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Crangon nigromaculata,47,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Cumingia californica,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Cylichna diegensis,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Diastylopsis tenuis,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Dorvillea (Schistomeringos) sp,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Ensis myrae,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Enteropneusta,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Gammaropsis thompsoni,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Glottidia albida,6,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Goniada maculata,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Hemipodia borealis,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Hiatella arctica,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Joeropsis dubia,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Kurtziella plumbea,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Levinsenia gracilis,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Listriella diffusa,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Lucinisca nuttalli,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Lysippe sp,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Macoma yoldiformis,7,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Maera similis,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Melinna sp,21,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Modiolus sp,8,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Nemertea,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Neosabellaria cementarium,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Nephtys caecoides,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Nephtys ferruginea,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Odostomia sp,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Paranemertes californica,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Parvilucina tenuisculpta,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Periploma discus,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Petaloclymene pacifica,3,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Photis brevipes,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Phyllodoce longipes,50,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Pitar newcombianus,42,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Platynereis bicanaliculata,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Podarkeopsis sp A,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Poecilochaetus johnsoni,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Rudilemboides sp,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Scoletoma sp B,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Semele venusta,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Sinocorophium heteroceratum,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Sthenelais tertiaglabra,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Sthenelanella uniformis,22,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Tagelus subteres,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Tellina carpenteri,75,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Thyasira flexuosa,2,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Thysanocardia nigra,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Turbonilla sp,1,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Vargula tsujii,5,No,7/17/2018,33,32.71823,-117.2304,3.2
+good_001,1,Volvulella panamica,4,No,7/17/2018,33,32.71823,-117.2304,3.2
+art_005,1,Aoroides inermis,10,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Pacifacanthomysis nephrophthalma,25,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Alpheus clamator,2,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Pseudotanais sp,2,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Calocarides sp,3,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Harmothoe sp,1,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Insecta,1,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Isaeidae,14,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Heterophoxus ellisi,5,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Rudilemboides sp,1,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Dentaliidae,1,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Ocinebrina sp,5,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Scyra acutifrons,2,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Cerebratulus marginatus,10,No,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Lineidae,2,Yes,8/16/2018,31,33.75551,-118.1299,17.8
+art_005,1,Polycirrus sp,2,No,8/16/2018,31,33.75551,-118.1299,17.8
+art-004,1,Acidostoma hancocki,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Aglaja ocelligera,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Alpheopsis equidactylus,111,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Alpheus bellimanus,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Alpheus clamator,56,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Americhelidium sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ampelisca brachycladus,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ampelisca sp,4,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ampharete acutifrons,6,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Amphiduros sp,6,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Amphipholis sp,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Amphiporus californicus,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Anchicolurus occidentalis,7,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ancula sp,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Anemonactis sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Anoplodactylus nodosus,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Anoplodactylus pacificus,9,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Anthuridae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Aoridae,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Aphrodita sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Apistobranchus ornatus,35,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Apolochus barnardi,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Argopecten ventricosus,6,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Armina californica,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Bemlos macromanus,3,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Boccardia sp,7,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Boccardiella sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Bulla gouldiana,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Bullomorpha sp A,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Bunodeopsis sp A,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Caprella equilibra,7,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Chaetopterus variopedatus Cmplx,3,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Chaetozone setosa Cmplx,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Chama arcana,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Chone sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Cirratulidae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Corophioidea,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Corymorphidae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Cossura pygodactylata,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ctenodrilus serratus,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Cyathodonta pedroana,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Cylichna diegensis,21,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Diastylopsis tenuis,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Diopatra ornata,85,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Diopatra sp,1,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Diopatra tridentata,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Diplocirrus sp SD1,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Dorvillea (Dorvillea) sp,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Drilonereis mexicana,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Drilonereis sp,32,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Eclysippe trilobata,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Eobrolgus spinosus,87,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Epilucina californica,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Epitonium hindsii,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Euclymeninae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Eulalia californiensis,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Eulalia quadrioculata,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Eunicidae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Euphilomedes carcharodonta,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Fabricinuda limnicola,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Gammaropsis sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Glottidia albida,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Glycera robusta,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Glycinde armigera,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Glycinde picta,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Grapsidae,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Gyptis sp,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Halosydna johnsoni,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Harmothoe imbricata Cmplx,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hartmanodes hartmanae,7,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hartmanodes murrius,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hemipodia borealis,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Heptacarpus sp,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hesionidae,7,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hesperonoe laevis,6,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Heteropodarke heteromorpha,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Hiatella arctica,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Incisocalliope sp,203,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Iselica ovoidea,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Kellia sp,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Laticorophium baconi,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Leucothoe alata,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Limatula saturna,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lirularia parcipicta,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Listriella melanica,34,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Listriolobus pelodes,46,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lophopanopeus bellus,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lumbrineridae,145,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lumbrineris cruzensis,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lumbrineris sp,2,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lysippe sp,6,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Lytechinus pictus,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Macoma yoldiformis,42,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Malacoplax californiensis,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Maldanidae,1,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Marphysa sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Melampus olivaceus,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Melanochlamys diomedea,78,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Metacrangon spinosissima,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Metasychis disparidentatus,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Microcosmus squamiger,58,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Microspio pigmentata,24,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Modiolus sp,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Monoculodes sp,25,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Mysidella americana,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Mysidopsis intii,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Mysidopsis sp,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Mytilidae,1,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Naineris uncinata,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Neolepton sp,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Nephtys sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Nereididae,8,Yes,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Nereis sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Nuttallia nuttallii,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ocinebrina sp,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Octopus sp,3,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Olea hansineensis,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Oligochaeta,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ophelia sp,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Ophiuroidea,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Orchomene sp,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Paracaprella sp,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Paracerceis cordata,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Paradexamine sp SD1,42,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Pectinaria californiensis,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Petricola carditoides,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Pholoides asperus,97,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Photis bifurcata,41,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Photis californica,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Pitar newcombianus,65,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Platynereis bicanaliculata,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Poecilochaetus johnsoni,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Polydora limicola,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Protodorvillea gracilis,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Protomedeia articulata Cmplx,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Pseudofabriciola californica,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Pseudopotamilla sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Rhepoxynius sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Rhepoxynius sp A,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Runcinidae,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Rutiderma lomae,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Scyphoproctus oculatus,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Semele venusta,45,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Sige sp A,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Siriella pacifica,3,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Solen rostriformis,3,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Sphaerosyllis sp,4,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Sthenelais tertiaglabra,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Streblospio benedicti,8,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Styelidae,35,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Syllides sp,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Tagelus sp,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Tanaidacea,5,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Teinostoma supravallatum,242,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Tresus sp,7,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Tritella sp,42,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Trypanosyllis sp,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Tubulanidae,1,No,8/8/2018,30,32.6895,-117.238,12.8
+art-004,1,Xenoleberis californica,2,No,8/8/2018,30,32.6895,-117.238,12.8
+art-003,1,Amblyosyllis sp,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ampelisca milleri,58,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ampelisca pugetica,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ampithoe plumulosa,50,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Aricidea (Aricidea) wassi,13,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Armina californica,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Boccardiella hamata,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Branchiosyllis sp,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Caprella sp,9,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Caridea,13,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Caulleriella pacifica,11,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Chaetozone setosa Cmplx,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Columbiaemysis ignota,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Dendraster sp,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Dulichia sp,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ericthonius brasiliensis,6,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Gammaridea,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Halcampidae,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Hesionura coineaui difficilis,2,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Irusella lamellifera,25,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Isaeidae,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Levinsenia gracilis,24,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Liljeborgia geminata,10,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Lophopanopeus leucomanus,4,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Lumbrineris japonica,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Malacoplax californiensis,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Melanochlamys diomedea,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Mya arenaria,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Nephtys californiensis,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Nephtys simoni,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Nereis latescens,2,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ogyrides sp A,8,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Olea hansineensis,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Oligochaeta,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ophelia sp,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Ostrea sp,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Paradiopatra parva,2,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Paranthura elegans,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Philine sp,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Pholoe sp,7,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Pholoides asperus,6,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Rhamphidonta retifera,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Scalibregma californicum,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Scoletoma sp,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Scoloplos armiger Cmplx,56,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Semele venusta,2,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Spiophanes duplex,5,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Styelidae,56,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Tritonia sp,11,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Trypanosyllis sp,1,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Upogebia sp,52,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-003,1,Uromunna ubiquita,3,No,7/18/2018,30,32.72496,-117.1834,4.3
+art-002,1,Acanthodoris rhodoceras,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Achelia simplissima,28,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Acteocina culcitella,12,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Actiniaria,25,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Adula diegensis,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Agnezia septentrionalis,4,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Amaeana occidentalis,11,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Amblyosyllis sp,100,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Ampharete acutifrons,35,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Aricidea (Aricidea) wassi,82,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Ascidiacea,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Asthenothaerus diegensis,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Atylus tridens,256,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Bathyleberis sp,56,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Betaeus longidactylus,3,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Betaeus sp,3,Yes,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Boccardia proboscidea,12,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Caecum crebricinctum,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Capitellidae,8,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Caudina arenicola,300,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Ceradocus spinicaudus,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Cerithiopsis sp,11,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Chauliopleona dentata,64,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Cossura sp A,78,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Crepidula sp,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Decamastus gracilis,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Diastylis crenellata,8,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Diptera,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Euclymeninae,3,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Eupolymnia heterobranchia,36,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Exogone lourei,8,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Syllidae,3,Yes,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Exosphaeroma rhomburum,8,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Fabricinuda limnicola,34,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Gammaropsis thompsoni,6,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Golfingia sp,95,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Golfingiidae,101,Yes,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Gyptis sp,9,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Heterospio catalinensis,3,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Hiatella arctica,28,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Hippolyte californiensis,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Laticorophium baconi,220,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Leitoscoloplos panamensis,14,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Listriella melanica,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Lophopanopeus leucomanus,26,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Lytechinus pictus,9,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Malacoplax californiensis,63,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Marphysa angelensis,3,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Megamoera subtener,22,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Monocorophium sp,29,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Mytilidae,23,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Navanax inermis,10,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Nereis sp,3,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Octopus sp,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Ogyrides sp A,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Ophelia sp,15,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Paracerceis sp,35,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Pherusa sp,11,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Photis californica,4,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Pilargis berkeleyae,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Pista estevanica,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Podocopida,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Polydora cornuta,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Polydora nuchalis,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Rutiderma lomae,2,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Scalibregma californicum,21,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Scolelepis sp,22,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Spio maculata,8,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Synidotea harfordi,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Tanystylum sp,4,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Terebellidae,1,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Thyasira flexuosa,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Tritonia sp,5,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-002,1,Volvulella panamica,11,No,8/8/2018,32,32.7095,-117.1869,17.4
+art-001,1,Acanthodoris rhodoceras,35,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Alpheopsis equidactylus,6,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Amathia sp,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Ampelisca brachycladus,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Ampharete sp,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Amphioplus strongyloplax,36,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Aoroides inermis,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Aricidea (Acmira) catherinae,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Aricidea (Acmira) sp,122,Yes,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Armandia brevis,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Betaeus ensenadensis,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Bispira sp,26,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Caprella alaskana,225,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Caudina arenicola,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Clymenella sp,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Maldanidae,5,Yes,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Crepidula onyx,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Deflexilodes norvegicus,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Dendraster sp,2,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Eogammarus confervicolus Cmplx,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Epitonium hindsii,90,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Eulalia quadrioculata,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Eumida longicornuta,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Gammaropsis sp,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Geukensia demissa,148,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Halosydna brevisetosa,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Harmothoe imbricata Cmplx,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Hemiproto sp A,25,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Heteroserolis carinata,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Heterospio catalinensis,8,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Hiatella arctica,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Hippomedon sp,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Holmesimysis costata,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Lepidopa californica,77,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Liljeborgia geminata,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Macrochaeta sp,12,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Maera sp,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Metasychis disparidentatus,6,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Monocorophium uenoi,2,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Neastacilla californica,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Nemertea,9,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Neomysis sp,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Onuphis sp,6,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Parvilucina tenuisculpta,30,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Petricola carditoides,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Phoronida,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Phoxichilidium quadridentatum,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Phyllodoce medipapillata,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Podarkeopsis sp A,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Pristes oblongus,8,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Rictaxis punctocaelatus,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Rudilemboides sp,5,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Sabellaria gracilis,51,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Scalibregma californicum,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Scoloplos acmeceps,6,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Sphaeromatidae,1,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Sphaerosyllis californiensis,165,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Styela sp,3,No,8/13/2018,28,32.64968,-117.1086,3.7
+art-001,1,Thysanocardia nigra,2,No,8/13/2018,28,32.64968,-117.1086,3.7
