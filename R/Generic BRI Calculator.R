@@ -1,3 +1,16 @@
+#Function designed to input benthic data and calculate the offshore BRI of Smith et al. (2001)
+# it will produce an excel workbook and individual csv worksheets containing the BRI scores, as well as
+# a number of interim files so that the user can review how the index works and how it processes the data the
+# user submitted
+
+#This function requires that you have the following packages installed on your machine:
+#       1. tidyverse
+#       2. openxlsx
+#
+# in your r environments you can install packages with:  install.packages(".......")
+
+
+
 ####################################################################_#############################################################
 # Instructions for use
 # The function has 4 required inputs:
@@ -24,6 +37,7 @@
 offshore_bri_calc_ed14<-function(file_id, infauna_path, station_path, output_path)
   {
 require(tidyverse)
+require(openxlsx)
 
 ####Input files
 infauna <- read.csv(infauna_path) #the user's infauna to be submitted
