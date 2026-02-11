@@ -18,7 +18,7 @@
 #           latitude - station latitude in decimal degrees
 #           longitude - station longitude in decimal degrees (negative values for west longitudes)
 #       4. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
- ###########################################################  ########################################################################
+ ###################################################################################################################################
 
 
 offshore_bri_calc_ed14<-function(file_id, infauna_path, station_path, output_path)

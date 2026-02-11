@@ -9,7 +9,7 @@
 #
 # in your r environments you can install packages with:  install.packages(".......")
 
-##################################################################################################################################
+####################################################################################################################################
 # Instructions for use
 # The function has 3 required inputs:
 #      1. file_id - this is a quoted string for you to identify the data the BRI scores are associated with
