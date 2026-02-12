@@ -127,7 +127,7 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
            abundance_submitted=abundance, type_of_change=change_type.3)
 
 
-  write.csv(taxa.changes, paste(output_path, "/interim data prep file - ed14 to SQO LU list taxa changes.csv", sep=""), row.names = FALSE)
+  write.csv(taxa.changes, paste(output_path, "/", file_id," interim data prep file - ed14 to SQO LU list taxa changes.csv", sep=""), row.names = FALSE)
 
 # Step 5 is to create final file to run through the different indices.
 #Modern names have been changed to older, SQO-valid names and daughter taxa have been collapsed to the appropriate higher level
