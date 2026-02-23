@@ -1,5 +1,5 @@
 #' River Invertebrate Prediction and Classification System (RIVPACS) Index calculation
-#' 
+#'
 #'  The RIVPACS index is an Observed to Expected index comparing the infaunal community observed in a sample to that which would be expected to be in the
 #'  location under reference conditions based on a predictive model based on latitude, longitude, and water depth
 #'
@@ -10,7 +10,7 @@
 #   Background concepts of the index can be found in Van Sickle et al. 2006. Selecting discriminant function models for predicting the expected richness
 #       of aquatic macroinvertebrates. Freshwater Biology 51:359-372
 
-# this function, and O:E style indices in general, require an expected taxa model to be run as part of the index calculation. We have not changed the 
+# this function, and O:E style indices in general, require an expected taxa model to be run as part of the index calculation. We have not changed the
 # framework of that model since the original conception of the index in 2008. Consequently this function loads and runs that modelling function (SoCalRivpacs v2.R)
 # and its associated data. The associated data file (socal.reference.taxa) can be updated as SQO-related taxonomy is updated.
 
@@ -35,7 +35,7 @@ alt.RIVPACS.generic <- function(BenthicData, output_path, file_id)
   attach("Reference Files/SccwrpRivpacs/data/SoCalReference.RData")
   attach("Reference Files/SccwrpRivpacs/data/SoCalExample.RData")
 
-  
+
   #rectifying field and dataframe naming conventions to match pre-existing RIVPACS code
   benthic_data <- BenthicData %>%
     rename(Taxa = taxon) %>%
@@ -56,7 +56,7 @@ alt.RIVPACS.generic <- function(BenthicData, output_path, file_id)
     mutate(index="Rivpacs",score=NaN, condition_category="High Disturbance", condition_category_score=4, note="Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
-  
+
   # selecting location and depth information for a sample, which are used to assign it to a reference cluster(s) and thereby predict reference community composition
   scb.predictors<-benthic_data %>%
     select(sample_id, Latitude=latitude, Longitude=longitude, SampleDepth=depth) %>%
@@ -66,25 +66,27 @@ alt.RIVPACS.generic <- function(BenthicData, output_path, file_id)
 
     # selecting the observed taxa in each sample to compare to the model's expected reference community
    scb.taxa<-benthic_data %>%
+     filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+      #less important for rivpacs, as most higher level ID's are not in the RIVPACS model
     select(sample_id, Taxa, Abundance=abundance) %>%
-    mutate(Taxa=str_replace_all(Taxa, "[ ()]", "_")) # changing naming convention to matcht that in the discrimanant function
+    mutate(Taxa=str_replace_all(Taxa, "[ ()]", "_")) # changing naming convention to match that in the discriminant function
 
 
-  
+
   #Putting the taxa data into a taxon-abundance matrix
    scb.taxa.2 <- scb.taxa %>%
     pivot_wider(id_cols = sample_id, names_from = Taxa,
                        values_from = Abundance,  values_fill = 0) %>%
     column_to_rownames("sample_id")
 
-scb.taxa.err<-scb.taxa %>% 
-  group_by(sample_id, Taxa) %>% 
+scb.taxa.err<-scb.taxa %>%
+  group_by(sample_id, Taxa) %>%
   mutate(n=length(Abundance))
- 
+
    #submitting abiotic predictors and biotic response data to the RIVPACS discriminant function
 
    rivpacs.mod<-SoCalRivpacs.2(observed.predictors = scb.predictors, observed.taxa = scb.taxa.2)
- 
+
     # extract the observed taxa and expected taxa information from the RIVPACS function output
    oe.tab<-rivpacs.mod$oe.table %>%
     as_tibble() %>%
@@ -111,7 +113,7 @@ scb.taxa.err<-scb.taxa %>%
            #David Gillett thinks this is not necessarily a reason to dismiss the RIVPACS index score, but to be skeptical and examine it further
            note=case_when(outlier.01=='FAIL'~"Caution-Sample Outside RIVPACS habitat model",
                           TRUE~ NA),
-           index="Rivpacs") %>% 
+           index="Rivpacs") %>%
      relocate(., stationid, sampledate, replicate, O, E, index, score, outlier.05, outlier.01, note)
 
    #output RIVPACS O:E details for the use to review
@@ -126,8 +128,8 @@ scb.taxa.err<-scb.taxa %>%
             condition_category_score = case_when(condition_category == "Reference" ~ 1,
                                                  condition_category == "Low Disturbance" ~ 2,
                                                  condition_category == "Moderate Disturbance" ~ 3,
-                                                 condition_category == "High Disturbance" ~ 4)) %>% 
-    
+                                                 condition_category == "High Disturbance" ~ 4)) %>%
+
     bind_rows(defaunated,.) %>% #add the defaunated samples back in
     select(-O, -E, -outlier.05, -outlier.01) %>%
     left_join(oe.stations, ., by=c("stationid", "sampledate", "replicate"))
@@ -135,7 +137,7 @@ scb.taxa.err<-scb.taxa %>%
    write.csv(rivpacs.scores.2, file=paste(output_path,"/", file_id, " SQO RIVPACS scores.csv", sep="" ), row.names = FALSE)
 
 
- 
+
 
   return(rivpacs.scores.2)
 }

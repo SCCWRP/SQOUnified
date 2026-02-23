@@ -18,9 +18,9 @@
 #
 #   In brief, the observed values of each metric are scaled relative to values observed at reference sites in the southern California calibration data set.
 #   The scaled metric values are then combined into three meta-metrics: 1-3 as Taxa Richness Weighted Value (TWV), 4-6 as Positive Indicator Taxa (PIT), and 7-8
-#   as Negative Indicator Taxa (NIT). These three meta-metrics are combined and scaled to values observed at reference sites in the southern California 
-#   calibration data set. 
-#   
+#   as Negative Indicator Taxa (NIT). These three meta-metrics are combined and scaled to values observed at reference sites in the southern California
+#   calibration data set.
+#
 #   Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment Techincal Support Manual. SCCWRP
 #      Technical Report 777
 #    Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five indicators of benthic community condition
@@ -36,14 +36,14 @@
 #                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
 #
 # This function will produce a csv file of final RBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
-#     submitted data and how they are classified by the index, the benthic data classified into RBI metrics, and the raw and scaled metrics for 
+#     submitted data and how they are classified by the index, the benthic data classified into RBI metrics, and the raw and scaled metrics for
 #     each sample.
 
 
 alt.RBI.generic <- function(BenthicData, output_path, file_id)
 {
 
-  
+
 require(tidyverse)
 require(naniar)
   load("Reference Files/SoCal SQO LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
@@ -67,30 +67,32 @@ require(naniar)
 
   # Prepare the given data frame so that we can compute the RBI score and categories
   rbi_data <- BenthicData %>%
-    select(stationid, replicate, sampledate,taxon, abundance, exclude) %>% 
-    filter(exclude!="Yes") %>%
+    select(stationid, replicate, sampledate,taxon, abundance, exclude) %>%
+    #filter(exclude!="Yes") %>%
     left_join(orig.socal_sqo, by = c("taxon"="TaxonName")) %>%
     filter(taxon!="NoOrganismsPresent")
 
  #Export data so the user knows what is going to used in subsequent calculations
-  rbi_data.review<-rbi_data %>% 
+  rbi_data.review<-rbi_data %>%
     mutate(rich_flag=case_when(Phylum==""~0,
                                is.na(Phylum)~0,
                                TRUE~1),
            pit_flag=if_else(taxon%in%c("Monocorophium insidiosum", "Asthenothaerus diegensis","Goniada littorea"),1,0),
-           nit_flag=if_else(taxon%in%c("Capitella capitata Cmplx","Oligochaeta"), 1,0)) %>% 
-    select(stationid, sampledate, replicate, taxon, abundance, exclude, Mollusc, Crustacean, rich_flag, pit_flag, nit_flag) 
-  
+           nit_flag=if_else(taxon%in%c("Capitella capitata Cmplx","Oligochaeta"), 1,0)) %>%
+    select(stationid, sampledate, replicate, taxon, abundance, exclude, SpeciesLevel, Mollusc, Crustacean, rich_flag, pit_flag, nit_flag)
+
   write.csv(rbi_data.review, file = paste(output_path, "/", file_id, " SQO RBI interim 1 - data to be analyzed with SQO designations assigned.csv", sep=""),
             row.names = FALSE)
 
-  
+
   ####Calculate the different metrics for the RBI
   # calculate taxa richness
   rbi1<- rbi_data %>%
+    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+    #filter(SpeciesLevel!="Drop") %>%
     mutate(rich_flag=case_when(Phylum==""~0,
                                is.na(Phylum)~0,
-                               TRUE~1)) %>% 
+                               TRUE~1)) %>%
     #to keep richness values within the scope of the calibration data we do not count taxa not recognized by the original look up list
     group_by(stationid, sampledate, replicate) %>%
     summarise(NumOfTaxa = sum(rich_flag)) %>%
@@ -100,22 +102,26 @@ require(naniar)
 
   # calculate mollusc taxa richness
   rbi2 <- rbi_data %>%
+    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+    #filter(SpeciesLevel!="Drop") %>%
     mutate(flag=(case_when(Mollusc=="Mollusc"~1,
                            TRUE~0))) %>%
     group_by(stationid, sampledate, replicate) %>%
       summarise(NumOfMolluscTaxa=sum(flag)) %>%
     ungroup()
 
-  
+
   # calculate crustacean richness
   rbi3 <- rbi_data %>%
+    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+    #filter(SpeciesLevel!="Drop") %>%
     mutate(flag=case_when(Crustacean=="Crustacean"~1,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
     summarise(NumOfCrustaceanTaxa = sum(flag)) %>%
       ungroup()
 
- 
+
   # calculate crustacean abundance
   rbi4 <- rbi_data %>%
     mutate(flag=case_when(Crustacean=="Crustacean"~abundance,
@@ -124,16 +130,16 @@ require(naniar)
     summarise(CrustaceanAbun = sum(flag)) %>%
     ungroup()
 
-  
+
   # calculate abundance of M. insidiosum
   rbi5 <- rbi_data %>%
-    mutate(flag=case_when(taxon == "Monocorophium insidiosum"~abundance, 
+    mutate(flag=case_when(taxon == "Monocorophium insidiosum"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
     summarise(M_insidiosumAbun = sum(flag)) %>%
     ungroup()
 
-  
+
   # calculate abundance of A. diegensis
   rbi6 <- rbi_data %>%
     mutate(flag=case_when(taxon == "Asthenothaerus diegensis"~abundance,
@@ -142,16 +148,16 @@ require(naniar)
     summarise(A_diegensisAbun = sum(flag)) %>%
     ungroup()
 
-  
+
   # calculate abundance of G. littorea
   rbi7 <- rbi_data %>%
-    mutate(flag=case_when(taxon == "Goniada littorea"~abundance, 
+    mutate(flag=case_when(taxon == "Goniada littorea"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
     summarise(G_littoreaAbun = sum(flag)) %>%
     ungroup()
 
-  
+
   # calculate negative indicator taxa score (NIT)
   rbi8 <- rbi_data %>%
    mutate(badness=case_when(taxon %in% c( "Capitella capitata Cmplx","Oligochaeta")~ -0.1,
@@ -168,11 +174,11 @@ require(naniar)
     dplyr::full_join(rbi5, by = c( "stationid", "replicate", "sampledate")) %>%
     dplyr::full_join(rbi6, by = c( "stationid", "replicate", "sampledate")) %>%
     dplyr::full_join(rbi7, by = c( "stationid", "replicate", "sampledate")) %>%
-    dplyr::full_join(rbi8, by = c( "stationid", "replicate", "sampledate")) 
-   
+    dplyr::full_join(rbi8, by = c( "stationid", "replicate", "sampledate"))
+
   #Export an interim file with all rbi metrics for each sample
   write.csv(rbi_metrics, file=paste(output_path, "/", file_id, " SQO RBI interim 2 - raw RBI metrics.csv", sep=""), row.names = FALSE)
-  
+
   ### RBI Category Thresholds for Southern California Marine Bays
   RBI_category_thresholds <- data.frame(ref_low = c(0.27, 0.16, 0.08, 0.08),
                                         ref_high = c(0.27, 0.27, 0.16, 0.08),
@@ -182,9 +188,9 @@ require(naniar)
                                                                "High Disturbance")),
                                         condition_category_score = c(1, 2, 3, 4))
 
-  
+
   # Scale observed values to the maxima observed in index calibration dataset
-  
+
   rbi_scaled <- rbi_metrics %>%
     #scale the richness metrics
     mutate(scaled_NumTaxa = (NumOfTaxa/99),
@@ -216,8 +222,8 @@ require(naniar)
             index = "RBI")
 
   #Export an interim file with the raw and scaled rbi metrics for user review
-  rbi_scaled.review<-rbi_scaled %>% 
-    select(-condition_category, -condition_category_score) %>% 
+  rbi_scaled.review<-rbi_scaled %>%
+    select(-condition_category, -condition_category_score) %>%
   write.csv(., file = paste(output_path, "/", file_id, " SQO RBI interim 3 - scaled RBI metrics.csv ", sep=""), row.names = FALSE)
 
 
@@ -243,11 +249,11 @@ require(naniar)
     rbi.out.2<-rbi.out %>% # if RBI scores are not calculated, the function will only report the dummy data placeholders
       mutate(note="RBI scores not caculated")
   }
- 
+
   write.csv(rbi.out.2, paste(output_path, "/", file_id, " SQO RBI scores.csv", sep=""), row.names = FALSE)
 
 
-  return(rbi.out.2)  
+  return(rbi.out.2)
 
 
 
