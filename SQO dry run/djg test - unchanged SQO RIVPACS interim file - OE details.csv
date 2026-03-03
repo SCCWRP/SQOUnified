@@ -1,0 +1,8 @@
+"stationid","sampledate","replicate","O","E","index","score","outlier.05","outlier.01","note"
+"poor-001",2018-09-19,1,2,3.936,"Rivpacs",0.5081,"PASS","PASS",NA
+"good_001",2018-07-17,1,3,20.9391,"Rivpacs",0.1433,"PASS","PASS",NA
+"art_005",2018-08-16,1,1,29.8399,"Rivpacs",0.0335,"PASS","PASS",NA
+"art-004",2018-08-08,1,2,20.1968,"Rivpacs",0.099,"PASS","PASS",NA
+"art-003",2018-07-18,1,2,20.5839,"Rivpacs",0.0972,"PASS","PASS",NA
+"art-002",2018-08-08,1,2,19.5689,"Rivpacs",0.1022,"PASS","PASS",NA
+"art-001",2018-08-13,1,2,20.8999,"Rivpacs",0.0957,"PASS","PASS",NA

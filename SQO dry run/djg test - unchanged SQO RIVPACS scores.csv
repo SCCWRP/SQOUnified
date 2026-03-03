@@ -1,0 +1,8 @@
+"stationid","replicate","sampledate","salinity","latitude","longitude","depth","index","score","condition_category","condition_category_score","note"
+"poor-001",1,2018-09-19,28,33.75301,-118.1053,3,"Rivpacs",0.5081,"Moderate Disturbance",3,NA
+"good_001",1,2018-07-17,33,32.71823,-117.2304,3.2,"Rivpacs",0.1433,"High Disturbance",4,NA
+"art_005",1,2018-08-16,31,33.75551,-118.1299,17.8,"Rivpacs",0.0335,"High Disturbance",4,NA
+"art-004",1,2018-08-08,30,32.6895,-117.238,12.8,"Rivpacs",0.099,"High Disturbance",4,NA
+"art-003",1,2018-07-18,30,32.72496,-117.1834,4.3,"Rivpacs",0.0972,"High Disturbance",4,NA
+"art-002",1,2018-08-08,32,32.7095,-117.1869,17.4,"Rivpacs",0.1022,"High Disturbance",4,NA
+"art-001",1,2018-08-13,28,32.64968,-117.1086,3.7,"Rivpacs",0.0957,"High Disturbance",4,NA

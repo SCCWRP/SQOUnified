@@ -1,0 +1,469 @@
+"stationid","sampledate","replicate","taxon","abundance","exclude","Mollusc","Crustacean","rich_flag","pit_flag","nit_flag"
+"poor-001",2018-09-19,1,"Ampharete sp",5,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphicteis sp",8,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphiduros sp",8,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphipholis sp",5,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphiporus bimaculatus",5,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphiporus californianus",51,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Amphiporus cruentatus",1,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Ampithoe valida",2,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Anoplodactylus nodosus",1,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Anoplodactylus viridintestinalis",2,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Aonides sp",1,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Aoroides intermedia",4,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Aphelochaeta glandaria Cmplx",22,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Aphelochaeta petersenae",200,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Apistobranchus ornatus",1,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Aricidea (Acmira) simplex",7,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Aruga sp",7,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Berthella sp",5,"No","Mollusc","",1,0,0
+"poor-001",2018-09-19,1,"Boccardiella hamata",2,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Capitella capitata Cmplx",52,"No","","",1,0,1
+"poor-001",2018-09-19,1,"Chironomidae",50,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Gnorimosphaeroma oregonense",123,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Grandidierella japonica",145,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Marphysa angelensis",2,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Marphysa stylobranchiata",2,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Monocorophium insidiosum",2,"No","","Crustacean",1,1,0
+"poor-001",2018-09-19,1,"Phoronida",2,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Polydora nuchalis",123,"No","","",1,0,0
+"poor-001",2018-09-19,1,"Pontogeneia rostrata",52,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Protohyale frequens",2,"No","","Crustacean",1,0,0
+"poor-001",2018-09-19,1,"Tryonia sp",100,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Acanthodoris hudsoni",24,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Acanthodoris rhodoceras",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Achelia simplissima",4,"No","","",1,0,0
+"good_001",2018-07-17,1,"Acidostoma hancocki",2,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Acteocina culcitella",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Acteocina harpa",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Actiniaria",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Adula diegensis",5,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Aegires albopunctatus",5,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Aglaja ocelligera",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Allorchestes angusta",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Alpheopsis equidactylus",5,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Alpheus bellimanus",15,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Alpheus clamator",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Alvania compacta",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Amaeana occidentalis",8,"No","","",1,0,0
+"good_001",2018-07-17,1,"Amathia sp",2,"No","","",1,0,0
+"good_001",2018-07-17,1,"Amathimysis trigibba",5,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Amblyosyllis sp",4,"No","","",1,0,0
+"good_001",2018-07-17,1,"Americhelidium sp",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca agassizi",2,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca brachycladus",3,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca cristata",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca lobata",3,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca milleri",50,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca pugetica",5,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampelisca romigi",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Ampharete acutifrons",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Amphioplus strongyloplax",2,"No","","",1,0,0
+"good_001",2018-07-17,1,"Ampithoe plumulosa",4,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Aphelochaeta monilaris",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Argissa hamatipes",2,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Aricidea (Acmira) catherinae",6,"No","","",1,0,0
+"good_001",2018-07-17,1,"Axiothella sp",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Bispira sp",5,"No","","",1,0,0
+"good_001",2018-07-17,1,"Caprella natalensis",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Caulleriella pacifica",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Chaetozone corona",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Cirrophorus furcatus",65,"No","","",1,0,0
+"good_001",2018-07-17,1,"Cooperella subdiaphana",4,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Cossura candida",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Crangon alaskensis",5,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Crangon nigromaculata",47,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Cumingia californica",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Cylichna diegensis",2,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Diastylopsis tenuis",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Dorvillea (Schistomeringos) sp",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Ensis myrae",2,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Enteropneusta",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Gammaropsis thompsoni",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Glottidia albida",6,"No","","",1,0,0
+"good_001",2018-07-17,1,"Goniada maculata",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Hemipodia borealis",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Hiatella arctica",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Joeropsis dubia",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Kurtziella plumbea",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Levinsenia gracilis",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Listriella diffusa",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Lucinisca nuttalli",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Lysippe sp",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Macoma yoldiformis",7,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Maera similis",1,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Melinna sp",21,"No","","",1,0,0
+"good_001",2018-07-17,1,"Modiolus sp",8,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Nemertea",5,"No","","",1,0,0
+"good_001",2018-07-17,1,"Neosabellaria cementarium",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Nephtys caecoides",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Nephtys ferruginea",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Odostomia sp",5,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Paranemertes californica",4,"No","","",1,0,0
+"good_001",2018-07-17,1,"Parvilucina tenuisculpta",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Periploma discus",2,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Petaloclymene pacifica",3,"No","","",1,0,0
+"good_001",2018-07-17,1,"Photis brevipes",2,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Phyllodoce longipes",50,"No","","",1,0,0
+"good_001",2018-07-17,1,"Pitar newcombianus",42,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Platynereis bicanaliculata",2,"No","","",1,0,0
+"good_001",2018-07-17,1,"Podarkeopsis sp A",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Poecilochaetus johnsoni",5,"No","","",1,0,0
+"good_001",2018-07-17,1,"Rudilemboides sp",2,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Scoletoma sp B",5,"No","","",1,0,0
+"good_001",2018-07-17,1,"Semele venusta",4,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Sinocorophium heteroceratum",4,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Sthenelais tertiaglabra",5,"No","","",1,0,0
+"good_001",2018-07-17,1,"Sthenelanella uniformis",22,"No","","",1,0,0
+"good_001",2018-07-17,1,"Tagelus subteres",5,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Tellina carpenteri",75,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Thyasira flexuosa",2,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Thysanocardia nigra",1,"No","","",1,0,0
+"good_001",2018-07-17,1,"Turbonilla sp",1,"No","Mollusc","",1,0,0
+"good_001",2018-07-17,1,"Vargula tsujii",5,"No","","Crustacean",1,0,0
+"good_001",2018-07-17,1,"Volvulella panamica",4,"No","Mollusc","",1,0,0
+"art_005",2018-08-16,1,"Aoroides inermis",10,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Pacifacanthomysis nephrophthalma",25,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Alpheus clamator",2,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Pseudotanais sp",2,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Calocarides sp",3,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Harmothoe sp",1,"No","","",1,0,0
+"art_005",2018-08-16,1,"Insecta",1,"No","","",1,0,0
+"art_005",2018-08-16,1,"Isaeidae",14,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Heterophoxus ellisi",5,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Rudilemboides sp",1,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Dentaliidae",1,"No","Mollusc","",1,0,0
+"art_005",2018-08-16,1,"Ocinebrina sp",5,"No","Mollusc","",1,0,0
+"art_005",2018-08-16,1,"Scyra acutifrons",2,"No","","Crustacean",1,0,0
+"art_005",2018-08-16,1,"Lineidae",12,"No","","",1,0,0
+"art_005",2018-08-16,1,"Polycirrus sp",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Acidostoma hancocki",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Aglaja ocelligera",5,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Alpheopsis equidactylus",111,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Alpheus bellimanus",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Alpheus clamator",56,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Americhelidium sp",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Ampelisca brachycladus",2,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Ampharete acutifrons",6,"No","","",1,0,0
+"art-004",2018-08-08,1,"Amphiduros sp",6,"No","","",1,0,0
+"art-004",2018-08-08,1,"Amphipholis sp",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Amphiporus californianus",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Anchicolurus occidentalis",7,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Ancula sp",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Anemonactis sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Anoplodactylus nodosus",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Anoplodactylus pacificus",9,"No","","",1,0,0
+"art-004",2018-08-08,1,"Anthuridae",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Aoridae",4,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Aphrodita sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Apistobranchus ornatus",35,"No","","",1,0,0
+"art-004",2018-08-08,1,"Apolochus barnardi",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Argopecten ventricosus",6,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Armina californica",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Bemlos macromanus",3,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Boccardia sp",7,"No","","",1,0,0
+"art-004",2018-08-08,1,"Boccardiella sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Bulla gouldiana",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Bullomorpha sp A",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Bunodeopsis sp A",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Caprella equilibra",7,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Chaetopterus variopedatus Cmplx",3,"No","","",1,0,0
+"art-004",2018-08-08,1,"Chaetozone setosa Cmplx",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Chama arcana",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Chone sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Cirratulidae",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Corophioidea",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Corymorphidae",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Cossura pygodactylata",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Ctenodrilus serratus",5,"No","","",1,0,0
+"art-004",2018-08-08,1,"Cyathodonta pedroana",5,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Cylichna diegensis",21,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Diastylopsis tenuis",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Diopatra ornata",85,"No","","",1,0,0
+"art-004",2018-08-08,1,"Diopatra tridentata",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Diplocirrus sp SD1",5,"No","","",1,0,0
+"art-004",2018-08-08,1,"Dorvillea (Dorvillea) sp",8,"No","","",1,0,0
+"art-004",2018-08-08,1,"Drilonereis mexicana",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Eclysippe trilobata",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Eobrolgus spinosus",87,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Epilucina californica",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Epitonium hindsii",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Euclymeninae",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Eulalia californiensis",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Eulalia quadrioculata",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Eunicidae",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Euphilomedes carcharodonta",8,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Fabricinuda limnicola",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Gammaropsis sp",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Glottidia albida",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Glycera robusta",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Glycinde armigera",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Glycinde picta",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Grapsidae",2,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Gyptis sp",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Halosydna johnsoni",5,"No","","",1,0,0
+"art-004",2018-08-08,1,"Harmothoe imbricata Cmplx",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Hartmanodes hartmanae",7,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Hartmanodes murrius",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Hemipodia borealis",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Heptacarpus sp",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Hesperonoe laevis",6,"No","","",1,0,0
+"art-004",2018-08-08,1,"Heteropodarke heteromorpha",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Hiatella arctica",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Incisocalliope sp",203,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Iselica ovoidea",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Kellia sp",5,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Laticorophium baconi",4,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Leucothoe alata",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Limatula saturna",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Lirularia parcipicta",4,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Listriella melanica",34,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Listriolobus pelodes",46,"No","","",1,0,0
+"art-004",2018-08-08,1,"Lophopanopeus bellus",8,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Lumbrineris cruzensis",5,"No","","",1,0,0
+"art-004",2018-08-08,1,"Lysippe sp",6,"No","","",1,0,0
+"art-004",2018-08-08,1,"Lytechinus pictus",8,"No","","",1,0,0
+"art-004",2018-08-08,1,"Macoma yoldiformis",42,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Malacoplax californiensis",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Marphysa sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Melampus olivaceus",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Melanochlamys diomedea",78,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Metacrangon spinosissima",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Metasychis disparidentatus",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Microcosmus squamiger",58,"No","","",1,0,0
+"art-004",2018-08-08,1,"Microspio pigmentata",24,"No","","",1,0,0
+"art-004",2018-08-08,1,"Modiolus sp",4,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Monoculodes sp",25,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Mysidella americana",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Mysidopsis intii",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Mysidopsis sp",2,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Naineris uncinata",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Neolepton sp",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Nephtys sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Nereis sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Nuttallia nuttallii",4,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Ocinebrina sp",4,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Octopus sp",3,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Olea hansineensis",5,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Oligochaeta",4,"No","","",1,0,1
+"art-004",2018-08-08,1,"Ophelia sp",8,"No","","",1,0,0
+"art-004",2018-08-08,1,"Ophiuroidea",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Orchomene sp",4,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Paracaprella sp",8,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Paracerceis cordata",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Paradexamine sp SD1",42,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Pectinaria californiensis",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Petricola carditoides",1,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Pholoides asperus",97,"No","","",1,0,0
+"art-004",2018-08-08,1,"Photis bifurcata",41,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Photis californica",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Pitar newcombianus",65,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Platynereis bicanaliculata",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Poecilochaetus johnsoni",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Polydora limicola",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Protodorvillea gracilis",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Protomedeia articulata Cmplx",2,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Pseudofabriciola californica",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Pseudopotamilla sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Rhepoxynius sp",1,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Rhepoxynius sp A",2,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Runcinidae",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Rutiderma lomae",8,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Scyphoproctus oculatus",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Semele venusta",45,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Sige sp A",2,"No","","",1,0,0
+"art-004",2018-08-08,1,"Siriella pacifica",3,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Solen rostriformis",3,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Sphaerosyllis sp",4,"No","","",1,0,0
+"art-004",2018-08-08,1,"Sthenelais tertiaglabra",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Streblospio benedicti",8,"No","","",1,0,0
+"art-004",2018-08-08,1,"Styelidae",35,"No","","",1,0,0
+"art-004",2018-08-08,1,"Syllides sp",5,"No","","",1,0,0
+"art-004",2018-08-08,1,"Tagelus sp",2,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Tanaidacea",5,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Teinostoma supravallatum",242,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Tresus sp",7,"No","Mollusc","",1,0,0
+"art-004",2018-08-08,1,"Tritella sp",42,"No","","Crustacean",1,0,0
+"art-004",2018-08-08,1,"Trypanosyllis sp",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Tubulanidae",1,"No","","",1,0,0
+"art-004",2018-08-08,1,"Xenoleberis californica",2,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Amblyosyllis sp",3,"No","","",1,0,0
+"art-003",2018-07-18,1,"Ampelisca milleri",58,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Ampelisca pugetica",1,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Ampithoe plumulosa",50,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Aricidea (Aricidea) wassi",13,"No","","",1,0,0
+"art-003",2018-07-18,1,"Armina californica",3,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Boccardiella hamata",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Branchiosyllis sp",3,"No","","",1,0,0
+"art-003",2018-07-18,1,"Caprella sp",9,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Caridea",13,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Caulleriella pacifica",11,"No","","",1,0,0
+"art-003",2018-07-18,1,"Chaetozone setosa Cmplx",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Columbiaemysis ignota",1,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Dendraster sp",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Dulichia sp",1,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Ericthonius brasiliensis",6,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Gammaridea",3,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Halcampidae",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Hesionura coineaui difficilis",2,"No","","",1,0,0
+"art-003",2018-07-18,1,"Irusella lamellifera",25,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Isaeidae",1,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Levinsenia gracilis",24,"No","","",1,0,0
+"art-003",2018-07-18,1,"Liljeborgia geminata",10,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Lophopanopeus leucomanus",4,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Lumbrineris japonica",3,"No","","",1,0,0
+"art-003",2018-07-18,1,"Malacoplax californiensis",3,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Melanochlamys diomedea",3,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Mya arenaria",1,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Nephtys californiensis",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Nephtys simoni",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Nereis latescens",2,"No","","",1,0,0
+"art-003",2018-07-18,1,"Ogyrides sp A",8,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Olea hansineensis",1,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Oligochaeta",1,"No","","",1,0,1
+"art-003",2018-07-18,1,"Ophelia sp",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Ostrea sp",1,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Paradiopatra parva",2,"No","","",1,0,0
+"art-003",2018-07-18,1,"Paranthura elegans",3,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Philine sp",3,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Pholoe sp",7,"No","","",1,0,0
+"art-003",2018-07-18,1,"Pholoides asperus",6,"No","","",1,0,0
+"art-003",2018-07-18,1,"Rhamphidonta retifera",1,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Scalibregma californicum",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Scoletoma sp",3,"No","","",1,0,0
+"art-003",2018-07-18,1,"Scoloplos armiger Cmplx",56,"No","","",1,0,0
+"art-003",2018-07-18,1,"Semele venusta",2,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Spiophanes duplex",5,"No","","",1,0,0
+"art-003",2018-07-18,1,"Styelidae",56,"No","","",1,0,0
+"art-003",2018-07-18,1,"Tritonia sp",11,"No","Mollusc","",1,0,0
+"art-003",2018-07-18,1,"Trypanosyllis sp",1,"No","","",1,0,0
+"art-003",2018-07-18,1,"Upogebia sp",52,"No","","Crustacean",1,0,0
+"art-003",2018-07-18,1,"Uromunna ubiquita",3,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Acanthodoris rhodoceras",5,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Achelia simplissima",28,"No","","",1,0,0
+"art-002",2018-08-08,1,"Acteocina culcitella",12,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Actiniaria",25,"No","","",1,0,0
+"art-002",2018-08-08,1,"Adula diegensis",2,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Agnezia septentrionalis",4,"No","","",1,0,0
+"art-002",2018-08-08,1,"Amaeana occidentalis",11,"No","","",1,0,0
+"art-002",2018-08-08,1,"Amblyosyllis sp",100,"No","","",1,0,0
+"art-002",2018-08-08,1,"Ampharete acutifrons",35,"No","","",1,0,0
+"art-002",2018-08-08,1,"Aricidea (Aricidea) wassi",82,"No","","",1,0,0
+"art-002",2018-08-08,1,"Ascidiacea",2,"No","","",1,0,0
+"art-002",2018-08-08,1,"Asthenothaerus diegensis",2,"No","Mollusc","",1,1,0
+"art-002",2018-08-08,1,"Atylus tridens",256,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Bathyleberis sp",56,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Betaeus longidactylus",3,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Boccardia proboscidea",12,"No","","",1,0,0
+"art-002",2018-08-08,1,"Caecum crebricinctum",5,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Capitellidae",8,"No","","",1,0,0
+"art-002",2018-08-08,1,"Caudina arenicola",300,"No","","",1,0,0
+"art-002",2018-08-08,1,"Ceradocus spinicaudus",1,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Cerithiopsis sp",11,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Chauliopleona dentata",64,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Cossura sp A",78,"No","","",1,0,0
+"art-002",2018-08-08,1,"Crepidula sp",1,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Decamastus gracilis",5,"No","","",1,0,0
+"art-002",2018-08-08,1,"Diastylis crenellata",8,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Diptera",1,"No","","",1,0,0
+"art-002",2018-08-08,1,"Euclymeninae",3,"No","","",1,0,0
+"art-002",2018-08-08,1,"Eupolymnia heterobranchia",36,"No","","",1,0,0
+"art-002",2018-08-08,1,"Exogone lourei",8,"No","","",1,0,0
+"art-002",2018-08-08,1,"Exosphaeroma rhomburum",8,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Fabricinuda limnicola",34,"No","","",1,0,0
+"art-002",2018-08-08,1,"Gammaropsis thompsoni",6,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Golfingia sp",95,"No","","",1,0,0
+"art-002",2018-08-08,1,"Gyptis sp",9,"No","","",1,0,0
+"art-002",2018-08-08,1,"Heterospio catalinensis",3,"No","","",1,0,0
+"art-002",2018-08-08,1,"Hiatella arctica",28,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Hippolyte californiensis",2,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Laticorophium baconi",220,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Leitoscoloplos panamensis",14,"No","","",1,0,0
+"art-002",2018-08-08,1,"Listriella melanica",5,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Lophopanopeus leucomanus",26,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Lytechinus pictus",9,"No","","",1,0,0
+"art-002",2018-08-08,1,"Malacoplax californiensis",63,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Marphysa angelensis",3,"No","","",1,0,0
+"art-002",2018-08-08,1,"Megamoera subtener",22,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Monocorophium sp",29,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Mytilidae",23,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Navanax inermis",10,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Nereis sp",3,"No","","",1,0,0
+"art-002",2018-08-08,1,"Octopus sp",1,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Ogyrides sp A",2,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Ophelia sp",15,"No","","",1,0,0
+"art-002",2018-08-08,1,"Paracerceis sp",35,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Pherusa sp",11,"No","","",1,0,0
+"art-002",2018-08-08,1,"Photis californica",4,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Pilargis berkeleyae",5,"No","","",1,0,0
+"art-002",2018-08-08,1,"Pista estevanica",5,"No","","",1,0,0
+"art-002",2018-08-08,1,"Podocopida",5,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Polydora cornuta",1,"No","","",1,0,0
+"art-002",2018-08-08,1,"Polydora nuchalis",5,"No","","",1,0,0
+"art-002",2018-08-08,1,"Rutiderma lomae",2,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Scalibregma californicum",21,"No","","",1,0,0
+"art-002",2018-08-08,1,"Scolelepis sp",22,"No","","",1,0,0
+"art-002",2018-08-08,1,"Spio maculata",8,"No","","",1,0,0
+"art-002",2018-08-08,1,"Synidotea harfordi",1,"No","","Crustacean",1,0,0
+"art-002",2018-08-08,1,"Tanystylum sp",4,"No","","",1,0,0
+"art-002",2018-08-08,1,"Terebellidae",1,"No","","",1,0,0
+"art-002",2018-08-08,1,"Thyasira flexuosa",5,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Tritonia sp",5,"No","Mollusc","",1,0,0
+"art-002",2018-08-08,1,"Volvulella panamica",11,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Acanthodoris rhodoceras",35,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Alpheopsis equidactylus",6,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Amathia sp",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Ampelisca brachycladus",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Ampharete sp",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Amphioplus strongyloplax",36,"No","","",1,0,0
+"art-001",2018-08-13,1,"Aoroides inermis",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Aricidea (Acmira) catherinae",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Armandia brevis",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Betaeus ensenadensis",5,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Bispira sp",26,"No","","",1,0,0
+"art-001",2018-08-13,1,"Caprella alaskana",225,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Caudina arenicola",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Clymenella sp",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Crepidula onyx",1,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Deflexilodes norvegicus",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Dendraster sp",2,"No","","",1,0,0
+"art-001",2018-08-13,1,"Eogammarus confervicolus Cmplx",5,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Epitonium hindsii",90,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Eulalia quadrioculata",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Eumida longicornuta",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Gammaropsis sp",5,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Geukensia demissa",148,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Halosydna brevisetosa",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Harmothoe imbricata Cmplx",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Hemiproto sp A",25,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Heteroserolis carinata",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Heterospio catalinensis",8,"No","","",1,0,0
+"art-001",2018-08-13,1,"Hiatella arctica",1,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Hippomedon sp",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Holmesimysis costata",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Lepidopa californica",77,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Liljeborgia geminata",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Macrochaeta sp",12,"No","","",1,0,0
+"art-001",2018-08-13,1,"Maera sp",5,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Metasychis disparidentatus",6,"No","","",1,0,0
+"art-001",2018-08-13,1,"Monocorophium uenoi",2,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Neastacilla californica",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Nemertea",9,"No","","",1,0,0
+"art-001",2018-08-13,1,"Neomysis sp",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Onuphis sp",6,"No","","",1,0,0
+"art-001",2018-08-13,1,"Parvilucina tenuisculpta",30,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Petricola carditoides",5,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Phoronida",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Phoxichilidium quadridentatum",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Phyllodoce medipapillata",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Podarkeopsis sp A",5,"No","","",1,0,0
+"art-001",2018-08-13,1,"Pristes oblongus",8,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Rictaxis punctocaelatus",1,"No","Mollusc","",1,0,0
+"art-001",2018-08-13,1,"Rudilemboides sp",5,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Sabellaria gracilis",51,"No","","",1,0,0
+"art-001",2018-08-13,1,"Scalibregma californicum",1,"No","","",1,0,0
+"art-001",2018-08-13,1,"Scoloplos acmeceps",6,"No","","",1,0,0
+"art-001",2018-08-13,1,"Sphaeromatidae",1,"No","","Crustacean",1,0,0
+"art-001",2018-08-13,1,"Sphaerosyllis californiensis",165,"No","","",1,0,0
+"art-001",2018-08-13,1,"Styela sp",3,"No","","",1,0,0
+"art-001",2018-08-13,1,"Thysanocardia nigra",2,"No","","",1,0,0

@@ -59,7 +59,7 @@ infauna.2<-infauna %>%
          sampledate=mdy(sampledate),
          sample_id=paste(stationid, sampledate, replicate, sep="_"))
 
-#joining taxa names, and counts to depth and geographic information by the station field
+#joining taxa names, and counts to depth and geographic information by the stationid field
 taxa_to_calc<-infauna.2 %>% select(sample_id, stationid, replicate,sampledate,taxon, abundance) %>%
   left_join(., select(station_info.2,stationid, depth, latitude, longitude), by="stationid") %>%
   arrange(sample_id, desc(abundance))
