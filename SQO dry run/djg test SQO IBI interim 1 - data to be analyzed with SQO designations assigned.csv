@@ -1,10 +1,8 @@
 "stationid","sampledate","replicate","taxon","abundance","exclude","Mollusc","IBISensitive","Notomastus_flag"
 "djg-00002",2018-07-24,1,"Amphideutopus oculatus",150,"No","","S",0
 "djg-00002",2018-07-24,1,"Petaloclymene pacifica",26,"No","","",0
-"djg-00002",2018-07-24,1,"Maldanidae",22,"Yes","","",0
 "djg-00002",2018-07-24,1,"Leptochelia dubia",21,"No","","S",0
 "djg-00002",2018-07-24,1,"Scoletoma sp A",18,"No","","",0
-"djg-00002",2018-07-24,1,"Scoletoma sp",16,"Yes","","",0
 "djg-00002",2018-07-24,1,"Ampelisca cristata microdentata",13,"No",NA,NA,0
 "djg-00002",2018-07-24,1,"Cossura candida",12,"No","","",0
 "djg-00002",2018-07-24,1,"Scoletoma sp B",10,"No","","",0
@@ -17,7 +15,6 @@
 "djg-00002",2018-07-24,1,"Listriella goleta",5,"No","","S",0
 "B18-10000",2018-07-24,1,"Amphideutopus oculatus",37,"No","","S",0
 "B18-10000",2018-07-24,1,"Leptochelia dubia",18,"No","","S",0
-"B18-10000",2018-07-24,1,"Scoletoma sp",16,"Yes","","",0
 "B18-10000",2018-07-24,1,"Scoletoma sp A",16,"No","","",0
 "B18-10000",2018-07-24,1,"Chaetozone corona",12,"No","","",0
 "B18-10000",2018-07-24,1,"Paramicrodeutopus schmitti",12,"No","","S",0
@@ -27,7 +24,6 @@
 "B18-10000",2018-07-24,1,"Mactrotoma californica",9,"No","Mollusc","",0
 "B18-10000",2018-07-24,1,"Nemertea",8,"No","","",0
 "B18-10000",2018-07-24,1,"Diopatra ornata",7,"No","","S",0
-"B18-10000",2018-07-24,1,"Polydora sp",7,"Yes","","",0
 "B18-10000",2018-07-24,1,"Scleroplax granulata",7,"No","","",0
 "B18-10000",2018-07-24,1,"Tagelus subteres",6,"No","Mollusc","S",0
 "B18-10000",2018-07-24,1,"Hartmanodes hartmanae",5,"No","","",0
@@ -37,7 +33,6 @@
 "B18-10000",2018-07-24,1,"Metasychis disparidentatus",4,"No","","",0
 "B18-10000",2018-07-24,1,"Pseudopolydora paucibranchiata",4,"No","","",0
 "B18-10000",2018-07-24,1,"Scoletoma sp B",4,"No","","",0
-"B18-10000",2018-07-24,1,"Ampharetidae",3,"Yes","","",0
 "B18-10000",2018-07-24,1,"Anotomastus gordiodes",3,"No","","S",0
 "B18-10000",2018-07-24,1,"Diopatra tridentata",3,"No","","",0
 "B18-10000",2018-07-24,1,"Goniada littorea",3,"No","","S",0
@@ -60,10 +55,7 @@
 "B18-10000",2018-07-24,1,"Photis bifurcata",2,"No","","",0
 "B18-10000",2018-07-24,1,"Tubulanus sp",3,"No","","",0
 "B18-10000",2018-07-24,1,"Ampelisca brachycladus",1,"No","","S",0
-"B18-10000",2018-07-24,1,"Amphipoda",1,"Yes","","",0
 "B18-10000",2018-07-24,1,"Asthenothaerus diegensis",1,"No","Mollusc","",0
-"B18-10000",2018-07-24,1,"Brachyura",1,"Yes","","",0
-"B18-10000",2018-07-24,1,"Gnathiidae",1,"Yes","","",0
 "B18-10000",2018-07-24,1,"Ceriantharia",1,"No","","",0
 "B18-10000",2018-07-24,1,"Cirrophorus furcatus",1,"No","","",0
 "B18-10000",2018-07-24,1,"Cossura candida",1,"No","","",0
@@ -74,14 +66,10 @@
 "B18-10000",2018-07-24,1,"Leptopecten latiauratus",1,"No","Mollusc","",0
 "B18-10000",2018-07-24,1,"Lineidae",1,"No","","",0
 "B18-10000",2018-07-24,1,"Lyonsia californica",1,"No","Mollusc","S",0
-"B18-10000",2018-07-24,1,"Macoma sp",1,"Yes","Mollusc","",0
 "B18-10000",2018-07-24,1,"Majoidea",1,"No",NA,NA,0
-"B18-10000",2018-07-24,1,"Maldanidae",1,"Yes","","",0
 "B18-10000",2018-07-24,1,"Metamysidopsis elongata",1,"No","","",0
 "B18-10000",2018-07-24,1,"Neotrypaea sp",1,"No","","",0
-"B18-10000",2018-07-24,1,"Nereididae",1,"Yes","","",0
 "B18-10000",2018-07-24,1,"Nereis procera",1,"No","","",0
-"B18-10000",2018-07-24,1,"Onuphidae",1,"Yes","","",0
 "B18-10000",2018-07-24,1,"Paraprionospio pinnata",1,"No","","",0
 "B18-10000",2018-07-24,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10000",2018-07-24,1,"Enteropneusta",1,"No","","",0
@@ -94,10 +82,8 @@
 "B18-10000",2018-07-24,1,"Virgularia californica",1,"No",NA,NA,0
 "B18-10001",2018-07-24,1,"Amphideutopus oculatus",150,"No","","S",0
 "B18-10001",2018-07-24,1,"Petaloclymene pacifica",26,"No","","",0
-"B18-10001",2018-07-24,1,"Maldanidae",22,"Yes","","",0
 "B18-10001",2018-07-24,1,"Leptochelia dubia",21,"No","","S",0
 "B18-10001",2018-07-24,1,"Scoletoma sp A",18,"No","","",0
-"B18-10001",2018-07-24,1,"Scoletoma sp",16,"Yes","","",0
 "B18-10001",2018-07-24,1,"Ampelisca cristata microdentata",13,"No",NA,NA,0
 "B18-10001",2018-07-24,1,"Cossura candida",12,"No","","",0
 "B18-10001",2018-07-24,1,"Scoletoma sp B",10,"No","","",0
@@ -115,14 +101,12 @@
 "B18-10001",2018-07-24,1,"Nereis procera",4,"No","","",0
 "B18-10001",2018-07-24,1,"Paraprionospio pinnata",4,"No","","",0
 "B18-10001",2018-07-24,1,"Anotomastus gordiodes",2,"No","","S",0
-"B18-10001",2018-07-24,1,"Capitellidae",2,"Yes","","",0
 "B18-10001",2018-07-24,1,"Diopatra sp",2,"No","","",0
 "B18-10001",2018-07-24,1,"Euchone limnicola",2,"No","","",0
 "B18-10001",2018-07-24,1,"Euphilomedes carcharodonta",2,"No","","",0
 "B18-10001",2018-07-24,1,"Laonice cirrata",2,"No","","",0
 "B18-10001",2018-07-24,1,"Lineidae",2,"No","","",0
 "B18-10001",2018-07-24,1,"Microspio pigmentata",2,"No","","S",0
-"B18-10001",2018-07-24,1,"Nemertea",2,"Yes","","",0
 "B18-10001",2018-07-24,1,"Pseudopolydora paucibranchiata",2,"No","","",0
 "B18-10001",2018-07-24,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10001",2018-07-24,1,"Aricidea (Acmira) horikoshii",1,"No","","",0
@@ -140,22 +124,18 @@
 "B18-10001",2018-07-24,1,"Mysidopsis intii",1,"No","","",0
 "B18-10001",2018-07-24,1,"Notomastus sp",1,"No","","",1
 "B18-10001",2018-07-24,1,"Nuculana taphria",1,"No","Mollusc","S",0
-"B18-10001",2018-07-24,1,"Onuphidae",1,"Yes","","",0
 "B18-10001",2018-07-24,1,"Paradialychone paramollis",1,"No",NA,NA,0
 "B18-10001",2018-07-24,1,"Phoronida",1,"No","","S",0
 "B18-10001",2018-07-24,1,"Pilargis sp A",1,"No",NA,NA,0
 "B18-10001",2018-07-24,1,"Poecilochaetus sp A",1,"No","","",0
-"B18-10001",2018-07-24,1,"Poecilochaetus sp",1,"Yes","","",0
 "B18-10001",2018-07-24,1,"Prionospio (Minuspio) lighti",1,"No","","",0
 "B18-10001",2018-07-24,1,"Spiochaetopterus costarum",1,"No","","",0
 "B18-10001",2018-07-24,1,"Spiophanes duplex",1,"No","","S",0
 "B18-10001",2018-07-24,1,"Spiophanes bombyx",1,"No","","S",0
-"B18-10001",2018-07-24,1,"Spiophanes sp",1,"Yes",NA,NA,0
 "B18-10001",2018-07-24,1,"Stylatula sp",1,"No","","",0
 "B18-10001",2018-07-24,1,"Tenonia priops",1,"No","","S",0
 "B18-10001",2018-07-24,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10001",2018-07-24,1,"Virgularia californica",1,"No",NA,NA,0
-"B18-10002",2018-07-24,1,"Scoletoma sp",14,"Yes","","",0
 "B18-10002",2018-07-24,1,"Poecilochaetus sp A",8,"No","","",0
 "B18-10002",2018-07-24,1,"Amphiodia sp",9,"No","","S",0
 "B18-10002",2018-07-24,1,"Monticellina siblina",5,"No","","",0
@@ -166,7 +146,6 @@
 "B18-10002",2018-07-24,1,"Listriella goleta",3,"No","","S",0
 "B18-10002",2018-07-24,1,"Ampelisca brevisimulata",2,"No","","S",0
 "B18-10002",2018-07-24,1,"Glycera americana",2,"No","","",0
-"B18-10002",2018-07-24,1,"Pinnixa sp",2,"Yes","","",0
 "B18-10002",2018-07-24,1,"Scleroplax granulata",2,"No","","",0
 "B18-10002",2018-07-24,1,"Sinocorophium heteroceratum",2,"No","","",0
 "B18-10002",2018-07-24,1,"Spiochaetopterus costarum",2,"No","","",0
@@ -182,7 +161,6 @@
 "B18-10002",2018-07-24,1,"Notomastus sp",1,"No","","",1
 "B18-10002",2018-07-24,1,"Odostomia sp",1,"No","Mollusc","S",0
 "B18-10002",2018-07-24,1,"Paraprionospio pinnata",1,"No","","",0
-"B18-10002",2018-07-24,1,"Paraprionospio sp",1,"Yes",NA,NA,0
 "B18-10002",2018-07-24,1,"Periploma discus",1,"No","Mollusc","",0
 "B18-10002",2018-07-24,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10002",2018-07-24,1,"Phoronida",1,"No","","S",0
@@ -191,7 +169,6 @@
 "B18-10002",2018-07-24,1,"Tubulanidae",1,"No","","",0
 "B18-10002",2018-07-24,1,"Virgularia californica",1,"No",NA,NA,0
 "B18-10003",2018-08-09,1,"Amphideutopus oculatus",130,"No","","S",0
-"B18-10003",2018-08-09,1,"Scoletoma sp",24,"Yes","","",0
 "B18-10003",2018-08-09,1,"Cossura sp A",22,"No","","",0
 "B18-10003",2018-08-09,1,"Leitoscoloplos pugettensis",15,"No","","",0
 "B18-10003",2018-08-09,1,"Petaloclymene pacifica",14,"No","","",0
@@ -211,7 +188,6 @@
 "B18-10003",2018-08-09,1,"Scoletoma sp B",3,"No","","",0
 "B18-10003",2018-08-09,1,"Acuminodeutopus heteruropus",2,"No","","S",0
 "B18-10003",2018-08-09,1,"Amphioplus sp A",2,"No",NA,NA,0
-"B18-10003",2018-08-09,1,"Aoridae",2,"Yes","","",0
 "B18-10003",2018-08-09,1,"Laonice cirrata",2,"No","","",0
 "B18-10003",2018-08-09,1,"Lineidae",3,"No","","",0
 "B18-10003",2018-08-09,1,"Listriella goleta",2,"No","","S",0
@@ -243,7 +219,6 @@
 "B18-10003",2018-08-09,1,"Rudilemboides sp",1,"No","","",0
 "B18-10003",2018-08-09,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10003",2018-08-09,1,"Thyasira flexuosa",1,"No","Mollusc","",0
-"B18-10004",2018-07-24,1,"Scoletoma sp",24,"Yes","","",0
 "B18-10004",2018-07-24,1,"Amphideutopus oculatus",20,"No","","S",0
 "B18-10004",2018-07-24,1,"Monticellina siblina",20,"No","","",0
 "B18-10004",2018-07-24,1,"Chaetozone corona",17,"No","","",0
@@ -262,7 +237,6 @@
 "B18-10004",2018-07-24,1,"Listriella goleta",2,"No","","S",0
 "B18-10004",2018-07-24,1,"Lumbrineris japonica",2,"No","","",0
 "B18-10004",2018-07-24,1,"Macoma yoldiformis",2,"No","Mollusc","",0
-"B18-10004",2018-07-24,1,"Maldanidae",2,"Yes","","",0
 "B18-10004",2018-07-24,1,"Melinna sp",2,"No","","",0
 "B18-10004",2018-07-24,1,"Metamysidopsis elongata",2,"No","","",0
 "B18-10004",2018-07-24,1,"Notomastus sp",2,"No","","",1
@@ -274,13 +248,10 @@
 "B18-10004",2018-07-24,1,"Ampelisca brevisimulata",1,"No","","S",0
 "B18-10004",2018-07-24,1,"Amphiodia sp",1,"No","","S",0
 "B18-10004",2018-07-24,1,"Cossura candida",1,"No","","",0
-"B18-10004",2018-07-24,1,"Cossura sp",1,"Yes","","",0
 "B18-10004",2018-07-24,1,"Cossura sp A",1,"No","","",0
 "B18-10004",2018-07-24,1,"Cylichna diegensis",1,"No","Mollusc","",0
 "B18-10004",2018-07-24,1,"Diopatra tridentata",1,"No","","",0
 "B18-10004",2018-07-24,1,"Hippolyte clarki",1,"No",NA,NA,0
-"B18-10004",2018-07-24,1,"Monticellina sp",1,"Yes","","",0
-"B18-10004",2018-07-24,1,"Leitoscoloplos sp",1,"Yes",NA,NA,0
 "B18-10004",2018-07-24,1,"Lucinisca nuttalli",1,"No","Mollusc","",0
 "B18-10004",2018-07-24,1,"Marphysa disjuncta",1,"No","","",0
 "B18-10004",2018-07-24,1,"Mediomastus sp",1,"No","","",0
@@ -305,7 +276,6 @@
 "B18-10005",2018-08-09,1,"Ampelisca cristata microdentata",4,"No",NA,NA,0
 "B18-10005",2018-08-09,1,"Cadulus aberrans",4,"No","Mollusc","",0
 "B18-10005",2018-08-09,1,"Philine sp",7,"No","Mollusc","",0
-"B18-10005",2018-08-09,1,"Amphiuridae",3,"Yes","","",0
 "B18-10005",2018-08-09,1,"Paraprionospio pinnata",3,"No","","",0
 "B18-10005",2018-08-09,1,"Glycera americana",2,"No","","",0
 "B18-10005",2018-08-09,1,"Listriella goleta",2,"No","","S",0
@@ -347,7 +317,6 @@
 "B18-10006",2018-07-25,1,"Listriella goleta",5,"No","","S",0
 "B18-10006",2018-07-25,1,"Scleroplax granulata",5,"No","","",0
 "B18-10006",2018-07-25,1,"Nuculana taphria",4,"No","Mollusc","S",0
-"B18-10006",2018-07-25,1,"Scoletoma sp",4,"Yes","","",0
 "B18-10006",2018-07-25,1,"Scoletoma sp B",4,"No","","",0
 "B18-10006",2018-07-25,1,"Vitrinella oldroydi",4,"No","Mollusc","",0
 "B18-10006",2018-07-25,1,"Cossura sp A",3,"No","","",0
@@ -363,7 +332,6 @@
 "B18-10006",2018-07-25,1,"Tubulanus sp",2,"No","","",0
 "B18-10006",2018-07-25,1,"Ampelisca brachycladus",1,"No","","S",0
 "B18-10006",2018-07-25,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
-"B18-10006",2018-07-25,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10006",2018-07-25,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
 "B18-10006",2018-07-25,1,"Cossura candida",1,"No","","",0
 "B18-10006",2018-07-25,1,"Ensis myrae",1,"No","Mollusc","S",0
@@ -373,7 +341,6 @@
 "B18-10006",2018-07-25,1,"Lumbrineris japonica",1,"No","","",0
 "B18-10006",2018-07-25,1,"Maldanidae",1,"No","","",0
 "B18-10006",2018-07-25,1,"Malmgreniella sp",1,"No","","",0
-"B18-10006",2018-07-25,1,"Nemertea",1,"Yes","","",0
 "B18-10006",2018-07-25,1,"Paraprionospio pinnata",1,"No","","",0
 "B18-10006",2018-07-25,1,"Periploma discus",1,"No","Mollusc","",0
 "B18-10006",2018-07-25,1,"Phoronida",2,"No","","S",0
@@ -383,7 +350,6 @@
 "B18-10006",2018-07-25,1,"Tellina cadieni",1,"No","Mollusc","",0
 "B18-10006",2018-07-25,1,"Thyasira flexuosa",1,"No","Mollusc","",0
 "B18-10006",2018-07-25,1,"Virgularia californica",1,"No",NA,NA,0
-"B18-10006",2018-07-25,1,"Virgulariidae",1,"Yes",NA,NA,0
 "B18-10007",2018-07-24,1,"Nuculana taphria",23,"No","Mollusc","S",0
 "B18-10007",2018-07-24,1,"Monticellina siblina",10,"No","","",0
 "B18-10007",2018-07-24,1,"Compsomyax subdiaphana",8,"No","Mollusc","S",0
@@ -411,7 +377,6 @@
 "B18-10007",2018-07-24,1,"Theora lubrica",2,"No","Mollusc","",0
 "B18-10007",2018-07-24,1,"Volvulella panamica",2,"No","Mollusc","",0
 "B18-10007",2018-07-24,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
-"B18-10007",2018-07-24,1,"Ampharetidae",1,"Yes","","",0
 "B18-10007",2018-07-24,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10007",2018-07-24,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
 "B18-10007",2018-07-24,1,"Cossura sp A",1,"No","","",0
@@ -419,7 +384,6 @@
 "B18-10007",2018-07-24,1,"Glycera americana",1,"No","","",0
 "B18-10007",2018-07-24,1,"Lyonsia californica",1,"No","Mollusc","S",0
 "B18-10007",2018-07-24,1,"Macoma sp",1,"No","Mollusc","",0
-"B18-10007",2018-07-24,1,"Maldanidae",1,"Yes","","",0
 "B18-10007",2018-07-24,1,"Malmgreniella sp",1,"No","","",0
 "B18-10007",2018-07-24,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10007",2018-07-24,1,"Pista percyi",1,"No","","",0
@@ -432,7 +396,6 @@
 "B18-10011",2018-08-07,1,"Hartmanodes hartmanae",10,"No","","",0
 "B18-10011",2018-08-07,1,"Amphiodia sp",6,"No","","S",0
 "B18-10011",2018-08-07,1,"Listriella goleta",6,"No","","S",0
-"B18-10011",2018-08-07,1,"Pinnixa sp",5,"Yes","","",0
 "B18-10011",2018-08-07,1,"Tellina sp B",5,"No",NA,NA,0
 "B18-10011",2018-08-07,1,"Theora lubrica",5,"No","Mollusc","",0
 "B18-10011",2018-08-07,1,"Compsomyax subdiaphana",4,"No","Mollusc","S",0
@@ -444,7 +407,6 @@
 "B18-10011",2018-08-07,1,"Virgulariidae",3,"No",NA,NA,0
 "B18-10011",2018-08-07,1,"Volvulella panamica",3,"No","Mollusc","",0
 "B18-10011",2018-08-07,1,"Aphelochaeta monilaris",2,"No","","",0
-"B18-10011",2018-08-07,1,"Bivalvia",2,"Yes","Mollusc","",0
 "B18-10011",2018-08-07,1,"Ninoe tridentata",2,"No",NA,NA,0
 "B18-10011",2018-08-07,1,"Paraprionospio pinnata",2,"No","","",0
 "B18-10011",2018-08-07,1,"Prionospio (Minuspio) lighti",2,"No","","",0
@@ -464,7 +426,6 @@
 "B18-10012",2018-08-14,1,"Amphiodia sp",25,"No","","S",0
 "B18-10012",2018-08-14,1,"Volvulella panamica",18,"No","Mollusc","",0
 "B18-10012",2018-08-14,1,"Nuculana taphria",15,"No","Mollusc","S",0
-"B18-10012",2018-08-14,1,"Scoletoma sp",9,"Yes","","",0
 "B18-10012",2018-08-14,1,"Petaloclymene pacifica",8,"No","","",0
 "B18-10012",2018-08-14,1,"Listriella goleta",7,"No","","S",0
 "B18-10012",2018-08-14,1,"Marphysa disjuncta",7,"No","","",0
@@ -477,7 +438,6 @@
 "B18-10012",2018-08-14,1,"Glycera americana",3,"No","","",0
 "B18-10012",2018-08-14,1,"Leitoscoloplos pugettensis",3,"No","","",0
 "B18-10012",2018-08-14,1,"Lumbrineris japonica",3,"No","","",0
-"B18-10012",2018-08-14,1,"Pinnotheridae",3,"Yes","","",0
 "B18-10012",2018-08-14,1,"Rictaxis punctocaelatus",3,"No","Mollusc","",0
 "B18-10012",2018-08-14,1,"Scoletoma sp A",3,"No","","",0
 "B18-10012",2018-08-14,1,"Scoletoma sp B",3,"No","","",0
@@ -491,11 +451,9 @@
 "B18-10012",2018-08-14,1,"Neotrypaea sp",2,"No","","",0
 "B18-10012",2018-08-14,1,"Neverita recluziana",2,"No",NA,NA,0
 "B18-10012",2018-08-14,1,"Notomastus sp",2,"No","","",1
-"B18-10012",2018-08-14,1,"Pista sp",2,"Yes","","",0
 "B18-10012",2018-08-14,1,"Enteropneusta",2,"No","","",0
 "B18-10012",2018-08-14,1,"Spiophanes duplex",2,"No","","S",0
 "B18-10012",2018-08-14,1,"Tellina cadieni",2,"No","Mollusc","",0
-"B18-10012",2018-08-14,1,"Terebellidae",2,"Yes","","",0
 "B18-10012",2018-08-14,1,"Aglaophamus verrilli",1,"No",NA,NA,0
 "B18-10012",2018-08-14,1,"Paramage scutata",1,"No","","",0
 "B18-10012",2018-08-14,1,"Amphideutopus oculatus",1,"No","","S",0
@@ -507,7 +465,6 @@
 "B18-10012",2018-08-14,1,"Rochefortia coani",1,"No","Mollusc","S",0
 "B18-10012",2018-08-14,1,"Rochefortia grippi",1,"No","Mollusc","",0
 "B18-10012",2018-08-14,1,"Lineidae",1,"No","","",0
-"B18-10012",2018-08-14,1,"Maldanidae",1,"Yes","","",0
 "B18-10012",2018-08-14,1,"Mediomastus sp",1,"No","","",0
 "B18-10012",2018-08-14,1,"Metasychis disparidentatus",1,"No","","",0
 "B18-10012",2018-08-14,1,"Ninoe tridentata",1,"No",NA,NA,0
@@ -518,14 +475,12 @@
 "B18-10012",2018-08-14,1,"Podarkeopsis sp A",1,"No","","",0
 "B18-10012",2018-08-14,1,"Poecilochaetus johnsoni",1,"No","","S",0
 "B18-10012",2018-08-14,1,"Sigambra sp",1,"No",NA,NA,0
-"B18-10012",2018-08-14,1,"Spiophanes sp",1,"Yes",NA,NA,0
 "B18-10012",2018-08-14,1,"Tubulanus sp",1,"No","","",0
 "B18-10013",2018-08-14,1,"Pista percyi",24,"No","","",0
 "B18-10013",2018-08-14,1,"Poecilochaetus sp A",22,"No","","",0
 "B18-10013",2018-08-14,1,"Marphysa disjuncta",21,"No","","",0
 "B18-10013",2018-08-14,1,"Heterophoxus oculatus",19,"No","","",0
 "B18-10013",2018-08-14,1,"Mediomastus sp",15,"No","","",0
-"B18-10013",2018-08-14,1,"Scoletoma sp",12,"Yes","","",0
 "B18-10013",2018-08-14,1,"Listriella goleta",9,"No","","S",0
 "B18-10013",2018-08-14,1,"Scoletoma sp A",7,"No","","",0
 "B18-10013",2018-08-14,1,"Amphiodia sp",6,"No","","S",0
@@ -535,7 +490,6 @@
 "B18-10013",2018-08-14,1,"Theora lubrica",5,"No","Mollusc","",0
 "B18-10013",2018-08-14,1,"Paraprionospio pinnata",4,"No","","",0
 "B18-10013",2018-08-14,1,"Amage anops",3,"No",NA,NA,0
-"B18-10013",2018-08-14,1,"Ampharetidae",3,"Yes","","",0
 "B18-10013",2018-08-14,1,"Aphelochaeta monilaris",3,"No","","",0
 "B18-10013",2018-08-14,1,"Aphelochaeta petersenae",3,"No","","",0
 "B18-10013",2018-08-14,1,"Cossura sp A",3,"No","","",0
@@ -543,25 +497,20 @@
 "B18-10013",2018-08-14,1,"Laonice cirrata",3,"No","","",0
 "B18-10013",2018-08-14,1,"Scleroplax granulata",3,"No","","",0
 "B18-10013",2018-08-14,1,"Tellina cadieni",3,"No","Mollusc","",0
-"B18-10013",2018-08-14,1,"Terebellidae",3,"Yes","","",0
 "B18-10013",2018-08-14,1,"Tubulanus sp",4,"No","","",0
 "B18-10013",2018-08-14,1,"Volvulella panamica",3,"No","Mollusc","",0
 "B18-10013",2018-08-14,1,"Paramage scutata",2,"No","","",0
 "B18-10013",2018-08-14,1,"Cossura candida",2,"No","","",0
-"B18-10013",2018-08-14,1,"Cossura sp",2,"Yes","","",0
 "B18-10013",2018-08-14,1,"Edwardsiidae",2,"No","","",0
 "B18-10013",2018-08-14,1,"Glycera americana",2,"No","","",0
 "B18-10013",2018-08-14,1,"Hartmanodes hartmanae",2,"No","","",0
-"B18-10013",2018-08-14,1,"Nemertea",2,"Yes","","",0
 "B18-10013",2018-08-14,1,"Lineidae",2,"No","","",0
 "B18-10013",2018-08-14,1,"Petaloclymene pacifica",2,"No","","",0
-"B18-10013",2018-08-14,1,"Pinnotheridae",2,"Yes","","",0
 "B18-10013",2018-08-14,1,"Aglaophamus verrilli",1,"No",NA,NA,0
 "B18-10013",2018-08-14,1,"Ampelisca brevisimulata",1,"No","","S",0
 "B18-10013",2018-08-14,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
 "B18-10013",2018-08-14,1,"Amphideutopus oculatus",1,"No","","S",0
 "B18-10013",2018-08-14,1,"Amphisamytha bioculata",1,"No",NA,NA,0
-"B18-10013",2018-08-14,1,"Amphiuridae",1,"Yes","","",0
 "B18-10013",2018-08-14,1,"Gnathiidae",1,"No","","",0
 "B18-10013",2018-08-14,1,"Corbula porcella",1,"No","Mollusc","",0
 "B18-10013",2018-08-14,1,"Chaetozone corona",1,"No","","",0
@@ -575,14 +524,12 @@
 "B18-10013",2018-08-14,1,"Listriella sp SD1",1,"No",NA,NA,0
 "B18-10013",2018-08-14,1,"Lumbrineris japonica",1,"No","","",0
 "B18-10013",2018-08-14,1,"Lysippe sp",1,"No","","",0
-"B18-10013",2018-08-14,1,"Maldanidae",1,"Yes","","",0
 "B18-10013",2018-08-14,1,"Malmgreniella sp",1,"No","","",0
 "B18-10013",2018-08-14,1,"Nereis procera",1,"No","","",0
 "B18-10013",2018-08-14,1,"Nuculana taphria",1,"No","Mollusc","S",0
 "B18-10013",2018-08-14,1,"Onuphidae",1,"No","","",0
 "B18-10013",2018-08-14,1,"Phoronida",1,"No","","S",0
 "B18-10013",2018-08-14,1,"Prionospio (Prionospio) jubata",1,"No","","",0
-"B18-10013",2018-08-14,1,"Prionospio sp",1,"Yes","","",0
 "B18-10013",2018-08-14,1,"Enteropneusta",1,"No","","",0
 "B18-10013",2018-08-14,1,"Scoletoma sp B",1,"No","","",0
 "B18-10013",2018-08-14,1,"Scoletoma sp C",1,"No","","",0
@@ -597,7 +544,6 @@
 "B18-10014",2018-08-14,1,"Tagelus affinis",38,"No","Mollusc","",0
 "B18-10014",2018-08-14,1,"Eochelidium sp A",35,"No","","",0
 "B18-10014",2018-08-14,1,"Heterophoxus cf ellisi",27,"No",NA,NA,0
-"B18-10014",2018-08-14,1,"Monocorophium sp",20,"Yes","","",0
 "B18-10014",2018-08-14,1,"Edwardsia californica",19,"No","","",0
 "B18-10014",2018-08-14,1,"Monticellina siblina",15,"No","","",0
 "B18-10014",2018-08-14,1,"Levinsenia gracilis",15,"No","","",0
@@ -613,18 +559,14 @@
 "B18-10014",2018-08-14,1,"Lyonsia californica",6,"No","Mollusc","S",0
 "B18-10014",2018-08-14,1,"Nuculana taphria",6,"No","Mollusc","S",0
 "B18-10014",2018-08-14,1,"Apoprionospio pygmaea",6,"No","","S",0
-"B18-10014",2018-08-14,1,"Heterophoxus sp",5,"Yes",NA,NA,0
 "B18-10014",2018-08-14,1,"Postasterope barnesi",4,"No","","",0
 "B18-10014",2018-08-14,1,"Pseudopolydora paucibranchiata",4,"No","","",0
 "B18-10014",2018-08-14,1,"Scleroplax granulata",4,"No","","",0
-"B18-10014",2018-08-14,1,"Edwardsiidae",3,"Yes","","",0
 "B18-10014",2018-08-14,1,"Macoma yoldiformis",3,"No","Mollusc","",0
 "B18-10014",2018-08-14,1,"Asthenothaerus diegensis",2,"No","Mollusc","",0
-"B18-10014",2018-08-14,1,"Bivalvia",2,"Yes","Mollusc","",0
 "B18-10014",2018-08-14,1,"Nemertea",3,"No","","",0
 "B18-10014",2018-08-14,1,"Laonice cirrata",2,"No","","",0
 "B18-10014",2018-08-14,1,"Lumbrineris japonica",2,"No","","",0
-"B18-10014",2018-08-14,1,"Lumbrineris sp",2,"Yes","","",0
 "B18-10014",2018-08-14,1,"Majoidea",2,"No",NA,NA,0
 "B18-10014",2018-08-14,1,"Paranemertes californica",2,"No","","",0
 "B18-10014",2018-08-14,1,"Photis bifurcata",2,"No","","",0
@@ -656,11 +598,9 @@
 "B18-10015",2018-07-12,1,"Paracerceis sculpta",2,"No","","",0
 "B18-10015",2018-07-12,1,"Phoronida",2,"No","","S",0
 "B18-10015",2018-07-12,1,"Barleeia sp",1,"No","Mollusc","S",0
-"B18-10015",2018-07-12,1,"Edwardsiidae",1,"Yes","","",0
 "B18-10015",2018-07-12,1,"Euphilomedes carcharodonta",1,"No","","",0
 "B18-10016",2018-07-12,1,"Leitoscoloplos pugettensis",97,"No","","",0
 "B18-10016",2018-07-12,1,"Acteocina carinata",48,"No","Mollusc","",0
-"B18-10016",2018-07-12,1,"Scoletoma sp",39,"Yes","","",0
 "B18-10016",2018-07-12,1,"Caprella californica",27,"No","","S",0
 "B18-10016",2018-07-12,1,"Caecum californicum",21,"No","Mollusc","S",0
 "B18-10016",2018-07-12,1,"Exogone dwisula",21,"No","","S",0
@@ -677,7 +617,6 @@
 "B18-10016",2018-07-12,1,"Astyris aurantiaca",5,"No","Mollusc","",0
 "B18-10016",2018-07-12,1,"Barleeia sp",5,"No","Mollusc","S",0
 "B18-10016",2018-07-12,1,"Neanthes acuminata Cmplx",5,"No","","",0
-"B18-10016",2018-07-12,1,"Caprella sp",4,"Yes","","",0
 "B18-10016",2018-07-12,1,"Laevicardium substriatum",4,"No","Mollusc","",0
 "B18-10016",2018-07-12,1,"Rudilemboides sp",4,"No","","",0
 "B18-10016",2018-07-12,1,"Scoletoma sp C",4,"No","","",0
@@ -685,7 +624,6 @@
 "B18-10016",2018-07-12,1,"Protohyale frequens",3,"No","","",0
 "B18-10016",2018-07-12,1,"Sphaeromatidae",3,"No","","",0
 "B18-10016",2018-07-12,1,"Actiniaria",2,"No","","",0
-"B18-10016",2018-07-12,1,"Edwardsiidae",2,"Yes","","",0
 "B18-10016",2018-07-12,1,"Glycera americana",2,"No","","",0
 "B18-10016",2018-07-12,1,"Grandidierella japonica",2,"No","","",0
 "B18-10016",2018-07-12,1,"Malmgreniella sp",2,"No","","",0
@@ -695,7 +633,6 @@
 "B18-10016",2018-07-12,1,"Tenonia priops",2,"No","","S",0
 "B18-10016",2018-07-12,1,"Acteocina culcitella",1,"No","Mollusc","",0
 "B18-10016",2018-07-12,1,"Amphideutopus oculatus",1,"No","","S",0
-"B18-10016",2018-07-12,1,"Cumacea",1,"Yes",NA,NA,0
 "B18-10016",2018-07-12,1,"Erichsonella crenulata",1,"No","","",0
 "B18-10016",2018-07-12,1,"Ericthonius brasiliensis",1,"No","","S",0
 "B18-10016",2018-07-12,1,"Eteone sp",1,"No","","S",0
@@ -726,7 +663,6 @@
 "B18-10017",2018-07-13,1,"Hyalidae",27,"No","","",0
 "B18-10017",2018-07-13,1,"Caprella californica",25,"No","","S",0
 "B18-10017",2018-07-13,1,"Elasmopus bampo",18,"No","","",0
-"B18-10017",2018-07-13,1,"Scoletoma sp",18,"Yes","","",0
 "B18-10017",2018-07-13,1,"Mayerella acanthopoda",17,"No","","",0
 "B18-10017",2018-07-13,1,"Pseudopolydora paucibranchiata",17,"No","","",0
 "B18-10017",2018-07-13,1,"Leptochelia dubia",14,"No","","S",0
@@ -746,18 +682,14 @@
 "B18-10017",2018-07-13,1,"Pherusa negligens",5,"No","","",0
 "B18-10017",2018-07-13,1,"Syllis (spellingsyllis) nipponica",5,"No",NA,NA,0
 "B18-10017",2018-07-13,1,"Turbellaria",4,"No","","",0
-"B18-10017",2018-07-13,1,"Syllidae",4,"Yes","","",0
 "B18-10017",2018-07-13,1,"Tagelus affinis",4,"No","Mollusc","",0
 "B18-10017",2018-07-13,1,"Acuminodeutopus heteruropus",2,"No","","S",0
 "B18-10017",2018-07-13,1,"Armandia brevis",2,"No","","",0
 "B18-10017",2018-07-13,1,"Capitella capitata Cmplx",2,"No","","",0
-"B18-10017",2018-07-13,1,"Caprella sp",2,"Yes","","",0
 "B18-10017",2018-07-13,1,"Glycera americana",2,"No","","",0
 "B18-10017",2018-07-13,1,"Metasychis disparidentatus",2,"No","","",0
-"B18-10017",2018-07-13,1,"Talitridae",2,"Yes",NA,NA,0
 "B18-10017",2018-07-13,1,"Nemertea",1,"No","","",0
 "B18-10017",2018-07-13,1,"Columbellidae",1,"No",NA,NA,0
-"B18-10017",2018-07-13,1,"Edwardsiidae",1,"Yes","","",0
 "B18-10017",2018-07-13,1,"Ericthonius brasiliensis",1,"No","","S",0
 "B18-10017",2018-07-13,1,"Haminoea vesicula",1,"No","Mollusc","",0
 "B18-10017",2018-07-13,1,"Gitanopsis sp",1,"No","","",0
@@ -869,7 +801,6 @@
 "B18-10022",2018-07-18,1,"Tubulanus sp",1,"No","","",0
 "B18-10023",2018-07-16,1,"Amphideutopus oculatus",32,"No","","S",0
 "B18-10023",2018-07-16,1,"Leitoscoloplos pugettensis",32,"No","","",0
-"B18-10023",2018-07-16,1,"Scoletoma sp",21,"Yes","","",0
 "B18-10023",2018-07-16,1,"Lumbrineris sp E",15,"No",NA,NA,0
 "B18-10023",2018-07-16,1,"Spiophanes duplex",12,"No","","S",0
 "B18-10023",2018-07-16,1,"Ampharete labrops",11,"No","","",0
@@ -907,8 +838,6 @@
 "B18-10023",2018-07-16,1,"Glycera americana",1,"No","","",0
 "B18-10023",2018-07-16,1,"Glycinde armigera",1,"No","","",0
 "B18-10023",2018-07-16,1,"Rochefortia coani",1,"No","Mollusc","S",0
-"B18-10023",2018-07-16,1,"Lumbrineridae",1,"Yes","","",0
-"B18-10023",2018-07-16,1,"Lumbrineris sp",1,"Yes","","",0
 "B18-10023",2018-07-16,1,"Lyonsia californica",1,"No","Mollusc","S",0
 "B18-10023",2018-07-16,1,"Macoma nasuta",1,"No","Mollusc","",0
 "B18-10023",2018-07-16,1,"Macoma yoldiformis",1,"No","Mollusc","",0
@@ -930,7 +859,6 @@
 "B18-10024",2018-07-19,1,"Leitoscoloplos pugettensis",23,"No","","",0
 "B18-10024",2018-07-19,1,"Ampelisca brachycladus",21,"No","","S",0
 "B18-10024",2018-07-19,1,"Tagelus affinis",16,"No","Mollusc","",0
-"B18-10024",2018-07-19,1,"Lumbrineris sp",15,"Yes","","",0
 "B18-10024",2018-07-19,1,"Neotrypaea sp",18,"No","","",0
 "B18-10024",2018-07-19,1,"Ericthonius brasiliensis",8,"No","","S",0
 "B18-10024",2018-07-19,1,"Laevicardium substriatum",7,"No","Mollusc","",0
@@ -940,11 +868,9 @@
 "B18-10024",2018-07-19,1,"Scleroplax granulata",5,"No","","",0
 "B18-10024",2018-07-19,1,"Stylatula sp",6,"No","","",0
 "B18-10024",2018-07-19,1,"Goniada littorea",3,"No","","S",0
-"B18-10024",2018-07-19,1,"Poecilochaetus sp",3,"Yes","","",0
 "B18-10024",2018-07-19,1,"Alpheus californiensis",2,"No","","",0
 "B18-10024",2018-07-19,1,"Amphiodia sp",2,"No","","S",0
 "B18-10024",2018-07-19,1,"Asthenothaerus diegensis",2,"No","Mollusc","",0
-"B18-10024",2018-07-19,1,"Brachyura",2,"Yes","","",0
 "B18-10024",2018-07-19,1,"Glycera americana",2,"No","","",0
 "B18-10024",2018-07-19,1,"Lumbrineris sp E",2,"No",NA,NA,0
 "B18-10024",2018-07-19,1,"Mediomastus sp",2,"No","","",0
@@ -958,7 +884,6 @@
 "B18-10024",2018-07-19,1,"Edwardsiidae",1,"No","","",0
 "B18-10024",2018-07-19,1,"Podochela hemphillii",1,"No","","",0
 "B18-10024",2018-07-19,1,"Glycera nana",1,"No","","",0
-"B18-10024",2018-07-19,1,"Glycera sp",1,"Yes","","",0
 "B18-10024",2018-07-19,1,"Hartmanodes sp SD1",1,"No",NA,NA,0
 "B18-10024",2018-07-19,1,"Monticellina siblina",1,"No","","",0
 "B18-10024",2018-07-19,1,"Lyonsia californica",1,"No","Mollusc","S",0
@@ -970,7 +895,6 @@
 "B18-10024",2018-07-19,1,"Poecilochaetus sp A",1,"No","","",0
 "B18-10024",2018-07-19,1,"Scolanthus sp B",1,"No","","",0
 "B18-10024",2018-07-19,1,"Virgulariidae",1,"No",NA,NA,0
-"B18-10026",2018-08-08,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10026",2018-08-08,1,"Leitoscoloplos pugettensis",5,"No","","",0
 "B18-10026",2018-08-08,1,"Edwardsia californica",4,"No","","",0
 "B18-10026",2018-08-08,1,"Glycera americana",4,"No","","",0
@@ -987,10 +911,8 @@
 "B18-10026",2018-08-08,1,"Scoletoma sp A",1,"No","","",0
 "B18-10026",2018-08-08,1,"Spiophanes duplex",1,"No","","S",0
 "B18-10026",2018-08-08,1,"Tubulanus sp",1,"No","","",0
-"B18-10027",2018-08-08,1,"Scoletoma sp",21,"Yes","","",0
 "B18-10027",2018-08-08,1,"Leitoscoloplos pugettensis",20,"No","","",0
 "B18-10027",2018-08-08,1,"Amphideutopus oculatus",8,"No","","S",0
-"B18-10027",2018-08-08,1,"Leitoscoloplos sp",5,"Yes",NA,NA,0
 "B18-10027",2018-08-08,1,"Paraprionospio pinnata",4,"No","","",0
 "B18-10027",2018-08-08,1,"Poecilochaetus sp A",4,"No","","",0
 "B18-10027",2018-08-08,1,"Cossura sp A",3,"No","","",0
@@ -1033,12 +955,10 @@
 "B18-10028",2018-08-08,1,"Podarkeopsis glabrus",1,"No","","",0
 "B18-10028",2018-08-08,1,"Nemertea",1,"No","","",0
 "B18-10029",2018-07-19,1,"Leitoscoloplos pugettensis",64,"No","","",0
-"B18-10029",2018-07-19,1,"Scoletoma sp",14,"Yes","","",0
 "B18-10029",2018-07-19,1,"Scleroplax granulata",4,"No","","",0
 "B18-10029",2018-07-19,1,"Ambidexter panamensis",3,"No","","",0
 "B18-10029",2018-07-19,1,"Euchone limnicola",3,"No","","",0
 "B18-10029",2018-07-19,1,"Glycera americana",3,"No","","",0
-"B18-10029",2018-07-19,1,"Lumbrineris sp",3,"Yes","","",0
 "B18-10029",2018-07-19,1,"Amphipholis squamata",2,"No","","",0
 "B18-10029",2018-07-19,1,"Exogone lourei",2,"No","","S",0
 "B18-10029",2018-07-19,1,"Monticellina cryptica",2,"No","","",0
@@ -1080,7 +1000,6 @@
 "B18-10030",2018-07-16,1,"Chiridota",5,"No",NA,NA,0
 "B18-10030",2018-07-16,1,"Amphipholis squamata",4,"No","","",0
 "B18-10030",2018-07-16,1,"Diplodonta sericata",4,"No","Mollusc","",0
-"B18-10030",2018-07-16,1,"Lumbrineris sp",4,"Yes","","",0
 "B18-10030",2018-07-16,1,"Micropodarke dubia",4,"No","","",0
 "B18-10030",2018-07-16,1,"Notomastus sp",3,"No","","",1
 "B18-10030",2018-07-16,1,"Pista wui",3,"No","","",0
@@ -1093,7 +1012,6 @@
 "B18-10030",2018-07-16,1,"Paranemertes californica",2,"No","","",0
 "B18-10030",2018-07-16,1,"Armandia brevis",1,"No","","",0
 "B18-10030",2018-07-16,1,"Branchiostoma californiense",1,"No","","",0
-"B18-10030",2018-07-16,1,"Calyptraeidae",1,"Yes",NA,NA,0
 "B18-10030",2018-07-16,1,"Caryocorbula luteola",1,"No",NA,NA,0
 "B18-10030",2018-07-16,1,"Cirratulidae",1,"No","","",0
 "B18-10030",2018-07-16,1,"Crucibulum spinosum",1,"No","Mollusc","S",0
@@ -1101,7 +1019,6 @@
 "B18-10030",2018-07-16,1,"Glycera sp",1,"No","","",0
 "B18-10030",2018-07-16,1,"Hartmanodes hartmanae",1,"No","","",0
 "B18-10030",2018-07-16,1,"Hesionella mccullochae",1,"No",NA,NA,0
-"B18-10030",2018-07-16,1,"Lumbrineridae",1,"Yes","","",0
 "B18-10030",2018-07-16,1,"Majoidea",1,"No",NA,NA,0
 "B18-10030",2018-07-16,1,"Kalliapseudes crassus",1,"No","","",0
 "B18-10030",2018-07-16,1,"Nereididae",1,"No","","",0
@@ -1114,19 +1031,15 @@
 "B18-10030",2018-07-16,1,"Pista percyi",1,"No","","",0
 "B18-10030",2018-07-16,1,"Pyromaia tuberculata",1,"No","","",0
 "B18-10030",2018-07-16,1,"Rudilemboides sp",1,"No","","",0
-"B18-10030",2018-07-16,1,"Sipunculidea",1,"Yes",NA,NA,0
 "B18-10030",2018-07-16,1,"Zeuxo normani",1,"No","","",0
 "B18-10031",2018-07-20,1,"Pseudopolydora paucibranchiata",29,"No","","",0
 "B18-10031",2018-07-20,1,"Petaloclymene pacifica",28,"No","","",0
-"B18-10031",2018-07-20,1,"Maldanidae",26,"Yes","","",0
-"B18-10031",2018-07-20,1,"Scoletoma sp",26,"Yes","","",0
 "B18-10031",2018-07-20,1,"Scoletoma sp C",26,"No","","",0
 "B18-10031",2018-07-20,1,"Musculista senhousia",22,"No","Mollusc","",0
 "B18-10031",2018-07-20,1,"Fabricinuda limnicola",16,"No","","",0
 "B18-10031",2018-07-20,1,"Mediomastus sp",14,"No","","",0
 "B18-10031",2018-07-20,1,"Leitoscoloplos pugettensis",13,"No","","",0
 "B18-10031",2018-07-20,1,"Prionospio heterobranchia",13,"No",NA,NA,0
-"B18-10031",2018-07-20,1,"Lumbrineris sp",7,"Yes","","",0
 "B18-10031",2018-07-20,1,"Crucibulum spinosum",6,"No","Mollusc","S",0
 "B18-10031",2018-07-20,1,"Euchone limnicola",5,"No","","",0
 "B18-10031",2018-07-20,1,"Exogone lourei",5,"No","","S",0
@@ -1149,14 +1062,12 @@
 "B18-10031",2018-07-20,1,"Scolanthus sp B",2,"No","","",0
 "B18-10031",2018-07-20,1,"Spiophanes duplex",2,"No","","S",0
 "B18-10031",2018-07-20,1,"Megalomma pigmentum",1,"No","","",0
-"B18-10031",2018-07-20,1,"Actiniaria",1,"Yes","","",0
 "B18-10031",2018-07-20,1,"Ambidexter panamensis",1,"No","","",0
 "B18-10031",2018-07-20,1,"Amphiodia sp",1,"No","","S",0
 "B18-10031",2018-07-20,1,"Ciona intestinalis",1,"No","","",0
 "B18-10031",2018-07-20,1,"Cirratulus sp",1,"No","","",0
 "B18-10031",2018-07-20,1,"Crepidula onyx",1,"No","Mollusc","",0
 "B18-10031",2018-07-20,1,"Edwardsia californica",1,"No","","",0
-"B18-10031",2018-07-20,1,"Edwardsiidae",1,"Yes","","",0
 "B18-10031",2018-07-20,1,"Hartmanodes sp SD1",1,"No",NA,NA,0
 "B18-10031",2018-07-20,1,"Heteromysis odontops",1,"No","","",0
 "B18-10031",2018-07-20,1,"Nephtys caecoides",1,"No","","",0
@@ -1175,11 +1086,9 @@
 "B18-10032",2018-07-20,1,"Glycera americana",10,"No","","",0
 "B18-10032",2018-07-20,1,"Petaloclymene pacifica",9,"No","","",0
 "B18-10032",2018-07-20,1,"Phoronida",14,"No","","S",0
-"B18-10032",2018-07-20,1,"Scoletoma sp",9,"Yes","","",0
 "B18-10032",2018-07-20,1,"Asthenothaerus diegensis",7,"No","Mollusc","",0
 "B18-10032",2018-07-20,1,"Scoletoma sp C",7,"No","","",0
 "B18-10032",2018-07-20,1,"Solen rostriformis",6,"No","Mollusc","",0
-"B18-10032",2018-07-20,1,"Glycera sp",5,"Yes","","",0
 "B18-10032",2018-07-20,1,"Lyonsia californica",5,"No","Mollusc","S",0
 "B18-10032",2018-07-20,1,"Tagelus affinis",5,"No","Mollusc","",0
 "B18-10032",2018-07-20,1,"Microspio sp",4,"No",NA,NA,0
@@ -1188,7 +1097,6 @@
 "B18-10032",2018-07-20,1,"Pista percyi",3,"No","","",0
 "B18-10032",2018-07-20,1,"Stylatula sp",3,"No","","",0
 "B18-10032",2018-07-20,1,"Diplocirrus sp SD1",2,"No","","",0
-"B18-10032",2018-07-20,1,"Maldanidae",2,"Yes","","",0
 "B18-10032",2018-07-20,1,"Nassarius tiarula",2,"No","Mollusc","",0
 "B18-10032",2018-07-20,1,"Spiophanes duplex",2,"No","","S",0
 "B18-10032",2018-07-20,1,"Amphideutopus oculatus",1,"No","","S",0
@@ -1215,7 +1123,6 @@
 "B18-10034",2018-07-30,1,"Scoletoma sp",53,"No","","",0
 "B18-10034",2018-07-30,1,"Prionospio heterobranchia",37,"No",NA,NA,0
 "B18-10034",2018-07-30,1,"Exogone sp A (Harris)",23,"No","","",0
-"B18-10034",2018-07-30,1,"Exogone sp",21,"Yes","","",0
 "B18-10034",2018-07-30,1,"Mayerella acanthopoda",20,"No","","",0
 "B18-10034",2018-07-30,1,"Phoronida",20,"No","","S",0
 "B18-10034",2018-07-30,1,"Glycera americana",9,"No","","",0
@@ -1255,7 +1162,6 @@
 "B18-10035",2018-07-30,1,"Fabricinuda limnicola",68,"No","","",0
 "B18-10035",2018-07-30,1,"Exogone lourei",61,"No","","S",0
 "B18-10035",2018-07-30,1,"Scoletoma sp C",55,"No","","",0
-"B18-10035",2018-07-30,1,"Scoletoma sp",21,"Yes","","",0
 "B18-10035",2018-07-30,1,"Mediomastus sp",18,"No","","",0
 "B18-10035",2018-07-30,1,"Acteocina carinata",16,"No","Mollusc","",0
 "B18-10035",2018-07-30,1,"Pseudopolydora paucibranchiata",15,"No","","",0
@@ -1287,14 +1193,12 @@
 "B18-10035",2018-07-30,1,"Tubulanus sp",1,"No","","",0
 "B18-10036",2018-07-30,1,"Scoletoma sp C",47,"No","","",0
 "B18-10036",2018-07-30,1,"Musculista senhousia",35,"No","Mollusc","",0
-"B18-10036",2018-07-30,1,"Scoletoma sp",19,"Yes","","",0
 "B18-10036",2018-07-30,1,"Mediomastus sp",18,"No","","",0
 "B18-10036",2018-07-30,1,"Petaloclymene pacifica",15,"No","","",0
 "B18-10036",2018-07-30,1,"Leitoscoloplos pugettensis",13,"No","","",0
 "B18-10036",2018-07-30,1,"Prionospio heterobranchia",13,"No",NA,NA,0
 "B18-10036",2018-07-30,1,"Fabricinuda limnicola",12,"No","","",0
 "B18-10036",2018-07-30,1,"Mayerella acanthopoda",12,"No","","",0
-"B18-10036",2018-07-30,1,"Maldanidae",11,"Yes","","",0
 "B18-10036",2018-07-30,1,"Glycera americana",7,"No","","",0
 "B18-10036",2018-07-30,1,"Crepidula onyx",6,"No","Mollusc","",0
 "B18-10036",2018-07-30,1,"Pseudopolydora paucibranchiata",6,"No","","",0
@@ -1323,14 +1227,11 @@
 "B18-10037",2018-07-31,1,"Musculista senhousia",130,"No","Mollusc","",0
 "B18-10037",2018-07-31,1,"Scoletoma sp C",107,"No","","",0
 "B18-10037",2018-07-31,1,"Exogone lourei",58,"No","","S",0
-"B18-10037",2018-07-31,1,"Scoletoma sp",52,"Yes","","",0
 "B18-10037",2018-07-31,1,"Leitoscoloplos pugettensis",39,"No","","",0
 "B18-10037",2018-07-31,1,"Mediomastus sp",33,"No","","",0
 "B18-10037",2018-07-31,1,"Cirriformia sp",15,"No","","S",0
-"B18-10037",2018-07-31,1,"Cirratulidae",11,"Yes","","",0
 "B18-10037",2018-07-31,1,"Oligochaeta",10,"No","","",0
 "B18-10037",2018-07-31,1,"Theora lubrica",10,"No","Mollusc","",0
-"B18-10037",2018-07-31,1,"Actiniaria",6,"Yes","","",0
 "B18-10037",2018-07-31,1,"Cossura sp",6,"No","","",0
 "B18-10037",2018-07-31,1,"Armandia brevis",5,"No","","",0
 "B18-10037",2018-07-31,1,"Prionospio heterobranchia",5,"No",NA,NA,0
@@ -1349,7 +1250,6 @@
 "B18-10037",2018-07-31,1,"Styela sp",2,"No","","",0
 "B18-10037",2018-07-31,1,"Acteocina sp",1,"No","Mollusc","",0
 "B18-10037",2018-07-31,1,"Ambidexter panamensis",1,"No","","",0
-"B18-10037",2018-07-31,1,"Amphiuridae",1,"Yes","","",0
 "B18-10037",2018-07-31,1,"Aruga sp",1,"No","","",0
 "B18-10037",2018-07-31,1,"Barleeia sp",1,"No","Mollusc","S",0
 "B18-10037",2018-07-31,1,"Crepidula onyx",1,"No","Mollusc","",0
@@ -1377,7 +1277,6 @@
 "B18-10038",2018-07-31,1,"Leitoscoloplos pugettensis",13,"No","","",0
 "B18-10038",2018-07-31,1,"Glycera americana",12,"No","","",0
 "B18-10038",2018-07-31,1,"Tagelus affinis",11,"No","Mollusc","",0
-"B18-10038",2018-07-31,1,"Maldanidae",9,"Yes","","",0
 "B18-10038",2018-07-31,1,"Euphilomedes carcharodonta",8,"No","","",0
 "B18-10038",2018-07-31,1,"Exogone lourei",5,"No","","S",0
 "B18-10038",2018-07-31,1,"Oxyurostylis pacifica",4,"No","","",0
@@ -1387,16 +1286,13 @@
 "B18-10038",2018-07-31,1,"Exogone sp A (Harris)",3,"No","","",0
 "B18-10038",2018-07-31,1,"Hartmanodes sp SD1",3,"No",NA,NA,0
 "B18-10038",2018-07-31,1,"Odontosyllis phosphorea",3,"No","","",0
-"B18-10038",2018-07-31,1,"Brachyura",2,"Yes","","",0
 "B18-10038",2018-07-31,1,"Mayerella acanthopoda",2,"No","","",0
 "B18-10038",2018-07-31,1,"Nassarius tiarula",2,"No","Mollusc","",0
 "B18-10038",2018-07-31,1,"Paranemertes californica",2,"No","","",0
 "B18-10038",2018-07-31,1,"Podocerus fulanus",2,"No","","",0
-"B18-10038",2018-07-31,1,"Xanthoidea",2,"Yes",NA,NA,0
 "B18-10038",2018-07-31,1,"Megalomma pigmentum",1,"No","","",0
 "B18-10038",2018-07-31,1,"Actiniaria",1,"No","","",0
 "B18-10038",2018-07-31,1,"Acuminodeutopus heteruropus",1,"No","","S",0
-"B18-10038",2018-07-31,1,"Amphiuridae",1,"Yes","","",0
 "B18-10038",2018-07-31,1,"Barleeia sp",1,"No","Mollusc","S",0
 "B18-10038",2018-07-31,1,"Bulla gouldiana",1,"No","Mollusc","",0
 "B18-10038",2018-07-31,1,"Diplocirrus sp SD1",1,"No","","",0
@@ -1457,14 +1353,12 @@
 "B18-10040",2018-08-14,1,"Musculista senhousia",1,"No","Mollusc","",0
 "B18-10040",2018-08-14,1,"Nassarius tiarula",1,"No","Mollusc","",0
 "B18-10040",2018-08-14,1,"Petaloclymene pacifica",1,"No","","",0
-"B18-10040",2018-08-14,1,"Polynoidae",1,"Yes","","",0
 "B18-10040",2018-08-14,1,"Prionospio heterobranchia",1,"No",NA,NA,0
 "B18-10040",2018-08-14,1,"Spio maculata",1,"No","","",0
 "B18-10040",2018-08-14,1,"Syllidae",1,"No","","",0
 "B18-10040",2018-08-14,1,"Tellina meropsis",1,"No","Mollusc","S",0
 "B18-10040",2018-08-14,1,"Zeuxo normani",1,"No","","",0
 "B18-10041",2018-07-31,1,"Metridium sp",74,"No",NA,NA,0
-"B18-10041",2018-07-31,1,"Actiniaria",69,"Yes","","",0
 "B18-10041",2018-07-31,1,"Paracerceis sculpta",40,"No","","",0
 "B18-10041",2018-07-31,1,"Leitoscoloplos pugettensis",37,"No","","",0
 "B18-10041",2018-07-31,1,"Musculista senhousia",32,"No","Mollusc","",0
@@ -1475,7 +1369,6 @@
 "B18-10041",2018-07-31,1,"Amphipholis squamata",11,"No","","",0
 "B18-10041",2018-07-31,1,"Maldanidae",11,"No","","",0
 "B18-10041",2018-07-31,1,"Mediomastus sp",11,"No","","",0
-"B18-10041",2018-07-31,1,"Sphaeromatidae",11,"Yes","","",0
 "B18-10041",2018-07-31,1,"Bemlos macromanus",10,"No","","",0
 "B18-10041",2018-07-31,1,"Scoletoma sp",10,"No","","",0
 "B18-10041",2018-07-31,1,"Acteocina carinata",9,"No","Mollusc","",0
@@ -1495,8 +1388,6 @@
 "B18-10041",2018-07-31,1,"Leucothoe alata",2,"No","","",0
 "B18-10041",2018-07-31,1,"Nassarius tiarula",2,"No","Mollusc","",0
 "B18-10041",2018-07-31,1,"Tubulanus sp",2,"No","","",0
-"B18-10041",2018-07-31,1,"Bemlos sp",1,"Yes","","",0
-"B18-10041",2018-07-31,1,"Caprella sp",1,"Yes","","",0
 "B18-10041",2018-07-31,1,"Leptochelia dubia",1,"No","","S",0
 "B18-10041",2018-07-31,1,"Exogone sp A (Harris)",1,"No","","",0
 "B18-10041",2018-07-31,1,"Hippolyte californiensis",1,"No","","",0
@@ -1517,7 +1408,6 @@
 "B18-10042",2018-08-01,1,"Exogone sp A (Harris)",7,"No","","",0
 "B18-10042",2018-08-01,1,"Grandidierella japonica",6,"No","","",0
 "B18-10042",2018-08-01,1,"Prionospio heterobranchia",5,"No",NA,NA,0
-"B18-10042",2018-08-01,1,"Actiniaria",4,"Yes","","",0
 "B18-10042",2018-08-01,1,"Nassarius tiarula",4,"No","Mollusc","",0
 "B18-10042",2018-08-01,1,"Rudilemboides sp",4,"No","","",0
 "B18-10042",2018-08-01,1,"Actiniaria sp 1",3,"No",NA,NA,0
@@ -1535,7 +1425,6 @@
 "B18-10042",2018-08-01,1,"Nemertea",1,"No","","",0
 "B18-10042",2018-08-01,1,"Bemlos sp",1,"No","","",0
 "B18-10042",2018-08-01,1,"Caprella californica",1,"No","","S",0
-"B18-10042",2018-08-01,1,"Caprella sp",1,"Yes","","",0
 "B18-10042",2018-08-01,1,"Flabelligeridae",1,"No",NA,NA,0
 "B18-10042",2018-08-01,1,"Glycera americana",1,"No","","",0
 "B18-10042",2018-08-01,1,"Mysidae",1,"No","","",0
@@ -1550,7 +1439,6 @@
 "B18-10043",2018-08-14,1,"Barleeia sp",560,"No","Mollusc","S",0
 "B18-10043",2018-08-14,1,"Leitoscoloplos pugettensis",267,"No","","",0
 "B18-10043",2018-08-14,1,"Paracerceis sculpta",149,"No","","",0
-"B18-10043",2018-08-14,1,"Actiniaria",118,"Yes","","",0
 "B18-10043",2018-08-14,1,"Podocerus fulanus",108,"No","","",0
 "B18-10043",2018-08-14,1,"Musculista senhousia",60,"No","Mollusc","",0
 "B18-10043",2018-08-14,1,"Hyalidae",58,"No","","",0
@@ -1565,7 +1453,6 @@
 "B18-10043",2018-08-14,1,"Maldanidae",17,"No","","",0
 "B18-10043",2018-08-14,1,"Odontosyllis phosphorea",16,"No","","",0
 "B18-10043",2018-08-14,1,"Syllis (Syllis) gracilis",12,"No","","",0
-"B18-10043",2018-08-14,1,"Bemlos sp",9,"Yes","","",0
 "B18-10043",2018-08-14,1,"Leptochelia dubia",8,"No","","S",0
 "B18-10043",2018-08-14,1,"Euphilomedes carcharodonta",7,"No","","",0
 "B18-10043",2018-08-14,1,"Hippolyte californiensis",7,"No","","",0
@@ -1623,7 +1510,6 @@
 "B18-10046",2018-08-15,1,"Mediomastus sp",41,"No","","",0
 "B18-10046",2018-08-15,1,"Monocorophium acherusicum",24,"No","","S",0
 "B18-10046",2018-08-15,1,"Leptochelia dubia",23,"No","","S",0
-"B18-10046",2018-08-15,1,"Caprella sp",14,"Yes","","",0
 "B18-10046",2018-08-15,1,"Euchone limnicola",14,"No","","",0
 "B18-10046",2018-08-15,1,"Notomastus sp",12,"No","","",1
 "B18-10046",2018-08-15,1,"Tubulanus sp",8,"No","","",0
@@ -1635,7 +1521,6 @@
 "B18-10046",2018-08-15,1,"Paramicrodeutopus schmitti",4,"No","","S",0
 "B18-10046",2018-08-15,1,"Scoletoma sp C",4,"No","","",0
 "B18-10046",2018-08-15,1,"Amphideutopus oculatus",3,"No","","S",0
-"B18-10046",2018-08-15,1,"Capitellidae",3,"Yes","","",0
 "B18-10046",2018-08-15,1,"Kirkegaardia serratiseta",3,"No",NA,NA,0
 "B18-10046",2018-08-15,1,"Glycera tenuis",2,"No","","",0
 "B18-10046",2018-08-15,1,"Harmothoe sp LA1",2,"No",NA,NA,0
@@ -1647,7 +1532,6 @@
 "B18-10046",2018-08-15,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10046",2018-08-15,1,"Amphipholis squamata",1,"No","","",0
 "B18-10046",2018-08-15,1,"Apionsoma misakianum",1,"No","","",0
-"B18-10046",2018-08-15,1,"Cirratulidae",1,"Yes","","",0
 "B18-10046",2018-08-15,1,"Cumella californica",1,"No","","",0
 "B18-10046",2018-08-15,1,"Goniada littorea",1,"No","","S",0
 "B18-10046",2018-08-15,1,"Haminoea sp",1,"No",NA,NA,0
@@ -1657,11 +1541,9 @@
 "B18-10046",2018-08-15,1,"Lyonsia californica",1,"No","Mollusc","S",0
 "B18-10046",2018-08-15,1,"Nutricola sp",1,"No",NA,NA,0
 "B18-10046",2018-08-15,1,"Onuphidae",1,"No","","",0
-"B18-10046",2018-08-15,1,"Nemertea",1,"Yes","","",0
 "B18-10046",2018-08-15,1,"Paranthura japonica",1,"No",NA,NA,0
 "B18-10046",2018-08-15,1,"Podocerus fulanus",1,"No","","",0
 "B18-10046",2018-08-15,1,"Polycirrus sp",1,"No","","",0
-"B18-10046",2018-08-15,1,"Scoletoma sp",1,"Yes","","",0
 "B18-10047",2018-09-18,1,"Theora lubrica",31,"No","Mollusc","",0
 "B18-10047",2018-09-18,1,"Mayerella acanthopoda",27,"No","","",0
 "B18-10047",2018-09-18,1,"Scoletoma sp",27,"No","","",0
@@ -1719,7 +1601,6 @@
 "B18-10052",2018-08-13,1,"Dorvillea (Schistomeringos) sp",162,"No","","",0
 "B18-10052",2018-08-13,1,"Rudilemboides sp",77,"No","","",0
 "B18-10052",2018-08-13,1,"Grandidierella japonica",66,"No","","",0
-"B18-10052",2018-08-13,1,"Aoridae",58,"Yes","","",0
 "B18-10052",2018-08-13,1,"Cossura sp A",58,"No","","",0
 "B18-10052",2018-08-13,1,"Eochelidium sp A",57,"No","","",0
 "B18-10052",2018-08-13,1,"Zeuxo normani",51,"No","","",0
@@ -1756,7 +1637,6 @@
 "B18-10052",2018-08-13,1,"Melinna sp",1,"No","","",0
 "B18-10052",2018-08-13,1,"Modiolatus neglectus",1,"No",NA,NA,0
 "B18-10052",2018-08-13,1,"Monocorophium insidiosum",1,"No","","S",0
-"B18-10052",2018-08-13,1,"Monocorophium sp",1,"Yes","","",0
 "B18-10052",2018-08-13,1,"Nereis procera",1,"No","","",0
 "B18-10052",2018-08-13,1,"Ophiodromus pugettensis",1,"No","","",0
 "B18-10052",2018-08-13,1,"Phyllodoce longipes",1,"No","","",0
@@ -1768,13 +1648,10 @@
 "B18-10053",2018-08-12,1,"Oligochaeta",93,"No","","",0
 "B18-10053",2018-08-12,1,"Cossura sp A",66,"No","","",0
 "B18-10053",2018-08-12,1,"Caprella simia",64,"No",NA,NA,0
-"B18-10053",2018-08-12,1,"Caprella sp",47,"Yes","","",0
 "B18-10053",2018-08-12,1,"Pseudopolydora paucibranchiata",36,"No","","",0
 "B18-10053",2018-08-12,1,"Cirratulus sp",42,"No","","",0
 "B18-10053",2018-08-12,1,"Euclymeninae sp A",35,"No","","",0
 "B18-10053",2018-08-12,1,"Dorvillea (Schistomeringos) sp",34,"No","","",0
-"B18-10053",2018-08-12,1,"Exogone sp",31,"Yes","","",0
-"B18-10053",2018-08-12,1,"Caprellidae",21,"Yes","","",0
 "B18-10053",2018-08-12,1,"Harmothoe imbricata Cmplx",21,"No","","",0
 "B18-10053",2018-08-12,1,"Leitoscoloplos pugettensis",16,"No","","",0
 "B18-10053",2018-08-12,1,"Mediomastus sp",15,"No","","",0
@@ -1809,7 +1686,6 @@
 "B18-10053",2018-08-12,1,"Protocirrineris sp B",1,"No","","",0
 "B18-10053",2018-08-12,1,"Pseudotanais sp",1,"No","","",0
 "B18-10053",2018-08-12,1,"Serpula columbiana",1,"No",NA,NA,0
-"B18-10053",2018-08-12,1,"Tanaididae",1,"Yes",NA,NA,0
 "B18-10053",2018-08-12,1,"Tubulanus sp",1,"No","","",0
 "B18-10053",2018-08-12,1,"Nemertea",1,"No","","",0
 "B18-10054",2018-08-09,1,"Cossura candida",22,"No","","",0
@@ -1873,7 +1749,6 @@
 "B18-10055",2018-08-16,1,"Glycera americana",4,"No","","",0
 "B18-10055",2018-08-16,1,"Mactrotoma californica",4,"No","Mollusc","",0
 "B18-10055",2018-08-16,1,"Musculista senhousia",4,"No","Mollusc","",0
-"B18-10055",2018-08-16,1,"Scoletoma sp",4,"Yes","","",0
 "B18-10055",2018-08-16,1,"Dorvillea (Schistomeringos) sp",3,"No","","",0
 "B18-10055",2018-08-16,1,"Fabricinuda limnicola",3,"No","","",0
 "B18-10055",2018-08-16,1,"Goniada littorea",3,"No","","S",0
@@ -1886,14 +1761,11 @@
 "B18-10055",2018-08-16,1,"Grandidierella japonica",2,"No","","",0
 "B18-10055",2018-08-16,1,"Metasychis disparidentatus",2,"No","","",0
 "B18-10055",2018-08-16,1,"Prionospio (Minuspio) lighti",2,"No","","",0
-"B18-10055",2018-08-16,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10055",2018-08-16,1,"Chaetozone corona",1,"No","","",0
 "B18-10055",2018-08-16,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
-"B18-10055",2018-08-16,1,"Cossura sp",1,"Yes","","",0
 "B18-10055",2018-08-16,1,"Exogone lourei",1,"No","","S",0
 "B18-10055",2018-08-16,1,"Laevicardium substriatum",1,"No","Mollusc","",0
 "B18-10055",2018-08-16,1,"Lineidae",1,"No","","",0
-"B18-10055",2018-08-16,1,"Maldanidae",1,"Yes","","",0
 "B18-10055",2018-08-16,1,"Malmgreniella sp",1,"No","","",0
 "B18-10055",2018-08-16,1,"Mediomastus sp",1,"No","","",0
 "B18-10055",2018-08-16,1,"Syllis (spellingsyllis) nipponica",1,"No",NA,NA,0
@@ -1904,7 +1776,6 @@
 "B18-10055",2018-08-16,1,"Praxillella pacifica",1,"No","","",0
 "B18-10055",2018-08-16,1,"Pseudopolydora paucibranchiata",1,"No","","",0
 "B18-10055",2018-08-16,1,"Spiochaetopterus costarum",1,"No","","",0
-"B18-10055",2018-08-16,1,"Spionidae",1,"Yes","","",0
 "B18-10055",2018-08-16,1,"Spirorbidae",1,"No","","",0
 "B18-10055",2018-08-16,1,"Tagelus affinis",1,"No","Mollusc","",0
 "B18-10056",2018-08-16,1,"Laevicardium substriatum",22,"No","Mollusc","",0
@@ -1923,7 +1794,6 @@
 "B18-10056",2018-08-16,1,"Leitoscoloplos pugettensis",5,"No","","",0
 "B18-10056",2018-08-16,1,"Euphilomedes carcharodonta",4,"No","","",0
 "B18-10056",2018-08-16,1,"Musculista senhousia",4,"No","Mollusc","",0
-"B18-10056",2018-08-16,1,"Scoletoma sp",4,"Yes","","",0
 "B18-10056",2018-08-16,1,"Cossura sp A",3,"No","","",0
 "B18-10056",2018-08-16,1,"Nemertea",3,"No","","",0
 "B18-10056",2018-08-16,1,"Rochefortia coani",3,"No","Mollusc","S",0
@@ -1941,7 +1811,6 @@
 "B18-10056",2018-08-16,1,"Acteocina carinata",1,"No","Mollusc","",0
 "B18-10056",2018-08-16,1,"Amphiodia sp",1,"No","","S",0
 "B18-10056",2018-08-16,1,"Asthenothaerus diegensis",1,"No","Mollusc","",0
-"B18-10056",2018-08-16,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10056",2018-08-16,1,"Brachyura",1,"No","","",0
 "B18-10056",2018-08-16,1,"Chione californiensis",1,"No","Mollusc","",0
 "B18-10056",2018-08-16,1,"Edwardsia californica",1,"No","","",0
@@ -1960,7 +1829,6 @@
 "B18-10057",2018-08-14,1,"Rudilemboides sp",17,"No","","",0
 "B18-10057",2018-08-14,1,"Heterophoxus cf ellisi",8,"No",NA,NA,0
 "B18-10057",2018-08-14,1,"Eochelidium sp A",7,"No","","",0
-"B18-10057",2018-08-14,1,"Maldanidae",7,"Yes","","",0
 "B18-10057",2018-08-14,1,"Oligochaeta",7,"No","","",0
 "B18-10057",2018-08-14,1,"Prionospio heterobranchia",6,"No",NA,NA,0
 "B18-10057",2018-08-14,1,"Theora lubrica",6,"No","Mollusc","",0
@@ -1978,7 +1846,6 @@
 "B18-10057",2018-08-14,1,"Amphipholis squamata",1,"No","","",0
 "B18-10057",2018-08-14,1,"Anoplodactylus erectus",1,"No","","",0
 "B18-10057",2018-08-14,1,"Asthenothaerus diegensis",1,"No","Mollusc","",0
-"B18-10057",2018-08-14,1,"Caprella sp",1,"Yes","","",0
 "B18-10057",2018-08-14,1,"Dorvillea (Schistomeringos) sp",1,"No","","",0
 "B18-10057",2018-08-14,1,"Glycera americana",1,"No","","",0
 "B18-10057",2018-08-14,1,"Kirkegaardia serratiseta",1,"No",NA,NA,0
@@ -2043,16 +1910,13 @@
 "B18-10060",2018-09-11,1,"Siriella pacifica",7,"No","","",0
 "B18-10060",2018-09-11,1,"Megalomma pigmentum",5,"No","","",0
 "B18-10060",2018-09-11,1,"Fabricinuda limnicola",4,"No","","",0
-"B18-10060",2018-09-11,1,"Actiniaria",3,"Yes","","",0
 "B18-10060",2018-09-11,1,"Lyonsia californica",3,"No","Mollusc","S",0
 "B18-10060",2018-09-11,1,"Prionospio (Minuspio) lighti",3,"No","","",0
 "B18-10060",2018-09-11,1,"Lineidae",2,"No","","",0
-"B18-10060",2018-09-11,1,"Marphysa sp",2,"Yes","","",0
 "B18-10060",2018-09-11,1,"Mediomastus sp 6",2,"No",NA,NA,0
 "B18-10060",2018-09-11,1,"Prionospio heterobranchia",2,"No",NA,NA,0
 "B18-10060",2018-09-11,1,"Scoloplos acmeceps",2,"No","","",0
 "B18-10060",2018-09-11,1,"Tagelus affinis",2,"No","Mollusc","",0
-"B18-10060",2018-09-11,1,"Aphelochaeta sp",1,"Yes","","",0
 "B18-10060",2018-09-11,1,"Armandia brevis",1,"No","","",0
 "B18-10060",2018-09-11,1,"Cossura sp A",1,"No","","",0
 "B18-10060",2018-09-11,1,"Cryptomya californica",1,"No","Mollusc","S",0
@@ -2064,7 +1928,6 @@
 "B18-10060",2018-09-11,1,"Goniada maculata",1,"No","","",0
 "B18-10060",2018-09-11,1,"Harmothoe sp",1,"No","","",0
 "B18-10060",2018-09-11,1,"Laevicardium substriatum",1,"No","Mollusc","",0
-"B18-10060",2018-09-11,1,"Mysidae",1,"Yes","","",0
 "B18-10060",2018-09-11,1,"Naushonia macginitiei",1,"No","","",0
 "B18-10060",2018-09-11,1,"Notomastus sp",1,"No","","",1
 "B18-10060",2018-09-11,1,"Ophiactis simplex",1,"No","","S",0
@@ -2079,7 +1942,6 @@
 "B18-10061",2018-09-13,1,"Cossura sp A",37,"No","","",0
 "B18-10061",2018-09-13,1,"Musculista senhousia",30,"No","Mollusc","",0
 "B18-10061",2018-09-13,1,"Leitoscoloplos pugettensis",28,"No","","",0
-"B18-10061",2018-09-13,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10061",2018-09-13,1,"Scoletoma sp B",20,"No","","",0
 "B18-10061",2018-09-13,1,"Exogone lourei",14,"No","","S",0
 "B18-10061",2018-09-13,1,"Lyonsia californica",8,"No","Mollusc","S",0
@@ -2093,7 +1955,6 @@
 "B18-10061",2018-09-13,1,"Phoronida",4,"No","","S",0
 "B18-10061",2018-09-13,1,"Pseudopolydora paucibranchiata",2,"No","","",0
 "B18-10061",2018-09-13,1,"Actiniaria",1,"No","","",0
-"B18-10061",2018-09-13,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10061",2018-09-13,1,"Corymorpha sp",1,"No","","S",0
 "B18-10061",2018-09-13,1,"Crepipatella dorsata",1,"No","Mollusc","",0
 "B18-10061",2018-09-13,1,"Edwardsia californica",1,"No","","",0
@@ -2115,7 +1976,6 @@
 "B18-10062",2018-07-26,1,"Amphideutopus oculatus",21,"No","","S",0
 "B18-10062",2018-07-26,1,"Cossura sp A",17,"No","","",0
 "B18-10062",2018-07-26,1,"Lyonsia californica",8,"No","Mollusc","S",0
-"B18-10062",2018-07-26,1,"Scoletoma sp",8,"Yes","","",0
 "B18-10062",2018-07-26,1,"Mediomastus sp",7,"No","","",0
 "B18-10062",2018-07-26,1,"Amphipholis squamata",6,"No","","",0
 "B18-10062",2018-07-26,1,"Laomedea calceolifera",6,"No","","",0
@@ -2129,7 +1989,6 @@
 "B18-10062",2018-07-26,1,"Mysidopsis californica",3,"No","","",0
 "B18-10062",2018-07-26,1,"Pitar newcombianus",3,"No","Mollusc","S",0
 "B18-10062",2018-07-26,1,"Laevicardium substriatum",2,"No","Mollusc","",0
-"B18-10062",2018-07-26,1,"Maldanidae",2,"Yes","","",0
 "B18-10062",2018-07-26,1,"Paraprionospio pinnata",2,"No","","",0
 "B18-10062",2018-07-26,1,"Scoletoma sp B",2,"No","","",0
 "B18-10062",2018-07-26,1,"Tubulanus sp",3,"No","","",0
@@ -2203,26 +2062,20 @@
 "B18-10065",2018-07-10,1,"Rudilemboides sp",16,"No","","",0
 "B18-10065",2018-07-10,1,"Euchone limnicola",12,"No","","",0
 "B18-10065",2018-07-10,1,"Syllis (spellingsyllis) nipponica",12,"No",NA,NA,0
-"B18-10065",2018-07-10,1,"Nereididae",12,"Yes","","",0
-"B18-10065",2018-07-10,1,"Caprella sp",10,"Yes","","",0
 "B18-10065",2018-07-10,1,"Monocorophium acherusicum",9,"No","","S",0
 "B18-10065",2018-07-10,1,"Euclymeninae sp A",6,"No","","",0
 "B18-10065",2018-07-10,1,"Neanthes acuminata Cmplx",6,"No","","",0
 "B18-10065",2018-07-10,1,"Scoletoma sp C",6,"No","","",0
 "B18-10065",2018-07-10,1,"Megalomma pigmentum",4,"No","","",0
-"B18-10065",2018-07-10,1,"Maldanidae",4,"Yes","","",0
 "B18-10065",2018-07-10,1,"Mayerella acanthopoda",4,"No","","",0
-"B18-10065",2018-07-10,1,"Tanaididae",4,"Yes",NA,NA,0
 "B18-10065",2018-07-10,1,"Caprella simia",3,"No",NA,NA,0
 "B18-10065",2018-07-10,1,"Haminoea vesicula",3,"No","Mollusc","",0
 "B18-10065",2018-07-10,1,"Prionospio heterobranchia",3,"No",NA,NA,0
 "B18-10065",2018-07-10,1,"Capitella capitata Cmplx",2,"No","","",0
 "B18-10065",2018-07-10,1,"Alpheus sp",1,"No","","",0
 "B18-10065",2018-07-10,1,"Aoroides sp",1,"No","","",0
-"B18-10065",2018-07-10,1,"Arachnida",1,"Yes",NA,NA,0
 "B18-10065",2018-07-10,1,"Dorvillea (Dorvillea) sp",1,"No","","",0
 "B18-10065",2018-07-10,1,"Nemertea",1,"No","","",0
-"B18-10065",2018-07-10,1,"Monocorophium sp",1,"Yes","","",0
 "B18-10065",2018-07-10,1,"Nebalia pugettensis Cmplx",1,"No","","",0
 "B18-10065",2018-07-10,1,"Paradexamine sp SD1",1,"No","","",0
 "B18-10065",2018-07-10,1,"Podocerus fulanus",1,"No","","",0
@@ -2243,8 +2096,6 @@
 "B18-10066",2018-07-10,1,"Monocorophium sp",2,"No","","",0
 "B18-10066",2018-07-10,1,"Paranemertes californica",2,"No","","",0
 "B18-10066",2018-07-10,1,"Anoplodactylus erectus",1,"No","","",0
-"B18-10066",2018-07-10,1,"Caprella sp",1,"Yes","","",0
-"B18-10066",2018-07-10,1,"Cossura sp",1,"Yes","","",0
 "B18-10066",2018-07-10,1,"Nemertea",1,"No","","",0
 "B18-10066",2018-07-10,1,"Laevicardium substriatum",1,"No","Mollusc","",0
 "B18-10066",2018-07-10,1,"Neanthes acuminata Cmplx",1,"No","","",0
@@ -2276,7 +2127,6 @@
 "B18-10068",2018-07-10,1,"Scoletoma sp C",13,"No","","",0
 "B18-10068",2018-07-10,1,"Tagelus affinis",10,"No","Mollusc","",0
 "B18-10068",2018-07-10,1,"Laevicardium substriatum",9,"No","Mollusc","",0
-"B18-10068",2018-07-10,1,"Cossura sp",8,"Yes","","",0
 "B18-10068",2018-07-10,1,"Prionospio (Minuspio) lighti",6,"No","","",0
 "B18-10068",2018-07-10,1,"Oligochaeta",5,"No","","",0
 "B18-10068",2018-07-10,1,"Eochelidium sp A",3,"No","","",0
@@ -2313,7 +2163,6 @@
 "B18-10069",2018-07-11,1,"Laevicardium substriatum",1,"No","Mollusc","",0
 "B18-10069",2018-07-11,1,"Solen rostriformis",1,"No","Mollusc","",0
 "B18-10070",2018-07-11,1,"Scoletoma sp C",40,"No","","",0
-"B18-10070",2018-07-11,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10070",2018-07-11,1,"Leitoscoloplos pugettensis",13,"No","","",0
 "B18-10070",2018-07-11,1,"Mediomastus sp",10,"No","","",0
 "B18-10070",2018-07-11,1,"Amphideutopus oculatus",9,"No","","S",0
@@ -2335,7 +2184,6 @@
 "B18-10070",2018-07-11,1,"Hartmanodes hartmanae",1,"No","","",0
 "B18-10070",2018-07-11,1,"Monticellina cryptica",1,"No","","",0
 "B18-10070",2018-07-11,1,"Lumbrineris sp E",1,"No",NA,NA,0
-"B18-10070",2018-07-11,1,"Maldanidae",1,"Yes","","",0
 "B18-10070",2018-07-11,1,"Owenia collaris",1,"No","","S",0
 "B18-10070",2018-07-11,1,"Prionospio heterobranchia",1,"No",NA,NA,0
 "B18-10070",2018-07-11,1,"Prionospio (Minuspio) lighti",1,"No","","",0
@@ -2344,7 +2192,6 @@
 "B18-10070",2018-07-11,1,"Spiochaetopterus costarum",1,"No","","",0
 "B18-10070",2018-07-11,1,"Tagelus affinis",1,"No","Mollusc","",0
 "B18-10071",2018-07-11,1,"Leitoscoloplos pugettensis",42,"No","","",0
-"B18-10071",2018-07-11,1,"Scoletoma sp",22,"Yes","","",0
 "B18-10071",2018-07-11,1,"Scoletoma sp C",8,"No","","",0
 "B18-10071",2018-07-11,1,"Mediomastus sp",7,"No","","",0
 "B18-10071",2018-07-11,1,"Tubulanus sp",8,"No","","",0
@@ -2370,7 +2217,6 @@
 "B18-10072",2018-07-11,1,"Leitoscoloplos pugettensis",27,"No","","",0
 "B18-10072",2018-07-11,1,"Scoletoma sp C",13,"No","","",0
 "B18-10072",2018-07-11,1,"Euchone limnicola",7,"No","","",0
-"B18-10072",2018-07-11,1,"Scoletoma sp",7,"Yes","","",0
 "B18-10072",2018-07-11,1,"Laevicardium substriatum",6,"No","Mollusc","",0
 "B18-10072",2018-07-11,1,"Bulla gouldiana",5,"No","Mollusc","",0
 "B18-10072",2018-07-11,1,"Amphideutopus oculatus",4,"No","","S",0
@@ -2412,7 +2258,6 @@
 "B18-10073",2018-07-12,1,"Paranemertes californica",2,"No","","",0
 "B18-10073",2018-07-12,1,"Scoletoma sp",2,"No","","",0
 "B18-10073",2018-07-12,1,"Tellina sp B",2,"No",NA,NA,0
-"B18-10073",2018-07-12,1,"Actiniaria",1,"Yes","","",0
 "B18-10073",2018-07-12,1,"Actiniaria sp DC2",1,"No",NA,NA,0
 "B18-10073",2018-07-12,1,"Asthenothaerus diegensis",1,"No","Mollusc","",0
 "B18-10073",2018-07-12,1,"Bulla gouldiana",1,"No","Mollusc","",0
@@ -2445,9 +2290,7 @@
 "B18-10074",2018-07-12,1,"Euclymeninae sp A",5,"No","","",0
 "B18-10074",2018-07-12,1,"Postasterope barnesi",5,"No","","",0
 "B18-10074",2018-07-12,1,"Amphiodia sp",4,"No","","S",0
-"B18-10074",2018-07-12,1,"Dorvillea (Dorvillea) sp",4,"Yes","","",0
 "B18-10074",2018-07-12,1,"Euphilomedes carcharodonta",4,"No","","",0
-"B18-10074",2018-07-12,1,"Maldanidae",4,"Yes","","",0
 "B18-10074",2018-07-12,1,"Chone minuta",4,"No","","",0
 "B18-10074",2018-07-12,1,"Nemertea",5,"No","","",0
 "B18-10074",2018-07-12,1,"Capitella capitata Cmplx",3,"No","","",0
@@ -2455,7 +2298,6 @@
 "B18-10074",2018-07-12,1,"Harmothoe imbricata Cmplx",3,"No","","",0
 "B18-10074",2018-07-12,1,"Pherusa negligens",3,"No","","",0
 "B18-10074",2018-07-12,1,"Neanthes acuminata Cmplx",3,"No","","",0
-"B18-10074",2018-07-12,1,"Scoletoma sp",3,"Yes","","",0
 "B18-10074",2018-07-12,1,"Caprella californica",2,"No","","S",0
 "B18-10074",2018-07-12,1,"Leptochelia dubia",2,"No","","S",0
 "B18-10074",2018-07-12,1,"Mayerella acanthopoda",2,"No","","",0
@@ -2469,7 +2311,6 @@
 "B18-10074",2018-07-12,1,"Caecum californicum",1,"No","Mollusc","S",0
 "B18-10074",2018-07-12,1,"Campylaspis rubromaculata",1,"No","","",0
 "B18-10074",2018-07-12,1,"Crepidula onyx",1,"No","Mollusc","",0
-"B18-10074",2018-07-12,1,"Crepidula sp",1,"Yes","Mollusc","",0
 "B18-10074",2018-07-12,1,"Diplocirrus sp SD1",1,"No","","",0
 "B18-10074",2018-07-12,1,"Glycera americana",1,"No","","",0
 "B18-10074",2018-07-12,1,"Paramicrodeutopus schmitti",1,"No","","S",0
@@ -2516,7 +2357,6 @@
 "B18-10075",2018-07-12,1,"Limaria hemphilli",4,"No","Mollusc","S",0
 "B18-10075",2018-07-12,1,"Paramicrodeutopus schmitti",4,"No","","S",0
 "B18-10075",2018-07-12,1,"Americhelidium sp",4,"No","","",0
-"B18-10075",2018-07-12,1,"Amphiuridae",3,"Yes","","",0
 "B18-10075",2018-07-12,1,"Pherusa negligens",3,"No","","",0
 "B18-10075",2018-07-12,1,"Leporimetis obesa",3,"No","Mollusc","S",0
 "B18-10075",2018-07-12,1,"Tellina modesta",3,"No","Mollusc","S",0
@@ -2537,7 +2377,6 @@
 "B18-10075",2018-07-12,1,"Harpacticoida",1,"No","","",0
 "B18-10075",2018-07-12,1,"Hartmanodes hartmanae",1,"No","","",0
 "B18-10075",2018-07-12,1,"Macoma nasuta",1,"No","Mollusc","",0
-"B18-10075",2018-07-12,1,"Maldanidae",1,"Yes","","",0
 "B18-10075",2018-07-12,1,"Malmgreniella sp",1,"No","","",0
 "B18-10075",2018-07-12,1,"Mediomastus sp",1,"No","","",0
 "B18-10075",2018-07-12,1,"Melinna sp",1,"No","","",0
@@ -2553,8 +2392,6 @@
 "B18-10075",2018-07-12,1,"Tellina sp B",1,"No",NA,NA,0
 "B18-10075",2018-07-12,1,"Uristes entalladurus",1,"No","","",0
 "B18-10075",2018-07-12,1,"Tubulanus sp",1,"No","","",0
-"B18-10075",2018-07-12,1,"Veneridae",1,"Yes","Mollusc","",0
-"B18-10076",2018-07-18,1,"Scoletoma sp",81,"Yes","","",0
 "B18-10076",2018-07-18,1,"Scoletoma sp C",59,"No","","",0
 "B18-10076",2018-07-18,1,"Mediomastus sp",39,"No","","",0
 "B18-10076",2018-07-18,1,"Leitoscoloplos pugettensis",36,"No","","",0
@@ -2572,11 +2409,9 @@
 "B18-10076",2018-07-18,1,"Laevicardium substriatum",4,"No","Mollusc","",0
 "B18-10076",2018-07-18,1,"Acteocina carinata",3,"No","Mollusc","",0
 "B18-10076",2018-07-18,1,"Amphideutopus oculatus",3,"No","","S",0
-"B18-10076",2018-07-18,1,"Cossura sp",3,"Yes","","",0
 "B18-10076",2018-07-18,1,"Eteone sp",3,"No","","S",0
 "B18-10076",2018-07-18,1,"Monticellina cryptica",3,"No","","",0
 "B18-10076",2018-07-18,1,"Lyonsia californica",3,"No","Mollusc","S",0
-"B18-10076",2018-07-18,1,"Maldanidae",3,"Yes","","",0
 "B18-10076",2018-07-18,1,"Scoletoma sp A",3,"No","","",0
 "B18-10076",2018-07-18,1,"Alpheus californiensis",2,"No","","",0
 "B18-10076",2018-07-18,1,"Nemertea",2,"No","","",0
@@ -2602,7 +2437,6 @@
 "B18-10076",2018-07-18,1,"Spiophanes duplex",1,"No","","S",0
 "B18-10076",2018-07-18,1,"Tellina meropsis",1,"No","Mollusc","S",0
 "B18-10077",2018-07-18,1,"Amphideutopus oculatus",34,"No","","S",0
-"B18-10077",2018-07-18,1,"Scoletoma sp",29,"Yes","","",0
 "B18-10077",2018-07-18,1,"Leitoscoloplos pugettensis",27,"No","","",0
 "B18-10077",2018-07-18,1,"Scoletoma sp C",25,"No","","",0
 "B18-10077",2018-07-18,1,"Pseudopolydora paucibranchiata",17,"No","","",0
@@ -2653,13 +2487,11 @@
 "B18-10078",2018-07-16,1,"Exogone lourei",45,"No","","S",0
 "B18-10078",2018-07-16,1,"Fabricinuda limnicola",43,"No","","",0
 "B18-10078",2018-07-16,1,"Scoletoma sp C",40,"No","","",0
-"B18-10078",2018-07-16,1,"Scoletoma sp",39,"Yes","","",0
 "B18-10078",2018-07-16,1,"Aclis occidentalis",26,"No","Mollusc","",0
 "B18-10078",2018-07-16,1,"Leptochelia dubia",25,"No","","S",0
 "B18-10078",2018-07-16,1,"Mediomastus sp",12,"No","","",0
 "B18-10078",2018-07-16,1,"Phoronida",16,"No","","S",0
 "B18-10078",2018-07-16,1,"Acteocina carinata",8,"No","Mollusc","",0
-"B18-10078",2018-07-16,1,"Caprella sp",7,"Yes","","",0
 "B18-10078",2018-07-16,1,"Podocerus fulanus",7,"No","","",0
 "B18-10078",2018-07-16,1,"Caprella californica",6,"No","","S",0
 "B18-10078",2018-07-16,1,"Spiophanes duplex",6,"No","","S",0
@@ -2702,7 +2534,6 @@
 "B18-10079",2018-07-16,1,"Leitoscoloplos pugettensis",61,"No","","",0
 "B18-10079",2018-07-16,1,"Amphideutopus oculatus",39,"No","","S",0
 "B18-10079",2018-07-16,1,"Scoletoma sp C",38,"No","","",0
-"B18-10079",2018-07-16,1,"Scoletoma sp",29,"Yes","","",0
 "B18-10079",2018-07-16,1,"Laevicardium substriatum",8,"No","Mollusc","",0
 "B18-10079",2018-07-16,1,"Asthenothaerus diegensis",7,"No","Mollusc","",0
 "B18-10079",2018-07-16,1,"Diplocirrus sp SD1",7,"No","","",0
@@ -2736,12 +2567,10 @@
 "B18-10079",2018-07-16,1,"Solen sp",1,"No",NA,NA,0
 "B18-10080",2018-07-17,1,"Neotrypaea sp",388,"No","","",0
 "B18-10080",2018-07-17,1,"Leitoscoloplos pugettensis",15,"No","","",0
-"B18-10080",2018-07-17,1,"Scoletoma sp",13,"Yes","","",0
 "B18-10080",2018-07-17,1,"Mediomastus sp",12,"No","","",0
 "B18-10080",2018-07-17,1,"Cossura sp A",8,"No","","",0
 "B18-10080",2018-07-17,1,"Heterophoxus cf ellisi",8,"No",NA,NA,0
 "B18-10080",2018-07-17,1,"Serpulidae",5,"No","","",0
-"B18-10080",2018-07-17,1,"Cossura sp",3,"Yes","","",0
 "B18-10080",2018-07-17,1,"Pseudopolydora paucibranchiata",3,"No","","",0
 "B18-10080",2018-07-17,1,"Scleroplax granulata",3,"No","","",0
 "B18-10080",2018-07-17,1,"Phoronida",3,"No","","S",0
@@ -2805,7 +2634,6 @@
 "B18-10082",2018-07-17,1,"Euphilomedes carcharodonta",1,"No","","",0
 "B18-10082",2018-07-17,1,"Scoletoma sp B",1,"No","","",0
 "B18-10082",2018-07-17,1,"Tagelus affinis",1,"No","Mollusc","",0
-"B18-10082",2018-07-17,1,"Tanaididae",1,"Yes",NA,NA,0
 "B18-10082",2018-07-17,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10083",2018-07-17,1,"Pseudopolydora paucibranchiata",367,"No","","",0
 "B18-10083",2018-07-17,1,"Euclymeninae sp A",106,"No","","",0
@@ -2819,7 +2647,6 @@
 "B18-10083",2018-07-17,1,"Scoletoma sp C",8,"No","","",0
 "B18-10083",2018-07-17,1,"Prionospio heterobranchia",7,"No",NA,NA,0
 "B18-10083",2018-07-17,1,"Leptosynapta sp",6,"No","","",0
-"B18-10083",2018-07-17,1,"Maldanidae",6,"Yes","","",0
 "B18-10083",2018-07-17,1,"Molgula sp",7,"No","","",0
 "B18-10083",2018-07-17,1,"Spiophanes duplex",6,"No","","S",0
 "B18-10083",2018-07-17,1,"Oligochaeta",5,"No","","",0
@@ -2840,7 +2667,6 @@
 "B18-10083",2018-07-17,1,"Anemonactis sp",1,"No","","",0
 "B18-10083",2018-07-17,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
 "B18-10083",2018-07-17,1,"Corymorpha sp",1,"No","","S",0
-"B18-10083",2018-07-17,1,"Cossura sp",1,"Yes","","",0
 "B18-10083",2018-07-17,1,"Podochela hemphillii",1,"No","","",0
 "B18-10083",2018-07-17,1,"Exogone lourei",1,"No","","S",0
 "B18-10083",2018-07-17,1,"Melinna sp",1,"No","","",0
@@ -2884,7 +2710,6 @@
 "B18-10086",2018-08-01,1,"Zeuxo normani",8,"No","","",0
 "B18-10086",2018-08-01,1,"Scoletoma sp C",7,"No","","",0
 "B18-10086",2018-08-01,1,"Prionospio heterobranchia",6,"No",NA,NA,0
-"B18-10086",2018-08-01,1,"Sabellidae",6,"Yes","","",0
 "B18-10086",2018-08-01,1,"Euchone limnicola",5,"No","","",0
 "B18-10086",2018-08-01,1,"Fabricinuda limnicola",5,"No","","",0
 "B18-10086",2018-08-01,1,"Monocorophium acherusicum",5,"No","","S",0
@@ -2901,7 +2726,6 @@
 "B18-10086",2018-08-01,1,"Paracerceis sculpta",1,"No","","",0
 "B18-10086",2018-08-01,1,"Schmittius politus",1,"No","","",0
 "B18-10086",2018-08-01,1,"Scoletoma sp",1,"No","","",0
-"B18-10086",2018-08-01,1,"Sphaeromatidae",1,"Yes","","",0
 "B18-10087",2018-08-01,1,"Musculista senhousia",91,"No","Mollusc","",0
 "B18-10087",2018-08-01,1,"Zeuxo normani",47,"No","","",0
 "B18-10087",2018-08-01,1,"Acteocina carinata",37,"No","Mollusc","",0
@@ -2911,7 +2735,6 @@
 "B18-10087",2018-08-01,1,"Mayerella acanthopoda",15,"No","","",0
 "B18-10087",2018-08-01,1,"Scoletoma sp C",6,"No","","",0
 "B18-10087",2018-08-01,1,"Pseudopolydora paucibranchiata",5,"No","","",0
-"B18-10087",2018-08-01,1,"Actiniaria",3,"Yes","","",0
 "B18-10087",2018-08-01,1,"Bemlos macromanus",3,"No","","",0
 "B18-10087",2018-08-01,1,"Paranthura japonica",3,"No",NA,NA,0
 "B18-10087",2018-08-01,1,"Exogone lourei",2,"No","","S",0
@@ -2944,12 +2767,9 @@
 "B18-10088",2018-08-01,1,"Mediomastus sp",4,"No","","",0
 "B18-10088",2018-08-01,1,"Theora lubrica",4,"No","Mollusc","",0
 "B18-10088",2018-08-01,1,"Euphilomedes carcharodonta",3,"No","","",0
-"B18-10088",2018-08-01,1,"Monticellina sp",3,"Yes","","",0
 "B18-10088",2018-08-01,1,"Phoronida",3,"No","","S",0
 "B18-10088",2018-08-01,1,"Siriella pacifica",3,"No","","",0
-"B18-10088",2018-08-01,1,"Amphiuridae",2,"Yes","","",0
 "B18-10088",2018-08-01,1,"Armandia brevis",2,"No","","",0
-"B18-10088",2018-08-01,1,"Edwardsiidae",2,"Yes","","",0
 "B18-10088",2018-08-01,1,"Eteone sp",2,"No","","S",0
 "B18-10088",2018-08-01,1,"Kirkegaardia sp 1",2,"No",NA,NA,0
 "B18-10088",2018-08-01,1,"Paradexamine sp SD1",2,"No","","",0
@@ -3000,7 +2820,6 @@
 "B18-10089",2018-08-13,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
 "B18-10089",2018-08-13,1,"Aphelochaeta monilaris",1,"No","","",0
 "B18-10089",2018-08-13,1,"Nephtys cornuta",1,"No","","",0
-"B18-10089",2018-08-13,1,"Caridea",1,"Yes","","",0
 "B18-10089",2018-08-13,1,"Crepipatella dorsata",1,"No","Mollusc","",0
 "B18-10089",2018-08-13,1,"Cryptomya californica",1,"No","Mollusc","S",0
 "B18-10089",2018-08-13,1,"Drilonereis sp",1,"No","","",0
@@ -3020,7 +2839,6 @@
 "B18-10089",2018-08-13,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10089",2018-08-13,1,"Phyllodoce hartmanae",1,"No","","S",0
 "B18-10089",2018-08-13,1,"Pinnixa franciscana",1,"No",NA,NA,0
-"B18-10089",2018-08-13,1,"Poecilochaetus sp",1,"Yes","","",0
 "B18-10089",2018-08-13,1,"Prionospio (Prionospio) jubata",1,"No","","",0
 "B18-10089",2018-08-13,1,"Prionospio (Minuspio) lighti",1,"No","","",0
 "B18-10089",2018-08-13,1,"Pyromaia tuberculata",1,"No","","",0
@@ -3052,12 +2870,10 @@
 "B18-10091",2018-08-10,1,"Acanthoptilum sp",42,"No",NA,NA,0
 "B18-10091",2018-08-10,1,"Philine sp",19,"No","Mollusc","",0
 "B18-10091",2018-08-10,1,"Cossura sp A",17,"No","","",0
-"B18-10091",2018-08-10,1,"Ampharetidae",15,"Yes","","",0
 "B18-10091",2018-08-10,1,"Sabellides manriquei",15,"No","","S",0
 "B18-10091",2018-08-10,1,"Theora lubrica",11,"No","Mollusc","",0
 "B18-10091",2018-08-10,1,"Monticellina siblina",10,"No","","",0
 "B18-10091",2018-08-10,1,"Phtisica marina",8,"No",NA,NA,0
-"B18-10091",2018-08-10,1,"Pista sp",8,"Yes","","",0
 "B18-10091",2018-08-10,1,"Leptopecten latiauratus",7,"No","Mollusc","",0
 "B18-10091",2018-08-10,1,"Laonice cirrata",6,"No","","",0
 "B18-10091",2018-08-10,1,"Paramage scutata",5,"No","","",0
@@ -3069,7 +2885,6 @@
 "B18-10091",2018-08-10,1,"Thyasira flexuosa",4,"No","Mollusc","",0
 "B18-10091",2018-08-10,1,"Gnathiidae",3,"No","","",0
 "B18-10091",2018-08-10,1,"Ceriantharia",3,"No","","",0
-"B18-10091",2018-08-10,1,"Maldanidae",3,"Yes","","",0
 "B18-10091",2018-08-10,1,"Mediomastus sp",3,"No","","",0
 "B18-10091",2018-08-10,1,"Melinna sp",3,"No","","",0
 "B18-10091",2018-08-10,1,"Nereis procera",3,"No","","",0
@@ -3079,7 +2894,6 @@
 "B18-10091",2018-08-10,1,"Amphideutopus oculatus",2,"No","","S",0
 "B18-10091",2018-08-10,1,"Apionsoma misakianum",2,"No","","",0
 "B18-10091",2018-08-10,1,"Crepidula onyx",2,"No","Mollusc","",0
-"B18-10091",2018-08-10,1,"Diopatra sp",2,"Yes","","",0
 "B18-10091",2018-08-10,1,"Laevicardium substriatum",2,"No","Mollusc","",0
 "B18-10091",2018-08-10,1,"Pista percyi",2,"No","","",0
 "B18-10091",2018-08-10,1,"Pista estevanica",2,"No","","",0
@@ -3113,7 +2927,6 @@
 "B18-10091",2018-08-10,1,"Sigambra sp",1,"No",NA,NA,0
 "B18-10091",2018-08-10,1,"Sinocorophium alienense",1,"No",NA,NA,0
 "B18-10091",2018-08-10,1,"Sthenelais tertiaglabra",1,"No","","",0
-"B18-10091",2018-08-10,1,"Terebellidae",1,"Yes","","",0
 "B18-10091",2018-08-10,1,"Tubulanus sp",2,"No","","",0
 "B18-10092",2018-08-08,1,"Cossura sp A",49,"No","","",0
 "B18-10092",2018-08-08,1,"Theora lubrica",16,"No","Mollusc","",0
@@ -3121,7 +2934,6 @@
 "B18-10092",2018-08-08,1,"Mediomastus sp",11,"No","","",0
 "B18-10092",2018-08-08,1,"Eochelidium sp A",10,"No","","",0
 "B18-10092",2018-08-08,1,"Phtisica marina",8,"No",NA,NA,0
-"B18-10092",2018-08-08,1,"Scoletoma sp",7,"Yes","","",0
 "B18-10092",2018-08-08,1,"Leitoscoloplos pugettensis",5,"No","","",0
 "B18-10092",2018-08-08,1,"Exogone lourei",4,"No","","S",0
 "B18-10092",2018-08-08,1,"Aphelochaeta monilaris",3,"No","","",0
@@ -3129,19 +2941,15 @@
 "B18-10092",2018-08-08,1,"Philine sp",3,"No","Mollusc","",0
 "B18-10092",2018-08-08,1,"Phoronida",3,"No","","S",0
 "B18-10092",2018-08-08,1,"Pista percyi",3,"No","","",0
-"B18-10092",2018-08-08,1,"Bivalvia",2,"Yes","Mollusc","",0
 "B18-10092",2018-08-08,1,"Chaetozone corona",2,"No","","",0
 "B18-10092",2018-08-08,1,"Monticellina cryptica",2,"No","","",0
 "B18-10092",2018-08-08,1,"Laonice cirrata",2,"No","","",0
 "B18-10092",2018-08-08,1,"Lumbrineris japonica",2,"No","","",0
-"B18-10092",2018-08-08,1,"Protocirrineris sp",2,"Yes","","",0
 "B18-10092",2018-08-08,1,"Protocirrineris sp B",2,"No","","",0
 "B18-10092",2018-08-08,1,"Sigambra sp",2,"No",NA,NA,0
 "B18-10092",2018-08-08,1,"Tubulanus sp",2,"No","","",0
-"B18-10092",2018-08-08,1,"Ampharetidae",1,"Yes","","",0
 "B18-10092",2018-08-08,1,"Caprella simia",1,"No",NA,NA,0
 "B18-10092",2018-08-08,1,"Nemertea",1,"No","","",0
-"B18-10092",2018-08-08,1,"Corophioidea",1,"Yes","","",0
 "B18-10092",2018-08-08,1,"Cyathodonta pedroana",1,"No","Mollusc","",0
 "B18-10092",2018-08-08,1,"Diopatra ornata",1,"No","","S",0
 "B18-10092",2018-08-08,1,"Dorvillea (Schistomeringos) sp",1,"No","","",0
@@ -3150,7 +2958,6 @@
 "B18-10092",2018-08-08,1,"Harmothoe imbricata Cmplx",1,"No","","",0
 "B18-10092",2018-08-08,1,"Monticellina siblina",1,"No","","",0
 "B18-10092",2018-08-08,1,"Lineidae",1,"No","","",0
-"B18-10092",2018-08-08,1,"Lumbrineridae",1,"Yes","","",0
 "B18-10092",2018-08-08,1,"Naineris sp",1,"No",NA,NA,0
 "B18-10092",2018-08-08,1,"Neotrypaea sp",1,"No","","",0
 "B18-10092",2018-08-08,1,"Oligochaeta",1,"No","","",0
@@ -3193,11 +3000,9 @@
 "B18-10093",2018-08-09,1,"Heteromysis odontops",1,"No","","",0
 "B18-10093",2018-08-09,1,"Laonice cirrata",1,"No","","",0
 "B18-10093",2018-08-09,1,"Malacoplax californiensis",1,"No","","",0
-"B18-10093",2018-08-09,1,"Maldanidae",1,"Yes","","",0
 "B18-10093",2018-08-09,1,"Neotrypaea sp",1,"No","","",0
 "B18-10093",2018-08-09,1,"Oligochaeta",1,"No","","",0
 "B18-10093",2018-08-09,1,"Pectinaria californiensis",1,"No","","S",0
-"B18-10093",2018-08-09,1,"Pinnotheridae",1,"Yes","","",0
 "B18-10093",2018-08-09,1,"Pseudopolydora paucibranchiata",1,"No","","",0
 "B18-10093",2018-08-09,1,"Scolelepis sp",1,"No","","",0
 "B18-10093",2018-08-09,1,"Spiochaetopterus costarum",1,"No","","",0
@@ -3219,7 +3024,6 @@
 "B18-10094",2018-07-25,1,"Thyasira flexuosa",3,"No","Mollusc","",0
 "B18-10094",2018-07-25,1,"Ampelisca cristata microdentata",2,"No",NA,NA,0
 "B18-10094",2018-07-25,1,"Chaetozone corona",2,"No","","",0
-"B18-10094",2018-07-25,1,"Cirratulidae",2,"Yes","","",0
 "B18-10094",2018-07-25,1,"Glycera americana",2,"No","","",0
 "B18-10094",2018-07-25,1,"Listriella goleta",2,"No","","S",0
 "B18-10094",2018-07-25,1,"Marphysa disjuncta",2,"No","","",0
@@ -3227,7 +3031,6 @@
 "B18-10094",2018-07-25,1,"Alia carinata",1,"No","Mollusc","",0
 "B18-10094",2018-07-25,1,"Paramage scutata",1,"No","","",0
 "B18-10094",2018-07-25,1,"Ampelisciphotis podophthalma",1,"No",NA,NA,0
-"B18-10094",2018-07-25,1,"Ampharetidae",1,"Yes","","",0
 "B18-10094",2018-07-25,1,"Aphelochaeta monilaris",1,"No","","",0
 "B18-10094",2018-07-25,1,"Betaeus sp",1,"No","","",0
 "B18-10094",2018-07-25,1,"Compsomyax subdiaphana",1,"No","Mollusc","S",0
@@ -3253,7 +3056,6 @@
 "B18-10095",2018-08-10,1,"Scolanthus sp B",8,"No","","",0
 "B18-10095",2018-08-10,1,"Laonice cirrata",7,"No","","",0
 "B18-10095",2018-08-10,1,"Ampelisca cristata microdentata",6,"No",NA,NA,0
-"B18-10095",2018-08-10,1,"Ampharetidae",5,"Yes","","",0
 "B18-10095",2018-08-10,1,"Chaetozone corona",5,"No","","",0
 "B18-10095",2018-08-10,1,"Paraprionospio pinnata",5,"No","","",0
 "B18-10095",2018-08-10,1,"Spiophanes duplex",5,"No","","S",0
@@ -3286,23 +3088,19 @@
 "B18-10096",2018-08-07,1,"Listriella goleta",13,"No","","S",0
 "B18-10096",2018-08-07,1,"Monticellina siblina",12,"No","","",0
 "B18-10096",2018-08-07,1,"Phoronida",16,"No","","S",0
-"B18-10096",2018-08-07,1,"Poecilochaetus sp",9,"Yes","","",0
 "B18-10096",2018-08-07,1,"Amage anops",7,"No",NA,NA,0
 "B18-10096",2018-08-07,1,"Scoletoma sp",7,"No","","",0
 "B18-10096",2018-08-07,1,"Leptochelia dubia",5,"No","","S",0
 "B18-10096",2018-08-07,1,"Petaloclymene pacifica",5,"No","","",0
 "B18-10096",2018-08-07,1,"Hiatella arctica",4,"No","Mollusc","",0
-"B18-10096",2018-08-07,1,"Ampharetidae",3,"Yes","","",0
 "B18-10096",2018-08-07,1,"Amphiodia sp",3,"No","","S",0
 "B18-10096",2018-08-07,1,"Chaetozone corona",3,"No","","",0
 "B18-10096",2018-08-07,1,"Crepidula onyx",3,"No","Mollusc","",0
-"B18-10096",2018-08-07,1,"Diopatra sp",3,"Yes","","",0
 "B18-10096",2018-08-07,1,"Mediomastus sp",3,"No","","",0
 "B18-10096",2018-08-07,1,"Periploma discus",3,"No","Mollusc","",0
 "B18-10096",2018-08-07,1,"Rhamphidonta retifera",3,"No","Mollusc","",0
 "B18-10096",2018-08-07,1,"Scolanthus sp B",3,"No","","",0
 "B18-10096",2018-08-07,1,"Virgulariidae",3,"No",NA,NA,0
-"B18-10096",2018-08-07,1,"Amage sp",2,"Yes",NA,NA,0
 "B18-10096",2018-08-07,1,"Gammaropsis thompsoni",2,"No","","",0
 "B18-10096",2018-08-07,1,"Lumbrineris japonica",2,"No","","",0
 "B18-10096",2018-08-07,1,"Lysippe sp",2,"No","","",0
@@ -3316,14 +3114,10 @@
 "B18-10096",2018-08-07,1,"Acanthoptilum sp",1,"No",NA,NA,0
 "B18-10096",2018-08-07,1,"Ampelisca pugetica",1,"No","","",0
 "B18-10096",2018-08-07,1,"Amphipholis squamata",1,"No","","",0
-"B18-10096",2018-08-07,1,"Amphiuridae",1,"Yes","","",0
 "B18-10096",2018-08-07,1,"Nephtys cornuta",1,"No","","",0
-"B18-10096",2018-08-07,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10096",2018-08-07,1,"Gnathiidae",1,"No","","",0
-"B18-10096",2018-08-07,1,"Calyptraeidae",1,"Yes",NA,NA,0
 "B18-10096",2018-08-07,1,"Crepipatella dorsata",1,"No","Mollusc","",0
 "B18-10096",2018-08-07,1,"Cylichna diegensis",1,"No","Mollusc","",0
-"B18-10096",2018-08-07,1,"Cylindroleberididae",1,"Yes","","",0
 "B18-10096",2018-08-07,1,"Diopatra ornata",1,"No","","S",0
 "B18-10096",2018-08-07,1,"Drilonereis falcata",1,"No","","",0
 "B18-10096",2018-08-07,1,"Drilonereis mexicana",1,"No","","",0
@@ -3336,10 +3130,8 @@
 "B18-10096",2018-08-07,1,"Leptopecten latiauratus",1,"No","Mollusc","",0
 "B18-10096",2018-08-07,1,"Lineidae",1,"No","","",0
 "B18-10096",2018-08-07,1,"Listriella melanica",1,"No","","S",0
-"B18-10096",2018-08-07,1,"Lumbrineridae",1,"Yes","","",0
 "B18-10096",2018-08-07,1,"Lyonsia californica",1,"No","Mollusc","S",0
 "B18-10096",2018-08-07,1,"Macoma yoldiformis",1,"No","Mollusc","",0
-"B18-10096",2018-08-07,1,"Maldanidae",1,"Yes","","",0
 "B18-10096",2018-08-07,1,"Malmgreniella sp",1,"No","","",0
 "B18-10096",2018-08-07,1,"Melinna sp",1,"No","","",0
 "B18-10096",2018-08-07,1,"Modiolatus neglectus",1,"No",NA,NA,0
@@ -3383,7 +3175,6 @@
 "B18-10097",2018-08-10,1,"Paramage scutata",1,"No","","",0
 "B18-10097",2018-08-10,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
 "B18-10097",2018-08-10,1,"Amphiodia sp",1,"No","","S",0
-"B18-10097",2018-08-10,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10097",2018-08-10,1,"Ceriantharia",1,"No","","",0
 "B18-10097",2018-08-10,1,"Chaetozone corona",1,"No","","",0
 "B18-10097",2018-08-10,1,"Ascidiacea",1,"No","","",0
@@ -3394,7 +3185,6 @@
 "B18-10097",2018-08-10,1,"Gymnonereis crosslandi",1,"No","","",0
 "B18-10097",2018-08-10,1,"Rochefortia mortoni",1,"No","Mollusc","",0
 "B18-10097",2018-08-10,1,"Laomedea calceolifera",1,"No","","",0
-"B18-10097",2018-08-10,1,"Lumbrineridae",1,"Yes","","",0
 "B18-10097",2018-08-10,1,"Lumbrineris sp",1,"No","","",0
 "B18-10097",2018-08-10,1,"Majoidea",1,"No",NA,NA,0
 "B18-10097",2018-08-10,1,"Metasychis disparidentatus",1,"No","","",0
@@ -3433,23 +3223,18 @@
 "B18-10098",2018-08-08,1,"Harmothoe imbricata Cmplx",2,"No","","",0
 "B18-10098",2018-08-08,1,"Hartmanodes hartmanae",2,"No","","",0
 "B18-10098",2018-08-08,1,"Listriella goleta",2,"No","","S",0
-"B18-10098",2018-08-08,1,"Majoidea",2,"Yes",NA,NA,0
 "B18-10098",2018-08-08,1,"Marphysa disjuncta",2,"No","","",0
 "B18-10098",2018-08-08,1,"Phtisica marina",2,"No",NA,NA,0
 "B18-10098",2018-08-08,1,"Pyromaia tuberculata",2,"No","","",0
 "B18-10098",2018-08-08,1,"Tagelus affinis",2,"No","Mollusc","",0
-"B18-10098",2018-08-08,1,"Terebellidae",2,"Yes","","",0
 "B18-10098",2018-08-08,1,"Zeuxo normani",2,"No","","",0
 "B18-10098",2018-08-08,1,"Alienacanthomysis macropsis",1,"No","","",0
 "B18-10098",2018-08-08,1,"Alpheus sp",1,"No","","",0
-"B18-10098",2018-08-08,1,"Ampelisca sp",1,"Yes","","",0
-"B18-10098",2018-08-08,1,"Ampharetidae",1,"Yes","","",0
 "B18-10098",2018-08-08,1,"Ascidiacea",2,"No","","",0
 "B18-10098",2018-08-08,1,"Nephtys cornuta",1,"No","","",0
 "B18-10098",2018-08-08,1,"Cossura candida",1,"No","","",0
 "B18-10098",2018-08-08,1,"Diopatra ornata",1,"No","","S",0
 "B18-10098",2018-08-08,1,"Drilonereis mexicana",1,"No","","",0
-"B18-10098",2018-08-08,1,"Drilonereis sp",1,"Yes","","",0
 "B18-10098",2018-08-08,1,"Euchone limnicola",1,"No","","",0
 "B18-10098",2018-08-08,1,"Monticellina cryptica",1,"No","","",0
 "B18-10098",2018-08-08,1,"Laonice cirrata",1,"No","","",0
@@ -3483,7 +3268,6 @@
 "B18-10099",2018-08-12,1,"Ampharete labrops",4,"No","","",0
 "B18-10099",2018-08-12,1,"Amphisamytha bioculata",4,"No",NA,NA,0
 "B18-10099",2018-08-12,1,"Monticellina siblina",4,"No","","",0
-"B18-10099",2018-08-12,1,"Majoidea",4,"Yes",NA,NA,0
 "B18-10099",2018-08-12,1,"Amphicteis scaphobranchiata",3,"No","","S",0
 "B18-10099",2018-08-12,1,"Edwardsia sp G",3,"No","","",0
 "B18-10099",2018-08-12,1,"Gammaropsis thompsoni",3,"No","","",0
@@ -3492,9 +3276,6 @@
 "B18-10099",2018-08-12,1,"Actiniaria",2,"No","","",0
 "B18-10099",2018-08-12,1,"Alia carinata",2,"No","Mollusc","",0
 "B18-10099",2018-08-12,1,"Ampelisca brachycladus",2,"No","","S",0
-"B18-10099",2018-08-12,1,"Ampelisca sp",2,"Yes","","",0
-"B18-10099",2018-08-12,1,"Ampharetidae",2,"Yes","","",0
-"B18-10099",2018-08-12,1,"Diopatra sp",2,"Yes","","",0
 "B18-10099",2018-08-12,1,"Melinna sp",2,"No","","",0
 "B18-10099",2018-08-12,1,"Paradialychone paramollis",2,"No",NA,NA,0
 "B18-10099",2018-08-12,1,"Philine sp",2,"No","Mollusc","",0
@@ -3504,7 +3285,6 @@
 "B18-10099",2018-08-12,1,"Enteropneusta",2,"No","","",0
 "B18-10099",2018-08-12,1,"Ampelisca milleri",1,"No","","",0
 "B18-10099",2018-08-12,1,"Amphipholis squamata",1,"No","","",0
-"B18-10099",2018-08-12,1,"Aphelochaeta sp",1,"Yes","","",0
 "B18-10099",2018-08-12,1,"Armina californica",1,"No","Mollusc","",0
 "B18-10099",2018-08-12,1,"Lineidae",1,"No","","",0
 "B18-10099",2018-08-12,1,"Ceriantharia",1,"No","","",0
@@ -3519,12 +3299,10 @@
 "B18-10099",2018-08-12,1,"Rochefortia tumida",1,"No","Mollusc","",0
 "B18-10099",2018-08-12,1,"Kurtzina beta",1,"No","Mollusc","",0
 "B18-10099",2018-08-12,1,"Leptopecten latiauratus",1,"No","Mollusc","",0
-"B18-10099",2018-08-12,1,"Lumbrineris sp",1,"Yes","","",0
 "B18-10099",2018-08-12,1,"Lysippe sp",1,"No","","",0
 "B18-10099",2018-08-12,1,"Microspio pigmentata",1,"No","","S",0
 "B18-10099",2018-08-12,1,"Notomastus sp",1,"No","","",1
 "B18-10099",2018-08-12,1,"Ophiothrix spiculata",1,"No","","",0
-"B18-10099",2018-08-12,1,"Nemertea",1,"Yes","","",0
 "B18-10099",2018-08-12,1,"Paradialychone harrisae",1,"No",NA,NA,0
 "B18-10099",2018-08-12,1,"Pista estevanica",1,"No","","",0
 "B18-10099",2018-08-12,1,"Sabellides manriquei",1,"No","","S",0
@@ -3536,15 +3314,12 @@
 "B18-10099",2018-08-12,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10099",2018-08-12,1,"Tubulanus sp",2,"No","","",0
 "B18-10099",2018-08-12,1,"Virgularia californica",1,"No",NA,NA,0
-"B18-10099",2018-08-12,1,"Virgulariidae",1,"Yes",NA,NA,0
 "B18-10100",2018-07-25,1,"Cossura sp A",63,"No","","",0
 "B18-10100",2018-07-25,1,"Monticellina siblina",26,"No","","",0
-"B18-10100",2018-07-25,1,"Scoletoma sp",21,"Yes","","",0
 "B18-10100",2018-07-25,1,"Mediomastus sp",19,"No","","",0
 "B18-10100",2018-07-25,1,"Petaloclymene pacifica",15,"No","","",0
 "B18-10100",2018-07-25,1,"Theora lubrica",15,"No","Mollusc","",0
 "B18-10100",2018-07-25,1,"Tubulanus sp",12,"No","","",0
-"B18-10100",2018-07-25,1,"Maldanidae",10,"Yes","","",0
 "B18-10100",2018-07-25,1,"Poecilochaetus sp A",9,"No","","",0
 "B18-10100",2018-07-25,1,"Leitoscoloplos pugettensis",8,"No","","",0
 "B18-10100",2018-07-25,1,"Amage anops",7,"No",NA,NA,0
@@ -3556,7 +3331,6 @@
 "B18-10100",2018-07-25,1,"Nereis procera",5,"No","","",0
 "B18-10100",2018-07-25,1,"Listriella goleta",4,"No","","S",0
 "B18-10100",2018-07-25,1,"Thraciidae",4,"No",NA,NA,0
-"B18-10100",2018-07-25,1,"Ampharetidae",3,"Yes","","",0
 "B18-10100",2018-07-25,1,"Cossura candida",3,"No","","",0
 "B18-10100",2018-07-25,1,"Lineidae",3,"No","","",0
 "B18-10100",2018-07-25,1,"Phoronida",3,"No","","S",0
@@ -3598,13 +3372,10 @@
 "B18-10100",2018-07-25,1,"Nemertea",1,"No","","",0
 "B18-10100",2018-07-25,1,"Rochefortia mortoni",1,"No","Mollusc","",0
 "B18-10100",2018-07-25,1,"Laonice cirrata",1,"No","","",0
-"B18-10100",2018-07-25,1,"Leitoscoloplos sp",1,"Yes",NA,NA,0
 "B18-10100",2018-07-25,1,"Limnactiniidae sp A",1,"No",NA,NA,0
-"B18-10100",2018-07-25,1,"Listriella sp",1,"Yes",NA,NA,0
 "B18-10100",2018-07-25,1,"Lumbrineris cruzensis",1,"No","","",0
 "B18-10100",2018-07-25,1,"Lysippe sp",1,"No","","",0
 "B18-10100",2018-07-25,1,"Malmgreniella sp",1,"No","","",0
-"B18-10100",2018-07-25,1,"Nereididae",1,"Yes","","",0
 "B18-10100",2018-07-25,1,"Nuculana taphria",1,"No","Mollusc","S",0
 "B18-10100",2018-07-25,1,"Onuphis sp",1,"No","","",0
 "B18-10100",2018-07-25,1,"Paradoneis lyra",1,"No",NA,NA,0
@@ -3627,7 +3398,6 @@
 "B18-10101",2018-07-25,1,"Cossura sp A",7,"No","","",0
 "B18-10101",2018-07-25,1,"Cossura candida",6,"No","","",0
 "B18-10101",2018-07-25,1,"Monticellina siblina",6,"No","","",0
-"B18-10101",2018-07-25,1,"Scoletoma sp",6,"Yes","","",0
 "B18-10101",2018-07-25,1,"Amphiodia sp",10,"No","","S",0
 "B18-10101",2018-07-25,1,"Pinnixa franciscana",5,"No",NA,NA,0
 "B18-10101",2018-07-25,1,"Volvulella panamica",4,"No","Mollusc","",0
@@ -3636,7 +3406,6 @@
 "B18-10101",2018-07-25,1,"Petaloclymene pacifica",3,"No","","",0
 "B18-10101",2018-07-25,1,"Phoronida",3,"No","","S",0
 "B18-10101",2018-07-25,1,"Thyasira flexuosa",3,"No","Mollusc","",0
-"B18-10101",2018-07-25,1,"Maldanidae",2,"Yes","","",0
 "B18-10101",2018-07-25,1,"Metasychis disparidentatus",2,"No","","",0
 "B18-10101",2018-07-25,1,"Notomastus sp",2,"No","","",1
 "B18-10101",2018-07-25,1,"Tubulanus sp",2,"No","","",0
@@ -3655,7 +3424,6 @@
 "B18-10101",2018-07-25,1,"Magelona sp B",1,"No",NA,NA,0
 "B18-10101",2018-07-25,1,"Ninoe tridentata",1,"No",NA,NA,0
 "B18-10101",2018-07-25,1,"Nuculana taphria",1,"No","Mollusc","S",0
-"B18-10101",2018-07-25,1,"Nemertea",1,"Yes","","",0
 "B18-10101",2018-07-25,1,"Periploma discus",1,"No","Mollusc","",0
 "B18-10101",2018-07-25,1,"Polycirrus sp",1,"No","","",0
 "B18-10101",2018-07-25,1,"Polyodontes sp",1,"No",NA,NA,0
@@ -3684,7 +3452,6 @@
 "B18-10102",2018-08-07,1,"Listriella goleta",2,"No","","S",0
 "B18-10102",2018-08-07,1,"Virgularia californica",2,"No",NA,NA,0
 "B18-10102",2018-08-07,1,"Ampelisca brachycladus",1,"No","","S",0
-"B18-10102",2018-08-07,1,"Ampelisca sp",1,"Yes","","",0
 "B18-10102",2018-08-07,1,"Cryptomya californica",1,"No","Mollusc","S",0
 "B18-10102",2018-08-07,1,"Diplocirrus sp SD1",1,"No","","",0
 "B18-10102",2018-08-07,1,"Hartmanodes hartmanae",1,"No","","",0
@@ -3716,7 +3483,6 @@
 "B18-10103",2018-08-12,1,"Scleroplax granulata",2,"No","","",0
 "B18-10103",2018-08-12,1,"Alpheus californiensis",1,"No","","",0
 "B18-10103",2018-08-12,1,"Nephtys cornuta",1,"No","","",0
-"B18-10103",2018-08-12,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10103",2018-08-12,1,"Chaetozone corona",1,"No","","",0
 "B18-10103",2018-08-12,1,"Glycera americana",1,"No","","",0
 "B18-10103",2018-08-12,1,"Neotrypaea sp",1,"No","","",0
@@ -3764,11 +3530,9 @@
 "B18-10105",2018-08-09,1,"Nuculana taphria",2,"No","Mollusc","S",0
 "B18-10105",2018-08-09,1,"Periploma discus",2,"No","Mollusc","",0
 "B18-10105",2018-08-09,1,"Pinnixa sp",2,"No","","",0
-"B18-10105",2018-08-09,1,"Poecilochaetus sp",2,"Yes","","",0
 "B18-10105",2018-08-09,1,"Prionospio (Minuspio) lighti",2,"No","","",0
 "B18-10105",2018-08-09,1,"Scleroplax granulata",2,"No","","",0
 "B18-10105",2018-08-09,1,"Tellina sp B",2,"No",NA,NA,0
-"B18-10105",2018-08-09,1,"Ampelisca sp",1,"Yes","","",0
 "B18-10105",2018-08-09,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10105",2018-08-09,1,"Aphelochaeta monilaris",1,"No","","",0
 "B18-10105",2018-08-09,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
@@ -3796,7 +3560,6 @@
 "B18-10106",2018-08-07,1,"Paramage scutata",10,"No","","",0
 "B18-10106",2018-08-07,1,"Theora lubrica",7,"No","Mollusc","",0
 "B18-10106",2018-08-07,1,"Ericthonius brasiliensis",6,"No","","S",0
-"B18-10106",2018-08-07,1,"Maldanidae",6,"Yes","","",0
 "B18-10106",2018-08-07,1,"Tellina sp B",6,"No",NA,NA,0
 "B18-10106",2018-08-07,1,"Leitoscoloplos pugettensis",5,"No","","",0
 "B18-10106",2018-08-07,1,"Petaloclymene pacifica",5,"No","","",0
@@ -3816,7 +3579,6 @@
 "B18-10106",2018-08-07,1,"Melinna sp",2,"No","","",0
 "B18-10106",2018-08-07,1,"Nuculana taphria",2,"No","Mollusc","S",0
 "B18-10106",2018-08-07,1,"Spiochaetopterus costarum",2,"No","","",0
-"B18-10106",2018-08-07,1,"Virgulariidae",2,"Yes",NA,NA,0
 "B18-10106",2018-08-07,1,"Volvulella panamica",2,"No","Mollusc","",0
 "B18-10106",2018-08-07,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
 "B18-10106",2018-08-07,1,"Amphicteis scaphobranchiata",1,"No","","S",0
@@ -3826,7 +3588,6 @@
 "B18-10106",2018-08-07,1,"Nemertea",2,"No","","",0
 "B18-10106",2018-08-07,1,"Chaetopterus variopedatus Cmplx",1,"No","","",0
 "B18-10106",2018-08-07,1,"Chaetozone corona",1,"No","","",0
-"B18-10106",2018-08-07,1,"Cirratulidae",1,"Yes","","",0
 "B18-10106",2018-08-07,1,"Diopatra tridentata",1,"No","","",0
 "B18-10106",2018-08-07,1,"Dipolydora sp",1,"No","","",0
 "B18-10106",2018-08-07,1,"Euphilomedes carcharodonta",1,"No","","",0
@@ -3846,13 +3607,11 @@
 "B18-10106",2018-08-07,1,"Praxillella pacifica",1,"No","","",0
 "B18-10106",2018-08-07,1,"Rudilemboides sp",1,"No","","",0
 "B18-10106",2018-08-07,1,"Scalibregma californicum",1,"No","","",0
-"B18-10106",2018-08-07,1,"Scoletoma sp",1,"Yes","","",0
 "B18-10106",2018-08-07,1,"Scoletoma sp A",1,"No","","",0
 "B18-10106",2018-08-07,1,"Spiophanes berkeleyorum",1,"No","","S",0
 "B18-10106",2018-08-07,1,"Streblosoma sp",1,"No","","",0
 "B18-10106",2018-08-07,1,"Virgularia californica",1,"No",NA,NA,0
 "B18-10107",2018-07-26,1,"Amphideutopus oculatus",18,"No","","S",0
-"B18-10107",2018-07-26,1,"Scoletoma sp",14,"Yes","","",0
 "B18-10107",2018-07-26,1,"Oxyurostylis pacifica",11,"No","","",0
 "B18-10107",2018-07-26,1,"Cossura candida",7,"No","","",0
 "B18-10107",2018-07-26,1,"Chaetozone corona",6,"No","","",0
@@ -3863,7 +3622,6 @@
 "B18-10107",2018-07-26,1,"Laonice cirrata",5,"No","","",0
 "B18-10107",2018-07-26,1,"Marphysa disjuncta",5,"No","","",0
 "B18-10107",2018-07-26,1,"Philine sp",7,"No","Mollusc","",0
-"B18-10107",2018-07-26,1,"Bivalvia",4,"Yes","Mollusc","",0
 "B18-10107",2018-07-26,1,"Nuculana taphria",4,"No","Mollusc","S",0
 "B18-10107",2018-07-26,1,"Paraprionospio pinnata",4,"No","","",0
 "B18-10107",2018-07-26,1,"Petaloclymene pacifica",4,"No","","",0
@@ -3883,7 +3641,6 @@
 "B18-10107",2018-07-26,1,"Glycera americana",1,"No","","",0
 "B18-10107",2018-07-26,1,"Lineidae",2,"No","","",0
 "B18-10107",2018-07-26,1,"Mactrotoma californica",1,"No","Mollusc","",0
-"B18-10107",2018-07-26,1,"Maldanidae",1,"Yes","","",0
 "B18-10107",2018-07-26,1,"Mediomastus sp",1,"No","","",0
 "B18-10107",2018-07-26,1,"Mysidae",1,"No","","",0
 "B18-10107",2018-07-26,1,"Periploma discus",1,"No","Mollusc","",0
@@ -3892,7 +3649,6 @@
 "B18-10107",2018-07-26,1,"Sinocorophium heteroceratum",1,"No","","",0
 "B18-10107",2018-07-26,1,"Spiochaetopterus costarum",1,"No","","",0
 "B18-10107",2018-07-26,1,"Spiophanes berkeleyorum",1,"No","","S",0
-"B18-10107",2018-07-26,1,"Spiophanes sp",1,"Yes",NA,NA,0
 "B18-10107",2018-07-26,1,"Streblosoma sp",1,"No","","",0
 "B18-10107",2018-07-26,1,"Thyasira flexuosa",1,"No","Mollusc","",0
 "B18-10107",2018-07-26,1,"Volvulella panamica",1,"No","Mollusc","",0
@@ -3928,8 +3684,6 @@
 "B18-10108",2018-08-12,1,"Sthenelanella uniformis",2,"No","","S",0
 "B18-10108",2018-08-12,1,"Tubulanus sp",2,"No","","",0
 "B18-10108",2018-08-12,1,"Ampelisca cristata microdentata",1,"No",NA,NA,0
-"B18-10108",2018-08-12,1,"Ampelisca sp",1,"Yes","","",0
-"B18-10108",2018-08-12,1,"Amphiuridae",1,"Yes","","",0
 "B18-10108",2018-08-12,1,"Ascidiacea",1,"No","","",0
 "B18-10108",2018-08-12,1,"Glycera americana",1,"No","","",0
 "B18-10108",2018-08-12,1,"Halcampidae",1,"No","","",0
@@ -3940,13 +3694,11 @@
 "B18-10108",2018-08-12,1,"Majoidea",1,"No",NA,NA,0
 "B18-10108",2018-08-12,1,"Paraprionospio pinnata",1,"No","","",0
 "B18-10108",2018-08-12,1,"Parvilucina tenuisculpta",1,"No","Mollusc","",0
-"B18-10108",2018-08-12,1,"Poecilochaetus sp",1,"Yes","","",0
 "B18-10108",2018-08-12,1,"Scolanthus sp B",1,"No","","",0
 "B18-10108",2018-08-12,1,"Sinocorophium heteroceratum",1,"No","","",0
 "B18-10108",2018-08-12,1,"Tellina idae",1,"No","Mollusc","S",0
 "B18-10108",2018-08-12,1,"Thyasira flexuosa",1,"No","Mollusc","",0
 "B18-10109",2018-08-14,1,"Ampelisca brachycladus",15,"No","","S",0
-"B18-10109",2018-08-14,1,"Scoletoma sp",8,"Yes","","",0
 "B18-10109",2018-08-14,1,"Amphiodia sp",8,"No","","S",0
 "B18-10109",2018-08-14,1,"Cossura sp A",7,"No","","",0
 "B18-10109",2018-08-14,1,"Poecilochaetus sp A",7,"No","","",0
@@ -3976,11 +3728,9 @@
 "B18-10109",2018-08-14,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10109",2018-08-14,1,"Lineidae",1,"No","","",0
 "B18-10109",2018-08-14,1,"Diopatra tridentata",1,"No","","",0
-"B18-10109",2018-08-14,1,"Nemertea",1,"Yes","","",0
 "B18-10109",2018-08-14,1,"Monticellina siblina",1,"No","","",0
 "B18-10109",2018-08-14,1,"Rochefortia coani",1,"No","Mollusc","S",0
 "B18-10109",2018-08-14,1,"Mactrotoma californica",1,"No","Mollusc","",0
-"B18-10109",2018-08-14,1,"Maldanidae",1,"Yes","","",0
 "B18-10109",2018-08-14,1,"Mysidae",1,"No","","",0
 "B18-10109",2018-08-14,1,"Neotrypaea sp",1,"No","","",0
 "B18-10109",2018-08-14,1,"Oxyurostylis pacifica",1,"No","","",0
@@ -4006,7 +3756,6 @@
 "B18-10110",2018-08-07,1,"Laonice cirrata",3,"No","","",0
 "B18-10110",2018-08-07,1,"Macoma yoldiformis",2,"No","Mollusc","",0
 "B18-10110",2018-08-07,1,"Pista percyi",2,"No","","",0
-"B18-10110",2018-08-07,1,"Pista sp",2,"Yes","","",0
 "B18-10110",2018-08-07,1,"Thyasira flexuosa",2,"No","Mollusc","",0
 "B18-10110",2018-08-07,1,"Paramage scutata",1,"No","","",0
 "B18-10110",2018-08-07,1,"Amphideutopus oculatus",1,"No","","S",0
@@ -4021,7 +3770,6 @@
 "B18-10110",2018-08-07,1,"Petaloclymene pacifica",1,"No","","",0
 "B18-10110",2018-08-07,1,"Phoronida",1,"No","","S",0
 "B18-10110",2018-08-07,1,"Pilargis sp A",1,"No",NA,NA,0
-"B18-10110",2018-08-07,1,"Pinnotheridae",1,"Yes","","",0
 "B18-10110",2018-08-07,1,"Poecilochaetus sp A",1,"No","","",0
 "B18-10110",2018-08-07,1,"Praxillella pacifica",1,"No","","",0
 "B18-10110",2018-08-07,1,"Scleroplax granulata",1,"No","","",0
@@ -4029,19 +3777,15 @@
 "B18-10110",2018-08-07,1,"Tenonia priops",1,"No","","S",0
 "B18-10111",2018-08-14,1,"Scleroplax granulata",10,"No","","",0
 "B18-10111",2018-08-14,1,"Paramage scutata",8,"No","","",0
-"B18-10111",2018-08-14,1,"Lumbrineris sp",4,"Yes","","",0
 "B18-10111",2018-08-14,1,"Exogone lourei",3,"No","","S",0
-"B18-10111",2018-08-14,1,"Lumbrineridae",3,"Yes","","",0
 "B18-10111",2018-08-14,1,"Philine sp",3,"No","Mollusc","",0
 "B18-10111",2018-08-14,1,"Protocirrineris sp B",3,"No","","",0
 "B18-10111",2018-08-14,1,"Tubulanus sp",3,"No","","",0
-"B18-10111",2018-08-14,1,"Ampharetidae",2,"Yes","","",0
 "B18-10111",2018-08-14,1,"Lysippe sp",2,"No","","",0
 "B18-10111",2018-08-14,1,"Nuculana taphria",2,"No","Mollusc","S",0
 "B18-10111",2018-08-14,1,"Pholoides asperus",2,"No","","",0
 "B18-10111",2018-08-14,1,"Phoronida",3,"No","","S",0
 "B18-10111",2018-08-14,1,"Pista estevanica",2,"No","","",0
-"B18-10111",2018-08-14,1,"Pista sp",2,"Yes","","",0
 "B18-10111",2018-08-14,1,"Pista wui",2,"No","","",0
 "B18-10111",2018-08-14,1,"Sabellides manriquei",2,"No","","S",0
 "B18-10111",2018-08-14,1,"Tellina sp B",2,"No",NA,NA,0
@@ -4066,11 +3810,9 @@
 "B18-10111",2018-08-14,1,"Neotrypaea sp",1,"No","","",0
 "B18-10111",2018-08-14,1,"Ophiothrix spiculata",1,"No","","",0
 "B18-10111",2018-08-14,1,"Ophiodromus pugettensis",1,"No","","",0
-"B18-10111",2018-08-14,1,"Nemertea",1,"Yes","","",0
 "B18-10111",2018-08-14,1,"Pholoe sp",1,"No","","",0
 "B18-10111",2018-08-14,1,"Pista percyi",1,"No","","",0
 "B18-10111",2018-08-14,1,"Poecilochaetus johnsoni",1,"No","","S",0
-"B18-10111",2018-08-14,1,"Poecilochaetus sp",1,"Yes","","",0
 "B18-10111",2018-08-14,1,"Polycirrus sp",1,"No","","",0
 "B18-10111",2018-08-14,1,"Prionospio heterobranchia",1,"No",NA,NA,0
 "B18-10111",2018-08-14,1,"Rhamphidonta retifera",1,"No","Mollusc","",0
@@ -4078,16 +3820,13 @@
 "B18-10111",2018-08-14,1,"Scolanthus sp B",1,"No","","",0
 "B18-10111",2018-08-14,1,"Scoletoma sp C",1,"No","","",0
 "B18-10111",2018-08-14,1,"Pherusa inflata",1,"No","","",0
-"B18-10111",2018-08-14,1,"Sipunculidea",1,"Yes",NA,NA,0
 "B18-10111",2018-08-14,1,"Spiophanes berkeleyorum",1,"No","","S",0
 "B18-10111",2018-08-14,1,"Sthenelais tertiaglabra",1,"No","","",0
-"B18-10111",2018-08-14,1,"Terebellidae",1,"Yes","","",0
 "B18-10111",2018-08-14,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10111",2018-08-14,1,"Urechis caupo",1,"No","","",0
 "B18-10112",2018-07-18,1,"Mediomastus sp",46,"No","","",0
 "B18-10112",2018-07-18,1,"Scoletoma sp C",27,"No","","",0
 "B18-10112",2018-07-18,1,"Scleroplax granulata",25,"No","","",0
-"B18-10112",2018-07-18,1,"Scoletoma sp",22,"Yes","","",0
 "B18-10112",2018-07-18,1,"Phoronida",21,"No","","S",0
 "B18-10112",2018-07-18,1,"Prionospio (Minuspio) lighti",13,"No","","",0
 "B18-10112",2018-07-18,1,"Neotrypaea sp",23,"No","","",0
@@ -4118,22 +3857,17 @@
 "B18-10112",2018-07-18,1,"Malmgreniella sp",1,"No","","",0
 "B18-10112",2018-07-18,1,"Microspio sp",1,"No",NA,NA,0
 "B18-10112",2018-07-18,1,"Paraprionospio pinnata",1,"No","","",0
-"B18-10112",2018-07-18,1,"Pinnotheridae",1,"Yes","","",0
 "B18-10112",2018-07-18,1,"Pista wui",1,"No","","",0
 "B18-10112",2018-07-18,1,"Sinocorophium alienense",1,"No",NA,NA,0
-"B18-10112",2018-07-18,1,"Solen sp",1,"Yes",NA,NA,0
 "B18-10112",2018-07-18,1,"Sphaerosyllis sp",1,"No","","",0
 "B18-10113",2018-07-18,1,"Leitoscoloplos pugettensis",55,"No","","",0
 "B18-10113",2018-07-18,1,"Scoletoma sp C",48,"No","","",0
 "B18-10113",2018-07-18,1,"Diplocirrus sp SD1",27,"No","","",0
-"B18-10113",2018-07-18,1,"Scoletoma sp",24,"Yes","","",0
-"B18-10113",2018-07-18,1,"Lumbrineridae",10,"Yes","","",0
 "B18-10113",2018-07-18,1,"Theora lubrica",7,"No","Mollusc","",0
 "B18-10113",2018-07-18,1,"Heterophoxus cf ellisi",6,"No",NA,NA,0
 "B18-10113",2018-07-18,1,"Asthenothaerus diegensis",5,"No","Mollusc","",0
 "B18-10113",2018-07-18,1,"Spiophanes duplex",4,"No","","S",0
 "B18-10113",2018-07-18,1,"Cirriformia sp",3,"No","","S",0
-"B18-10113",2018-07-18,1,"Edwardsiidae",3,"Yes","","",0
 "B18-10113",2018-07-18,1,"Laevicardium substriatum",3,"No","Mollusc","",0
 "B18-10113",2018-07-18,1,"Microspio sp",3,"No",NA,NA,0
 "B18-10113",2018-07-18,1,"Tellina sp B",3,"No",NA,NA,0
@@ -4164,7 +3898,6 @@
 "B18-10114",2018-07-19,1,"Scoletoma sp C",24,"No","","",0
 "B18-10114",2018-07-19,1,"Tagelus affinis",17,"No","Mollusc","",0
 "B18-10114",2018-07-19,1,"Heterophoxus cf ellisi",13,"No",NA,NA,0
-"B18-10114",2018-07-19,1,"Scoletoma sp",13,"Yes","","",0
 "B18-10114",2018-07-19,1,"Leitoscoloplos pugettensis",12,"No","","",0
 "B18-10114",2018-07-19,1,"Solen rostriformis",10,"No","Mollusc","",0
 "B18-10114",2018-07-19,1,"Theora lubrica",10,"No","Mollusc","",0
@@ -4189,26 +3922,20 @@
 "B18-10114",2018-07-19,1,"Leptosynapta sp",1,"No","","",0
 "B18-10114",2018-07-19,1,"Leuroleberis sharpei",1,"No","","",0
 "B18-10114",2018-07-19,1,"Mactrotoma californica",1,"No","Mollusc","",0
-"B18-10114",2018-07-19,1,"Majoidea",1,"Yes",NA,NA,0
 "B18-10114",2018-07-19,1,"Malmgreniella sp",1,"No","","",0
 "B18-10114",2018-07-19,1,"Syllis (spellingsyllis) nipponica",1,"No",NA,NA,0
 "B18-10114",2018-07-19,1,"Metasychis disparidentatus",1,"No","","",0
 "B18-10114",2018-07-19,1,"Owenia collaris",1,"No","","S",0
-"B18-10114",2018-07-19,1,"Sabellidae",1,"Yes","","",0
 "B18-10114",2018-07-19,1,"Schmittius politus",1,"No","","",0
 "B18-10114",2018-07-19,1,"Volvulella panamica",1,"No","Mollusc","",0
 "B18-10115",2018-07-19,1,"Monocorophium acherusicum",115,"No","","S",0
 "B18-10115",2018-07-19,1,"Amphideutopus oculatus",54,"No","","S",0
 "B18-10115",2018-07-19,1,"Edwardsia californica",48,"No","","",0
 "B18-10115",2018-07-19,1,"Scoletoma sp C",46,"No","","",0
-"B18-10115",2018-07-19,1,"Scoletoma sp",40,"Yes","","",0
 "B18-10115",2018-07-19,1,"Leitoscoloplos pugettensis",22,"No","","",0
 "B18-10115",2018-07-19,1,"Prionospio heterobranchia",17,"No",NA,NA,0
 "B18-10115",2018-07-19,1,"Rudilemboides sp",11,"No","","",0
 "B18-10115",2018-07-19,1,"Heterophoxus cf ellisi",10,"No",NA,NA,0
-"B18-10115",2018-07-19,1,"Edwardsiidae",9,"Yes","","",0
-"B18-10115",2018-07-19,1,"Lumbrineridae",8,"Yes","","",0
-"B18-10115",2018-07-19,1,"Monocorophium sp",8,"Yes","","",0
 "B18-10115",2018-07-19,1,"Mediomastus sp",6,"No","","",0
 "B18-10115",2018-07-19,1,"Neotrypaea sp",7,"No","","",0
 "B18-10115",2018-07-19,1,"Scoletoma sp B",6,"No","","",0
@@ -4252,7 +3979,6 @@
 "B18-10116",2018-07-19,1,"Mediomastus sp",8,"No","","",0
 "B18-10116",2018-07-19,1,"Amphideutopus oculatus",7,"No","","S",0
 "B18-10116",2018-07-19,1,"Spio maculata",7,"No","","",0
-"B18-10116",2018-07-19,1,"Scoletoma sp",6,"Yes","","",0
 "B18-10116",2018-07-19,1,"Tagelus affinis",4,"No","Mollusc","",0
 "B18-10116",2018-07-19,1,"Aruga sp",3,"No","","",0
 "B18-10116",2018-07-19,1,"Scoletoma sp C",3,"No","","",0
@@ -4262,14 +3988,12 @@
 "B18-10116",2018-07-19,1,"Aonides sp",1,"No","","",0
 "B18-10116",2018-07-19,1,"Asthenothaerus diegensis",1,"No","Mollusc","",0
 "B18-10116",2018-07-19,1,"Calyptraeidae",1,"No",NA,NA,0
-"B18-10116",2018-07-19,1,"Cirratulidae",1,"Yes","","",0
 "B18-10116",2018-07-19,1,"Cirriformia sp",1,"No","","S",0
 "B18-10116",2018-07-19,1,"Diplocirrus sp SD1",1,"No","","",0
 "B18-10116",2018-07-19,1,"Podochela hemphillii",1,"No","","",0
 "B18-10116",2018-07-19,1,"Exogone lourei",1,"No","","S",0
 "B18-10116",2018-07-19,1,"Flosmaris grandis",1,"No","","",0
 "B18-10116",2018-07-19,1,"Laevicardium substriatum",1,"No","Mollusc","",0
-"B18-10116",2018-07-19,1,"Maldanidae",1,"Yes","","",0
 "B18-10116",2018-07-19,1,"Monocorophium sp",1,"No","","",0
 "B18-10116",2018-07-19,1,"Neotrypaea sp",1,"No","","",0
 "B18-10116",2018-07-19,1,"Petaloclymene pacifica",1,"No","","",0
@@ -4279,7 +4003,6 @@
 "B18-10116",2018-07-19,1,"Spiophanes duplex",1,"No","","S",0
 "B18-10117",2018-07-16,1,"Edwardsia californica",268,"No","","",0
 "B18-10117",2018-07-16,1,"Leitoscoloplos pugettensis",94,"No","","",0
-"B18-10117",2018-07-16,1,"Scoletoma sp",57,"Yes","","",0
 "B18-10117",2018-07-16,1,"Scoletoma sp C",22,"No","","",0
 "B18-10117",2018-07-16,1,"Scoletoma sp B",20,"No","","",0
 "B18-10117",2018-07-16,1,"Mediomastus sp",11,"No","","",0
@@ -4410,7 +4133,6 @@
 "B18-10118",2018-08-08,1,"Turbonilla sp",1,"No","Mollusc","",0
 "B18-10118",2018-08-08,1,"Zeuxo normani",1,"No","","",0
 "B18-10119",2018-07-20,1,"Rudilemboides sp",39,"No","","",0
-"B18-10119",2018-07-20,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10119",2018-07-20,1,"Prionospio heterobranchia",19,"No",NA,NA,0
 "B18-10119",2018-07-20,1,"Exogone lourei",16,"No","","S",0
 "B18-10119",2018-07-20,1,"Scoletoma sp C",13,"No","","",0
@@ -4421,7 +4143,6 @@
 "B18-10119",2018-07-20,1,"Monocorophium acherusicum",6,"No","","S",0
 "B18-10119",2018-07-20,1,"Maldanidae",9,"No","","",0
 "B18-10119",2018-07-20,1,"Fabricinuda limnicola",5,"No","","",0
-"B18-10119",2018-07-20,1,"Lumbrineridae",5,"Yes","","",0
 "B18-10119",2018-07-20,1,"Pseudopolydora paucibranchiata",5,"No","","",0
 "B18-10119",2018-07-20,1,"Americhelidium sp",5,"No","","",0
 "B18-10119",2018-07-20,1,"Lumbrineris sp E",3,"No",NA,NA,0
@@ -4440,7 +4161,6 @@
 "B18-10119",2018-07-20,1,"Leptosynapta sp",1,"No","","",0
 "B18-10119",2018-07-20,1,"Nassarius tiarula",1,"No","Mollusc","",0
 "B18-10119",2018-07-20,1,"Nephtys simoni",1,"No","","",0
-"B18-10119",2018-07-20,1,"Nephtys sp",1,"Yes","","",0
 "B18-10119",2018-07-20,1,"Nereididae",1,"No","","",0
 "B18-10119",2018-07-20,1,"Postasterope barnesi",1,"No","","",0
 "B18-10119",2018-07-20,1,"Pyromaia tuberculata",1,"No","","",0
@@ -4494,7 +4214,6 @@
 "B18-10121",2018-07-20,1,"Phtisica marina",10,"No",NA,NA,0
 "B18-10121",2018-07-20,1,"Pyromaia tuberculata",8,"No","","",0
 "B18-10121",2018-07-20,1,"Petaloclymene pacifica",7,"No","","",0
-"B18-10121",2018-07-20,1,"Scoletoma sp",7,"Yes","","",0
 "B18-10121",2018-07-20,1,"Solen rostriformis",7,"No","Mollusc","",0
 "B18-10121",2018-07-20,1,"Theora lubrica",7,"No","Mollusc","",0
 "B18-10121",2018-07-20,1,"Monocorophium acherusicum",4,"No","","S",0
@@ -4584,12 +4303,9 @@
 "B18-10123",2018-07-20,1,"Tagelus subteres",20,"No","Mollusc","S",0
 "B18-10123",2018-07-20,1,"Leitoscoloplos pugettensis",16,"No","","",0
 "B18-10123",2018-07-20,1,"Pseudopolydora paucibranchiata",15,"No","","",0
-"B18-10123",2018-07-20,1,"Scoletoma sp",15,"Yes","","",0
 "B18-10123",2018-07-20,1,"Prionospio heterobranchia",11,"No",NA,NA,0
 "B18-10123",2018-07-20,1,"Phoronida",15,"No","","S",0
-"B18-10123",2018-07-20,1,"Lumbrineridae",7,"Yes","","",0
 "B18-10123",2018-07-20,1,"Rudilemboides sp",7,"No","","",0
-"B18-10123",2018-07-20,1,"Monocorophium sp",6,"Yes","","",0
 "B18-10123",2018-07-20,1,"Fabricinuda limnicola",5,"No","","",0
 "B18-10123",2018-07-20,1,"Mediomastus sp",5,"No","","",0
 "B18-10123",2018-07-20,1,"Solen rostriformis",5,"No","Mollusc","",0
@@ -4655,7 +4371,6 @@
 "B18-10127",2018-07-26,1,"Heterophoxus cf ellisi",2,"No",NA,NA,0
 "B18-10127",2018-07-26,1,"Theora lubrica",2,"No","Mollusc","",0
 "B18-10127",2018-07-26,1,"Amphideutopus oculatus",1,"No","","S",0
-"B18-10127",2018-07-26,1,"Edwardsiidae",1,"Yes","","",0
 "B18-10127",2018-07-26,1,"Fabricinuda limnicola",1,"No","","",0
 "B18-10127",2018-07-26,1,"Phoronida",1,"No","","S",0
 "B18-10127",2018-07-26,1,"Scolanthus sp B",1,"No","","",0
@@ -4689,7 +4404,6 @@
 "B18-10129",2018-08-07,1,"Amphipholis squamata",2,"No","","",0
 "B18-10129",2018-08-07,1,"Nemertea",2,"No","","",0
 "B18-10129",2018-08-07,1,"Pyromaia tuberculata",2,"No","","",0
-"B18-10129",2018-08-07,1,"Sabellidae",2,"Yes","","",0
 "B18-10129",2018-08-07,1,"Solen rostriformis",2,"No","Mollusc","",0
 "B18-10129",2018-08-07,1,"Tagelus subteres",2,"No","Mollusc","S",0
 "B18-10129",2018-08-07,1,"Cyathodonta pedroana",1,"No","Mollusc","",0
@@ -4781,8 +4495,6 @@
 "B18-10132",2018-07-26,1,"Scoletoma sp C",37,"No","","",0
 "B18-10132",2018-07-26,1,"Leitoscoloplos pugettensis",35,"No","","",0
 "B18-10132",2018-07-26,1,"Anoplodactylus erectus",33,"No","","",0
-"B18-10132",2018-07-26,1,"Edwardsiidae",31,"Yes","","",0
-"B18-10132",2018-07-26,1,"Majoidea",19,"Yes",NA,NA,0
 "B18-10132",2018-07-26,1,"Laevicardium substriatum",17,"No","Mollusc","",0
 "B18-10132",2018-07-26,1,"Podocerus fulanus",17,"No","","",0
 "B18-10132",2018-07-26,1,"Maldanidae",12,"No","","",0
@@ -4790,7 +4502,6 @@
 "B18-10132",2018-07-26,1,"Tagelus affinis",10,"No","Mollusc","",0
 "B18-10132",2018-07-26,1,"Prionospio heterobranchia",9,"No",NA,NA,0
 "B18-10132",2018-07-26,1,"Hartmanodes sp SD1",8,"No",NA,NA,0
-"B18-10132",2018-07-26,1,"Scoletoma sp",8,"Yes","","",0
 "B18-10132",2018-07-26,1,"Nemertea",8,"No","","",0
 "B18-10132",2018-07-26,1,"Mediomastus sp",7,"No","","",0
 "B18-10132",2018-07-26,1,"Panopeidae",7,"No",NA,NA,0
@@ -4801,7 +4512,6 @@
 "B18-10132",2018-07-26,1,"Anoplodactylus viridintestinalis",4,"No","","",0
 "B18-10132",2018-07-26,1,"Aruga sp",4,"No","","",0
 "B18-10132",2018-07-26,1,"Pseudopolydora paucibranchiata",4,"No","","",0
-"B18-10132",2018-07-26,1,"Lumbrineridae",3,"Yes","","",0
 "B18-10132",2018-07-26,1,"Paracaprella sp",3,"No","","",0
 "B18-10132",2018-07-26,1,"Leporimetis obesa",3,"No","Mollusc","S",0
 "B18-10132",2018-07-26,1,"Cirriformia sp",2,"No","","S",0
@@ -4830,12 +4540,9 @@
 "B18-10132",2018-07-26,1,"Solen rostriformis",1,"No","Mollusc","",0
 "B18-10132",2018-07-26,1,"Trachycardium quadragenarium",1,"No","Mollusc","S",0
 "B18-10132",2018-07-26,1,"Vargula tsujii",1,"No","","S",0
-"B18-10132",2018-07-26,1,"Veneridae",1,"Yes","Mollusc","",0
 "B18-10133",2018-07-26,1,"Prionospio heterobranchia",26,"No",NA,NA,0
 "B18-10133",2018-07-26,1,"Scoletoma sp C",21,"No","","",0
-"B18-10133",2018-07-26,1,"Scoletoma sp",16,"Yes","","",0
 "B18-10133",2018-07-26,1,"Aruga sp",13,"No","","",0
-"B18-10133",2018-07-26,1,"Lumbrineris sp",9,"Yes","","",0
 "B18-10133",2018-07-26,1,"Actiniaria",8,"No","","",0
 "B18-10133",2018-07-26,1,"Exogone lourei",8,"No","","S",0
 "B18-10133",2018-07-26,1,"Mediomastus sp",8,"No","","",0
@@ -4852,7 +4559,6 @@
 "B18-10133",2018-07-26,1,"Tubulanus sp",5,"No","","",0
 "B18-10133",2018-07-26,1,"Zaolutus actius",3,"No","","",0
 "B18-10133",2018-07-26,1,"Americhelidium sp",2,"No","","",0
-"B18-10133",2018-07-26,1,"Calyptraeidae",2,"Yes",NA,NA,0
 "B18-10133",2018-07-26,1,"Heterophoxus cf ellisi",2,"No",NA,NA,0
 "B18-10133",2018-07-26,1,"Odontosyllis phosphorea",2,"No","","",0
 "B18-10133",2018-07-26,1,"Paranemertes californica",2,"No","","",0
@@ -4866,12 +4572,9 @@
 "B18-10133",2018-07-26,1,"Nemertea",2,"No","","",0
 "B18-10133",2018-07-26,1,"Microcosmus squamiger",1,"No","","",0
 "B18-10133",2018-07-26,1,"Molgula sp",1,"No","","",0
-"B18-10133",2018-07-26,1,"Ascidiacea",1,"Yes","","",0
-"B18-10133",2018-07-26,1,"Nephtys sp",1,"Yes","","",0
 "B18-10133",2018-07-26,1,"Paraprionospio pinnata",1,"No","","",0
 "B18-10133",2018-07-26,1,"Petaloclymene pacifica",1,"No","","",0
 "B18-10133",2018-07-26,1,"Scolelepis (Parascolelepis) sp",1,"No","","",0
-"B18-10133",2018-07-26,1,"Tubulanidae",1,"Yes","","",0
 "B18-10134",2018-08-07,1,"Scoletoma sp C",85,"No","","",0
 "B18-10134",2018-08-07,1,"Mediomastus sp",38,"No","","",0
 "B18-10134",2018-08-07,1,"Theora lubrica",32,"No","Mollusc","",0
@@ -4962,7 +4665,6 @@
 "B18-10135",2018-08-07,1,"Podocerus fulanus",1,"No","","",0
 "B18-10135",2018-08-07,1,"Tagelus subteres",1,"No","Mollusc","S",0
 "B18-10136",2018-07-27,1,"Musculista senhousia",42,"No","Mollusc","",0
-"B18-10136",2018-07-27,1,"Scoletoma sp",30,"Yes","","",0
 "B18-10136",2018-07-27,1,"Mediomastus sp",19,"No","","",0
 "B18-10136",2018-07-27,1,"Scoletoma sp C",18,"No","","",0
 "B18-10136",2018-07-27,1,"Exogone dwisula",12,"No","","S",0
@@ -4970,7 +4672,6 @@
 "B18-10136",2018-07-27,1,"Pseudopolydora paucibranchiata",7,"No","","",0
 "B18-10136",2018-07-27,1,"Prionospio heterobranchia",6,"No",NA,NA,0
 "B18-10136",2018-07-27,1,"Leitoscoloplos pugettensis",5,"No","","",0
-"B18-10136",2018-07-27,1,"Maldanidae",5,"Yes","","",0
 "B18-10136",2018-07-27,1,"Tagelus affinis",5,"No","Mollusc","",0
 "B18-10136",2018-07-27,1,"Amphideutopus oculatus",4,"No","","S",0
 "B18-10136",2018-07-27,1,"Fabricinuda limnicola",3,"No","","",0
@@ -4997,7 +4698,6 @@
 "B18-10137",2018-07-27,1,"Grandidierella japonica",4,"No","","",0
 "B18-10137",2018-07-27,1,"Fabricinuda limnicola",3,"No","","",0
 "B18-10137",2018-07-27,1,"Nassarius tiarula",2,"No","Mollusc","",0
-"B18-10137",2018-07-27,1,"Scoletoma sp",2,"Yes","","",0
 "B18-10137",2018-07-27,1,"Tubulanus sp",2,"No","","",0
 "B18-10137",2018-07-27,1,"Amphideutopus oculatus",1,"No","","S",0
 "B18-10137",2018-07-27,1,"Amphipholis squamata",1,"No","","",0
@@ -5026,7 +4726,6 @@
 "B18-10138",2018-08-07,1,"Schmittius politus",1,"No","","",0
 "B18-10138",2018-08-07,1,"Scoletoma sp A",1,"No","","",0
 "B18-10139",2018-07-27,1,"Scoletoma sp C",84,"No","","",0
-"B18-10139",2018-07-27,1,"Scoletoma sp",28,"Yes","","",0
 "B18-10139",2018-07-27,1,"Musculista senhousia",22,"No","Mollusc","",0
 "B18-10139",2018-07-27,1,"Pseudopolydora paucibranchiata",12,"No","","",0
 "B18-10139",2018-07-27,1,"Diplocirrus sp SD1",11,"No","","",0
@@ -5101,7 +4800,6 @@
 "B18-10142",2018-07-27,1,"Mediomastus sp",30,"No","","",0
 "B18-10142",2018-07-27,1,"Podocerus fulanus",29,"No","","",0
 "B18-10142",2018-07-27,1,"Prionospio heterobranchia",23,"No",NA,NA,0
-"B18-10142",2018-07-27,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10142",2018-07-27,1,"Paracerceis sculpta",14,"No","","",0
 "B18-10142",2018-07-27,1,"Rudilemboides sp",13,"No","","",0
 "B18-10142",2018-07-27,1,"Amphideutopus oculatus",10,"No","","S",0
@@ -5145,12 +4843,10 @@
 "B18-10142",2018-07-27,1,"Tubulanus sp",1,"No","","",0
 "B18-10143",2018-07-30,1,"Fabricinuda limnicola",28,"No","","",0
 "B18-10143",2018-07-30,1,"Amphideutopus oculatus",26,"No","","S",0
-"B18-10143",2018-07-30,1,"Scoletoma sp",23,"Yes","","",0
 "B18-10143",2018-07-30,1,"Scoletoma sp C",16,"No","","",0
 "B18-10143",2018-07-30,1,"Musculista senhousia",13,"No","Mollusc","",0
 "B18-10143",2018-07-30,1,"Mediomastus sp",11,"No","","",0
 "B18-10143",2018-07-30,1,"Petaloclymene pacifica",8,"No","","",0
-"B18-10143",2018-07-30,1,"Maldanidae",6,"Yes","","",0
 "B18-10143",2018-07-30,1,"Pseudopolydora paucibranchiata",5,"No","","",0
 "B18-10143",2018-07-30,1,"Diplocirrus sp SD1",3,"No","","",0
 "B18-10143",2018-07-30,1,"Podochela hemphillii",3,"No","","",0
@@ -5181,8 +4877,6 @@
 "B18-10144",2018-07-30,1,"Musculista senhousia",78,"No","Mollusc","",0
 "B18-10144",2018-07-30,1,"Mediomastus sp",68,"No","","",0
 "B18-10144",2018-07-30,1,"Exogone lourei",51,"No","","S",0
-"B18-10144",2018-07-30,1,"Maldanidae",37,"Yes","","",0
-"B18-10144",2018-07-30,1,"Scoletoma sp",34,"Yes","","",0
 "B18-10144",2018-07-30,1,"Petaloclymene pacifica",28,"No","","",0
 "B18-10144",2018-07-30,1,"Fabricinuda limnicola",20,"No","","",0
 "B18-10144",2018-07-30,1,"Amphideutopus oculatus",15,"No","","S",0
@@ -5198,7 +4892,6 @@
 "B18-10144",2018-07-30,1,"Nassarius tiarula",5,"No","Mollusc","",0
 "B18-10144",2018-07-30,1,"Alpheus californiensis",4,"No","","",0
 "B18-10144",2018-07-30,1,"Aruga sp",4,"No","","",0
-"B18-10144",2018-07-30,1,"Cirratulidae",4,"Yes","","",0
 "B18-10144",2018-07-30,1,"Diplocirrus sp SD1",4,"No","","",0
 "B18-10144",2018-07-30,1,"Glycera americana",4,"No","","",0
 "B18-10144",2018-07-30,1,"Hartmanodes sp SD1",4,"No",NA,NA,0
@@ -5211,7 +4904,6 @@
 "B18-10144",2018-07-30,1,"Edwardsia californica",2,"No","","",0
 "B18-10144",2018-07-30,1,"Eteone sp",2,"No","","S",0
 "B18-10144",2018-07-30,1,"Pherusa negligens",2,"No","","",0
-"B18-10144",2018-07-30,1,"Majoidea",2,"Yes",NA,NA,0
 "B18-10144",2018-07-30,1,"Postasterope barnesi",2,"No","","",0
 "B18-10144",2018-07-30,1,"Tagelus affinis",2,"No","Mollusc","",0
 "B18-10144",2018-07-30,1,"Megalomma sp",1,"No","","",0
@@ -5220,7 +4912,6 @@
 "B18-10144",2018-07-30,1,"Nemertea",1,"No","","",0
 "B18-10144",2018-07-30,1,"Leptochelia dubia",1,"No","","S",0
 "B18-10144",2018-07-30,1,"Crepidula onyx",1,"No","Mollusc","",0
-"B18-10144",2018-07-30,1,"Crepidula sp",1,"Yes","Mollusc","",0
 "B18-10144",2018-07-30,1,"Diplodonta sericata",1,"No","Mollusc","",0
 "B18-10144",2018-07-30,1,"Drilonereis sp",1,"No","","",0
 "B18-10144",2018-07-30,1,"Elasmopus sp",1,"No","","",0
@@ -5232,9 +4923,7 @@
 "B18-10144",2018-07-30,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10144",2018-07-30,1,"Phoronida",1,"No","","S",0
 "B18-10144",2018-07-30,1,"Scolanthus sp B",1,"No","","",0
-"B18-10146",2018-08-10,1,"Nereididae",589,"Yes","","",0
 "B18-10146",2018-08-10,1,"Mediomastus sp",78,"No","","",0
-"B18-10146",2018-08-10,1,"Spionidae",43,"Yes","","",0
 "B18-10146",2018-08-10,1,"Laevicardium substriatum",15,"No","Mollusc","",0
 "B18-10146",2018-08-10,1,"Lineidae",28,"No","","",0
 "B18-10146",2018-08-10,1,"Mayerella acanthopoda",11,"No","","",0
@@ -5247,11 +4936,9 @@
 "B18-10146",2018-08-10,1,"Oxyurostylis pacifica",5,"No","","",0
 "B18-10146",2018-08-10,1,"Prionospio heterobranchia",5,"No",NA,NA,0
 "B18-10146",2018-08-10,1,"Tellina cadieni",5,"No","Mollusc","",0
-"B18-10146",2018-08-10,1,"Bivalvia",2,"Yes","Mollusc","",0
 "B18-10146",2018-08-10,1,"Paranemertes californica",2,"No","","",0
 "B18-10146",2018-08-10,1,"Scoletoma tetraura Cmplx",2,"No","","",0
 "B18-10146",2018-08-10,1,"Alpheus sp",1,"No","","",0
-"B18-10146",2018-08-10,1,"Capitellidae",1,"Yes","","",0
 "B18-10146",2018-08-10,1,"Diopatra sp",1,"No","","",0
 "B18-10146",2018-08-10,1,"Notomastus sp",1,"No","","",1
 "B18-10146",2018-08-10,1,"Paradexamine sp SD1",1,"No","","",0
@@ -5284,7 +4971,6 @@
 "B18-10149",2018-08-16,1,"Musculista senhousia",48,"No","Mollusc","",0
 "B18-10149",2018-08-16,1,"Leitoscoloplos pugettensis",45,"No","","",0
 "B18-10149",2018-08-16,1,"Oligochaeta",43,"No","","",0
-"B18-10149",2018-08-16,1,"Maldanidae",31,"Yes","","",0
 "B18-10149",2018-08-16,1,"Prionospio heterobranchia",29,"No",NA,NA,0
 "B18-10149",2018-08-16,1,"Amphiuridae",26,"No","","",0
 "B18-10149",2018-08-16,1,"Elasmopus bampo",26,"No","","",0
@@ -5292,23 +4978,17 @@
 "B18-10149",2018-08-16,1,"Scyphoproctus oculatus",20,"No","","",0
 "B18-10149",2018-08-16,1,"Neanthes acuminata Cmplx",19,"No","","",0
 "B18-10149",2018-08-16,1,"Amphipholis squamata",15,"No","","",0
-"B18-10149",2018-08-16,1,"Pseudopolydora sp",15,"Yes",NA,NA,0
 "B18-10149",2018-08-16,1,"Pista percyi",14,"No","","",0
 "B18-10149",2018-08-16,1,"Sphenia fragilis",14,"No","Mollusc","",0
-"B18-10149",2018-08-16,1,"Tagelus sp",13,"Yes","Mollusc","",0
 "B18-10149",2018-08-16,1,"Aphelochaeta sp",12,"No","","",0
-"B18-10149",2018-08-16,1,"Cirriformia sp",12,"Yes","","S",0
 "B18-10149",2018-08-16,1,"Paranthura japonica",11,"No",NA,NA,0
 "B18-10149",2018-08-16,1,"Polydora cornuta",10,"No","","",0
 "B18-10149",2018-08-16,1,"Scoletoma sp C",10,"No","","",0
 "B18-10149",2018-08-16,1,"Tagelus affinis",10,"No","Mollusc","",0
 "B18-10149",2018-08-16,1,"Venerupis philippinarum",9,"No","Mollusc","",0
-"B18-10149",2018-08-16,1,"Scoletoma sp",8,"Yes","","",0
 "B18-10149",2018-08-16,1,"Scoloplos acmeceps",8,"No","","",0
 "B18-10149",2018-08-16,1,"Sphaerosyllis californiensis",8,"No","","",0
-"B18-10149",2018-08-16,1,"Spionidae",8,"Yes","","",0
 "B18-10149",2018-08-16,1,"Mactrotoma californica",7,"No","Mollusc","",0
-"B18-10149",2018-08-16,1,"Sabellidae",7,"Yes","","",0
 "B18-10149",2018-08-16,1,"Zeuxo normani",7,"No","","",0
 "B18-10149",2018-08-16,1,"Acteocina inculta",6,"No","Mollusc","S",0
 "B18-10149",2018-08-16,1,"Boccardiella hamata",6,"No","","",0
@@ -5316,7 +4996,6 @@
 "B18-10149",2018-08-16,1,"Euphilomedes carcharodonta",6,"No","","",0
 "B18-10149",2018-08-16,1,"Paracerceis sp",6,"No","","",0
 "B18-10149",2018-08-16,1,"Prionospio sp",6,"No","","",0
-"B18-10149",2018-08-16,1,"Cirratulidae",5,"Yes","","",0
 "B18-10149",2018-08-16,1,"Diplocirrus sp SD1",4,"No","","",0
 "B18-10149",2018-08-16,1,"Laevicardium substriatum",4,"No","Mollusc","",0
 "B18-10149",2018-08-16,1,"Syllis (spellingsyllis) nipponica",4,"No",NA,NA,0
@@ -5325,8 +5004,6 @@
 "B18-10149",2018-08-16,1,"Lyonsia californica",3,"No","Mollusc","S",0
 "B18-10149",2018-08-16,1,"Mysidopsis californica",3,"No","","",0
 "B18-10149",2018-08-16,1,"Theora lubrica",3,"No","Mollusc","",0
-"B18-10149",2018-08-16,1,"Capitellidae",2,"Yes","","",0
-"B18-10149",2018-08-16,1,"Dorvilleidae",2,"Yes",NA,NA,0
 "B18-10149",2018-08-16,1,"Marphysa sp",2,"No","","",0
 "B18-10149",2018-08-16,1,"Microspio microcera",2,"No","","",0
 "B18-10149",2018-08-16,1,"Chone minuta",2,"No","","",0
@@ -5342,7 +5019,6 @@
 "B18-10149",2018-08-16,1,"Farfantepenaeus californiensis",1,"No",NA,NA,0
 "B18-10149",2018-08-16,1,"Glycera americana",1,"No","","",0
 "B18-10149",2018-08-16,1,"Hemiproto sp A",1,"No","","",0
-"B18-10149",2018-08-16,1,"Leitoscoloplos sp",1,"Yes",NA,NA,0
 "B18-10149",2018-08-16,1,"Leptosynapta sp",1,"No","","",0
 "B18-10149",2018-08-16,1,"Mytilidae",1,"No","Mollusc","",0
 "B18-10149",2018-08-16,1,"Notomastus sp",1,"No","","",1
@@ -5376,7 +5052,6 @@
 "B18-10150",2018-08-07,1,"Paraprionospio pinnata",4,"No","","",0
 "B18-10150",2018-08-07,1,"Pseudopolydora paucibranchiata",4,"No","","",0
 "B18-10150",2018-08-07,1,"Amphiodia sp",3,"No","","S",0
-"B18-10150",2018-08-07,1,"Diopatra sp",3,"Yes","","",0
 "B18-10150",2018-08-07,1,"Nemertea",5,"No","","",0
 "B18-10150",2018-08-07,1,"Monticellina siblina",3,"No","","",0
 "B18-10150",2018-08-07,1,"Laevicardium substriatum",3,"No","Mollusc","",0
@@ -5424,10 +5099,8 @@
 "B18-10151",2018-09-19,1,"Mediomastus sp",7,"No","","",0
 "B18-10151",2018-09-19,1,"Anemonactis sp",5,"No","","",0
 "B18-10151",2018-09-19,1,"Oligochaeta",5,"No","","",0
-"B18-10151",2018-09-19,1,"Actiniaria",3,"Yes","","",0
 "B18-10151",2018-09-19,1,"Scolelepis (Parascolelepis) sp",3,"No","","",0
 "B18-10151",2018-09-19,1,"Spio maculata",3,"No","","",0
-"B18-10151",2018-09-19,1,"Caprella sp",2,"Yes","","",0
 "B18-10151",2018-09-19,1,"Cirriformia sp",2,"No","","S",0
 "B18-10151",2018-09-19,1,"Grandidierella japonica",1,"No","","",0
 "B18-10151",2018-09-19,1,"Aclis occidentalis",1,"No","Mollusc","",0
@@ -5470,7 +5143,6 @@
 "B18-10156",2018-08-29,1,"Musculista senhousia",14,"No","Mollusc","",0
 "B18-10156",2018-08-29,1,"Amphipholis squamata",9,"No","","",0
 "B18-10156",2018-08-29,1,"Exogone sp A (Harris)",9,"No","","",0
-"B18-10156",2018-08-29,1,"Actiniaria",7,"Yes","","",0
 "B18-10156",2018-08-29,1,"Tagelus affinis",7,"No","Mollusc","",0
 "B18-10156",2018-08-29,1,"Paracerceis sculpta",6,"No","","",0
 "B18-10156",2018-08-29,1,"Pseudopolydora paucibranchiata",6,"No","","",0
@@ -5504,7 +5176,6 @@
 "B18-10158",2018-08-30,1,"Venerupis philippinarum",2,"No","Mollusc","",0
 "B18-10158",2018-08-30,1,"Capitella capitata Cmplx",1,"No","","",0
 "B18-10158",2018-08-30,1,"Cossura candida",1,"No","","",0
-"B18-10158",2018-08-30,1,"Cossura sp",1,"Yes","","",0
 "B18-10158",2018-08-30,1,"Cossura sp A",1,"No","","",0
 "B18-10158",2018-08-30,1,"Melanoides tuberculata",1,"No",NA,NA,0
 "B18-10158",2018-08-30,1,"Pista percyi",1,"No","","",0
@@ -5552,7 +5223,6 @@
 "B18-10161",2018-08-30,1,"Megalomma pigmentum",2,"No","","",0
 "B18-10161",2018-08-30,1,"Actiniaria",2,"No","","",0
 "B18-10161",2018-08-30,1,"Euphilomedes carcharodonta",2,"No","","",0
-"B18-10161",2018-08-30,1,"Marphysa sp",2,"Yes","","",0
 "B18-10161",2018-08-30,1,"Odontosyllis phosphorea",2,"No","","",0
 "B18-10161",2018-08-30,1,"Pherusa capulata",2,"No","","",0
 "B18-10161",2018-08-30,1,"Boccardiella hamata",1,"No","","",0
@@ -5634,16 +5304,13 @@
 "B18-10163",2018-08-28,1,"Ericthonius brasiliensis",3,"No","","S",0
 "B18-10163",2018-08-28,1,"Lyonsia californica",3,"No","Mollusc","S",0
 "B18-10163",2018-08-28,1,"Capitella capitata Cmplx",2,"No","","",0
-"B18-10163",2018-08-28,1,"Cirratulidae",2,"Yes","","",0
 "B18-10163",2018-08-28,1,"Colomastix sp A",2,"No",NA,NA,0
 "B18-10163",2018-08-28,1,"Maldanidae",2,"No","","",0
 "B18-10163",2018-08-28,1,"Paranthura japonica",2,"No",NA,NA,0
 "B18-10163",2018-08-28,1,"Anoplodactylus erectus",1,"No","","",0
-"B18-10163",2018-08-28,1,"Anthuridae",1,"Yes","","",0
 "B18-10163",2018-08-28,1,"Armandia brevis",1,"No","","",0
 "B18-10163",2018-08-28,1,"Barleeia sp",1,"No","Mollusc","S",0
 "B18-10163",2018-08-28,1,"Bulla gouldiana",1,"No","Mollusc","",0
-"B18-10163",2018-08-28,1,"Calyptraeidae",1,"Yes",NA,NA,0
 "B18-10163",2018-08-28,1,"Cerithiopsis sp",1,"No","Mollusc","",0
 "B18-10163",2018-08-28,1,"Chione californiensis",1,"No","Mollusc","",0
 "B18-10163",2018-08-28,1,"Halosydna johnsoni",1,"No","","",0
@@ -5712,7 +5379,6 @@
 "B18-10165",2018-08-28,1,"Megalomma pigmentum",1,"No","","",0
 "B18-10165",2018-08-28,1,"Barleeia sp",1,"No","Mollusc","S",0
 "B18-10165",2018-08-28,1,"Caecum californicum",1,"No","Mollusc","S",0
-"B18-10165",2018-08-28,1,"Calyptraeidae",1,"Yes",NA,NA,0
 "B18-10165",2018-08-28,1,"Cirratulus sp",1,"No","","",0
 "B18-10165",2018-08-28,1,"Oligochaeta",1,"No","","",0
 "B18-10165",2018-08-28,1,"Paranemertes californica",1,"No","","",0
@@ -5871,19 +5537,16 @@
 "B18-10174",2018-08-10,1,"Asthenothaerus diegensis",3,"No","Mollusc","",0
 "B18-10174",2018-08-10,1,"Ampithoe sp",2,"No",NA,NA,0
 "B18-10174",2018-08-10,1,"Boccardiella hamata",2,"No","","",0
-"B18-10174",2018-08-10,1,"Monocorophium sp",2,"Yes","","",0
 "B18-10174",2018-08-10,1,"Neanthes acuminata Cmplx",2,"No","","",0
 "B18-10174",2018-08-10,1,"Oxyurostylis pacifica",2,"No","","",0
 "B18-10174",2018-08-10,1,"Hyalidae",2,"No","","",0
 "B18-10174",2018-08-10,1,"Bemlos macromanus",1,"No","","",0
 "B18-10174",2018-08-10,1,"Chione californiensis",1,"No","Mollusc","",0
 "B18-10174",2018-08-10,1,"Cirriformia sp",1,"No","","S",0
-"B18-10174",2018-08-10,1,"Exogone sp",1,"Yes","","",0
 "B18-10174",2018-08-10,1,"Exogone sp A (Harris)",1,"No","","",0
 "B18-10174",2018-08-10,1,"Leitoscoloplos pugettensis",1,"No","","",0
 "B18-10174",2018-08-10,1,"Marphysa sp",1,"No","","",0
 "B18-10174",2018-08-10,1,"Mediomastus sp",1,"No","","",0
-"B18-10174",2018-08-10,1,"Mytilidae",1,"Yes","Mollusc","",0
 "B18-10174",2018-08-10,1,"Paracerceis sculpta",1,"No","","",0
 "B18-10174",2018-08-10,1,"Pherusa capulata",1,"No","","",0
 "B18-10174",2018-08-10,1,"Rhynchospio glutaea",1,"No","","",0
@@ -5892,7 +5555,6 @@
 "B18-10175",2018-09-26,1,"Laevicardium substriatum",7,"No","Mollusc","",0
 "B18-10175",2018-09-26,1,"Acteocina carinata",6,"No","Mollusc","",0
 "B18-10175",2018-09-26,1,"Nassarius tiarula",3,"No","Mollusc","",0
-"B18-10175",2018-09-26,1,"Mytilidae",2,"Yes","Mollusc","",0
 "B18-10175",2018-09-26,1,"Petricola sp",2,"No","Mollusc","",0
 "B18-10175",2018-09-26,1,"Tellina cadieni",2,"No","Mollusc","",0
 "B18-10175",2018-09-26,1,"Lineidae",1,"No","","",0
@@ -5910,7 +5572,6 @@
 "B18-10176",2018-08-21,1,"Barleeia sp",19,"No","Mollusc","S",0
 "B18-10176",2018-08-21,1,"Octopus sp",19,"No","Mollusc","",0
 "B18-10176",2018-08-21,1,"Armandia brevis",14,"No","","",0
-"B18-10176",2018-08-21,1,"Monocorophium sp",14,"Yes","","",0
 "B18-10176",2018-08-21,1,"Paracerceis sculpta",9,"No","","",0
 "B18-10176",2018-08-21,1,"Laevicardium substriatum",8,"No","Mollusc","",0
 "B18-10176",2018-08-21,1,"Tryonia sp",6,"No","Mollusc","",0
@@ -5954,13 +5615,11 @@
 "B18-10179",2018-07-31,1,"Exogone lourei",182,"No","","S",0
 "B18-10179",2018-07-31,1,"Scoletoma sp C",99,"No","","",0
 "B18-10179",2018-07-31,1,"Musculista senhousia",76,"No","Mollusc","",0
-"B18-10179",2018-07-31,1,"Scoletoma sp",35,"Yes","","",0
 "B18-10179",2018-07-31,1,"Acteocina carinata",27,"No","Mollusc","",0
 "B18-10179",2018-07-31,1,"Fabricinuda limnicola",24,"No","","",0
 "B18-10179",2018-07-31,1,"Leitoscoloplos pugettensis",22,"No","","",0
 "B18-10179",2018-07-31,1,"Pseudatherospio fauchaldi",22,"No",NA,NA,0
 "B18-10179",2018-07-31,1,"Mediomastus sp",15,"No","","",0
-"B18-10179",2018-07-31,1,"Lumbrineridae",14,"Yes","","",0
 "B18-10179",2018-07-31,1,"Cossura sp",7,"No","","",0
 "B18-10179",2018-07-31,1,"Oligochaeta",7,"No","","",0
 "B18-10179",2018-07-31,1,"Amphideutopus oculatus",5,"No","","S",0
@@ -5970,7 +5629,6 @@
 "B18-10179",2018-07-31,1,"Pherusa negligens",3,"No","","",0
 "B18-10179",2018-07-31,1,"Prionospio heterobranchia",3,"No",NA,NA,0
 "B18-10179",2018-07-31,1,"Megalomma pigmentum",2,"No","","",0
-"B18-10179",2018-07-31,1,"Megalomma sp",2,"Yes","","",0
 "B18-10179",2018-07-31,1,"Eteone sp",2,"No","","S",0
 "B18-10179",2018-07-31,1,"Euphilomedes carcharodonta",2,"No","","",0
 "B18-10179",2018-07-31,1,"Oxyurostylis pacifica",2,"No","","",0
@@ -6008,7 +5666,6 @@
 "B18-10181",2018-07-31,1,"Leitoscoloplos pugettensis",33,"No","","",0
 "B18-10181",2018-07-31,1,"Fabricinuda limnicola",31,"No","","",0
 "B18-10181",2018-07-31,1,"Mediomastus sp",21,"No","","",0
-"B18-10181",2018-07-31,1,"Scoletoma sp",20,"Yes","","",0
 "B18-10181",2018-07-31,1,"Exogone lourei",12,"No","","S",0
 "B18-10181",2018-07-31,1,"Acteocina carinata",9,"No","Mollusc","",0
 "B18-10181",2018-07-31,1,"Diplocirrus sp SD1",7,"No","","",0
@@ -6019,7 +5676,6 @@
 "B18-10181",2018-07-31,1,"Cossura sp",3,"No","","",0
 "B18-10181",2018-07-31,1,"Glycera americana",3,"No","","",0
 "B18-10181",2018-07-31,1,"Pherusa negligens",3,"No","","",0
-"B18-10181",2018-07-31,1,"Maldanidae",3,"Yes","","",0
 "B18-10181",2018-07-31,1,"Megalomma pigmentum",2,"No","","",0
 "B18-10181",2018-07-31,1,"Actiniaria sp 1",2,"No",NA,NA,0
 "B18-10181",2018-07-31,1,"Bemlos sp",2,"No","","",0
@@ -6033,11 +5689,9 @@
 "B18-10181",2018-07-31,1,"Cirratulidae",1,"No","","",0
 "B18-10181",2018-07-31,1,"Crepidula onyx",1,"No","Mollusc","",0
 "B18-10181",2018-07-31,1,"Eteone sp",1,"No","","S",0
-"B18-10181",2018-07-31,1,"Majoidea",1,"Yes",NA,NA,0
 "B18-10181",2018-07-31,1,"Nassarius tiarula",1,"No","Mollusc","",0
 "B18-10181",2018-07-31,1,"Petaloclymene pacifica",1,"No","","",0
 "B18-10181",2018-07-31,1,"Philine sp",1,"No","Mollusc","",0
-"B18-10181",2018-07-31,1,"Phoronida",1,"Yes","","S",0
 "B18-10181",2018-07-31,1,"Spiophanes duplex",1,"No","","S",0
 "B18-10181",2018-07-31,1,"Tellina meropsis",1,"No","Mollusc","S",0
 "B18-10181",2018-07-31,1,"Theora lubrica",1,"No","Mollusc","",0
@@ -6052,7 +5706,6 @@
 "B18-10182",2018-09-19,1,"Acteocina carinata",5,"No","Mollusc","",0
 "B18-10182",2018-09-19,1,"Tagelus affinis",3,"No","Mollusc","",0
 "B18-10182",2018-09-19,1,"Cryptomya californica",2,"No","Mollusc","S",0
-"B18-10182",2018-09-19,1,"Mytilidae",2,"Yes","Mollusc","",0
 "B18-10182",2018-09-19,1,"Nephtys caecoides",2,"No","","",0
 "B18-10182",2018-09-19,1,"Streblospio benedicti",2,"No","","",0
 "B18-10182",2018-09-19,1,"Tubulanus sp",2,"No","","",0
@@ -6064,7 +5717,6 @@
 "B18-10182",2018-09-19,1,"Spiophanes berkeleyorum",1,"No","","S",0
 "B18-10184",2018-09-18,1,"Chironomini",8,"No",NA,NA,0
 "B18-10184",2018-09-18,1,"Psocidae",3,"No",NA,NA,0
-"B18-10184",2018-09-18,1,"Diptera",1,"Yes","","",0
 "B18-10184",2018-09-18,1,"Hemiptera",1,"No",NA,NA,0
 "B18-10184",2018-09-18,1,"Staphylinidae",1,"No",NA,NA,0
 "B18-10188",2018-09-27,1,"Monocorophium insidiosum",1875,"No","","S",0
@@ -6093,11 +5745,9 @@
 "B18-10194",2018-08-10,1,"Ampithoe longimana",8,"No","","",0
 "B18-10194",2018-08-10,1,"Monocorophium acherusicum",4,"No","","S",0
 "B18-10194",2018-08-10,1,"Tethygenia opata",4,"No","","",0
-"B18-10194",2018-08-10,1,"Amphipoda",3,"Yes","","",0
 "B18-10194",2018-08-10,1,"Oligochaeta",3,"No","","",0
 "B18-10194",2018-08-10,1,"Actiniaria",2,"No","","",0
 "B18-10194",2018-08-10,1,"Alpheus californiensis",2,"No","","",0
-"B18-10194",2018-08-10,1,"NEMERTEA",2,"Yes",NA,NA,0
 "B18-10194",2018-08-10,1,"Podocerus fulanus",2,"No","","",0
 "B18-10194",2018-08-10,1,"Ampithoe valida",1,"No","","S",0
 "B18-10194",2018-08-10,1,"Caprellidae",1,"No","","",0
@@ -6116,7 +5766,6 @@
 "B18-10195",2018-09-10,1,"Acteocina carinata",17,"No","Mollusc","",0
 "B18-10195",2018-09-10,1,"Polydora nuchalis",14,"No","","",0
 "B18-10195",2018-09-10,1,"Monocorophium insidiosum",13,"No","","S",0
-"B18-10195",2018-09-10,1,"Monocorophium sp",8,"Yes","","",0
 "B18-10195",2018-09-10,1,"Grandidierella japonica",3,"No","","",0
 "B18-10196",2018-08-21,1,"Tryonia sp",391,"No","Mollusc","",0
 "B18-10196",2018-08-21,1,"Cerithidea californica",25,"No","Mollusc","",0
@@ -6125,12 +5774,10 @@
 "B18-10196",2018-08-21,1,"Monocorophium insidiosum",2,"No","","S",0
 "B18-10196",2018-08-21,1,"Paracerceis sculpta",2,"No","","",0
 "B18-10196",2018-08-21,1,"Gastropoda",1,"No","Mollusc","",0
-"B18-10196",2018-08-21,1,"Monocorophium sp",1,"Yes","","",0
 "B18-10197",2018-08-21,1,"Acteocina carinata",40,"No","Mollusc","",0
 "B18-10197",2018-08-21,1,"Monocorophium insidiosum",33,"No","","S",0
 "B18-10197",2018-08-21,1,"Musculista senhousia",28,"No","Mollusc","",0
 "B18-10197",2018-08-21,1,"Cerithidea californica",20,"No","Mollusc","",0
-"B18-10197",2018-08-21,1,"Monocorophium sp",17,"Yes","","",0
 "B18-10197",2018-08-21,1,"Tryonia sp",5,"No","Mollusc","",0
 "B18-10197",2018-08-21,1,"Paracerceis sculpta",4,"No","","",0
 "B18-10197",2018-08-21,1,"Protohyale frequens",4,"No","","",0
@@ -6138,7 +5785,6 @@
 "B18-10197",2018-08-21,1,"Grandidierella japonica",2,"No","","",0
 "B18-10197",2018-08-21,1,"Oligochaeta",2,"No","","",0
 "B18-10197",2018-08-21,1,"Tagelus affinis",2,"No","Mollusc","",0
-"B18-10197",2018-08-21,1,"Amphipoda",1,"Yes","","",0
 "B18-10197",2018-08-21,1,"Capitella capitata Cmplx",1,"No","","",0
 "B18-10197",2018-08-21,1,"Streblospio benedicti",1,"No","","",0
 "B18-10198",2018-08-22,1,"Acteocina carinata",23,"No","Mollusc","",0
@@ -6146,7 +5792,6 @@
 "B18-10198",2018-08-22,1,"Oligochaeta",19,"No","","",0
 "B18-10198",2018-08-22,1,"Monocorophium insidiosum",6,"No","","S",0
 "B18-10198",2018-08-22,1,"Monocorophium acherusicum",5,"No","","S",0
-"B18-10198",2018-08-22,1,"Monocorophium sp",5,"Yes","","",0
 "B18-10198",2018-08-22,1,"Streblospio benedicti",5,"No","","",0
 "B18-10198",2018-08-22,1,"Eunicidae",4,"No","","",0
 "B18-10198",2018-08-22,1,"Leitoscoloplos pugettensis",4,"No","","",0
@@ -6160,14 +5805,12 @@
 "B18-10199",2018-08-08,1,"Acteocina carinata",83,"No","Mollusc","",0
 "B18-10199",2018-08-08,1,"Tethygenia opata",41,"No","","",0
 "B18-10199",2018-08-08,1,"Monocorophium uenoi",31,"No","","",0
-"B18-10199",2018-08-08,1,"Monocorophium sp",23,"Yes","","",0
 "B18-10199",2018-08-08,1,"Monocorophium acherusicum",20,"No","","S",0
 "B18-10199",2018-08-08,1,"Nippoleucon hinumensis",10,"No",NA,NA,0
 "B18-10199",2018-08-08,1,"Streblospio benedicti",10,"No","","",0
 "B18-10199",2018-08-08,1,"Oligochaeta",6,"No","","",0
 "B18-10199",2018-08-08,1,"Cerithidea californica",4,"No","Mollusc","",0
 "B18-10199",2018-08-08,1,"Neanthes acuminata Cmplx",4,"No","","",0
-"B18-10199",2018-08-08,1,"Amphipoda",2,"Yes","","",0
 "B18-10199",2018-08-08,1,"Barleeia sp",2,"No","Mollusc","S",0
 "B18-10199",2018-08-08,1,"Capitella capitata Cmplx",2,"No","","",0
 "B18-10199",2018-08-08,1,"Musculista senhousia",2,"No","Mollusc","",0
@@ -6253,7 +5896,6 @@
 "B18-10201",2018-09-26,2,"Streblospio benedicti",16,"No","","",0
 "B18-10201",2018-09-26,2,"Gitanopsis sp",14,"No","","",0
 "B18-10201",2018-09-26,2,"Siriella pacifica",12,"No","","",0
-"B18-10201",2018-09-26,2,"Amphipoda",10,"Yes","","",0
 "B18-10201",2018-09-26,2,"Turbellaria",12,"No","","",0
 "B18-10201",2018-09-26,2,"Tagelus affinis",10,"No","Mollusc","",0
 "B18-10201",2018-09-26,2,"Mayerella acanthopoda",6,"No","","",0
@@ -6283,7 +5925,6 @@
 "B18-10397",2018-09-05,1,"Grandidierella japonica",49,"No","","",0
 "B18-10397",2018-09-05,1,"Musculista senhousia",18,"No","Mollusc","",0
 "B18-10397",2018-09-05,1,"Ampithoe valida",13,"No","","S",0
-"B18-10397",2018-09-05,1,"Ampithoe sp",5,"Yes",NA,NA,0
 "B18-10397",2018-09-05,1,"Phoronida",2,"No","","S",0
 "B18-10397",2018-09-05,1,"Heteromastus sp",1,"No",NA,NA,0
 "B18-10397",2018-09-05,1,"Turbellaria",1,"No","","",0
@@ -6295,7 +5936,6 @@
 "B18-10411",2018-07-26,1,"Petaloclymene pacifica",17,"No","","",0
 "B18-10411",2018-07-26,1,"Chaetozone corona",15,"No","","",0
 "B18-10411",2018-07-26,1,"Mediomastus sp",15,"No","","",0
-"B18-10411",2018-07-26,1,"Maldanidae",12,"Yes","","",0
 "B18-10411",2018-07-26,1,"Ampelisca cristata microdentata",10,"No",NA,NA,0
 "B18-10411",2018-07-26,1,"Theora lubrica",10,"No","Mollusc","",0
 "B18-10411",2018-07-26,1,"Ampharete labrops",9,"No","","",0
@@ -6313,7 +5953,6 @@
 "B18-10411",2018-07-26,1,"Spiophanes duplex",5,"No","","S",0
 "B18-10411",2018-07-26,1,"Cadulus aberrans",4,"No","Mollusc","",0
 "B18-10411",2018-07-26,1,"Laonice cirrata",4,"No","","",0
-"B18-10411",2018-07-26,1,"Scoletoma sp",4,"Yes","","",0
 "B18-10411",2018-07-26,1,"Amphiodia sp",3,"No","","S",0
 "B18-10411",2018-07-26,1,"Aphelochaeta petersenae",3,"No","","",0
 "B18-10411",2018-07-26,1,"Euphilomedes carcharodonta",3,"No","","",0
@@ -6342,16 +5981,12 @@
 "B18-10411",2018-07-26,1,"Scolanthus triangulus",2,"No",NA,NA,0
 "B18-10411",2018-07-26,1,"Scoletoma sp A",2,"No","","",0
 "B18-10411",2018-07-26,1,"Scoloplos armiger Cmplx",2,"No","","",0
-"B18-10411",2018-07-26,1,"Virgulariidae",2,"Yes",NA,NA,0
 "B18-10411",2018-07-26,1,"Volvulella panamica",2,"No","Mollusc","",0
 "B18-10411",2018-07-26,1,"Paramage scutata",1,"No","","",0
 "B18-10411",2018-07-26,1,"Ampelisca brachycladus",1,"No","","S",0
-"B18-10411",2018-07-26,1,"Ampharetidae",1,"Yes","","",0
 "B18-10411",2018-07-26,1,"Amphicteis scaphobranchiata",1,"No","","S",0
 "B18-10411",2018-07-26,1,"Aphelochaeta glandaria Cmplx",1,"No","","",0
-"B18-10411",2018-07-26,1,"Aphelochaeta sp",1,"Yes","","",0
 "B18-10411",2018-07-26,1,"Aricidea (Acmira) catherinae",1,"No","","",0
-"B18-10411",2018-07-26,1,"Aricidea sp",1,"Yes",NA,NA,0
 "B18-10411",2018-07-26,1,"Lineidae",2,"No","","",0
 "B18-10411",2018-07-26,1,"Ceriantharia",1,"No","","",0
 "B18-10411",2018-07-26,1,"Cooperella subdiaphana",1,"No","Mollusc","S",0
@@ -6359,7 +5994,6 @@
 "B18-10411",2018-07-26,1,"Chone veleronis",1,"No","","",0
 "B18-10411",2018-07-26,1,"Diopatra tridentata",1,"No","","",0
 "B18-10411",2018-07-26,1,"Euclymeninae sp A",1,"No","","",0
-"B18-10411",2018-07-26,1,"Eunicidae",1,"Yes","","",0
 "B18-10411",2018-07-26,1,"Goniada maculata",1,"No","","",0
 "B18-10411",2018-07-26,1,"Heteromysis odontops",1,"No","","",0
 "B18-10411",2018-07-26,1,"Lucinisca nuttalli",1,"No","Mollusc","",0
@@ -6370,7 +6004,6 @@
 "B18-10411",2018-07-26,1,"Philine sp",1,"No","Mollusc","",0
 "B18-10411",2018-07-26,1,"Photis brevipes",1,"No","","S",0
 "B18-10411",2018-07-26,1,"Pinnixa sp",1,"No","","",0
-"B18-10411",2018-07-26,1,"Pinnotheridae",1,"Yes","","",0
 "B18-10411",2018-07-26,1,"Poecilochaetus sp A",1,"No","","",0
 "B18-10411",2018-07-26,1,"Prionospio (Prionospio) jubata",1,"No","","",0
 "B18-10411",2018-07-26,1,"Enteropneusta",1,"No","","",0
@@ -6378,11 +6011,9 @@
 "B18-10411",2018-07-26,1,"Spiophanes berkeleyorum",1,"No","","S",0
 "B18-10411",2018-07-26,1,"Stylatula sp",2,"No","","",0
 "B18-10411",2018-07-26,1,"Tellina modesta",1,"No","Mollusc","S",0
-"B18-10411",2018-07-26,1,"Terebellidae",1,"Yes","","",0
 "B18-10417",2018-07-26,1,"Poecilochaetus sp A",10,"No","","",0
 "B18-10417",2018-07-26,1,"Scoletoma sp B",10,"No","","",0
 "B18-10417",2018-07-26,1,"Phoronida",9,"No","","S",0
-"B18-10417",2018-07-26,1,"Scoletoma sp",9,"Yes","","",0
 "B18-10417",2018-07-26,1,"Amphiodia sp",7,"No","","S",0
 "B18-10417",2018-07-26,1,"Laonice cirrata",7,"No","","",0
 "B18-10417",2018-07-26,1,"Monticellina siblina",5,"No","","",0
@@ -6401,7 +6032,6 @@
 "B18-10417",2018-07-26,1,"Sigambra sp",2,"No",NA,NA,0
 "B18-10417",2018-07-26,1,"Alienacanthomysis macropsis",1,"No","","",0
 "B18-10417",2018-07-26,1,"Amphicteis scaphobranchiata",1,"No","","S",0
-"B18-10417",2018-07-26,1,"Bivalvia",1,"Yes","Mollusc","",0
 "B18-10417",2018-07-26,1,"Glycera americana",1,"No","","",0
 "B18-10417",2018-07-26,1,"Leitoscoloplos pugettensis",1,"No","","",0
 "B18-10417",2018-07-26,1,"Lyonsia californica",1,"No","Mollusc","S",0
@@ -6409,7 +6039,6 @@
 "B18-10417",2018-07-26,1,"Nuculana taphria",1,"No","Mollusc","S",0
 "B18-10417",2018-07-26,1,"Petaloclymene pacifica",1,"No","","",0
 "B18-10417",2018-07-26,1,"Pinnixa franciscana",1,"No",NA,NA,0
-"B18-10417",2018-07-26,1,"Pinnotheridae",1,"Yes","","",0
 "B18-10417",2018-07-26,1,"Pista wui",1,"No","","",0
 "B18-10417",2018-07-26,1,"Enteropneusta",1,"No","","",0
 "B18-10417",2018-07-26,1,"Scoletoma sp A",1,"No","","",0
@@ -6426,19 +6055,16 @@
 "B18-10438",2018-07-12,1,"Spirorbidae",143,"No","","",0
 "B18-10438",2018-07-12,1,"Armandia brevis",142,"No","","",0
 "B18-10438",2018-07-12,1,"Neanthes acuminata Cmplx",118,"No","","",0
-"B18-10438",2018-07-12,1,"Sphaeromatidae",90,"Yes","","",0
 "B18-10438",2018-07-12,1,"Pherusa negligens",85,"No","","",0
 "B18-10438",2018-07-12,1,"Mediomastus sp",80,"No","","",0
 "B18-10438",2018-07-12,1,"Scoletoma sp C",70,"No","","",0
 "B18-10438",2018-07-12,1,"Acteocina carinata",66,"No","Mollusc","",0
-"B18-10438",2018-07-12,1,"Ampithoidae",65,"Yes",NA,NA,0
 "B18-10438",2018-07-12,1,"Ampithoe plumulosa",64,"No","","",0
 "B18-10438",2018-07-12,1,"Pseudopolydora paucibranchiata",45,"No","","",0
 "B18-10438",2018-07-12,1,"Diplocirrus sp SD1",38,"No","","",0
 "B18-10438",2018-07-12,1,"Leptosynapta sp",37,"No","","",0
 "B18-10438",2018-07-12,1,"Amphipholis squamata",30,"No","","",0
 "B18-10438",2018-07-12,1,"Actiniaria sp DC2",28,"No",NA,NA,0
-"B18-10438",2018-07-12,1,"Actiniaria",27,"Yes","","",0
 "B18-10438",2018-07-12,1,"Syllis (spellingsyllis) nipponica",26,"No",NA,NA,0
 "B18-10438",2018-07-12,1,"Prionospio heterobranchia",24,"No",NA,NA,0
 "B18-10438",2018-07-12,1,"Fabricinuda limnicola",22,"No","","",0
@@ -6448,7 +6074,6 @@
 "B18-10438",2018-07-12,1,"Euphilomedes carcharodonta",13,"No","","",0
 "B18-10438",2018-07-12,1,"Harmothoe imbricata Cmplx",13,"No","","",0
 "B18-10438",2018-07-12,1,"Brania sp",12,"No","","",0
-"B18-10438",2018-07-12,1,"Scoletoma sp",12,"Yes","","",0
 "B18-10438",2018-07-12,1,"Caprella sp",11,"No","","",0
 "B18-10438",2018-07-12,1,"Phoronida",21,"No","","S",0
 "B18-10438",2018-07-12,1,"Caprella californica",8,"No","","S",0
@@ -6607,7 +6232,6 @@
 "B18-10658",2018-09-28,1,"Chironomini",2,"No",NA,NA,0
 "B18-10658",2018-09-28,1,"Diptera",2,"No","","",0
 "B18-10658",2018-09-28,1,"Oligochaeta",2,"No","","",0
-"B18-10672",2018-09-14,1,"Nereididae",132,"Yes","","",0
 "B18-10672",2018-09-14,1,"Polydora nuchalis",65,"No","","",0
 "B18-10672",2018-09-14,1,"Neanthes acuminata Cmplx",61,"No","","",0
 "B18-10672",2018-09-14,1,"Paracerceis sculpta",49,"No","","",0
@@ -6643,7 +6267,6 @@
 "B18-10674",2018-09-05,1,"Podocerus fulanus",5,"No","","",0
 "B18-10674",2018-09-05,1,"Brania sp",5,"No","","",0
 "B18-10674",2018-09-05,1,"Scoletoma sp C",5,"No","","",0
-"B18-10674",2018-09-05,1,"Caprella sp",4,"Yes","","",0
 "B18-10674",2018-09-05,1,"Ophiodromus pugettensis",4,"No","","",0
 "B18-10674",2018-09-05,1,"Phtisica marina",4,"No",NA,NA,0
 "B18-10674",2018-09-05,1,"Hippolyte californiensis",3,"No","","",0
@@ -6655,13 +6278,11 @@
 "B18-10674",2018-09-05,1,"Sphaerosyllis sp",2,"No","","",0
 "B18-10674",2018-09-05,1,"Amphilochidae",1,"No",NA,NA,0
 "B18-10674",2018-09-05,1,"Caecum occidentale",1,"No","Mollusc","S",0
-"B18-10674",2018-09-05,1,"Cirratulidae",1,"Yes","","",0
 "B18-10674",2018-09-05,1,"Ianiropsis analoga",1,"No",NA,NA,0
 "B18-10674",2018-09-05,1,"Paracerceis sculpta",1,"No","","",0
 "B18-10674",2018-09-05,1,"Pholoe sp",1,"No","","",0
 "B18-10674",2018-09-05,1,"Pitar newcombianus",1,"No","Mollusc","S",0
 "B18-10674",2018-09-05,1,"Leporimetis obesa",1,"No","Mollusc","S",0
-"B18-10674",2018-09-05,1,"Scoletoma sp",1,"Yes","","",0
 "B18-10674",2018-09-05,1,"Pionosyllis sp",1,"No","","",0
 "B18-10674",2018-09-05,1,"Theora lubrica",1,"No","Mollusc","",0
 "B18-10674",2018-09-05,1,"Turbonilla sp",1,"No","Mollusc","",0
