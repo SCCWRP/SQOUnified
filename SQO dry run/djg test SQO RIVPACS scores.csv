@@ -2,14 +2,14 @@
 "djg-00001",33.7591852,-118.1626052,22,"m",NA,1,1975-07-06,"","",30,NA,"Rivpacs",NA,"High Disturbance",4,"Defaunated Sample"
 "djg-00002",33.7621,-118.1501922,7,"m",2.13005774,1,2018-07-24,"Bays","Bays",12,2.13005774,"Rivpacs",0.3319,"Moderate Disturbance",3,NA
 "B18-10000",33.75918333,-118.1626333,5,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",1.2186,"Low Disturbance",2,NA
-"B18-10001",33.7531,-118.1501833,7,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",1.3656,"Moderate Disturbance",3,NA
+"B18-10001",33.7531,-118.1501833,7,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",1.2139,"Low Disturbance",2,NA
 "B18-10002",33.744,-118.1687333,11,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",0.868,"Low Disturbance",2,NA
 "B18-10003",33.743833,-118.1401,9.4,"m",2.13005774,1,2018-08-09,"Bays","Bays",33.9,2.13005774,"Rivpacs",1.2681,"Moderate Disturbance",3,NA
 "B18-10004",33.74288333,-118.1533,10,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",1.152,"Low Disturbance",2,NA
 "B18-10005",33.740683,-118.17495,13.8,"m",2.13005774,1,2018-08-09,"Bays","Bays",33.9,2.13005774,"Rivpacs",0.6712,"Moderate Disturbance",3,NA
 "B18-10006",33.73963333,-118.1715333,12,"m",2.13005774,1,2018-07-25,"Bays","Bays",NA,2.13005774,"Rivpacs",0.9292,"Reference",1,NA
 "B18-10007",33.73368333,-118.2115667,20,"m",2.13005774,1,2018-07-24,"Bays","Bays",NA,2.13005774,"Rivpacs",0.6949,"Moderate Disturbance",3,NA
-"B18-10011",33.724433,-118.2243,17.9,"m",2.13005774,1,2018-08-07,"Bays","Bays",33.9,2.13005774,"Rivpacs",0.4744,"Moderate Disturbance",3,NA
+"B18-10011",33.724433,-118.2243,17.9,"m",2.13005774,1,2018-08-07,"Bays","Bays",33.9,2.13005774,"Rivpacs",0.4405,"Moderate Disturbance",3,NA
 "B18-10012",33.71365,-118.2415667,24,"m",2.13005774,1,2018-08-14,"Bays","Bays",NA,2.13005774,"Rivpacs",0.7496,"Low Disturbance",2,NA
 "B18-10013",33.71243333,-118.2582,25,"m",2.13005774,1,2018-08-14,"Bays","Bays",NA,2.13005774,"Rivpacs",0.8784,"Low Disturbance",2,NA
 "B18-10014",33.710033,-118.27885,4.1,"m",2.13005774,1,2018-08-14,"Bays","Bays",27.7,2.13005774,"Rivpacs",1.0531,"Reference",1,NA
@@ -40,7 +40,7 @@
 "B18-10043",32.61634603,-117.1031998,2,"m",1.4566601,1,2018-08-14,"Bays","Bays",NA,1.4566601,"Rivpacs",0.6873,"Moderate Disturbance",3,NA
 "B18-10044",32.61409,-117.09877,4,"m",1.4566601,1,2018-08-14,"Bays","Bays",NA,1.4566601,"Rivpacs",0.2371,"High Disturbance",4,NA
 "B18-10045",34.25844,-119.2669,3,"m",0.37406112,1,2018-08-18,"Marinas","Marinas",NA,0.37406112,"Rivpacs",0.8675,"Low Disturbance",2,NA
-"B18-10046",34.1712,-119.2235,3,"m",0.37406112,1,2018-08-15,"Marinas","Marinas",NA,0.37406112,"Rivpacs",1.1458,"Low Disturbance",2,NA
+"B18-10046",34.1712,-119.2235,3,"m",0.37406112,1,2018-08-15,"Marinas","Marinas",NA,0.37406112,"Rivpacs",0.8594,"Low Disturbance",2,NA
 "B18-10047",33.98298,-118.45072,4.8,"m",0.37406112,1,2018-09-18,"Marinas","Marinas",33.75,0.37406112,"Rivpacs",0.2576,"High Disturbance",4,NA
 "B18-10048",33.98025,-118.4509,4.4,"m",0.37406112,1,2018-09-18,"Marinas","Marinas",32.86,0.37406112,"Rivpacs",0.1298,"High Disturbance",4,NA
 "B18-10049",33.9752,-118.45609,4.8,"m",0.37406112,1,2018-09-18,"Marinas","Marinas",33.18,0.37406112,"Rivpacs",0.2119,"High Disturbance",4,NA
@@ -169,7 +169,7 @@
 "B18-10178",32.68753,-117.13087,6.8,"m",0.00944006,1,2018-07-20,"Estuaries","Estuaries",NA,0.00944006,"Rivpacs",0.097,"High Disturbance",4,NA
 "B18-10179",32.64968,-117.10863,3.7,"m",0.00944006,1,2018-07-31,"Estuaries","Estuaries",NA,0.00944006,"Rivpacs",0.7655,"Low Disturbance",2,NA
 "B18-10180",32.64777,-117.11644,11.5,"m",0.00944006,1,2018-07-31,"Estuaries","Estuaries",NA,0.00944006,"Rivpacs",0.2383,"High Disturbance",4,NA
-"B18-10181",32.64819,-117.1134,7.1,"m",0.00944006,1,2018-07-31,"Estuaries","Estuaries",NA,0.00944006,"Rivpacs",0.6562,"Moderate Disturbance",3,NA
+"B18-10181",32.64819,-117.1134,7.1,"m",0.00944006,1,2018-07-31,"Estuaries","Estuaries",NA,0.00944006,"Rivpacs",0.6093,"Moderate Disturbance",3,NA
 "B18-10182",32.55694,-117.12755,1.1,"m",0.32133864,1,2018-09-19,"Estuaries","Estuaries",33.5,0.32133864,"Rivpacs",0.0853,"High Disturbance",4,NA
 "B18-10184",34.27683,-119.30746,1,"m",0.38256561,1,2018-09-18,"Brackish Estuaries","Brackish Estuaries",1.07,0.38256561,"Rivpacs",0,"High Disturbance",4,"Caution-Sample Outside RIVPACS habitat model"
 "B18-10188",33.97929,-118.42496,1,"m",0.38256561,1,2018-09-27,"Brackish Estuaries","Brackish Estuaries",9,0.38256561,"Rivpacs",0.3819,"Moderate Disturbance",3,NA

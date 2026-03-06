@@ -147,15 +147,24 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
 
   bri.scores.x<-alt.SQO.BRI.generic(BenthicData.3, output_path, file_id)
 
+  print ("SQO BRI Complete")
+
   ibi.scores.x<-alt.IBI.generic(BenthicData.3, output_path, file_id)
+
+  print ("SQO IBI Complete")
 
   rbi.scores.x<-alt.RBI.generic(BenthicData.3, output_path, file_id)
 
+  print("SQO RBI Complete")
+
   rivpacs.scores.x<-alt.RIVPACS.generic(BenthicData.3, output_path, file_id)
+
+  print ("SQO RIVPACS Complete")
 
   mambi.scores.x<-alt.MAMBI.generic(BenthicData, EG_Ref_values = NULL, EG_Scheme = "Hybrid", output_path, file_id)
   #Note that the MAMBI script uses modern taxonomy, as it can be updated unlike the SQO calculations
 
+  print ("SQO M-AMBI Complete")
 
 
   # aggregating all of the individual index scores so they can be reviewed by the user and used to calculate the BLOE score
