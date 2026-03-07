@@ -68,9 +68,9 @@ taxa_to_calc<-infauna.2 %>% select(sample_id, stationid, replicate,sampledate,ta
 write.csv(taxa_to_calc, paste(output_path, "/", file_id, " interim file 1 - taxa to be analyzed.csv", sep=""), row.names = FALSE)
 
 #rearranging the pcode values to make them easier to join to the taxa
-pcodes.2<-pcodes %>%
-  pivot_longer(cols=-p_code, names_to="bri_dz", values_to="tol_val") %>%
-  drop_na(tol_val)
+# pcodes.2<-pcodes %>%
+#   pivot_longer(cols=-p_code, names_to="bri_dz", values_to="tol_val") %>%
+#   drop_na(tol_val)
 
 all.4.bri.v2<-taxa_to_calc %>%
   left_join(., ed.14.ptaxa, by="taxon") %>%
@@ -98,12 +98,11 @@ all.4.bri.v2<-taxa_to_calc %>%
 ####          Calculate Scores
 
 #pulling out defaunated samples and classifying them as Defaunation and assigning a score of 5 (i.e., the worst)
-defaunated<-all.4.bri %>%
+defaunated<-all.4.bri.v2 %>%
   filter(taxon=="NoOrganismsPresent") %>%
   select(sample_id, stationid, sampledate, replicate) %>%
-  mutate(tot_bri_abun=0,
-         tot_cube_abun=0,
-         numerator=NaN,
+  mutate(tot_bri_abun_dz=0,
+
          bri_score=NaN,
          bri_cond="Defaunation",
          bri_class=5)
@@ -115,16 +114,15 @@ defaunated.samps<-unique(defaunated$sample_id)
 too.deep<-all.4.bri.v2 %>%
   filter(depth>324) %>%
   distinct(sample_id, stationid, sampledate, replicate) %>%
-  mutate(tot_bri_abun=NaN,
-         tot_cube_abun=NaN,
-         numerator=NaN,
+  mutate(tot_bri_abun_dz=NaN,
+
          bri_score=NaN,
          bri_cond="BRI not Applicable",
          bri_class=NaN)
 
 bri_scores.shallow<-all.4.bri.v2 %>%
-  drop_na(shallow) %>%
-  mutate(cube_abun=(abundance)^1/3) %>%
+  drop_na(shallow) %>% #removing taxa without a shallow pcode
+  mutate(cube_abun=(abundance)^(1/3)) %>%
   group_by(sample_id, stationid, sampledate, replicate) %>% #calculating scores by sample_id (station, date, and replicate)
   mutate(tot_bri_abun=sum(abundance), #summing abundance of all taxa w/ a pcode
          tot_cube_abun=sum(cube_abun), #summing abundance of cube root abundances for all all taxa w/ a pcode
@@ -136,8 +134,8 @@ bri_scores.shallow<-all.4.bri.v2 %>%
   mutate(shallow_bri_score=numerator/tot_cube_abun)
 
 bri_scores.mid<-all.4.bri.v2 %>%
-  drop_na(mid) %>%
-  mutate(cube_abun=(abundance)^1/3) %>%
+  drop_na(mid) %>% #removing taxa without a mid pcode
+  mutate(cube_abun=(abundance)^(1/3)) %>%
   group_by(sample_id, stationid, sampledate, replicate) %>% #calculating scores by sample_id (station, date, and replicate)
   mutate(tot_bri_abun=sum(abundance), #summing abundance of all taxa w/ a pcode
          tot_cube_abun=sum(cube_abun), #summing abundance of cube root abundances for all all taxa w/ a pcode
@@ -149,8 +147,8 @@ bri_scores.mid<-all.4.bri.v2 %>%
   mutate(mid_bri_score=numerator/tot_cube_abun)
 
 bri_scores.deep<-all.4.bri.v2 %>%
-  drop_na(deep) %>%
-  mutate(cube_abun=(abundance)^1/3) %>%
+  drop_na(deep) %>% #removing taxa without a deep pcode
+  mutate(cube_abun=(abundance)^(1/3)) %>%
   group_by(sample_id, stationid, sampledate, replicate) %>% #calculating scores by sample_id (station, date, and replicate)
   mutate(tot_bri_abun=sum(abundance), #summing abundance of all taxa w/ a pcode
          tot_cube_abun=sum(cube_abun), #summing abundance of cube root abundances for all all taxa w/ a pcode
@@ -160,23 +158,44 @@ bri_scores.deep<-all.4.bri.v2 %>%
   group_by(sample_id, stationid, depth, sampledate,replicate, tot_bri_abun, tot_cube_abun) %>%
   summarise(numerator=sum(tol_score)) %>% #summing the cube root abundance weighted tolerance scores by station (numerator in BRI calculation)
   ungroup() %>%
-  mutate(shallow_bri_score=numerator/tot_cube_abun)
+  mutate(deep_bri_score=numerator/tot_cube_abun)
+
+bri_scores.1<-bri_scores.shallow %>%
+  left_join(., bri_scores.mid, by=c("sample_id", "stationid", "sampledate", "replicate", "depth" ), suffix = c("_s","_m")) %>%
+  left_join(., bri_scores.deep, by=c("sample_id", "stationid", "sampledate", "replicate", "depth" ), suffix = c("","_d")) %>%
+  mutate(bri_score=case_when(depth<25~shallow_bri_score,
+                             depth>=25&depth<=35~(shallow_bri_score + mid_bri_score)/2,
+                             depth>35&depth<110~mid_bri_score,
+                             depth>=110&depth<=130~(mid_bri_score + deep_bri_score)/2,
+                             depth>130&depth<=324~deep_bri_score),
+         depth_zone=case_when(depth<25~"shallow",
+                             depth>=25&depth<=35~"shallow_mid",
+                             depth>35&depth<110~"mid",
+                             depth>=110&depth<=130~"mid_deep",
+                             depth>130&depth<=324~"deep",
+                             TRUE~"out_of_range"),
+         tot_bri_abun_dz=case_when(depth<25~tot_bri_abun_s,
+                                depth>=25&depth<=35~ceiling((tot_bri_abun_s + tot_bri_abun_m)/2),#keeping total BRI abundance reports as an integer for ease of communication
+                                depth>35&depth<110~tot_bri_abun_m,
+                                depth>=110&depth<=130~ceiling((tot_bri_abun_m + tot_bri_abun)/2),
+                                depth>130&depth<=324~tot_bri_abun)
+           )
 
 
 
-bri_scores<-all.4.bri %>%  drop_na(tol_val) %>% #drop taxa w/o a pcode
-  mutate(cube_abun=(abundance)^(1/3), ) %>% #calculate cube root abundance
-  group_by(sample_id, stationid, sampledate, replicate) %>% #calculating scores by sample_id (station, date, and replicate)
-  mutate(tot_bri_abun=sum(abundance), #summing abundance of all taxa w/ a pcode
-         tot_cube_abun=sum(cube_abun), #summing abundance of cube root abundances for all all taxa w/ a pcode
-         tol_score=tol_val*cube_abun) %>% #multiplying cube root abundance by pcode tolerance values
-  ungroup()
+# bri_scores<-all.4.bri %>%  drop_na(tol_val) %>% #drop taxa w/o a pcode
+#   mutate(cube_abun=(abundance)^(1/3), ) %>% #calculate cube root abundance
+#   group_by(sample_id, stationid, sampledate, replicate) %>% #calculating scores by sample_id (station, date, and replicate)
+#   mutate(tot_bri_abun=sum(abundance), #summing abundance of all taxa w/ a pcode
+#          tot_cube_abun=sum(cube_abun), #summing abundance of cube root abundances for all all taxa w/ a pcode
+#          tol_score=tol_val*cube_abun) %>% #multiplying cube root abundance by pcode tolerance values
+#   ungroup()
 
-bri_scores.2<-bri_scores %>%
-  group_by(sample_id, stationid, sampledate,replicate, tot_bri_abun, tot_cube_abun) %>%
-  summarise(numerator=sum(tol_score)) %>% #summing the cube root abundance weighted tolerance scores by station (numerator in BRI calculation)
-  ungroup() %>%
-  mutate(bri_score=numerator/tot_cube_abun, #calculation of BRI score
+bri_scores.2<-bri_scores.1 %>%
+  select(sample_id, stationid, sampledate,replicate, depth, depth_zone, shallow_bri_score, mid_bri_score,
+         deep_bri_score, tot_bri_abun_dz,bri_score,) %>%
+
+  mutate(
          bri_cond=case_when(bri_score<25 ~"Reference", #assigning traditional condition classes, based on score
                             bri_score>=25&bri_score<34~"Marginal Deviation",
                             bri_score>=34&bri_score<44~"Biodiversity Loss",
@@ -190,33 +209,33 @@ bri_scores.2<-bri_scores %>%
   ungroup() %>%
   bind_rows(., defaunated, too.deep)
 
-bri_station_info<-bri_scores.2 %>% #attaching station information to the BRI scores
-  left_join(., station_info.2, by=c("stationid")) %>%
+bri_w_station_info<-bri_scores.2 %>% #attaching station information to the BRI scores
+  left_join(., select(station_info.2, stationid, latitude, longitude ), by=c("stationid")) %>%
   #add in index useage notes for each sample so the user can be aware
   mutate(note=case_when(sample_id%in%c(defaunated.samps)~"No fauna in sample",
-                        tot_bri_abun==0~"Caution - No organisms with P-code in Sample",
+                        tot_bri_abun_dz==0~"Caution - No organisms with P-code in Sample",
                         depth>200 & depth<=324 ~"Caution - Sample deeper than Bight reccommendations but within BRI calibration",
                         depth>324~"Do Not Use - Sample deeper than BRI calibration",
                         TRUE~"None")) %>%
-  #remove cloumns used in calculation but probably not relevant to user
-  select(., -tot_bri_abun, -tot_cube_abun, -numerator) %>%
+  #remove columns used in calculation but probably not relevant to user
+  select(., -tot_bri_abun_dz) %>%
   relocate(depth, latitude, longitude, .after = replicate)
 
 
 
 #Saving the final table of BRI scores to the specified output path
-write.csv(bri_station_info, paste(output_path, "/", file_id, " final file - BRI scores by station and replicate.csv", sep=""), row.names = FALSE)
+write.csv(bri_w_station_info, paste(output_path, "/", file_id, " final file - BRI scores by station and replicate.csv", sep=""), row.names = FALSE)
 
 #exporting everything into a single excel workbook with the BRI Scores and all of the interim files  for review
 
 #define sheet names for each data frame
-dataset_names <- list("final - BRI Scores"=bri_station_info, "int_1 - taxa submitted"=taxa_to_calc, "int_2 - taxa w pcode"=with.pcode,
+dataset_names <- list("final - BRI Scores"=bri_w_station_info, "int_1 - taxa submitted"=taxa_to_calc, "int_2 - taxa w pcode"=with.pcode,
                       "int_3 - taxa wo pcode"=no.pcode, "int_4 - all taxa by sample"=all.4.bri)
 
 #export each data frame to separate sheets in same Excel file
 write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " Offshore BRI output summary.xlsx", sep=""))
 
-return(bri_station_info) #so you can see the scores in R Studio environment
+return(bri_w_station_info) #so you can see the scores in R Studio environment
 }
 
 
