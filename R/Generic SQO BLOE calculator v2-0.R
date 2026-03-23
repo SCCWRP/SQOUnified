@@ -1,11 +1,16 @@
+#Generic Sediment Quality Objectives Benthic Line of Evidence Calculator v2.0
+
 #Function designed to input benthic data for SQO calculation, calculate SQO Benthic Line of Evidence (BLOE), calculate US M-AMBI,
 #and produce both interim and final output files
+#IMPORTANT - The indices contained in this calculator are only intended for Southern California embayments (i.e., not offshore)
 
 #This function requires that you have the following packages installed on your machine:
 #       1. tidyverse
 #       2. naniar
 #       3. openxlsx
 #       4. vegan
+#       5. janitor
+#       6. messydates
 #
 # in your r environments you can install packages with:  install.packages(".......")
 
@@ -29,23 +34,22 @@
 #           salinity - bottom salinity at time of sample collection in PSU
 #       3. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
 ###########################################################  ########################################################################
-### IMPORTANT: this "alt" version of the code transforms modern taxonomy to ed5 taxonomy to sidestep DJG's hypothesized diversity/richness problem arising from
-###             the improving taxonomy of modern times. the indices are scaled to a certain level of diversity and fully adopting new, more specios species
-###             lists will alter the index scores to a degree. This version can be compared to a modern version to test this effect
 
 
-alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
+SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
 {
   #loading required packages and the individual functions to calculate each of the individual SQO benthic indices
   require(tidyverse)
   require(naniar)
   require(openxlsx)
   require(vegan)
-  source("R/alternate approach/alt SQO BRI - generic.R")
-  source("R/alternate approach/alt IBI - generic.R")
-  source("R/alternate approach/alt RBI - generic.R")
-  source("R/alternate approach/alt RIVPACS - generic.R")
-  source("R/alternate approach/alt MAMBI - generic.R")
+  require(messydates)
+  require(janitor)
+  source("R/sqo component indices/alt SQO BRI - generic.R")
+  source("R/sqo component indices/alt IBI - generic.R")
+  source("R/sqo component indices/alt RBI - generic.R")
+  source("R/sqo component indices/alt RIVPACS - generic.R")
+  source("R/sqo component indices/alt MAMBI - generic.R")
   load("Reference Files/ed14_to_SQO.RData")#loading in files to convert from Ed14 taxonomy to SQO compatible taxonomy
 
   print(paste("saving files to ", output_path, sep=""))
@@ -53,8 +57,12 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   #cleaning up the infauna data to be analyzed
   #standardizing the nomenclature of ommitted salinity or depth data to NA, so that it can be dealt with later
   BenthicData<-read.csv(infauna_path) %>%
-  replace_with_na(., list(salinity=c(-88, -99), depth=c(-88, -99))) %>%
-    mutate(sampledate=mdy(sampledate))
+    clean_names(., case="snake" , sep_out="") %>% #trying to be a little flexible incase odd field names are used
+    mutate(stationid=as.character(stationid),
+           abundance=as.numeric(abundance),
+           sampledate=as_messydate(sampledate),#trying to be flexible with date format given the wierdness of excel vs .CSV vs. R
+           sampledate=as_date(sampledate)) %>%
+  replace_with_na(., list(salinity=c(-88, -99), depth=c(-88, -99)))
 
 #### retrofitting modern taxonomy back and taking daughter taxa and combining them up where appropriate ####
 
@@ -82,12 +90,12 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
     left_join(., ed14.rollups, by=c("taxon.2"="ed.14_daughters")) %>%
     mutate(taxon.3=if_else(is.na(sqo.name), taxon.2, sqo.name),
            rolled_up=if_else(is.na(sqo.name), "no", "yes"), .before = taxon.2) %>%
-    #mutate(flag=if_else(taxon==sqo.name, 1,0), .before=abundance) %>%
+
     select(-sqo.name) %>%
     group_by(stationid, replicate, sampledate, taxon.3) %>%
     mutate(abundance.2=sum(abundance),
            #when rolling up taxa we may be combining taxa w/ different exclude codes into one. To keep the most the taxa richness/exclude coding
-           # if any of the combined taxa has a No (i.e., it is unique), we give that prescedance to maintain the richness
+           # if any of the combined taxa has a No (i.e., it is unique), we give that precedence to maintain the richness
            all.excludes=str_flatten_comma(exclude),
            exclude.prob.flag=case_when(str_detect(all.excludes, "No, Yes")~1,
                                        str_detect(all.excludes, "Yes, No")~1,
@@ -129,7 +137,7 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
 
   write.csv(taxa.changes, paste(output_path, "/", file_id," interim data prep file - ed14 to SQO LU list taxa changes.csv", sep=""), row.names = FALSE)
 
-# Step 5 is to create final file to run through the different indices.
+# Step 5 is to create final dataframe to run through the different indices.
 #Modern names have been changed to older, SQO-valid names and daughter taxa have been collapsed to the appropriate higher level
 #Where taxa were collapsed, their abundances were summed
 
@@ -143,7 +151,7 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
 
 
   #### running each of the individual benthic indices on the newly created "retrofit" data ####
-  #Each of these individual functions are available in the repository to inspected by the user, as they may like
+  #Each of these individual functions are available in the repository to be inspected by the user, as they may like
 
   bri.scores.x<-alt.SQO.BRI.generic(BenthicData.3, output_path, file_id)
 
@@ -162,7 +170,7 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
   print ("SQO RIVPACS Complete")
 
   mambi.scores.x<-alt.MAMBI.generic(BenthicData, EG_Ref_values = NULL, EG_Scheme = "Hybrid", output_path, file_id)
-  #Note that the MAMBI script uses modern taxonomy, as it can be updated unlike the SQO calculations
+  #Note that the MAMBI script uses modern taxonomy, as it can be more easily updated unlike the traditional SQO indices
 
   print ("SQO M-AMBI Complete")
 
@@ -230,6 +238,10 @@ alt.SQO_BLOE.generic<-function(file_id, infauna_path, output_path)
 
   #export each data frame to separate sheets in same Excel file
   write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " SQO BLOE output summary.xlsx", sep=""))
+
+  BLOE.scores.w.MAMBI<-list("sqo_bloe"=BLOE.scores.x, "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI,"sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x,
+            "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x,"mambi"=mambi.scores.sqoformat)
+
 
   #putting the BLOE+MAMBI final scores into the R environment for the user to view
 return(BLOE.scores.w.MAMBI)
