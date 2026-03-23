@@ -34,7 +34,7 @@
  ###################################################################################################################################
 
 
-offshore_bri_calc_ed14<-function(file_id, infauna_path, station_path, output_path)
+offshore_bri_calc_ed14_v1<-function(file_id, infauna_path, station_path, output_path)
   {
 require(tidyverse)
 require(openxlsx)
