@@ -22,7 +22,7 @@
 #           stationid - unique identifier for that station, preferably formatted as character/text value
 #           sampledate - the date on which the sample was collected, must be in a mm/dd/yyyy format
 #           replicate - a number identifying the replicate infauna sample collected from the specified station on the specified date
-#           taxon - character string identifying the organism. naming conventions should follow SCAMIT edition 12
+#           taxon - character string identifying the organism. naming conventions should follow SCAMIT edition 14
 #           abundance - a numeric value indicating the number of individuals counted for the specified taxon from the sample
 #      3. station_path - a quoted string detailing the name and location of the .csv file with station information for each infauna
 #           sample. All column names should be lower case. The expectation is that the file  will have, at a minimum,a column for:
@@ -50,6 +50,10 @@ load("Reference Files/pcode_14.RData") #pcode values by depth and taxa associate
 ###            Prep the data
 
 #ensuring data are in the correct formats
+
+#think about adding a latitude gaurdrails
+
+#add a janitor statement to have it be more flexible to weird column names
 station_info.2<-station_info %>%
   mutate(stationid=as.character(stationid),
          depth=as.numeric(depth))
@@ -86,7 +90,7 @@ all.4.bri.v2<-taxa_to_calc %>%
 # output taxa with their p-codes for review
 #with.pcode<-all.4.bri %>% distinct(taxon, bri_dz,p_code) %>% drop_na(p_code) %>% arrange(taxon)
 #write.csv(with.pcode, paste(output_path, "/", file_id, " interim file 2 - taxa w assigned pcodes.csv", sep=""), row.names = FALSE)
-
+#
 
 
 # output taxa without p-codes for review
@@ -229,11 +233,11 @@ write.csv(bri_w_station_info, paste(output_path, "/", file_id, " final file - BR
 #exporting everything into a single excel workbook with the BRI Scores and all of the interim files  for review
 
 #define sheet names for each data frame
-dataset_names <- list("final - BRI Scores"=bri_w_station_info, "int_1 - taxa submitted"=taxa_to_calc, "int_2 - taxa w pcode"=with.pcode,
-                      "int_3 - taxa wo pcode"=no.pcode, "int_4 - all taxa by sample"=all.4.bri)
+#dataset_names <- list("final - BRI Scores"=bri_w_station_info, "int_1 - taxa submitted"=taxa_to_calc, "int_2 - taxa w pcode"=with.pcode,
+#                      "int_3 - taxa wo pcode"=no.pcode, "int_4 - all taxa by sample"=all.4.bri)
 
 #export each data frame to separate sheets in same Excel file
-write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " Offshore BRI output summary.xlsx", sep=""))
+#write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " Offshore BRI output summary.xlsx", sep=""))
 
 return(bri_w_station_info) #so you can see the scores in R Studio environment
 }

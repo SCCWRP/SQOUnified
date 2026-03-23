@@ -32,7 +32,8 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
 {
   require(tidyverse)
   require(naniar)
-  load("Reference Files/SoCal SQO LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
+  #Bight 23 index code subcommittee made the decision to use the look up list associated with the old SQO excel tool
+  load("Reference Files/SoCal SQO xls LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
 
   #create an empty dataframe to populate with IBI scores
   ibi.out.null<-tibble(stationid="dummy",
@@ -53,7 +54,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
   # Prepare the given data frame so that we can compute the IBI score and categories
   ibi_data <- BenthicData %>%
     #filter(exclude!="Yes") %>%
-    left_join(orig.socal_sqo, by = c("taxon"="TaxonName")) %>%
+    left_join(xl_tool.SoCalLUList, by = c("taxon"="TaxonName")) %>%
 
     filter(taxon!="NoOrganismsPresent")
 
@@ -70,8 +71,12 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
 
 
   # Calculate taxa richness
+
+  #important distinction here, this isn't true taxa richness of the sample
+  #it is richness of taxa recognized by the look up list
+  #this keeps the dataset within the expectations of the SQO calibration data set and therefore keeps the scoring thresholds valid
   ibi1 <- ibi_data %>%
-    filter(exclude=="No") %>%  #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+    filter(exclude=="No") %>%  #Bight 23 Benthic Index Code group decided to use the exclude notation vs. drop notation in the table since it is more precise w/ regards to diversity
 
     mutate(rich_flag=case_when(Phylum==""~0,
                                is.na(Phylum)~0,
@@ -82,7 +87,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
 
   # Calculate mollusc taxa richness
   ibi2 <- ibi_data %>%
-    filter(exclude=="No") %>%  #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
+    filter(exclude=="No") %>%  #Bight 23 Benthic Index Code group decided to use the exclude notation vs. drop notation in the table since it is more precise w/ regards to diversity
     mutate(flag=(case_when(Mollusc=="Mollusc"~1,
                            TRUE~0))) %>%
     group_by(stationid, sampledate, replicate) %>%

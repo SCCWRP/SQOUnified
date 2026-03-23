@@ -46,7 +46,8 @@ alt.RBI.generic <- function(BenthicData, output_path, file_id)
 
 require(tidyverse)
 require(naniar)
-  load("Reference Files/SoCal SQO LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
+  #Bight 23 index code subcommittee made the decision to use the look up list associated with the old SQO excel tool
+  load("Reference Files/SoCal SQO xls LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
 
   #create an empty dataframe to populate with RBI scores
   rbi.out.null<-tibble(stationid="dummy",
@@ -57,7 +58,7 @@ require(naniar)
                        condition_category=NA,
                        condition_category_score=NA,
                        note=NA)
-  #incase a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
+  #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-BenthicData %>%
     filter(taxon=="NoOrganismsPresent") %>%
@@ -69,7 +70,7 @@ require(naniar)
   rbi_data <- BenthicData %>%
     select(stationid, replicate, sampledate,taxon, abundance, exclude) %>%
     #filter(exclude!="Yes") %>%
-    left_join(orig.socal_sqo, by = c("taxon"="TaxonName")) %>%
+    left_join(xl_tool.SoCalLUList, by = c("taxon"="TaxonName")) %>%
     filter(taxon!="NoOrganismsPresent")
 
  #Export data so the user knows what is going to used in subsequent calculations
@@ -87,9 +88,12 @@ require(naniar)
 
   ####Calculate the different metrics for the RBI
   # calculate taxa richness
+
+  #important distinction here, this isn't true taxa richness of the sample
+  #it is richness of taxa recognized by the look up list
+  #this keeps the data set within the expectations of the SQO calibration data set and therefore keeps the scoring thresholds valid
   rbi1<- rbi_data %>%
-    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
-    #filter(SpeciesLevel!="Drop") %>%
+    filter(exclude=="No") %>% #Bight 23 Benthic Index Code group decided to use the exclude notation vs. drop notation in the table since it is more precise w/ regards to diversity
     mutate(rich_flag=case_when(Phylum==""~0,
                                is.na(Phylum)~0,
                                TRUE~1)) %>%
@@ -102,8 +106,7 @@ require(naniar)
 
   # calculate mollusc taxa richness
   rbi2 <- rbi_data %>%
-    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
-    #filter(SpeciesLevel!="Drop") %>%
+    filter(exclude=="No") %>% #Bight 23 Benthic Index Code group decided to use the exclude notation vs. drop notation in the table since it is more precise w/ regards to diversity
     mutate(flag=(case_when(Mollusc=="Mollusc"~1,
                            TRUE~0))) %>%
     group_by(stationid, sampledate, replicate) %>%
@@ -113,8 +116,7 @@ require(naniar)
 
   # calculate crustacean richness
   rbi3 <- rbi_data %>%
-    filter(exclude=="No") %>% #need to resolve with the group if we stick w/ exclude or we rely on SQO drop list to get rid of ambiguous taxa
-    #filter(SpeciesLevel!="Drop") %>%
+    filter(exclude=="No") %>% #Bight 23 Benthic Index Code group decided to use the exclude notation vs. drop notation in the table since it is more precise w/ regards to diversity
     mutate(flag=case_when(Crustacean=="Crustacean"~1,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%

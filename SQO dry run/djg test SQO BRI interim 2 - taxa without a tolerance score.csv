@@ -3,7 +3,6 @@
 "Acanthoptilum sp",7
 "Aclis occidentalis",5
 "Acteocina carinata",58
-"Acteocina culcitella",3
 "Acteocina sp",2
 "Actiniaria",48
 "Actiniaria sp 1",11
@@ -12,20 +11,16 @@
 "Aegires albopunctatus",1
 "Aglaja ocelligera",2
 "Aglaophamus verrilli",3
-"Alderia modesta",1
 "Alia sp",1
 "Alia tuberosa",1
 "Alpheus sp",8
 "Alvania compacta",1
 "Amage anops",4
 "Amage sp",1
-"Amathimysis trigibba",1
 "Americhelidium sp",7
 "Ammothella spinifera",1
-"Ampelisca agassizi",1
 "Ampelisca cristata cristata",4
 "Ampelisca cristata microdentata",24
-"Ampelisca lobata",1
 "Ampelisca milleri",2
 "Ampelisca pugetica",1
 "Ampelisca sp",5
@@ -45,31 +40,22 @@
 "Anopla",2
 "Anthozoa",1
 "Anthuridae",1
-"Aonides sp",3
 "Aoridae",2
 "Aoroides sp",2
-"Aphelochaeta sp",8
 "Aplysiopsis enteromorphae",1
 "Apolochus picadurus",1
-"Arabella sp",1
 "Arachnida",1
 "Arcteobia cf anticostiensis",1
 "Argua sp",2
 "Aricidea sp",2
 "Armina californica",2
-"Aruga sp",11
-"Ascidiacea",9
-"Astyris aurantiaca",8
 "Astyris sp",2
 "Bemlos concavus",1
 "Bemlos sp",8
-"Betaeus ensenadensis",2
 "Betaeus sp",4
 "Bivalvia",18
-"Boccardia basilaria",1
 "Brachyura",4
 "Brada pilosa",1
-"Branchiostoma californiense",1
 "Branchiosyllis sp",2
 "Byblis sp",1
 "Caesia fossatus",3
@@ -88,10 +74,7 @@
 "Caryocorbula luteola",3
 "Caulleriella sp",1
 "Cephalaspidea",1
-"Cerapus tubularis Cmplx",1
-"Cerithidea californica",6
 "Cerithiopsis sp",1
-"Chaetopterus variopedatus Cmplx",2
 "Chaetozone columbiana",1
 "Chaetozone hartmanae",2
 "Chionista fluctifraga",1
@@ -102,8 +85,6 @@
 "Coleoptera",1
 "Colomastix sp A",1
 "Columbellidae",3
-"Conus californicus",1
-"Corbula porcella",2
 "Corophioidea",2
 "Corymorphidae sp SD1",1
 "Cossura sp",17
@@ -121,7 +102,6 @@
 "Deltamysis holmquistae",2
 "Dendraster terminalis",1
 "Diopatra sp",10
-"Diplodonta sericata",2
 "Diptera",6
 "Donax californicus",1
 "Dorvillea (Dorvillea) sp",2
@@ -136,7 +116,6 @@
 "Eobrolgus chumashi",1
 "Eohaustorius barnardi",1
 "Epigamia-Myrianida Cmplx",3
-"Epitonium hindsii",1
 "Epitonium sp",1
 "Ericthonius sp",1
 "Ericthonius sp SD1",1
@@ -144,7 +123,6 @@
 "Euchone hancocki",1
 "Eunicidae",4
 "Euphysa sp",1
-"Eupolymnia heterobranchia",1
 "Eusarsiella thominx",1
 "Exogone sp",3
 "Exogone sp A (Harris)",18
@@ -157,7 +135,6 @@
 "Gastropoda",3
 "Gastropteron pacificum",1
 "Gitanopsis sp",2
-"Glycera macrobranchia",1
 "Glycera oxycephala",1
 "Glycera sp",3
 "Glycera tenuis",2
@@ -181,13 +158,11 @@
 "Heteromastus sp",1
 "Heterophoxus cf ellisi",34
 "Heterophoxus sp",3
-"Hippolyte californiensis",10
 "Hippolyte clarki",1
 "Hippolytidae",1
 "Hornellia occidentalis",2
 "Hydroides dirampha",1
 "Ianiropsis analoga",1
-"Kalliapseudes crassus",1
 "Kirkegaardia serratiseta",4
 "Kirkegaardia sp 1",2
 "Kurtiella pedroana",1
@@ -199,9 +174,7 @@
 "Leitoscoloplos sp A",12
 "Leodice americana",1
 "Leopecten diegensis",1
-"Lepidonotus sp",2
 "Leptoconops sp",1
-"Leucothoe alata",8
 "Leucothoe sp",2
 "Limnactiniidae sp A",1
 "Listriella sp",1
@@ -219,16 +192,12 @@
 "Magelona sp B",1
 "Majoidea",18
 "Marphysa sp",7
-"Marphysa sp B",4
 "Mediomastus sp 6",3
 "Megalomma sp",4
-"Melanochlamys diomedea",1
 "Melanoides tuberculata",1
 "Mesocrangon munitella",2
-"Metamysidopsis elongata",3
 "Metridium sp",2
 "Microcosmus squamiger",5
-"Microspio microcera",1
 "Microspio sp",10
 "Modiolatus neglectus",3
 "Molpadia arenicola",1
@@ -245,10 +214,8 @@
 "Nasagenia quinsana",3
 "Nassarius mendicus",2
 "Naticidae",1
-"Neastacilla californica",5
 "Neogyptis sp",2
 "Neolepton sp",1
-"Nephtys californiensis",1
 "Nephtys sp",5
 "Nereididae",8
 "Netastoma rostratum",1
@@ -264,7 +231,6 @@
 "Octopus sp",1
 "Olivella biplicata",1
 "Onuphidae",5
-"Onuphis sp",1
 "Ophelia limacina",1
 "Ophiothrix spiculata",2
 "Ophiuroidea",1
@@ -273,7 +239,6 @@
 "Pachycerianthus fimbriatus",1
 "Palola paloloides",1
 "Panopeidae",19
-"Paracaprella sp",3
 "Paracerceis sp",3
 "Paracerceis sp A",4
 "Paradialychone harrisae",2
@@ -285,17 +250,14 @@
 "Paraprionospio sp",1
 "Parexogone molesta",1
 "Penaeoidea",1
-"Peramphithoe sp",1
 "Petricola californiensis",1
 "Petricola sp",1
 "Pettiboneia sanmatiensis",1
 "Phascolion sp A",2
-"Pherusa capulata",10
 "Pherusa inflata",1
 "Phisidia sanctaemariae",1
 "Pholoides asperus",1
 "Photis bifurcata",3
-"Photis californica",1
 "Photis sp C",1
 "Phtisica marina",23
 "Phtisicinae",1
@@ -309,7 +271,6 @@
 "Pionosyllis sp",4
 "Pisione sp",1
 "Pista estevanica",3
-"Pista sp",8
 "Platymera gaudichaudii",1
 "Plesiocystiscus politulus",1
 "Podochela hemphillii",13
@@ -330,10 +291,8 @@
 "Pyramidella adamsi",1
 "Pyramidellidae",2
 "Raeta undulata",2
-"Rhepoxynius heterocuspidatus",1
 "Rhepoxynius lucubrans",1
 "Rhepoxynius menziesi",2
-"Rhynchospio glutaea",3
 "Rochefortia mortoni",3
 "Romaleon branneri",3
 "Rutiderma rotundum",1
@@ -342,9 +301,9 @@
 "Salmacina tribranchiata",1
 "Salmoneus sp A",1
 "Scolanthus triangulus",2
+"Scolelepis (Parascolelepis) sp",16
 "Scolelepis sp",1
 "Scoletoma sp",101
-"Scoloplos armiger Cmplx",1
 "Semela sp",1
 "Semelidae",1
 "Serpula columbiana",1
@@ -367,14 +326,12 @@
 "Sternaspis fossor",1
 "Stomatopoda",1
 "Strongylocentrotus sp",1
-"Styela sp",3
 "Stylatula sp",16
 "Syllidae",2
 "Syllis (Ehlersia) hyperioni",2
 "Syllis (spellingsyllis) nipponica",25
 "Syllis alternata",1
 "Syllis hyalina",1
-"Tagelus affinis",70
 "Tagelus sp",3
 "Talitridae",1
 "Tanaidacea",1
@@ -382,13 +339,11 @@
 "Tanystylum intermedium",1
 "Teinostoma sp",1
 "Tellina sp B",21
-"Terebellidae",6
 "Tethygenia opata",2
 "Thelepus hamatus",1
 "Thraciidae",1
 "Trophoniella harrisae",3
 "Tubulanidae",6
-"Upogebia sp",3
 "Urechis caupo",1
 "Uristes entalladurus",2
 "Uromunna ubiquita",1

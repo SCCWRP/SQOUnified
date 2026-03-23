@@ -89,12 +89,13 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
 
 
   EG_to_use <- EG_Ref_values %>%
-    select(Taxon, Exclude, all_of(EG_Scheme) )%>%
+    select(all_of(EG_Scheme),Taxon, Exclude )%>%
+    relocate(Taxon, Exclude, EG_Scheme) %>%
     rename(EG=EG_Scheme) %>%
     mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG))
 
 
- 
+
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
   defaunated<-Input_File.0 %>%
@@ -146,7 +147,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
     # EG.Assignment.cast<-data.frame(NoEG=numeric(),
     #                              YesEG=numeric())
 
-  # Calculating aplicability of the index to each sample based upon the % of abundance that can be assigned and EG value
+  # Calculating applicability of the index to each sample based upon the % of abundance that can be assigned and EG value
   # Guidelines follow Pelleteier et al 2018, which follow Borja and Muxica 2005
   AMBI.applicability<-EG.Assignment %>%
     mutate(EG_Test=ifelse(is.na(EG),"NoEG", "YesEG")) %>%
@@ -157,10 +158,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
         NoEG > 50 ~ "Not Recommended",
         is.na(NoEG) ~ "Yes"))
 
-  # Recommendations for applicability of the M-AMBI based upon AMBI suitability and presence of salinity data
-  # MAMBI.applicability <- Sample.info %>%
-  #   mutate(use_mambi = ifelse(is.na(SalZone),"No - No Salinity Value","Yes")) %>%
-  #   select(stationid, replicate, sampledate, use_mambi)
+
 
   MAMBI.applicability<-AMBI.applicability %>%
     left_join(., Sample.info, by=c("stationid", "replicate", "sampledate")) %>%

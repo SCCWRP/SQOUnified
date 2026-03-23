@@ -2,7 +2,7 @@
 #
 
 #   The BRI is the 4th root abundance weighted pollution tolerance score of the organisms present in a sample relative to the 4th root abundance
-#   of all taxa in the sample with a tolerance score (aka p-code, p-value). The higher the BRI score, the more degraded the sample. 
+#   of all taxa in the sample with a tolerance score (aka p-code, p-value). The higher the BRI score, the more degraded the sample.
 #
 
 #   The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
@@ -27,15 +27,17 @@
 #     submitted data that have tolerance values assigned and one for taxa in the submitted data that do not have an tolerance value assigned.
 
 
-alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=file_id) 
-  
+alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=file_id)
+
 {
   #loading in packages needed to run function
   require(tidyverse)
   #loading in SQO species list that contains p codes, amongst other things
 
-  load("Reference Files/SoCal SQO LU.RData")
-  
+  #Bight 23 index code subcommittee made the decision to use the look up list associated with the old SQO excel tool
+  load("Reference Files/SoCal SQO xls LU.RData")#not using new names. using alt approach of rolling names back then calculating using original LU list
+
+
   #create empty dataframe to populate w/ bri scores
   bri.out.null<-tibble(stationid="dummy",
                        replicate=NaN,
@@ -56,7 +58,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
   #matching p codes to taxa in the submitted data
   all.for.bri <- BenthicData %>%
     filter(taxon!="NoOrganismsPresent") %>% #removing samples without any animals so the calculator doesn't get confused
-  left_join(., select(orig.socal_sqo, TaxonName, ToleranceScore), by = c('taxon' = 'TaxonName'))
+  left_join(., select(xl_tool.SoCalLUList, TaxonName, ToleranceScore), by = c('taxon' = 'TaxonName'))
 
   #identify the taxa in the submitted data with a tolerance score and how many samples they occur in
 
@@ -66,7 +68,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
     ungroup() %>%
     drop_na(ToleranceScore)
   #export as an interim file of taxa with a tolerance value that the user can review
-  
+
   write.csv(taxa_w_pvalue, paste(output_path,"/", file_id, " SQO BRI interim 1 - taxa with a tolerance score.csv", sep=""), row.names = FALSE)
 
   #identify those taxa in the submitted data without a tolerance score and how many samples they occur in
@@ -78,10 +80,10 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
     select(-ToleranceScore)
 
   #export as an interim file of taxa missing a tolerance value that the user can review
-  
+
   write.csv(taxa_wo_pvalue, paste(output_path, "/", file_id, " SQO BRI interim 2 - taxa without a tolerance score.csv", sep=""), row.names = FALSE)
 
-  
+
   bri.out<-all.for.bri %>%
   drop_na(ToleranceScore) %>%
   mutate(fourthroot_abun = abundance ** 0.25,
@@ -102,26 +104,26 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
                                       (condition_category == "Low Disturbance") ~ 2,
                                       (condition_category == "Moderate Disturbance") ~ 3,
                                       (condition_category == "High Disturbance") ~ 4 ),
-      #index="BRI", 
+      #index="BRI",
       note=NA)
 
-  bri.stations<-BenthicData %>% 
-    select(-taxon, -abundance, -exclude) %>% 
+  bri.stations<-BenthicData %>%
+    select(-taxon, -abundance, -exclude) %>%
     distinct()
-  
-  
+
+
   bri.out.2<-bri.out.null %>%
-    bind_rows(bri.out, defaunated) %>% 
-    left_join(bri.stations, ., by=c("stationid", "sampledate", "replicate")) %>% 
-    mutate(note=case_when(is.na(condition_category)~"Unable to calculate BRI, likely no p-code taxa", 
+    bind_rows(bri.out, defaunated) %>%
+    left_join(bri.stations, ., by=c("stationid", "sampledate", "replicate")) %>%
+    mutate(note=case_when(is.na(condition_category)~"Unable to calculate BRI, likely no p-code taxa",
                           TRUE~note),
            index="BRI")
-    
+
 
   if(length(bri.out.2$stationid)>1)#if BRI scores are calculated, function will drop the dummy data placeholders and report the data for the submitted samples
   {
     bri.out.3<-bri.out.2 %>%
-      filter(stationid!="dummy") 
+      filter(stationid!="dummy")
   }
 
 else
@@ -129,8 +131,8 @@ else
   bri.out.3<-bri.out.2 %>% # if BRI scores are not calculated, the function will only report the dummy data placeholders
     mutate(note="BRI scores not caculated")
 }
- 
-  write.csv(bri.out.3, paste(output_path, "/", file_id, " SQO BRI scores.csv", sep=""), row.names = FALSE) 
+
+  write.csv(bri.out.3, paste(output_path, "/", file_id, " SQO BRI scores.csv", sep=""), row.names = FALSE)
   return(bri.out.3)
 }
 

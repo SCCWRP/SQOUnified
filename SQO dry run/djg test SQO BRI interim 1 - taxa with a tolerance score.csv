@@ -1,296 +1,341 @@
 "taxon","ToleranceScore","Freq_of_Occ"
-"Acteocina harpa",-8.35,4
-"Acteocina inculta",110.14,10
-"Acuminodeutopus heteruropus",53.56,8
-"Alia carinata",16.67,4
-"Alienacanthomysis macropsis",-1.34,2
-"Alpheus californiensis",53.59,30
-"Amaeana occidentalis",-14.49,13
-"Ambidexter panamensis",76.06,13
-"Ampelisca brachycladus",-18.3,13
-"Ampelisca brevisimulata",-30.75,15
-"Ampharete labrops",-19.74,16
-"Amphicteis scaphobranchiata",6.33,25
-"Amphideutopus oculatus",-0.35,81
-"Amphiodia sp",8.36,37
-"Amphipholis squamata",22.69,55
-"Ampithoe lacertosa",72.06,1
-"Ampithoe plumulosa",38.31,1
-"Ampithoe valida",90.96,6
-"Anemonactis sp",45.22,9
-"Anoplodactylus erectus",55.78,31
-"Anoplodactylus viridintestinalis",91.22,3
-"Anotomastus gordiodes",15.83,5
-"Aphelochaeta glandaria Cmplx",101.93,6
-"Aphelochaeta monilaris",-15.18,8
-"Aphelochaeta petersenae",145.34,7
-"Apionsoma misakianum",9.92,6
-"Apolochus barnardi",2.6,1
-"Apoprionospio pygmaea",14.95,10
-"Argopecten ventricosus",9.63,2
-"Aricidea (Acmira) catherinae",-16.99,1
-"Aricidea (Acmira) horikoshii",-21.04,1
-"Armandia brevis",7.07,30
-"Asteropella slatteryi",15.86,1
-"Asthenothaerus diegensis",9.39,36
-"Barleeia sp",21.32,30
-"Bemlos macromanus",31.05,9
-"Bispira sp",33.89,2
-"Boccardiella hamata",89.88,3
-"Brania sp",9.37,11
-"Bulla gouldiana",64.47,15
-"Cadulus aberrans",-26.09,15
-"Caecum californicum",5.1,11
-"Caecum occidentale",-1.22,1
-"Campylaspis rubromaculata",7.31,4
-"Capitella capitata Cmplx",130.84,33
-"Caprella californica",0.81,13
-"Caprella equilibra",9.04,1
-"Caprella verrucosa",19.97,3
-"Caulleriella pacifica",34.04,4
-"Ceriantharia",18.78,8
-"Chaetozone corona",-9.85,32
-"Chione californiensis",50.09,5
-"Chone albocincta",-16.05,4
-"Chone minuta",19.66,3
-"Chone veleronis",-3.93,1
-"Cirratulus sp",55.64,5
-"Cirriformia sp",89.04,17
-"Cirrophorus furcatus",-37.35,2
-"Compsomyax subdiaphana",-22.84,14
-"Cooperella subdiaphana",-8.37,11
-"Corymorpha sp",44.43,5
-"Cossura candida",33.97,23
-"Cossura sp A",49.79,65
-"Crangon alaskensis",-8.23,1
-"Crepidula onyx",15.65,17
-"Crepipatella dorsata",123.06,12
-"Crucibulum spinosum",23.49,12
-"Cryptomya californica",32.44,13
-"Cylichna diegensis",-30.04,7
-"Decamastus gracilis",12.01,1
-"Demonax sp",105.2,1
-"Diopatra ornata",-2.61,14
-"Diopatra splendidissima",6.93,1
-"Diopatra tridentata",-29.48,5
-"Diplocirrus sp SD1",46.61,62
-"Dipolydora sp",56.56,7
-"Dorvillea (Schistomeringos) sp",38.12,33
-"Drilonereis mexicana",45.17,4
-"Edotia sublittoralis",4.29,2
-"Edwardsia californica",47.58,28
-"Edwardsia sp G",-2.97,2
-"Elasmopus bampo",39.89,12
-"Ensis myrae",-16.54,1
-"Enteropneusta",-10.03,11
-"Eochelidium sp A",52.73,27
-"Erichsonella crenulata",28.95,1
-"Ericthonius brasiliensis",16.86,14
-"Eteone sp",47.42,21
-"Euchone incolor",48.47,1
-"Euchone limnicola",76.26,51
-"Euclymeninae sp A",18.94,18
-"Euphilomedes carcharodonta",57.23,38
-"Exogone dwisula",52.84,4
-"Exogone lourei",41.85,80
-"Fabricinuda limnicola",50.02,50
-"Gammaropsis thompsoni",-35.09,4
-"Gibberosus myersi",-18.88,1
-"Glottidia albida",-9.44,4
-"Glycera americana",29.81,78
-"Glycera nana",17.36,3
-"Glycinde armigera",28.22,3
-"Gnathiidae",2.18,7
-"Goniada littorea",16.62,19
-"Goniada maculata",-14.95,7
-"Grandidierella japonica",105.98,71
-"Halcampidae",21.57,3
-"Halosydna johnsoni",19.34,1
-"Haminoea vesicula",29.86,27
-"Harmothoe imbricata Cmplx",26.75,17
-"Harpacticoida",32.9,4
-"Hartmanodes hartmanae",31.37,27
-"Hemipodia borealis",-11.75,1
-"Hemiproto sp A",16.04,1
-"Heteromysis odontops",40.26,7
-"Heterophoxus oculatus",45.69,1
-"Hiatella arctica",-14.89,3
-"Hippomedon sp",23.61,3
-"Hyalidae",19.15,7
-"Hydroides elegans",28.09,1
-"Iselica ovoidea",64.26,1
-"Jassa slatteryi",30.43,1
-"Kurtziella plumbea",-16.6,1
-"Laevicardium substriatum",40.38,69
-"Laonice cirrata",-27.89,30
-"Leitoscoloplos pugettensis",64.43,117
-"Leporimetis obesa",-12.29,10
-"Leptochelia dubia",-9.36,48
-"Leptopecten latiauratus",11.92,9
-"Leptosynapta sp",3.64,38
-"Leuroleberis sharpei",0.05,1
-"Levinsenia gracilis",-10.45,7
-"Limaria hemphilli",1.86,2
-"Lineidae",3.95,48
-"Listriella eriopisa",64.17,2
-"Listriella goleta",-18.66,30
-"Listriella melanica",5.79,7
-"Lucinisca nuttalli",-36.17,4
-"Lumbrineris cruzensis",-20.61,2
-"Lumbrineris erecta",83.58,8
-"Lumbrineris japonica",-25.17,20
-"Lumbrineris latreilli",16.12,6
-"Lumbrineris limicola",2.9,1
-"Lyonsia californica",43.7,53
-"Lysippe sp",-37.8,7
-"Macoma nasuta",45.88,4
-"Macoma yoldiformis",-9.17,27
-"Mactrotoma californica",5.1,19
-"Malacoplax californiensis",14.4,7
-"Maldanidae",26.05,48
-"Malmgreniella sp",-25.45,22
-"Marphysa angelensis",97.81,2
-"Marphysa disjuncta",-5.9,21
-"Mayerella acanthopoda",22.25,39
-"Mediomastus sp",57.83,127
-"Megalomma pigmentum",44.39,27
-"Melinna sp",-4.79,18
-"Metasychis disparidentatus",85.83,30
-"Micropodarke dubia",-0.84,2
-"Microspio pigmentata",-2.26,7
-"Molgula sp",46.61,7
-"Monocorophium acherusicum",61.68,33
-"Monocorophium insidiosum",103.41,14
-"Monticellina cryptica",0.22,28
-"Monticellina siblina",8.29,34
-"Musculista senhousia",68.04,102
-"Mysidopsis californica",48.64,11
-"Mysidopsis intii",-1.99,2
-"Mytilus sp",6.74,2
-"Naineris dendritica",59.99,1
-"Nassarius perpinguis",0.77,1
-"Nassarius tiarula",55.79,37
-"Naushonia macginitiei",68.98,4
-"Neanthes acuminata Cmplx",58.87,46
-"Nebalia pugettensis Cmplx",40.61,2
-"Nemertea",33.99,71
-"Neotrypaea sp",30.33,32
-"Nephtys caecoides",35.51,14
-"Nephtys cornuta",20.4,12
-"Nephtys simoni",25.38,3
-"Nereis procera",-31.64,13
-"Notomastus sp",13.54,28
-"Nuculana taphria",-18.2,28
-"Odontosyllis phosphorea",26.1,16
-"Odostomia sp",37.99,3
-"Oligochaeta",69.95,74
-"Ophiactis simplex",14.68,5
-"Ophiodromus pugettensis",18.13,7
-"Ostrea sp",28.83,1
-"Owenia collaris",-29.2,7
-"Oxyurostylis pacifica",32.66,31
-"Paleanotus bellis",1.83,1
-"Paracerceis sculpta",40.15,28
-"Paradexamine sp SD1",53.69,11
-"Paramage scutata",-16.52,21
-"Paramicrodeutopus schmitti",9.8,7
-"Parandalia fauveli",-18.11,2
-"Paranemertes californica",34.24,40
-"Paraprionospio pinnata",11.36,43
-"Pareurythoe californica",18.38,1
-"Parvilucina tenuisculpta",-17.92,5
-"Pectinaria californiensis",29.76,7
-"Periploma discus",-15.03,16
-"Petaloclymene pacifica",-17.4,57
-"Pherusa negligens",30.94,14
-"Pherusa neopapillata",39.25,4
-"Philine sp",6.68,56
-"Pholoe sp",-19.28,2
-"Phoronida",99.34,108
-"Photis brevipes",-30.43,7
-"Phyllodoce hartmanae",2.22,2
-"Phyllodoce longipes",-10.79,2
-"Pinnixa sp",-16.57,7
-"Pista percyi",42.02,48
-"Pista wui",4.05,19
-"Pitar newcombianus",-34,4
-"Platynereis bicanaliculata",-3.36,5
-"Podarkeopsis glabrus",71.13,4
-"Podarkeopsis sp A",-41.7,1
-"Podocerus fulanus",21.56,39
-"Poecilochaetus johnsoni",-6.59,2
-"Poecilochaetus sp A",1.61,25
-"Polycirrus sp",0.43,6
-"Polydora cirrosa",13.96,3
-"Polydora cornuta",28.47,11
-"Polydora nuchalis",108.42,2
-"Polyophthalmus pictus",0.86,1
-"Pontogeneia rostrata",135.94,1
-"Postasterope barnesi",5.04,15
-"Praxillella pacifica",-0.82,19
-"Prionospio (Minuspio) lighti",7.18,31
-"Prionospio (Prionospio) jubata",3.87,9
-"Protocirrineris sp B",45.72,4
-"Protodorvillea gracilis",5.83,1
-"Protohyale frequens",89.86,8
-"Protothaca sp",55.94,15
-"Pseudopolydora paucibranchiata",81.68,87
-"Pyromaia tuberculata",18.03,13
-"Rhamphidonta retifera",-27.21,2
-"Rictaxis punctocaelatus",8.27,2
-"Rochefortia coani",-22.98,10
-"Rochefortia compressa",-23.39,1
-"Rochefortia grippi",13.66,3
-"Rochefortia tumida",-18.26,7
-"Rudilemboides sp",-6,56
-"Rutiderma judayi",48.25,1
-"Sabellides manriquei",-26.57,7
-"Saxidomus nuttalli",31.98,2
-"Scalibregma californicum",-29.21,7
-"Schmittius politus",63.28,16
-"Scleroplax granulata",13.05,30
-"Scolanthus sp B",43.82,17
-"Scolelepis (Parascolelepis) sp",22.88,16
-"Scolelepis (Scolelepis) sp",46.06,3
-"Scoletoma sp A",19.73,40
-"Scoletoma sp B",37.52,29
-"Scoletoma sp C",74.27,96
-"Scoletoma tetraura Cmplx",45.45,5
-"Scoloplos acmeceps",18.01,15
-"Scyphoproctus oculatus",25.42,5
-"Semele venusta",-4.17,1
-"Sinocorophium heteroceratum",-3.18,11
-"Solen rostriformis",25.05,23
-"Solen sicarius",0.37,3
-"Sphaerosyllis californiensis",15.45,2
-"Spio maculata",33.08,4
-"Spiochaetopterus costarum",-0.49,20
-"Spiophanes berkeleyorum",2.29,8
-"Spiophanes bombyx",-26.86,1
-"Spiophanes duplex",31.79,51
-"Sthenelais tertiaglabra",-32.41,3
-"Sthenelanella uniformis",-11.01,5
-"Streblosoma sp",7.79,13
-"Streblospio benedicti",61.82,19
-"Sulcoretusa xystrum",18.85,1
-"Syllis (Syllis) gracilis",-3.65,5
-"Tagelus subteres",37.28,18
-"Tellina cadieni",42.42,27
-"Tellina idae",5.08,1
-"Tellina meropsis",33.51,28
-"Tellina modesta",11.16,13
-"Tenonia priops",6.31,14
-"Theora lubrica",46.64,97
-"Thyasira flexuosa",-10.69,16
-"Thysanocardia nigra",33.98,4
-"Trachycardium quadragenarium",11.34,2
-"Tryonia sp",127.94,5
-"Tubulanus sp",0.6,77
-"Turbellaria",44.94,11
-"Turbonilla sp",-17.55,4
-"Vargula tsujii",-7.88,1
-"Venerupis philippinarum",53.88,8
-"Vitrinella oldroydi",-0.24,4
-"Volvulella panamica",-31.26,15
-"Zaolutus actius",42.55,2
-"Zeuxo normani",54.16,37
+"Acteocina culcitella",4.9242949388,3
+"Acteocina harpa",-8.353899397,4
+"Acteocina inculta",110.14822329,10
+"Acuminodeutopus heteruropus",53.563846501,8
+"Alderia modesta",50.015981051,1
+"Alia carinata",16.675525376,4
+"Alienacanthomysis macropsis",-1.348994461,2
+"Alpheus californiensis",53.596109292,30
+"Amaeana occidentalis",-14.49334546,13
+"Amathimysis trigibba",16.078051206,1
+"Ambidexter panamensis",76.060247142,13
+"Ampelisca agassizi",37.320935319,1
+"Ampelisca brachycladus",-18.30195124,13
+"Ampelisca brevisimulata",-30.75477799,15
+"Ampelisca lobata",2.2911243322,1
+"Ampharete labrops",-19.74965799,16
+"Amphicteis scaphobranchiata",6.3320841065,25
+"Amphideutopus oculatus",-0.357155467,81
+"Amphiodia sp",8.364538189,37
+"Amphipholis squamata",22.699178555,55
+"Ampithoe lacertosa",72.064983945,1
+"Ampithoe plumulosa",38.31695808,1
+"Ampithoe valida",90.964755867,6
+"Anemonactis sp",45.22162313,9
+"Anoplodactylus erectus",55.789747852,31
+"Anoplodactylus viridintestinalis",91.22761302,3
+"Anotomastus gordiodes",15.831572437,5
+"Aonides sp",-21.86613245,3
+"Aphelochaeta glandaria Cmplx",101.93158034,6
+"Aphelochaeta monilaris",-15.18764008,8
+"Aphelochaeta petersenae",145.34380189,7
+"Aphelochaeta sp",104.65050285,8
+"Apionsoma misakianum",9.9251044105,6
+"Apolochus barnardi",2.6031054729,1
+"Apoprionospio pygmaea",14.957260228,10
+"Arabella sp",40.699138027,1
+"Argopecten ventricosus",9.6369121589,2
+"Aricidea (Acmira) catherinae",-16.99713539,1
+"Aricidea (Acmira) horikoshii",-21.04384267,1
+"Armandia brevis",7.0739960518,30
+"Aruga sp",85.155543148,11
+"Ascidiacea",77.776362782,9
+"Asteropella slatteryi",15.860205822,1
+"Asthenothaerus diegensis",9.3968221,36
+"Astyris aurantiaca",-28.92525429,8
+"Barleeia sp",21.324529847,30
+"Bemlos macromanus",31.056212716,9
+"Betaeus ensenadensis",15.681357182,2
+"Bispira sp",33.899451209,2
+"Boccardia basilaria",-30.55981783,1
+"Boccardiella hamata",89.889539287,3
+"Branchiostoma californiense",-6.245776348,1
+"Brania sp",9.3747711619,11
+"Bulla gouldiana",64.473133089,15
+"Cadulus aberrans",-26.09425503,15
+"Caecum californicum",5.1018592734,11
+"Caecum occidentale",-1.223111054,1
+"Campylaspis rubromaculata",7.3175507925,4
+"Capitella capitata Cmplx",130.84249673,33
+"Caprella californica",0.8177704601,13
+"Caprella equilibra",9.0439438937,1
+"Caprella verrucosa",19.975521561,3
+"Caulleriella pacifica",34.047330719,4
+"Cerapus tubularis Cmplx",-22.10162491,1
+"Ceriantharia",18.784537752,8
+"Cerithidea californica",112.84033183,6
+"Chaetopterus variopedatus Cmplx",-5.242856578,2
+"Chaetozone corona",-9.85128403,32
+"Chione californiensis",50.096547421,5
+"Chone albocincta",-16.05150732,4
+"Chone minuta",19.661208466,3
+"Chone veleronis",-3.938047661,1
+"Cirratulus sp",55.640313195,5
+"Cirriformia sp",89.043977159,17
+"Cirrophorus furcatus",-37.35445764,2
+"Compsomyax subdiaphana",-22.84158765,14
+"Conus californicus",-24.01599569,1
+"Cooperella subdiaphana",-8.378979585,11
+"Corbula porcella",-38.44527345,2
+"Corymorpha sp",44.43132945,5
+"Cossura candida",33.970385864,23
+"Cossura sp A",49.794335417,65
+"Crangon alaskensis",-8.233607492,1
+"Crepidula onyx",15.650355841,17
+"Crepipatella dorsata",123.06128034,12
+"Crucibulum spinosum",23.497109285,12
+"Cryptomya californica",32.447867369,13
+"Cylichna diegensis",-30.04179049,7
+"Decamastus gracilis",12.01926071,1
+"Demonax sp",105.20498388,1
+"Diopatra ornata",-2.612807496,14
+"Diopatra splendidissima",6.9324190705,1
+"Diopatra tridentata",-29.48559152,5
+"Diplocirrus sp SD1",46.611422846,62
+"Diplodonta sericata",-3.840675953,2
+"Dipolydora sp",56.562086661,7
+"Dorvillea (Schistomeringos) sp",38.120833355,33
+"Drilonereis mexicana",45.174721253,4
+"Edotia sublittoralis",4.2902477293,2
+"Edwardsia californica",47.580587477,28
+"Edwardsia sp G",-2.979699302,2
+"Elasmopus bampo",39.897051875,12
+"Ensis myrae",-16.54551654,1
+"Enteropneusta",-10.03425556,11
+"Eochelidium sp A",52.731715094,27
+"Epitonium hindsii",36.218757575,1
+"Erichsonella crenulata",28.951801526,1
+"Ericthonius brasiliensis",16.862107304,14
+"Eteone sp",47.421940097,21
+"Euchone incolor",48.474289844,1
+"Euchone limnicola",76.265710317,51
+"Euclymeninae sp A",18.949369374,18
+"Euphilomedes carcharodonta",57.23740693,38
+"Eupolymnia heterobranchia",27.801032827,1
+"Exogone dwisula",52.842988361,4
+"Exogone lourei",41.855022345,80
+"Fabricinuda limnicola",50.029075299,50
+"Gammaropsis thompsoni",-35.0939563,4
+"Gibberosus myersi",-18.88131829,1
+"Glottidia albida",-9.447038564,4
+"Glycera americana",29.810318036,78
+"Glycera macrobranchia",-13.75295085,1
+"Glycera nana",17.368081455,3
+"Glycinde armigera",28.222171939,3
+"Gnathiidae",2.1875806415,7
+"Goniada littorea",16.629863156,19
+"Goniada maculata",-14.95220836,7
+"Grandidierella japonica",105.98320386,71
+"Halcampidae",21.570442289,3
+"Halosydna johnsoni",19.347804012,1
+"Haminoea vesicula",29.868273668,27
+"Harmothoe imbricata Cmplx",26.754783038,17
+"Harpacticoida",32.908446514,4
+"Hartmanodes hartmanae",31.379525007,27
+"Hemipodia borealis",-11.75753032,1
+"Hemiproto sp A",16.042033804,1
+"Heteromysis odontops",40.265098172,7
+"Heterophoxus oculatus",45.69979945,1
+"Hiatella arctica",-14.89613668,3
+"Hippolyte californiensis",42.411788976,10
+"Hippomedon sp",23.619822395,3
+"Hyalidae",19.150748062,7
+"Hydroides elegans",28.099191378,1
+"Iselica ovoidea",64.260650703,1
+"Jassa slatteryi",30.435782059,1
+"Kalliapseudes crassus",11.561255472,1
+"Kurtziella plumbea",-16.60308392,1
+"Laevicardium substriatum",40.384416339,69
+"Laonice cirrata",-27.89323086,30
+"Leitoscoloplos pugettensis",64.430386263,117
+"Lepidonotus sp",-0.301413913,2
+"Leporimetis obesa",-12.29505918,10
+"Leptochelia dubia",-9.362482876,48
+"Leptopecten latiauratus",11.923400964,9
+"Leptosynapta sp",3.6419766324,38
+"Leucothoe alata",2.2911243322,8
+"Leuroleberis sharpei",0.0578599919,1
+"Levinsenia gracilis",-10.45877163,7
+"Limaria hemphilli",1.8685766279,2
+"Lineidae",3.9557490611,48
+"Listriella eriopisa",64.174646144,2
+"Listriella goleta",-18.66310753,30
+"Listriella melanica",5.7956960583,7
+"Lucinisca nuttalli",-36.17693151,4
+"Lumbrineris cruzensis",-20.61965317,2
+"Lumbrineris erecta",83.584366879,8
+"Lumbrineris japonica",-25.17066701,20
+"Lumbrineris latreilli",16.121682551,6
+"Lumbrineris limicola",2.9048451216,1
+"Lyonsia californica",43.701280954,53
+"Lysippe sp",-37.80808281,7
+"Macoma nasuta",45.888415453,4
+"Macoma yoldiformis",-9.177529625,27
+"Mactrotoma californica",5.1071165348,19
+"Malacoplax californiensis",14.403104497,7
+"Maldanidae",26.054237095,48
+"Malmgreniella sp",-25.45976205,22
+"Marphysa angelensis",97.8190499,2
+"Marphysa disjuncta",-5.906467936,21
+"Marphysa sp B",84.973513565,4
+"Mayerella acanthopoda",22.256125395,39
+"Mediomastus sp",57.835165119,127
+"Megalomma pigmentum",44.393181516,27
+"Melanochlamys diomedea",8.7643019316,1
+"Melinna sp",-4.798024871,18
+"Metamysidopsis elongata",20.076353563,3
+"Metasychis disparidentatus",85.834308172,30
+"Micropodarke dubia",-0.8460228,2
+"Microspio microcera",2.5841656972,1
+"Microspio pigmentata",-2.26044449,7
+"Molgula sp",46.610080945,7
+"Monocorophium acherusicum",61.68529117,33
+"Monocorophium insidiosum",103.41852217,14
+"Monticellina cryptica",0.2211809813,28
+"Monticellina siblina",8.2948049723,34
+"Musculista senhousia",68.04816597,102
+"Mysidopsis californica",48.648229703,11
+"Mysidopsis intii",-1.994884554,2
+"Mytilus sp",6.7412447225,2
+"Naineris dendritica",59.995670026,1
+"Nassarius perpinguis",0.7724109742,1
+"Nassarius tiarula",55.799814722,37
+"Naushonia macginitiei",68.980571299,4
+"Neanthes acuminata Cmplx",58.875846741,46
+"Neastacilla californica",1.3309034341,5
+"Nebalia pugettensis Cmplx",40.617251724,2
+"Nemertea",33.990543223,71
+"Neotrypaea sp",30.337914733,32
+"Nephtys caecoides",35.511183664,14
+"Nephtys californiensis",-2.333127847,1
+"Nephtys cornuta",20.401780493,12
+"Nephtys simoni",25.383061774,3
+"Nereis procera",-31.64244393,13
+"Notomastus sp",13.547510644,28
+"Nuculana taphria",-18.20248779,28
+"Odontosyllis phosphorea",26.108676533,16
+"Odostomia sp",37.995435685,3
+"Oligochaeta",69.9587992,74
+"Onuphis sp",17.027571421,1
+"Ophiactis simplex",14.68999525,5
+"Ophiodromus pugettensis",18.131261845,7
+"Ostrea sp",28.830579967,1
+"Owenia collaris",-29.20788261,7
+"Oxyurostylis pacifica",32.660009311,31
+"Paleanotus bellis",1.8346758081,1
+"Paracaprella sp",28.222840157,3
+"Paracerceis sculpta",40.150577037,28
+"Paradexamine sp SD1",53.695443978,11
+"Paramage scutata",-16.52175523,21
+"Paramicrodeutopus schmitti",9.8064830581,7
+"Parandalia fauveli",-18.11492863,2
+"Paranemertes californica",34.247389455,40
+"Paraprionospio pinnata",11.369760574,43
+"Pareurythoe californica",18.383230707,1
+"Parvilucina tenuisculpta",-17.92079408,5
+"Pectinaria californiensis",29.763666348,7
+"Peramphithoe sp",-13.84332099,1
+"Periploma discus",-15.03098509,16
+"Petaloclymene pacifica",-17.40419383,57
+"Pherusa capulata",29.654243219,10
+"Pherusa negligens",30.945024027,14
+"Pherusa neopapillata",39.251445068,4
+"Philine sp",6.6834670787,56
+"Pholoe sp",-19.28676411,2
+"Phoronida",99.344079858,108
+"Photis brevipes",-30.43818532,7
+"Photis californica",-42.04662852,1
+"Phyllodoce hartmanae",2.2202489455,2
+"Phyllodoce longipes",-10.79605748,2
+"Pinnixa sp",-16.57878402,7
+"Pista percyi",42.020980278,48
+"Pista sp",97.499788913,8
+"Pista wui",4.0563342659,19
+"Pitar newcombianus",-34.0095603,4
+"Platynereis bicanaliculata",-3.36546107,5
+"Podarkeopsis glabrus",71.1359426,4
+"Podarkeopsis sp A",-41.70186723,1
+"Podocerus fulanus",21.56207237,39
+"Poecilochaetus johnsoni",-6.596849042,2
+"Poecilochaetus sp A",1.6174093252,25
+"Polycirrus sp",0.4331214996,6
+"Polydora cirrosa",13.968282371,3
+"Polydora cornuta",28.470571097,11
+"Polydora nuchalis",108.42040478,2
+"Polyophthalmus pictus",0.8694355883,1
+"Pontogeneia rostrata",135.94039038,1
+"Postasterope barnesi",5.0474415987,15
+"Praxillella pacifica",-0.824379943,19
+"Prionospio (Minuspio) lighti",7.1822616117,31
+"Prionospio (Prionospio) jubata",3.8783683115,9
+"Protocirrineris sp B",45.721322242,4
+"Protodorvillea gracilis",5.8381633419,1
+"Protohyale frequens",89.863402403,8
+"Protothaca sp",55.943797476,15
+"Pseudopolydora paucibranchiata",81.682720837,87
+"Pyromaia tuberculata",18.032317482,13
+"Rhamphidonta retifera",-27.2108831,2
+"Rhepoxynius heterocuspidatus",37.783148798,1
+"Rhynchospio glutaea",22.718268585,3
+"Rictaxis punctocaelatus",8.2770303992,2
+"Rochefortia coani",-22.98800902,10
+"Rochefortia compressa",-23.39560417,1
+"Rochefortia grippi",13.666047906,3
+"Rochefortia tumida",-18.26868383,7
+"Rudilemboides sp",-6.00362877,56
+"Rutiderma judayi",48.255055426,1
+"Sabellides manriquei",-26.57111567,7
+"Saxidomus nuttalli",31.983057022,2
+"Scalibregma californicum",-29.2187692,7
+"Schmittius politus",63.283932638,16
+"Scleroplax granulata",13.059207848,30
+"Scolanthus sp B",43.827977634,17
+"Scolelepis (Scolelepis) sp",46.063540654,3
+"Scoletoma sp A",19.737601778,40
+"Scoletoma sp B",37.523280344,29
+"Scoletoma sp C",74.272645626,96
+"Scoletoma tetraura Cmplx",45.457600233,5
+"Scoloplos acmeceps",18.012243892,15
+"Scoloplos armiger Cmplx",-0.478162624,1
+"Scyphoproctus oculatus",25.424014651,5
+"Semele venusta",-4.171435079,1
+"Sinocorophium heteroceratum",-3.186498345,11
+"Solen rostriformis",25.050931521,23
+"Solen sicarius",0.3723490301,3
+"Sphaerosyllis californiensis",15.459449368,2
+"Spio maculata",33.087613356,4
+"Spiochaetopterus costarum",-0.495597747,20
+"Spiophanes berkeleyorum",2.2979804504,8
+"Spiophanes bombyx",-26.86327485,1
+"Spiophanes duplex",31.794820861,51
+"Sthenelais tertiaglabra",-32.41737067,3
+"Sthenelanella uniformis",-11.01166871,5
+"Streblosoma sp",7.792748837,13
+"Streblospio benedicti",61.825799611,19
+"Styela sp",30.02957713,3
+"Sulcoretusa xystrum",18.852647102,1
+"Syllis (Syllis) gracilis",-3.654858105,5
+"Tagelus affinis",30.333084483,70
+"Tagelus subteres",37.282868851,18
+"Tellina cadieni",42.428798239,27
+"Tellina idae",5.0857001537,1
+"Tellina meropsis",33.518906483,28
+"Tellina modesta",11.169823866,13
+"Tenonia priops",6.317114838,14
+"Terebellidae",-1.585495558,6
+"Theora lubrica",46.646768387,97
+"Thyasira flexuosa",-10.69727514,16
+"Thysanocardia nigra",33.983698021,4
+"Trachycardium quadragenarium",11.342049628,2
+"Tryonia sp",127.9489469,5
+"Tubulanus sp",0.6056412604,77
+"Turbellaria",44.945531964,11
+"Turbonilla sp",-17.55490132,4
+"Upogebia sp",96.197670322,3
+"Vargula tsujii",-7.886519498,1
+"Venerupis philippinarum",53.880310832,8
+"Vitrinella oldroydi",-0.243297358,4
+"Volvulella panamica",-31.26262325,15
+"Zaolutus actius",42.550037683,2
+"Zeuxo normani",54.168450011,37
