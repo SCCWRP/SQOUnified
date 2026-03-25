@@ -4,6 +4,25 @@
 #and produce both interim and final output files
 #IMPORTANT - The indices contained in this calculator are only intended for Southern California embayments (i.e., not offshore)
 
+#V2.0 Includes improvements suggested by the index code committee's feedback.
+#From a calculation standpoint, there are two adjustments
+# 1. The SQO taxa lookup list from the online excel SQO calculator is used versus the the original SQO lookup list. This version of
+# the lookup list from ~2008/2009 is slightly longer and has a few more taxa with assigned tolerance values and sensitive designations
+# 2. The exclude code notation is used to eliminate ambiguous taxa in a given sample versus the drop taxa designation used in
+# the excel calculator and the original lookup list.
+#From an operational standpoint, there are two adjustments:
+# 1. the calculator now produces two formats of output - the first is an excel workbook containing all of the final BLOE scores, as well as,
+#the details of the individual indices. these are supplemented with individual csv files of the interim steps of index calculation. The
+#second format is a list of r objects/dataframes in your local r environment so that you can directly call them
+#(i.e., filename$sqo_bloe_w_mambi) and work on them without having to load in the csv/excel file.
+# 2. An initial interim file is produced that highlights the taxa that have been submitted, but are not on the SQO look up list for
+#Southern California. This file provides suggested taxa names to account for typos, mispellings, or naming convention differences. It
+#is incumbent upon to use to correct any errors in their data set and run the calculator again. It is IMPORTANT to note that these
+#suggestions are solely to help correct spelling (Tellinna sp B vs. Tellina sp B) or naming convention (Heterophoxus cf ellisi vs.
+# Heterophoxus ellisi). They are not meant as taxonomic change suggestions (Scoletoma sp A vs. Scoletoma sp). The calculator already
+#has a series of functions to account for these types of taxonomic roll ups.
+
+
 #This function requires that you have the following packages installed on your machine:
 #       1. tidyverse
 #       2. naniar
@@ -11,6 +30,7 @@
 #       4. vegan
 #       5. janitor
 #       6. messydates
+#       7. fuzzyjoin
 #
 # in your r environments you can install packages with:  install.packages(".......")
 
@@ -45,12 +65,14 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
   require(vegan)
   require(messydates)
   require(janitor)
+  require(fuzzyjoin)
   source("R/sqo component indices/alt SQO BRI - generic.R")
   source("R/sqo component indices/alt IBI - generic.R")
   source("R/sqo component indices/alt RBI - generic.R")
   source("R/sqo component indices/alt RIVPACS - generic.R")
   source("R/sqo component indices/alt MAMBI - generic.R")
   load("Reference Files/ed14_to_SQO.RData")#loading in files to convert from Ed14 taxonomy to SQO compatible taxonomy
+  load("Reference Files/SoCal SQO xls LU.RData")#loading in SQO look up list
 
   print(paste("saving files to ", output_path, sep=""))
 
@@ -69,17 +91,17 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
 
   #Step 1 is to take one to one changes and swap the new names back to their old version
   one.to.one<-SoCal.SQO.ed14.link %>%
-    select(Original.SQO.Taxon, Ed.14.Taxon, change, type) %>%
-    filter(type%in%c("one-to-one", "spelling", "worms", "removed"))
+    select(original_sqo_taxon, ed_14_taxon, change, type) %>%
+    filter(type%in%c("one-to-one", "convention", "worms", "removed"))
 
   BenthicData.0<-BenthicData %>%
-    left_join(., one.to.one, by=c("taxon"="Ed.14.Taxon")) %>%
-    relocate(Original.SQO.Taxon, .before = taxon) %>%
-    mutate(taxon.2=if_else(is.na(Original.SQO.Taxon), taxon, Original.SQO.Taxon),
+    left_join(., one.to.one, by=c("taxon"="ed_14_taxon")) %>%
+    relocate(original_sqo_taxon, .before = taxon) %>%
+    mutate(taxon.2=if_else(is.na(original_sqo_taxon), taxon, original_sqo_taxon),
            change_type=if_else(is.na(type), "",type),
-           taxa_changed=if_else(is.na(Original.SQO.Taxon),"",taxon)) %>%
+           taxa_changed=if_else(is.na(original_sqo_taxon),"",taxon)) %>%
 
-    select(-taxon, -type, -change, -Original.SQO.Taxon)
+    select(-taxon, -type, -change, -original_sqo_taxon)
 
 
 
@@ -148,6 +170,20 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
    rename(taxon=taxon.4, abundance=abundance.2) %>%
    relocate(taxon, abundance, .after=sampledate)
 
+#Creating an unmatched taxa list to highlight taxa that aren't on the SQO look up list due to mis-spellings, extra spaces, etc
+
+  unmatched_taxa<-BenthicData.3 %>%
+    left_join(., xl_tool.SoCalLUList, by=c("taxon"="TaxonName")) %>%
+    select(exclude, stationid, replicate, taxon, Phylum, Class, Order, Family, ToleranceScore, IBISensitive, Mollusc, Crustacean) %>%
+    mutate(unmatched_flag=case_when(exclude!="Yes" & is.na(Phylum) & is.na(ToleranceScore) & is.na(IBISensitive) & is.na(Mollusc) & is.na(Crustacean)~"unmatched",
+                             TRUE~"matching")) %>%
+    filter(unmatched_flag=="unmatched") %>%
+    select(stationid, replicate, taxon) %>%
+    filter(taxon!="NoOrganismsPresent") %>%
+    stringdist_left_join(., select(xl_tool.SoCalLUList, TaxonName), by=c("taxon"="TaxonName"), max_dist=2) %>%
+    rename(did_you_mean=TaxonName, not_on_LU_list=taxon)
+
+  write.csv(unmatched_taxa, paste(output_path, "/", file_id," interim data prep file - taxa sumitted but not on SQO lu list.csv", sep=""), row.names = FALSE)
 
 
   #### running each of the individual benthic indices on the newly created "retrofit" data ####
@@ -234,13 +270,13 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
   # as M-AMBI is not included in the calculation of the traditional BLOE it is provided on a separate tab to avoid confusion.
 
   dataset_names <- list("sqo_bloe"=BLOE.scores.x, "sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x, "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x,
-                        "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI, "mambi"=mambi.scores.sqoformat)
+                        "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI, "mambi"=mambi.scores.sqoformat, "potential_mismatches"=unmatched_taxa)
 
   #export each data frame to separate sheets in same Excel file
   write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " SQO BLOE output summary.xlsx", sep=""))
 
   BLOE.scores.w.MAMBI<-list("sqo_bloe"=BLOE.scores.x, "sqo_bloe_w_mambi" =BLOE.scores.w.MAMBI,"sqo_bri"=bri.scores.x, "ibi"=ibi.scores.x,
-            "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x,"mambi"=mambi.scores.sqoformat)
+            "rbi"=rbi.scores.x, "rivpacs"=rivpacs.scores.x,"mambi"=mambi.scores.sqoformat, "sqo_potential_mismatches"=unmatched_taxa)
 
 
   #putting the BLOE+MAMBI final scores into the R environment for the user to view

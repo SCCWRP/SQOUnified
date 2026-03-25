@@ -24,6 +24,7 @@
 #       2. openxlsx
 #       3. janitor
 #       4. messydates
+#       5. fuzzyjoin
 #
 # in your r environments you can install packages with:  install.packages(".......")
 
@@ -59,6 +60,7 @@ require(tidyverse)
 require(openxlsx)
 require(janitor)
 require(messydates)
+require(fuzzyjoin)
 
 ####Input files
 infauna <- read.csv(infauna_path) #the user's infauna to be submitted
