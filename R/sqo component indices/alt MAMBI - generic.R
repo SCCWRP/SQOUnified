@@ -5,9 +5,9 @@
 #     Sigovini et al. 2013 and Muxica et al. 2007.
 #
 #     The function is designed for use in US estuarine waters and requires three arguments:
-#     BenthicData, EG_Ref_values, and EG_Scheme. More details are given below.
+#     benthic_data, EG_Ref_values, and EG_Scheme. More details are given below.
 #
-#     BenthicData is a data frame with that must have the following fields (additional fields related to
+#     benthic_data is a data frame with that must have the following fields (additional fields related to
 #     station information are okay):
 #            1. stationid - an alpha-numeric identifier of the sample site
 #            2. replicate - serial number identifying the number of replicate samples during a given event
@@ -37,11 +37,11 @@
 #                 1. file_id - this is a quoted string for you to identify the data the M-AMBI scores are associated with
 #                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
 #                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
-#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#                 3. benthic_data - a data frame containing the benthic data and the station information, detailed above
 #
 # This function will produce a csv file of final M-AMBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
 #     submitted data that have EG values assigned and one for taxa in the submitted data that do not have an EG value assigned.
-alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", output_path, file_id)
+alt.MAMBI.generic<-function(benthic_data, EG_Ref_values = NULL, EG_Scheme="Hybrid", output_path, file_id)
 {
 
   # loading in required reference files
@@ -65,7 +65,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
 
 
 
-  Input_File.0 <- BenthicData %>%
+  Input_File.0 <- benthic_data %>%
     mutate(
       Species_ended_in_sp = (str_detect(taxon," sp$")),
       taxon=(str_replace(taxon, " sp$",""))) %>%
@@ -90,8 +90,9 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
 
   EG_to_use <- EG_Ref_values %>%
     select(all_of(EG_Scheme),Taxon, Exclude )%>%
-    relocate(Taxon, Exclude, EG_Scheme) %>%
-    rename(EG=EG_Scheme) %>%
+    rename(EG=all_of(EG_Scheme)) %>%
+    relocate(Taxon, Exclude, EG) %>%
+
     mutate(EG = ifelse(Taxon=="Oligochaeta", "V", EG))
 
 
@@ -131,7 +132,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   taxa_w_EG<-EG.Assignment %>%
     filter(EG%in%c("I", "II", "III", "IV", "V")) %>%
     group_by(taxon, EG) %>%
-    summarise(total_abundance=sum(abundance))
+    summarise(total_abundance=sum(abundance), .groups = "drop_last")
 
   write.csv(taxa_w_EG, file=paste(output_path, "/", file_id, " M-AMBI interim 1 - taxa with EG values.csv", sep=""), row.names = FALSE)
 
@@ -139,7 +140,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   taxa_wo_EG<-EG.Assignment %>%
     filter(is.na(EG)|EG=="") %>%
     group_by(taxon) %>%
-    summarise(total_abundance=sum(abundance))
+    summarise(total_abundance=sum(abundance), .groups = "drop_last")
 
   write.csv(taxa_wo_EG, file=paste(output_path, "/", file_id, " M-AMBI interim 2 - taxa without EG values.csv", sep=""), row.names = FALSE)
 
@@ -181,7 +182,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   # Calculating AMBI for each sample
   AMBI.Scores<-EG.Assignment %>%
     group_by(stationid, replicate, sampledate,tot_abun,EG) %>%
-    summarise(sum_rel=sum(rel_abun)) %>%
+    summarise(sum_rel=sum(rel_abun), .groups = "drop_last") %>%
     ungroup() %>%
     replace_na(list(EG="NoEG")) %>%
     mutate(
@@ -194,14 +195,14 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
         EG == "NoEG" ~ 0)) %>%
     mutate(EG_Score=ifelse(tot_abun==0,7,EG_Score)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(ambi_score=(sum(EG_Score, na.rm=TRUE)/100)) %>%
+    summarise(ambi_score=(sum(EG_Score, na.rm=TRUE)/100), .groups = "drop_last") %>%
     ungroup()
 
  #Calculating taxa richness for each sample
    Rich<-Input_File %>%
     filter(exclude!="Yes") %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(S=length(taxon)) %>%
+    summarise(S=length(taxon), .groups = "drop_last") %>%
     ungroup()
 
   #Rich$S<-as.numeric(Rich$S)
@@ -299,12 +300,12 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   {
 
     TF.EG.Assignment <- EG.Assignment %>% filter(SalZone=="TF")
-    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(.,Taxon, Exclude, EG=EG_Scheme, Oligochaeta)
+    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(.,Taxon, Exclude, EG=all_of(EG_Scheme), Oligochaeta)
 
    # calculate AMBI scores for each sample
      TF.AMBI.Scores <- TF.EG.Assignment %>%
       group_by(stationid, replicate, sampledate, tot_abun, EG, rel_abun) %>%
-      summarise(sum_rel=sum(rel_abun)) %>%
+      summarise(sum_rel=sum(rel_abun), .groups = "drop_last") %>%
       ungroup() %>%
       replace_na(list(EG="NoEG")) %>%
       mutate(
@@ -316,7 +317,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
           EG == "V" ~ sum_rel*6,
           EG == "NoEG" ~ 0)) %>%
       group_by(stationid, replicate, sampledate) %>%
-      summarise(ambi_score = sum(EG_Score)/100) %>%
+      summarise(ambi_score = (sum(EG_Score)/100), .groups = "drop_last") %>%
       ungroup()
 
     # calculate % oligochaetes in each sample
@@ -327,7 +328,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
       left_join(., TF.EG_Ref_values, by=c("taxon"="Taxon") ) %>%
       filter(Oligochaeta=="Yes", SalZone=="TF") %>%
       group_by(stationid, replicate, sampledate) %>%
-      summarise(oligo_pct = sum(abundance/tot_abun) * 100) %>%
+      summarise(oligo_pct = sum(abundance/tot_abun) * 100, .groups = "drop_last") %>%
       ungroup()
 
 
@@ -440,7 +441,7 @@ alt.MAMBI.generic<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid
   }
 
   #gathering all of the site/sample information that was initially submitted with the benthic data to attach to the m-ambi scores
-  station.info<-BenthicData %>%
+  station.info<-benthic_data %>%
     select(-taxon, -abundance, -exclude) %>%
     distinct()
 

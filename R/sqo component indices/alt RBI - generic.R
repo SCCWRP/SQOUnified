@@ -33,14 +33,14 @@
 #                 1. file_id - this is a quoted string for you to identify the data the RBI scores are associated with
 #                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
 #                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
-#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#                 3. benthic_data - a data frame containing the benthic data and the station information, detailed above
 #
 # This function will produce a csv file of final RBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
 #     submitted data and how they are classified by the index, the benthic data classified into RBI metrics, and the raw and scaled metrics for
 #     each sample.
 
 
-alt.RBI.generic <- function(BenthicData, output_path, file_id)
+alt.RBI.generic <- function(benthic_data, output_path, file_id)
 {
 
 
@@ -60,14 +60,14 @@ require(naniar)
                        note=NA)
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
-  defaunated<-BenthicData %>%
+  defaunated<-benthic_data %>%
     filter(taxon=="NoOrganismsPresent") %>%
     mutate(index="RBI",score=NaN, condition_category="High Disturbance", condition_category_score=4, note="Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
 
   # Prepare the given data frame so that we can compute the RBI score and categories
-  rbi_data <- BenthicData %>%
+  rbi_data <- benthic_data %>%
     select(stationid, replicate, sampledate,taxon, abundance, exclude) %>%
     #filter(exclude!="Yes") %>%
     left_join(xl_tool.SoCalLUList, by = c("taxon"="TaxonName")) %>%
@@ -99,7 +99,7 @@ require(naniar)
                                TRUE~1)) %>%
     #to keep richness values within the scope of the calibration data we do not count taxa not recognized by the original look up list
     group_by(stationid, sampledate, replicate) %>%
-    summarise(NumOfTaxa = sum(rich_flag)) %>%
+    summarise(NumOfTaxa = sum(rich_flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -110,7 +110,7 @@ require(naniar)
     mutate(flag=(case_when(Mollusc=="Mollusc"~1,
                            TRUE~0))) %>%
     group_by(stationid, sampledate, replicate) %>%
-      summarise(NumOfMolluscTaxa=sum(flag)) %>%
+      summarise(NumOfMolluscTaxa=sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -120,7 +120,7 @@ require(naniar)
     mutate(flag=case_when(Crustacean=="Crustacean"~1,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(NumOfCrustaceanTaxa = sum(flag)) %>%
+    summarise(NumOfCrustaceanTaxa = sum(flag), .groups = "drop_last") %>%
       ungroup()
 
 
@@ -129,7 +129,7 @@ require(naniar)
     mutate(flag=case_when(Crustacean=="Crustacean"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(CrustaceanAbun = sum(flag)) %>%
+    summarise(CrustaceanAbun = sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -138,7 +138,7 @@ require(naniar)
     mutate(flag=case_when(taxon == "Monocorophium insidiosum"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(M_insidiosumAbun = sum(flag)) %>%
+    summarise(M_insidiosumAbun = sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -147,7 +147,7 @@ require(naniar)
     mutate(flag=case_when(taxon == "Asthenothaerus diegensis"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(A_diegensisAbun = sum(flag)) %>%
+    summarise(A_diegensisAbun = sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -156,7 +156,7 @@ require(naniar)
     mutate(flag=case_when(taxon == "Goniada littorea"~abundance,
                           TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(G_littoreaAbun = sum(flag)) %>%
+    summarise(G_littoreaAbun = sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -165,7 +165,7 @@ require(naniar)
    mutate(badness=case_when(taxon %in% c( "Capitella capitata Cmplx","Oligochaeta")~ -0.1,
                             TRUE~0)) %>%
     group_by(stationid, replicate, sampledate) %>%
-    summarise(NIT = sum(badness)) %>%
+    summarise(NIT = sum(badness), .groups = "drop_last") %>%
     ungroup()
 
  # combine all the metrics into one data frame
@@ -230,7 +230,7 @@ require(naniar)
 
 
   #gathering the station information (i.e., non-taxonomic data) for each site
-  rbi.stations<-BenthicData %>%
+  rbi.stations<-benthic_data %>%
     select(-taxon, -abundance, -exclude) %>%
     distinct()
 

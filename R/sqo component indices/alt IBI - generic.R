@@ -22,12 +22,12 @@
 #                 1. file_id - this is a quoted string for you to identify the data the IBI scores are associated with
 #                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
 #                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
-#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#                 3. benthic_data - a data frame containing the benthic data and the station information, detailed above
 #
 # This function will produce a csv file of final IBI scores for each sample, as well as csv files of interim tables detailing the taxa in the
 #     submitted data and how they are classified by the index, as well as, the benthic data classified into IBI metrics.
 
-alt.IBI.generic <- function(BenthicData, output_path, file_id)
+alt.IBI.generic <- function(benthic_data, output_path, file_id)
 
 {
   require(tidyverse)
@@ -46,13 +46,13 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
                        note=NA)
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
-  defaunated<-BenthicData %>%
+  defaunated<-benthic_data %>%
     filter(taxon=="NoOrganismsPresent") %>%
     mutate(index="IBI",score=NaN, condition_category="High Disturbance", condition_category_score=4, note="Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
   # Prepare the given data frame so that we can compute the IBI score and categories
-  ibi_data <- BenthicData %>%
+  ibi_data <- benthic_data %>%
     #filter(exclude!="Yes") %>%
     left_join(xl_tool.SoCalLUList, by = c("taxon"="TaxonName")) %>%
 
@@ -82,7 +82,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
                                is.na(Phylum)~0,
                                TRUE~1)) %>%
     group_by(stationid, sampledate, replicate) %>%
-    summarise(NumOfTaxa =length(taxon))
+    summarise(NumOfTaxa =length(taxon), .groups = "drop_last")
 
 
   # Calculate mollusc taxa richness
@@ -91,7 +91,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
     mutate(flag=(case_when(Mollusc=="Mollusc"~1,
                            TRUE~0))) %>%
     group_by(stationid, sampledate, replicate) %>%
-    summarise(NumOfMolluscTaxa=sum(flag)) %>%
+    summarise(NumOfMolluscTaxa=sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -100,7 +100,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
     mutate(flag=case_when(str_detect(taxon,"Notomastus")~ abundance,
                           TRUE~0)) %>%
     group_by(stationid, sampledate, replicate) %>%
-    summarise(NotomastusAbun = sum(flag)) %>%
+    summarise(NotomastusAbun = sum(flag), .groups = "drop_last") %>%
     ungroup()
 
 
@@ -109,7 +109,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
     mutate(flag=case_when(IBISensitive=="S"~ 1,
                           TRUE~0) )%>%
     group_by(stationid, sampledate, replicate) %>%
-    summarise(sensitive_S=sum(flag)) %>%
+    summarise(sensitive_S=sum(flag), .groups = "drop_last") %>%
     ungroup() %>%
     left_join(ibi1, by=c("stationid", "sampledate", "replicate")) %>%
     mutate(PctSensTaxa=(sensitive_S/NumOfTaxa)*100) %>%
@@ -155,7 +155,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
     mutate(out_of_range=case_when(value<ref_low | value>ref_high ~1,
                                   TRUE~0)) %>%
     group_by(stationid, sampledate, replicate) %>%
-    summarise(score=sum(out_of_range)) %>%
+    summarise(score=sum(out_of_range), .groups = "drop_last") %>%
     ungroup() %>%
     #convert IBI scores to SQO categories and category scores
     mutate(index="IBI", .before=score) %>%
@@ -171,7 +171,7 @@ alt.IBI.generic <- function(BenthicData, output_path, file_id)
 
   #gathering the station information (i.e., non-taxonomic data) for each site
 
-  ibi.stations<-BenthicData %>%
+  ibi.stations<-benthic_data %>%
     select(-taxon, -abundance, -exclude) %>%
     distinct()
 

@@ -21,13 +21,13 @@
 #                 1. file_id - this is a quoted string for you to identify the data the BRI scores are associated with
 #                   e.g., "Bight 23" or "2024 San Diego Bay" - this will be used to name all of the output files
 #                 2. output_path - a quoted string detailing the location where you want the output files to be saved. Remember to use "/" not "\"
-#                 3. BenthicData - a data frame containing the benthic data and the station information, detailed above
+#                 3. benthic_data - a data frame containing the benthic data and the station information, detailed above
 #
 # This function will produce a csv file of final SQO BRI scores for each sample, as well as csv files of interim tables detailing the taxa in the
 #     submitted data that have tolerance values assigned and one for taxa in the submitted data that do not have an tolerance value assigned.
 
 
-alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=file_id)
+alt.SQO.BRI.generic <- function(benthic_data, output_path=output_path, file_id=file_id)
 
 {
   #loading in packages needed to run function
@@ -50,13 +50,13 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
 
   #in case a sample had no animals (e.g., taxon=NoOrganismsPresent), we force it into the High Disturbance category.
   #the calculator would not be able to process that sample and would drop it, so we deal with it apriori
-  defaunated<-BenthicData %>%
+  defaunated<-benthic_data %>%
     filter(taxon=="NoOrganismsPresent") %>%
     mutate(index="BRI",score=NaN, condition_category="High Disturbance", condition_category_score=4, note="Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
   #matching p codes to taxa in the submitted data
-  all.for.bri <- BenthicData %>%
+  all.for.bri <- benthic_data %>%
     filter(taxon!="NoOrganismsPresent") %>% #removing samples without any animals so the calculator doesn't get confused
   left_join(., select(xl_tool.SoCalLUList, TaxonName, ToleranceScore), by = c('taxon' = 'TaxonName'))
 
@@ -64,7 +64,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
 
   taxa_w_pvalue<-all.for.bri %>%
     group_by(taxon, ToleranceScore) %>%
-    summarise(Freq_of_Occ=length(stationid)) %>%
+    summarise(Freq_of_Occ=length(stationid), .groups = "drop_last") %>%
     ungroup() %>%
     drop_na(ToleranceScore)
   #export as an interim file of taxa with a tolerance value that the user can review
@@ -74,7 +74,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
   #identify those taxa in the submitted data without a tolerance score and how many samples they occur in
   taxa_wo_pvalue<-all.for.bri%>%
     group_by(taxon, ToleranceScore) %>%
-    summarise(Freq_of_Occ=length(stationid)) %>%
+    summarise(Freq_of_Occ=length(stationid), .groups = "drop_last") %>%
     ungroup() %>%
     filter(is.na(ToleranceScore)) %>%
     select(-ToleranceScore)
@@ -89,7 +89,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
   mutate(fourthroot_abun = abundance ** 0.25,
          tolerance_value = fourthroot_abun * ToleranceScore) %>%
   group_by(stationid, sampledate, replicate) %>%
-  summarize(numerator = sum(tolerance_value, na.rm = T), denomenator= sum(fourthroot_abun, na.rm = T), score=numerator/denomenator) %>%
+  summarize(numerator = sum(tolerance_value, na.rm = T), denomenator= sum(fourthroot_abun, na.rm = T), score=numerator/denomenator, , .groups = "drop_last") %>%
     select(stationid, sampledate, replicate, score) %>%
     # Output the BRI category given the BRI score and the thresholds for Southern California Marine Bays
     mutate(
@@ -107,7 +107,7 @@ alt.SQO.BRI.generic <- function(BenthicData, output_path=output_path, file_id=fi
       #index="BRI",
       note=NA)
 
-  bri.stations<-BenthicData %>%
+  bri.stations<-benthic_data %>%
     select(-taxon, -abundance, -exclude) %>%
     distinct()
 
