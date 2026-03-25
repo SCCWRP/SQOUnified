@@ -1,0 +1,651 @@
+"stationid","replicate","not_on_LU_list","did_you_mean"
+"djg-00002",1,"Ampelisca cristata microdentata",NA
+"B18-10000",1,"Ericthonius sp SD1",NA
+"B18-10000",1,"Garnotia naticarum",NA
+"B18-10000",1,"Majoidea","Majidae"
+"B18-10000",1,"Virgularia californica",NA
+"B18-10001",1,"Ampelisca cristata microdentata",NA
+"B18-10001",1,"Callianax baetica",NA
+"B18-10001",1,"Paradialychone paramollis",NA
+"B18-10001",1,"Pilargis sp A","Pilargis sp"
+"B18-10001",1,"Virgularia californica",NA
+"B18-10002",1,"Caryocorbula luteola",NA
+"B18-10002",1,"Pinnixa franciscana",NA
+"B18-10002",1,"Virgularia californica",NA
+"B18-10003",1,"Amphioplus sp A",NA
+"B18-10003",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10004",1,"Ampelisca cristata microdentata",NA
+"B18-10004",1,"Hippolyte clarki",NA
+"B18-10004",1,"Mysida","Myidae"
+"B18-10004",1,"Mysida","Mysidae"
+"B18-10004",1,"Neverita recluziana","Neverita reclusiana"
+"B18-10004",1,"Pilargis sp A","Pilargis sp"
+"B18-10004",1,"Pinnixa franciscana",NA
+"B18-10005",1,"Ampelisca cristata microdentata",NA
+"B18-10005",1,"Ninoe tridentata",NA
+"B18-10005",1,"Tellina sp B","Tellina sp"
+"B18-10005",1,"Virgulariidae",NA
+"B18-10006",1,"Ampelisca cristata microdentata",NA
+"B18-10006",1,"Virgularia californica",NA
+"B18-10007",1,"Virgularia californica",NA
+"B18-10007",1,"Ampelisca cristata microdentata",NA
+"B18-10011",1,"Tellina sp B","Tellina sp"
+"B18-10011",1,"Virgulariidae",NA
+"B18-10011",1,"Ninoe tridentata",NA
+"B18-10011",1,"Ampelisca cristata microdentata",NA
+"B18-10011",1,"Pinnixa franciscana",NA
+"B18-10012",1,"Pinnixa franciscana",NA
+"B18-10012",1,"Ampelisca cristata microdentata",NA
+"B18-10012",1,"Drilonereis sp LA1",NA
+"B18-10012",1,"Neverita recluziana","Neverita reclusiana"
+"B18-10012",1,"Ninoe tridentata",NA
+"B18-10012",1,"Phascolion sp A",NA
+"B18-10012",1,"Sigambra sp",NA
+"B18-10013",1,"Sigambra sp",NA
+"B18-10013",1,"Amage anops",NA
+"B18-10013",1,"Ampelisca cristata microdentata",NA
+"B18-10013",1,"Amphisamytha bioculata",NA
+"B18-10013",1,"Cymatioa electilis",NA
+"B18-10013",1,"Listriella sp SD1",NA
+"B18-10014",1,"Heterophoxus cf ellisi",NA
+"B18-10014",1,"Majoidea","Majidae"
+"B18-10014",1,"Tellina sp B","Tellina sp"
+"B18-10014",1,"Netastoma rostratum",NA
+"B18-10016",1,"Caprella simia",NA
+"B18-10016",1,"Plesiocystiscus politulus",NA
+"B18-10016",1,"Heterophoxus cf ellisi",NA
+"B18-10016",1,"Pisione sp",NA
+"B18-10016",1,"Prionospio heterobranchia",NA
+"B18-10016",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10016",1,"Romaleon branneri",NA
+"B18-10016",1,"Zeuxo normani Cmplx",NA
+"B18-10017",1,"Prionospio heterobranchia",NA
+"B18-10017",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10017",1,"Columbellidae",NA
+"B18-10019",1,"Dendraster terminalis",NA
+"B18-10019",1,"Hornellia occidentalis",NA
+"B18-10019",1,"Acanthoptilum sp",NA
+"B18-10019",1,"Polygireulima rutila",NA
+"B18-10019",1,"Zeuxo normani Cmplx",NA
+"B18-10019",1,"Platymera gaudichaudii",NA
+"B18-10019",1,"Prionospio heterobranchia",NA
+"B18-10020",1,"Rhepoxynius lucubrans",NA
+"B18-10020",1,"Eohaustorius barnardi",NA
+"B18-10020",1,"Molpadia arenicola",NA
+"B18-10022",1,"Prionospio heterobranchia",NA
+"B18-10022",1,"Hartmanodes sp SD1",NA
+"B18-10022",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10022",1,"Solen sp",NA
+"B18-10023",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10023",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10023",1,"Acanthoptilum sp",NA
+"B18-10023",1,"Majoidea","Majidae"
+"B18-10023",1,"Microspio sp",NA
+"B18-10023",1,"Virgulariidae",NA
+"B18-10024",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10024",1,"Hartmanodes sp SD1",NA
+"B18-10024",1,"Virgulariidae",NA
+"B18-10028",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10028",1,"Heterophoxus cf ellisi",NA
+"B18-10029",1,"Heterophoxus cf ellisi",NA
+"B18-10029",1,"Microspio sp",NA
+"B18-10029",1,"Prionospio heterobranchia",NA
+"B18-10030",1,"Hornellia occidentalis",NA
+"B18-10030",1,"Paradialychone paramollis",NA
+"B18-10030",1,"Cyathura munda",NA
+"B18-10030",1,"Rutiderma rotundum",NA
+"B18-10030",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10030",1,"Chiridota",NA
+"B18-10030",1,"Caulleriella sp",NA
+"B18-10030",1,"Caryocorbula luteola",NA
+"B18-10030",1,"Hesionella mccullochae",NA
+"B18-10030",1,"Majoidea","Majidae"
+"B18-10030",1,"Paradialychone harrisae",NA
+"B18-10030",1,"Parexogone molesta",NA
+"B18-10030",1,"Zeuxo normani Cmplx",NA
+"B18-10031",1,"Prionospio heterobranchia",NA
+"B18-10031",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10031",1,"Heterophoxus cf ellisi",NA
+"B18-10031",1,"Panopeidae",NA
+"B18-10031",1,"Hartmanodes sp SD1",NA
+"B18-10032",1,"Microspio sp",NA
+"B18-10032",1,"Prionospio heterobranchia",NA
+"B18-10032",1,"Caesia fossatus",NA
+"B18-10032",1,"Majoidea","Majidae"
+"B18-10034",1,"Prionospio heterobranchia",NA
+"B18-10034",1,"Panopeidae",NA
+"B18-10034",1,"Xanthidae",NA
+"B18-10034",1,"Trophoniella harrisae",NA
+"B18-10035",1,"Prionospio heterobranchia",NA
+"B18-10035",1,"Panopeidae",NA
+"B18-10035",1,"Caesia fossatus",NA
+"B18-10036",1,"Prionospio heterobranchia",NA
+"B18-10036",1,"Panopeidae",NA
+"B18-10036",1,"Harmothoe fragilis",NA
+"B18-10037",1,"Prionospio heterobranchia",NA
+"B18-10037",1,"Trophoniella harrisae",NA
+"B18-10037",1,"Epigamia-Myrianida Cmplx",NA
+"B18-10037",1,"Harmothoe fragilis",NA
+"B18-10037",1,"Panopeidae",NA
+"B18-10037",1,"Paradialychone paramollis",NA
+"B18-10038",1,"Prionospio heterobranchia",NA
+"B18-10038",1,"Hartmanodes sp SD1",NA
+"B18-10038",1,"Microspio sp",NA
+"B18-10038",1,"Panopeidae",NA
+"B18-10038",1,"Solen sp",NA
+"B18-10039",1,"Actiniaria sp 1",NA
+"B18-10040",1,"Harmothoe fragilis",NA
+"B18-10040",1,"Epigamia-Myrianida Cmplx",NA
+"B18-10040",1,"Halosydna sp",NA
+"B18-10040",1,"Prionospio heterobranchia",NA
+"B18-10040",1,"Zeuxo normani Cmplx",NA
+"B18-10041",1,"Metridium sp",NA
+"B18-10041",1,"Lottia depicta",NA
+"B18-10041",1,"Prionospio heterobranchia",NA
+"B18-10041",1,"Panopeidae",NA
+"B18-10042",1,"Zeuxo normani Cmplx",NA
+"B18-10042",1,"Prionospio heterobranchia",NA
+"B18-10042",1,"Actiniaria sp 1",NA
+"B18-10042",1,"Flabelligeridae",NA
+"B18-10042",1,"Panopeidae",NA
+"B18-10042",1,"Rutidermatidae",NA
+"B18-10043",1,"Metridium sp",NA
+"B18-10043",1,"Spirorbidae","Spirorbinae"
+"B18-10045",1,"Prionospio heterobranchia",NA
+"B18-10045",1,"Nutricola cymata",NA
+"B18-10046",1,"Zeuxo normani Cmplx",NA
+"B18-10046",1,"Mediomastus sp 6","Mediomastus sp"
+"B18-10046",1,"Kirkegaardia serratiseta",NA
+"B18-10046",1,"Harmothoe sp LA1","Harmothoe sp 1"
+"B18-10046",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10046",1,"Haminoea sp",NA
+"B18-10046",1,"Nutricola sp","Petricola sp"
+"B18-10052",1,"Zeuxo normani Cmplx",NA
+"B18-10052",1,"Caprella simia",NA
+"B18-10052",1,"Prionospio heterobranchia",NA
+"B18-10052",1,"Modiolatus neglectus",NA
+"B18-10053",1,"Zeuxo normani Cmplx",NA
+"B18-10053",1,"Caprella simia",NA
+"B18-10053",1,"Kirkegaardia serratiseta",NA
+"B18-10053",1,"Heterophoxus cf ellisi",NA
+"B18-10053",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10053",1,"Serpula columbiana",NA
+"B18-10054",1,"Brada pilosa",NA
+"B18-10054",1,"Callianax baetica",NA
+"B18-10054",1,"Erileptus spinosus",NA
+"B18-10054",1,"Prionospio heterobranchia",NA
+"B18-10054",1,"Sigambra sp",NA
+"B18-10055",1,"Prionospio heterobranchia",NA
+"B18-10055",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10055",1,"Spirorbidae","Spirorbinae"
+"B18-10056",1,"Tellina sp B","Tellina sp"
+"B18-10057",1,"Zeuxo normani Cmplx",NA
+"B18-10057",1,"Heterophoxus cf ellisi",NA
+"B18-10057",1,"Prionospio heterobranchia",NA
+"B18-10057",1,"Kirkegaardia serratiseta",NA
+"B18-10059",1,"Actiniaria sp 1",NA
+"B18-10059",1,"Stomatopoda",NA
+"B18-10060",1,"Actiniaria sp 1",NA
+"B18-10060",1,"Zeuxo normani Cmplx",NA
+"B18-10060",1,"Mediomastus sp 6","Mediomastus sp"
+"B18-10060",1,"Prionospio heterobranchia",NA
+"B18-10063",1,"Corymorphidae sp SD1",NA
+"B18-10064",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10064",1,"Aricidea sp",NA
+"B18-10064",1,"Sicyoniidae",NA
+"B18-10065",1,"Zeuxo normani Cmplx",NA
+"B18-10065",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10065",1,"Caprella simia",NA
+"B18-10065",1,"Prionospio heterobranchia",NA
+"B18-10066",1,"Prionospio heterobranchia",NA
+"B18-10067",1,"Prionospio heterobranchia",NA
+"B18-10068",1,"Prionospio heterobranchia",NA
+"B18-10068",1,"Kirkegaardia sp 1",NA
+"B18-10068",1,"Tellina sp B","Tellina sp"
+"B18-10069",1,"Deltamysis holmquistae",NA
+"B18-10070",1,"Tellina sp B","Tellina sp"
+"B18-10070",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10070",1,"Prionospio heterobranchia",NA
+"B18-10071",1,"Tellina sp B","Tellina sp"
+"B18-10071",1,"Microspio sp",NA
+"B18-10073",1,"Heterophoxus cf ellisi",NA
+"B18-10073",1,"Prionospio heterobranchia",NA
+"B18-10073",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10073",1,"Tellina sp B","Tellina sp"
+"B18-10073",1,"Actiniaria sp DC2",NA
+"B18-10074",1,"Prionospio heterobranchia",NA
+"B18-10074",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10074",1,"Zeuxo normani Cmplx",NA
+"B18-10074",1,"Heterophoxus cf ellisi",NA
+"B18-10074",1,"Podocopa","Podocopida"
+"B18-10075",1,"Heterophoxus cf ellisi",NA
+"B18-10075",1,"Zeuxo normani Cmplx",NA
+"B18-10075",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10075",1,"Lottia depicta",NA
+"B18-10075",1,"Harmothoe fragilis",NA
+"B18-10075",1,"Kurtiella pedroana",NA
+"B18-10075",1,"Prionospio heterobranchia",NA
+"B18-10075",1,"Phyllochaetopterus prolifica",NA
+"B18-10075",1,"Strongylocentrotus sp",NA
+"B18-10075",1,"Teinostoma sp",NA
+"B18-10075",1,"Tellina sp B","Tellina sp"
+"B18-10076",1,"Heterophoxus cf ellisi",NA
+"B18-10076",1,"Prionospio heterobranchia",NA
+"B18-10076",1,"Bemlos concavus",NA
+"B18-10077",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10077",1,"Polygireulima rutila",NA
+"B18-10077",1,"Callipallene pacifica",NA
+"B18-10077",1,"Hartmanodes sp SD1",NA
+"B18-10078",1,"Zeuxo normani Cmplx",NA
+"B18-10078",1,"Heterophoxus cf ellisi",NA
+"B18-10078",1,"Prionospio heterobranchia",NA
+"B18-10078",1,"Caprella simia",NA
+"B18-10078",1,"Hartmanodes sp SD1",NA
+"B18-10078",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10078",1,"Tellina sp B","Tellina sp"
+"B18-10079",1,"Prionospio heterobranchia",NA
+"B18-10079",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10079",1,"Microspio sp",NA
+"B18-10079",1,"Solen sp",NA
+"B18-10080",1,"Heterophoxus cf ellisi",NA
+"B18-10080",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10081",1,"Heterophoxus cf ellisi",NA
+"B18-10081",1,"Prionospio heterobranchia",NA
+"B18-10081",1,"Zeuxo normani Cmplx",NA
+"B18-10082",1,"Zeuxo normani Cmplx",NA
+"B18-10082",1,"Heterophoxus cf ellisi",NA
+"B18-10082",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10082",1,"Polydora heterochaeta",NA
+"B18-10083",1,"Heterophoxus cf ellisi",NA
+"B18-10083",1,"Prionospio heterobranchia",NA
+"B18-10083",1,"Trophoniella harrisae",NA
+"B18-10084",1,"Heterophoxus cf ellisi",NA
+"B18-10086",1,"Zeuxo normani Cmplx",NA
+"B18-10086",1,"Prionospio heterobranchia",NA
+"B18-10086",1,"Deltamysis holmquistae",NA
+"B18-10087",1,"Zeuxo normani Cmplx",NA
+"B18-10087",1,"Actiniaria sp 1",NA
+"B18-10087",1,"Panopeidae",NA
+"B18-10087",1,"Nymphon pixellae",NA
+"B18-10088",1,"Kirkegaardia sp 1",NA
+"B18-10088",1,"Prionospio heterobranchia",NA
+"B18-10089",1,"Sigambra sp",NA
+"B18-10089",1,"Acanthoptilum sp",NA
+"B18-10089",1,"Chaetozone hartmanae",NA
+"B18-10089",1,"Amphisamytha bioculata",NA
+"B18-10089",1,"Kirkegaardia serratiseta",NA
+"B18-10089",1,"Paradoneis spinifera",NA
+"B18-10089",1,"Ampelisca cristata microdentata",NA
+"B18-10089",1,"Pinnixa franciscana",NA
+"B18-10090",1,"Salmoneus sp A",NA
+"B18-10090",1,"Sigambra sp",NA
+"B18-10091",1,"Acanthoptilum sp",NA
+"B18-10091",1,"Chaetozone hartmanae",NA
+"B18-10091",1,"Ampelisca cristata microdentata",NA
+"B18-10091",1,"Caesia fossatus",NA
+"B18-10091",1,"Majoidea","Majidae"
+"B18-10091",1,"Mesocrangon munitella",NA
+"B18-10091",1,"Sigambra sp",NA
+"B18-10092",1,"Sigambra sp",NA
+"B18-10092",1,"Caprella simia",NA
+"B18-10092",1,"Naineris sp",NA
+"B18-10092",1,"Pachycerianthus fimbriatus",NA
+"B18-10092",1,"Paradoneis spinifera",NA
+"B18-10092",1,"Zeuxo normani Cmplx",NA
+"B18-10093",1,"Euchone hancocki",NA
+"B18-10094",1,"Pinnixa franciscana",NA
+"B18-10094",1,"Amage anops",NA
+"B18-10094",1,"Sigambra sp",NA
+"B18-10094",1,"Ampelisca cristata microdentata",NA
+"B18-10094",1,"Ampelisciphotis podophthalma",NA
+"B18-10094",1,"Naticidae",NA
+"B18-10095",1,"Ampelisca cristata microdentata",NA
+"B18-10095",1,"Amphisamytha bioculata",NA
+"B18-10095",1,"Sigambra sp",NA
+"B18-10096",1,"Amage anops",NA
+"B18-10096",1,"Virgulariidae",NA
+"B18-10096",1,"Acanthoptilum sp",NA
+"B18-10096",1,"Modiolatus neglectus",NA
+"B18-10096",1,"Paradoneis sp SD1",NA
+"B18-10096",1,"Phascolion sp A",NA
+"B18-10096",1,"Phyllophoridae",NA
+"B18-10096",1,"Romaleon branneri",NA
+"B18-10096",1,"Sigambra sp",NA
+"B18-10096",1,"Tellina sp B","Tellina sp"
+"B18-10096",1,"Zeuxo normani Cmplx",NA
+"B18-10097",1,"Ampelisca cristata microdentata",NA
+"B18-10097",1,"Majoidea","Majidae"
+"B18-10097",1,"Podocopa","Podocopida"
+"B18-10097",1,"Sigambra sp",NA
+"B18-10097",1,"Tellina sp B","Tellina sp"
+"B18-10098",1,"Ampelisca cristata microdentata",NA
+"B18-10098",1,"Zeuxo normani Cmplx",NA
+"B18-10098",1,"Neogyptis sp",NA
+"B18-10098",1,"Sigambra sp",NA
+"B18-10098",1,"Tanystylum intermedium",NA
+"B18-10098",1,"Tellina sp B","Tellina sp"
+"B18-10099",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10099",1,"Amphisamytha bioculata",NA
+"B18-10099",1,"Paradialychone paramollis",NA
+"B18-10099",1,"Paradialychone harrisae",NA
+"B18-10099",1,"Virgularia californica",NA
+"B18-10100",1,"Amage anops",NA
+"B18-10100",1,"Thraciidae",NA
+"B18-10100",1,"Amphisamytha bioculata",NA
+"B18-10100",1,"Arcteobia cf anticostiensis",NA
+"B18-10100",1,"Paradoneis lyra",NA
+"B18-10100",1,"Paradoneis sp SD1",NA
+"B18-10100",1,"Sigambra sp",NA
+"B18-10101",1,"Pinnixa franciscana",NA
+"B18-10101",1,"Ampelisca cristata microdentata",NA
+"B18-10101",1,"Caryocorbula luteola",NA
+"B18-10101",1,"Cymatioa electilis",NA
+"B18-10101",1,"Magelona sp B",NA
+"B18-10101",1,"Ninoe tridentata",NA
+"B18-10101",1,"Polyodontes sp",NA
+"B18-10101",1,"Sigambra sp",NA
+"B18-10102",1,"Ampelisca cristata microdentata",NA
+"B18-10102",1,"Virgularia californica",NA
+"B18-10102",1,"Neogyptis sp",NA
+"B18-10102",1,"Ninoe tridentata",NA
+"B18-10102",1,"Pinnixa franciscana",NA
+"B18-10102",1,"Sigambra sp",NA
+"B18-10102",1,"Tellina sp B","Tellina sp"
+"B18-10103",1,"Podocopa","Podocopida"
+"B18-10105",1,"Ampelisca cristata microdentata",NA
+"B18-10105",1,"Tellina sp B","Tellina sp"
+"B18-10105",1,"Vitrinella berryi",NA
+"B18-10106",1,"Tellina sp B","Tellina sp"
+"B18-10106",1,"Ampelisca cristata microdentata",NA
+"B18-10106",1,"Anopla",NA
+"B18-10106",1,"Glycera oxycephala",NA
+"B18-10106",1,"Leodice americana",NA
+"B18-10106",1,"Virgularia californica",NA
+"B18-10107",1,"Ampelisca cristata microdentata",NA
+"B18-10107",1,"Pinnixa franciscana",NA
+"B18-10107",1,"Virgularia californica",NA
+"B18-10108",1,"Ninoe tridentata",NA
+"B18-10108",1,"Ampelisca cristata microdentata",NA
+"B18-10108",1,"Majoidea","Majidae"
+"B18-10109",1,"Ampelisca cristata microdentata",NA
+"B18-10109",1,"Pinnixa franciscana",NA
+"B18-10109",1,"Sigambra sp",NA
+"B18-10109",1,"Paradialychone paramollis",NA
+"B18-10110",1,"Tellina sp B","Tellina sp"
+"B18-10110",1,"Ninoe tridentata",NA
+"B18-10110",1,"Pilargis sp A","Pilargis sp"
+"B18-10111",1,"Tellina sp B","Tellina sp"
+"B18-10111",1,"Calliostoma annulatum",NA
+"B18-10111",1,"Heterophoxus sp",NA
+"B18-10111",1,"Latulambrus occidentalis",NA
+"B18-10111",1,"Prionospio heterobranchia",NA
+"B18-10112",1,"Prionospio heterobranchia",NA
+"B18-10112",1,"Ancistrosyllis sp",NA
+"B18-10112",1,"Hartmanodes sp SD1",NA
+"B18-10112",1,"Maera jerrica",NA
+"B18-10112",1,"Microspio sp",NA
+"B18-10113",1,"Heterophoxus cf ellisi",NA
+"B18-10113",1,"Microspio sp",NA
+"B18-10113",1,"Tellina sp B","Tellina sp"
+"B18-10113",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10113",1,"Prionospio heterobranchia",NA
+"B18-10114",1,"Heterophoxus cf ellisi",NA
+"B18-10114",1,"Hartmanodes sp SD1",NA
+"B18-10114",1,"Prionospio heterobranchia",NA
+"B18-10114",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10115",1,"Prionospio heterobranchia",NA
+"B18-10115",1,"Heterophoxus cf ellisi",NA
+"B18-10115",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10115",1,"Caprella simia",NA
+"B18-10115",1,"Hartmanodes sp SD1",NA
+"B18-10115",1,"Panopeidae",NA
+"B18-10116",1,"Calyptraeidae",NA
+"B18-10117",1,"Ampelisca cristata microdentata",NA
+"B18-10117",1,"Microspio sp",NA
+"B18-10117",1,"Prionospio heterobranchia",NA
+"B18-10117",1,"Majoidea","Majidae"
+"B18-10117",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10117",1,"Pinnixa franciscana",NA
+"B18-10117",1,"Tellina sp B","Tellina sp"
+"B18-10118",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10118",1,"Prionospio heterobranchia",NA
+"B18-10118",1,"Ampelisca cristata cristata",NA
+"B18-10118",1,"Acanthoptilum sp",NA
+"B18-10118",1,"Gammaropsis shoemakeri",NA
+"B18-10118",1,"Crepidula fornicata",NA
+"B18-10118",1,"Apolochus picadurus",NA
+"B18-10118",1,"Columbellidae",NA
+"B18-10118",1,"Erileptus spinosus",NA
+"B18-10118",1,"Leopecten diegensis",NA
+"B18-10118",1,"Majoidea","Majidae"
+"B18-10118",1,"Calyptraeidae",NA
+"B18-10118",1,"Cranopsis multistriata",NA
+"B18-10118",1,"Deflexilodes sp",NA
+"B18-10118",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10118",1,"Mesocrangon munitella",NA
+"B18-10118",1,"Modiolatus neglectus",NA
+"B18-10118",1,"Romaleon branneri",NA
+"B18-10118",1,"Zeuxo normani Cmplx",NA
+"B18-10119",1,"Prionospio heterobranchia",NA
+"B18-10119",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10119",1,"Heterophoxus cf ellisi",NA
+"B18-10120",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10120",1,"Ampelisca cristata cristata",NA
+"B18-10120",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10121",1,"Heterophoxus cf ellisi",NA
+"B18-10121",1,"Hartmanodes sp SD1",NA
+"B18-10122",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10122",1,"Prionospio heterobranchia",NA
+"B18-10122",1,"Ampelisca cristata cristata",NA
+"B18-10122",1,"Hesperonoe adventor",NA
+"B18-10122",1,"Here excavata",NA
+"B18-10122",1,"Solen sp",NA
+"B18-10122",1,"Columbellidae",NA
+"B18-10122",1,"Crangonidae",NA
+"B18-10122",1,"Enopla",NA
+"B18-10122",1,"Erileptus spinosus",NA
+"B18-10123",1,"Prionospio heterobranchia",NA
+"B18-10123",1,"Heterophoxus cf ellisi",NA
+"B18-10123",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10124",1,"Heterophoxus cf ellisi",NA
+"B18-10125",1,"Prionospio heterobranchia",NA
+"B18-10125",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10125",1,"Scolanthus triangulus",NA
+"B18-10126",1,"Heterophoxus sp",NA
+"B18-10127",1,"Heterophoxus cf ellisi",NA
+"B18-10128",1,"Prionospio heterobranchia",NA
+"B18-10128",1,"Panopeidae",NA
+"B18-10130",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10130",1,"Prionospio heterobranchia",NA
+"B18-10130",1,"Erileptus spinosus",NA
+"B18-10130",1,"Heterophoxus cf ellisi",NA
+"B18-10130",1,"Argua sp","Aruga sp"
+"B18-10130",1,"Crepidula fornicata",NA
+"B18-10130",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10131",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10131",1,"Prionospio heterobranchia",NA
+"B18-10132",1,"Prionospio heterobranchia",NA
+"B18-10132",1,"Hartmanodes sp SD1",NA
+"B18-10132",1,"Panopeidae",NA
+"B18-10132",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10132",1,"Tellina sp B","Tellina sp"
+"B18-10132",1,"Caprella penantis",NA
+"B18-10132",1,"Microspio sp",NA
+"B18-10132",1,"Nymphon pixellae",NA
+"B18-10133",1,"Prionospio heterobranchia",NA
+"B18-10133",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10133",1,"Heterophoxus cf ellisi",NA
+"B18-10134",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10134",1,"Prionospio heterobranchia",NA
+"B18-10134",1,"Heterophoxus cf ellisi",NA
+"B18-10134",1,"Calocarides spinulicauda",NA
+"B18-10134",1,"Syllis alternata",NA
+"B18-10134",1,"Syllis hyalina",NA
+"B18-10134",1,"Ammothella spinifera",NA
+"B18-10134",1,"Argua sp","Aruga sp"
+"B18-10134",1,"Byblis sp","Syllis sp"
+"B18-10134",1,"Deflexilodes sp",NA
+"B18-10134",1,"Erileptus spinosus",NA
+"B18-10134",1,"Hydroides dirampha",NA
+"B18-10134",1,"Palola paloloides",NA
+"B18-10134",1,"Panopeidae",NA
+"B18-10134",1,"Vermiliopsis infundibulum",NA
+"B18-10134",1,"Volvarina taeniolata",NA
+"B18-10135",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10135",1,"Zeuxo normani Cmplx",NA
+"B18-10135",1,"Heterophoxus cf ellisi",NA
+"B18-10135",1,"Prionospio heterobranchia",NA
+"B18-10135",1,"Semelidae","Styelidae"
+"B18-10135",1,"Erileptus spinosus",NA
+"B18-10135",1,"Nymphon pixellae",NA
+"B18-10135",1,"Panopeidae",NA
+"B18-10135",1,"Phtisicinae",NA
+"B18-10136",1,"Prionospio heterobranchia",NA
+"B18-10136",1,"Heterophoxus cf ellisi",NA
+"B18-10137",1,"Heterophoxus cf ellisi",NA
+"B18-10138",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10138",1,"Prionospio heterobranchia",NA
+"B18-10139",1,"Prionospio heterobranchia",NA
+"B18-10139",1,"Majoidea","Majidae"
+"B18-10141",1,"Prionospio heterobranchia",NA
+"B18-10141",1,"Amphipholis pugetana",NA
+"B18-10141",1,"Heterophoxus cf ellisi",NA
+"B18-10142",1,"Amphipholis pugetana",NA
+"B18-10142",1,"Prionospio heterobranchia",NA
+"B18-10142",1,"Panopeidae",NA
+"B18-10142",1,"Actiniaria sp 1",NA
+"B18-10142",1,"Heterophoxus cf ellisi",NA
+"B18-10142",1,"Zeuxo normani Cmplx",NA
+"B18-10142",1,"Hartmanodes sp SD1",NA
+"B18-10143",1,"Amphipholis pugetana",NA
+"B18-10143",1,"Hartmanodes sp SD1",NA
+"B18-10143",1,"Prionospio heterobranchia",NA
+"B18-10144",1,"Amphipholis pugetana",NA
+"B18-10144",1,"Prionospio heterobranchia",NA
+"B18-10144",1,"Hartmanodes sp SD1",NA
+"B18-10144",1,"Panopeidae",NA
+"B18-10144",1,"Actiniaria sp 1",NA
+"B18-10144",1,"Heterophoxus cf ellisi",NA
+"B18-10146",1,"Prionospio heterobranchia",NA
+"B18-10149",1,"Calyptraeidae",NA
+"B18-10149",1,"Prionospio heterobranchia",NA
+"B18-10149",1,"Zeuxo normani Cmplx",NA
+"B18-10149",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10149",1,"Farfantepenaeus californiensis",NA
+"B18-10150",1,"Prionospio heterobranchia",NA
+"B18-10150",1,"Mediomastus sp 6","Mediomastus sp"
+"B18-10150",1,"Majoidea","Majidae"
+"B18-10150",1,"Pinnixa franciscana",NA
+"B18-10151",1,"Podocopa","Podocopida"
+"B18-10156",1,"Actiniaria sp 1",NA
+"B18-10156",1,"Prionospio heterobranchia",NA
+"B18-10158",1,"Naineris sp",NA
+"B18-10158",1,"Melanoides tuberculata",NA
+"B18-10159",1,"Naineris sp",NA
+"B18-10161",1,"Zeuxo normani Cmplx",NA
+"B18-10161",1,"Naineris sp",NA
+"B18-10161",1,"Prionospio heterobranchia",NA
+"B18-10162",1,"Prionospio heterobranchia",NA
+"B18-10162",1,"Calyptraeidae",NA
+"B18-10162",1,"Ocinebrina circumtexta",NA
+"B18-10163",1,"Actiniaria sp 1",NA
+"B18-10163",1,"Naineris sp",NA
+"B18-10163",1,"Zeuxo normani Cmplx",NA
+"B18-10163",1,"Colomastix sp A",NA
+"B18-10164",1,"Zeuxo normani Cmplx",NA
+"B18-10164",1,"Calyptraeidae",NA
+"B18-10165",1,"Zeuxo normani Cmplx",NA
+"B18-10166",1,"Alia sp",NA
+"B18-10167",1,"Donax californicus",NA
+"B18-10168",1,"Anopla",NA
+"B18-10170",1,"Pyramidellidae",NA
+"B18-10170",1,"Prionospio heterobranchia",NA
+"B18-10171",1,"Paracerceis sp A","Paracerceis sp"
+"B18-10172",1,"Zeuxo normani Cmplx",NA
+"B18-10172",1,"Astyris sp",NA
+"B18-10172",1,"Pyramidellidae",NA
+"B18-10172",1,"Calyptraeidae",NA
+"B18-10172",1,"Paracerceis sp A","Paracerceis sp"
+"B18-10173",1,"Paracerceis sp A","Paracerceis sp"
+"B18-10173",1,"Astyris sp",NA
+"B18-10173",1,"Zeuxo normani Cmplx",NA
+"B18-10173",1,"Farfantepenaeus californiensis",NA
+"B18-10174",1,"Zeuxo normani Cmplx",NA
+"B18-10176",1,"Lasaea adansoni",NA
+"B18-10177",1,"Pyramidella adamsi",NA
+"B18-10178",1,"Halosydna sp",NA
+"B18-10179",1,"Pseudatherospio fauchaldi",NA
+"B18-10179",1,"Prionospio heterobranchia",NA
+"B18-10179",1,"Dorvillea sp",NA
+"B18-10179",1,"Harmothoe fragilis",NA
+"B18-10179",1,"Lumbrineris sp E","Lumbrineris sp"
+"B18-10179",1,"Panopeidae",NA
+"B18-10181",1,"Prionospio heterobranchia",NA
+"B18-10181",1,"Actiniaria sp 1",NA
+"B18-10181",1,"Amphilochidae",NA
+"B18-10181",1,"Zeuxo normani Cmplx",NA
+"B18-10184",1,"Chironomini",NA
+"B18-10184",1,"Psocidae",NA
+"B18-10184",1,"Hemiptera",NA
+"B18-10184",1,"Staphylinidae",NA
+"B18-10188",1,"Podocopa","Podocopida"
+"B18-10192",1,"Leptoconops sp",NA
+"B18-10194",1,"Penaeoidea",NA
+"B18-10194",1,"Zeuxo normani Cmplx",NA
+"B18-10198",1,"Prionospio heterobranchia",NA
+"B18-10199",1,"Chionista fluctifraga",NA
+"B18-10199",1,"Tanaididae","Tanaidae"
+"B18-10201",1,"Panopeidae",NA
+"B18-10201",1,"Prionospio heterobranchia",NA
+"B18-10201",2,"Prionospio heterobranchia",NA
+"B18-10201",2,"Acanthomysis californica",NA
+"B18-10201",2,"Panopeidae",NA
+"B18-10201",2,"Zeuxo normani Cmplx",NA
+"B18-10411",1,"Ampelisca cristata microdentata",NA
+"B18-10411",1,"Virgularia californica",NA
+"B18-10411",1,"Paradialychone paramollis",NA
+"B18-10411",1,"Acanthomysis californica",NA
+"B18-10411",1,"Epigamia-Myrianida Cmplx",NA
+"B18-10411",1,"Photis sp C","Photis sp"
+"B18-10411",1,"Scolanthus triangulus",NA
+"B18-10417",1,"Sigambra sp",NA
+"B18-10417",1,"Pinnixa franciscana",NA
+"B18-10438",1,"Spirorbidae","Spirorbinae"
+"B18-10438",1,"Actiniaria sp DC2",NA
+"B18-10438",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10438",1,"Prionospio heterobranchia",NA
+"B18-10438",1,"Enopla",NA
+"B18-10438",1,"Naineris sp",NA
+"B18-10438",1,"Paradialychone paramollis",NA
+"B18-10447",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10447",1,"Ampelisca cristata cristata",NA
+"B18-10447",1,"Virgularia californica",NA
+"B18-10447",1,"Acanthoptilum sp",NA
+"B18-10447",1,"Ancistrosyllis hamata",NA
+"B18-10447",1,"Cephalaspidea",NA
+"B18-10447",1,"Erileptus spinosus",NA
+"B18-10447",1,"Haplosyllis spongicola Cmplx",NA
+"B18-10447",1,"Nudibranchia",NA
+"B18-10465",1,"Zeuxo normani Cmplx",NA
+"B18-10465",1,"Prionospio heterobranchia",NA
+"B18-10465",1,"Erileptus spinosus",NA
+"B18-10465",1,"Leitoscoloplos sp A","Leitoscoloplos sp"
+"B18-10465",1,"Paracerceis sp A","Paracerceis sp"
+"B18-10465",1,"Deflexilodes sp",NA
+"B18-10465",1,"Salmacina tribranchiata",NA
+"B18-10658",1,"Chironomini",NA
+"B18-10672",1,"Actiniaria sp 1",NA
+"B18-10674",1,"Zeuxo normani Cmplx",NA
+"B18-10674",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10674",1,"Caprella simia",NA
+"B18-10674",1,"Naineris quadricuspida",NA
+"B18-10674",1,"Amphilochidae",NA
+"B18-10674",1,"Ianiropsis analoga",NA
+"B18-10740",1,"Podocopa","Podocopida"
+"B18-10740",1,"Hemiptera",NA
+"B18-10741",1,"Podocopa","Podocopida"
+"B18-10741",1,"Coleoptera",NA
+"B18-10741",1,"Hemiptera",NA
+"B18-10760",1,"Syllis (spellingsyllis) nipponica",NA
+"B18-10772",1,"Podocopa","Podocopida"
+"B18-10772",1,"Physa sp",NA
