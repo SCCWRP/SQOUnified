@@ -1005,7 +1005,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
 
       #Score = ceiling(mean(Score, na.rm = F))
       has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
-      offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
+      offshore = 'stratum' %in% names(.) && any(grepl('shelf|slope|islands', tolower(as.character(stratum))), na.rm = TRUE),
       Score = case_when(
         # offhsore sites only require the Amphipod test - per Ken Schiff August 1, 2022
         offshore ~ ceiling(mean(Score, na.rm = T)),
@@ -1021,7 +1021,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         group_by(stationid) %>%
         summarize(
           has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
-          offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
+          offshore = 'stratum' %in% names(.) && any(grepl('shelf|slope|islands', tolower(as.character(stratum))), na.rm = TRUE),
           Score = case_when(
             # Offhsore sites only require the Amphipod test
             offshore ~ ceiling(mean(Score, na.rm = T)),
