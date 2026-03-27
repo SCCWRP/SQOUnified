@@ -1021,8 +1021,13 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     "\n### Determine if all necessary tests are present and assign a score for the site\n  ",
     logfile = logfile,
     code = "
+      group_vars <- if ('stratum' %in% names(tox_nonintegrated)) {
+          c('stationid', 'stratum')
+        } else {
+          'stationid'
+        }
       tox_integrated0 <- tox_nonintegrated %>%
-        group_by(stationid) %>%
+        group_by(across(all_of(group_vars))) %>%
         summarize(
           has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
           offshore = 'stratum' %in% names(.) && any(grepl('shelf|slope|islands', tolower(as.character(stratum))), na.rm = TRUE),
@@ -1056,7 +1061,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     ) %>%
-    select(stationid, Index, Score, Category, `Category Score`)
+    select(stationid, dplyr::any_of("stratum"), Index, Score, Category, `Category Score`)
 
   writelog(
     "\n### Assign Category and select final columns\n  ",
@@ -1078,7 +1083,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         mutate(
           `Category Score` = Score # just for purposes of the very final unified output, all three LOEs in one table
         ) %>%
-        select(stationid, Index, Score, Category, `Category Score`)
+        select(stationid, dplyr::any_of("stratum"), Index, Score, Category, `Category Score`)
     ',
     data = tox_integrated %>% head(25),
     verbose = verbose
