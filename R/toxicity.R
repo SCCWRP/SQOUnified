@@ -979,10 +979,14 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
   writelog("So here, we will actually need to check if both tests were present. ", logfile = logfile, verbose = verbose)
   writelog("Acute tests mean the endpoint method is 'Survival' and the Sublethal tests mean the endpoint is 'Growth' or 'NormDev' (Normal Development)\n--\n", logfile = logfile, verbose = verbose)
 
-
+  group_vars <- if ("stratum" %in% names(tox_nonintegrated)) {
+    c("stationid", "stratum")
+  } else {
+    "stationid"
+  }
 
   tox_integrated0 <- tox_nonintegrated %>%
-    group_by(stationid) %>%
+    group_by(across(all_of(group_vars))) %>%
     summarize(
       # For Toxicity, we take the mean
       # CASQO manual (3rd edition) page 109
