@@ -979,10 +979,14 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
   writelog("So here, we will actually need to check if both tests were present. ", logfile = logfile, verbose = verbose)
   writelog("Acute tests mean the endpoint method is 'Survival' and the Sublethal tests mean the endpoint is 'Growth' or 'NormDev' (Normal Development)\n--\n", logfile = logfile, verbose = verbose)
 
-
+  group_vars <- if ("stratum" %in% names(tox_nonintegrated)) {
+    c("stationid", "stratum")
+  } else {
+    "stationid"
+  }
 
   tox_integrated0 <- tox_nonintegrated %>%
-    group_by(stationid) %>%
+    group_by(across(all_of(group_vars))) %>%
     summarize(
       # For Toxicity, we take the mean
       # CASQO manual (3rd edition) page 109
@@ -1005,7 +1009,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
 
       #Score = ceiling(mean(Score, na.rm = F))
       has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
-      offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
+      offshore = 'stratum' %in% names(.) && any(grepl('shelf|slope|islands', tolower(as.character(stratum))), na.rm = TRUE),
       Score = case_when(
         # offhsore sites only require the Amphipod test - per Ken Schiff August 1, 2022
         offshore ~ ceiling(mean(Score, na.rm = T)),
@@ -1017,11 +1021,16 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     "\n### Determine if all necessary tests are present and assign a score for the site\n  ",
     logfile = logfile,
     code = "
+      group_vars <- if ('stratum' %in% names(tox_nonintegrated)) {
+          c('stationid', 'stratum')
+        } else {
+          'stationid'
+        }
       tox_integrated0 <- tox_nonintegrated %>%
-        group_by(stationid) %>%
+        group_by(across(all_of(group_vars))) %>%
         summarize(
           has.all.tests = all(c('Acute','Sublethal') %in% `Test Type`),
-          offshore = 'stratum' %in% names(.) && stratum %in% c('Outer Shelf','Mid Shelf','Inner Shelf','Channel Islands'),
+          offshore = 'stratum' %in% names(.) && any(grepl('shelf|slope|islands', tolower(as.character(stratum))), na.rm = TRUE),
           Score = case_when(
             # Offhsore sites only require the Amphipod test
             offshore ~ ceiling(mean(Score, na.rm = T)),
@@ -1052,7 +1061,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     ) %>%
-    select(stationid, Index, Score, Category, `Category Score`)
+    select(stationid, dplyr::any_of("stratum"), Index, Score, Category, `Category Score`)
 
   writelog(
     "\n### Assign Category and select final columns\n  ",
@@ -1074,7 +1083,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         mutate(
           `Category Score` = Score # just for purposes of the very final unified output, all three LOEs in one table
         ) %>%
-        select(stationid, Index, Score, Category, `Category Score`)
+        select(stationid, dplyr::any_of("stratum"), Index, Score, Category, `Category Score`)
     ',
     data = tox_integrated %>% head(25),
     verbose = verbose
