@@ -217,35 +217,109 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
   results <- tox.summary.input %>%
     filter(
       sampletypecode %in% results.sampletypes
+    ) %>%
+    # Set result to NA where qacode contains "X" so it is excluded from calculations
+    mutate(
+      result = ifelse("qacode" %in% names(.) & grepl("X", qacode, ignore.case = TRUE), NA_real_, result)
     )
 
   writelog(
     "\n### Get the results dataframe without the controls\n  ",
     logfile = logfile,
-    code = "results <- tox.summary.input %>% filter( (sampletypecode %in% results.sampletypes) )",
+    code = "
+      results <- tox.summary.input %>% filter( (sampletypecode %in% results.sampletypes) ) %>%
+        # Set result to NA where qacode contains 'X' so it is excluded from calculations
+        mutate(
+          result = ifelse('qacode' %in% names(.) & grepl('X', qacode, ignore.case = TRUE), NA_real_, result)
+        )
+    ",
     data = results,
     verbose = verbose
   )
   create_download_link(data = results, logfile = logfile, filename = 'tox.summary-toxresults.csv', linktext = 'Download Tox Results (No controls)', verbose = verbose)
 
 
-  # Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'
-  results_summary <- results %>%
-    full_join(
-      controls,
-      by = c("toxbatch", "species", "labrep", "lab"),
-      suffix = c("", "_control")
+  # Nest result values per station/group
+  results_nested <- results %>%
+    group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))) %>%
+    summarize(
+      n = sum(!is.na(result)),
+      result = list(result),
+      units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+      endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+      qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
+                          paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
+                          NA_character_),
+      treatment = ifelse ("treatment" %in% names(pick(everything())),
+                          case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+                                    .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
+                          NA_character_),
+      comments  = ifelse ("comments" %in% names(pick(everything())),
+                          comments %>%
+                            stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                            stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
+                          NA_character_),
+      matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_),
+      .groups = "drop"
     )
+
+  # Nest control values per batch (all reps included)
+  controls_nested <- controls %>%
+    group_by(toxbatch, species, lab) %>%
+    summarize(
+      n = sum(!is.na(result)),
+      result = list(result), 
+      .groups = "drop"
+    )
+
+  # Join on batch-level keys — no labrep 
+  # This will allow the t test to take place even with a differing number of replicates 
+  results_summary <- results_nested %>%
+    left_join(controls_nested, by = c("toxbatch", "species", "lab"), suffix = c('','_control'))
+
   writelog(
-    "\n### Join results and controls on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
+    "\n### Join results and controls on 'toxbatch', 'species', and 'lab'\n  ",
     logfile = logfile,
     code = '
-      results_summary <- results %>%
-      full_join(
-        controls,
-        by = c("toxbatch", "species", "labrep", "lab"),
-        suffix = c("", "_control")
-      )
+      # Nest result values per station/group
+      results_nested <- results %>%
+        group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))) %>%
+        summarize(
+          n = sum(!is.na(result)),
+          result = list(result),
+          units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
+          endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
+          qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
+                              paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
+                              NA_character_),
+          treatment = ifelse ("treatment" %in% names(pick(everything())),
+                              case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
+                                        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
+                              NA_character_),
+          comments  = ifelse ("comments" %in% names(pick(everything())),
+                              comments %>%
+                                stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                                stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
+                              NA_character_),
+          matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_),
+          .groups = "drop"
+        )
+
+      # Nest control values per batch (all reps included)
+      controls_nested <- controls %>%
+        group_by(toxbatch, species, lab) %>%
+        summarize(
+          n = sum(!is.na(result)),
+          result = list(result), 
+          .groups = "drop"
+        )
+
+      # Join on batch-level keys — no labrep 
+      # This will allow the t test to take place even with a differing number of replicates 
+      results_summary <- results_nested %>%
+        left_join(controls_nested, by = c("toxbatch", "species", "lab"), suffix = c("","_control"))
+
+
     ',
     data = results_summary %>% head(25),
     verbose = verbose
@@ -254,20 +328,20 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   if(include.controls) {
     # Join controls with the controls, so the control data is easily readable in one of the rows of the summary output
-    control_summary <- controls %>%
+    control_summary <- controls_nested %>%
       inner_join(
-        controls,
-        by = c('toxbatch','species','labrep','lab'),
+        controls_nested,
+        by = c('toxbatch','species','lab'),
         suffix = c('','_control')
       )
     writelog(
-      "\n### Join controls with itself on 'toxbatch', 'species', 'labrep', and 'lab'\n  ",
+      "\n### Join controls with itself on 'toxbatch', 'species', and 'lab'\n  ",
       logfile = logfile,
       code = "
-        control_summary <- controls %>%
+        control_summary <- controls_nested %>%
           inner_join(
-            controls,
-            by = c('toxbatch','species','labrep','lab'),
+            controls_nested,
+            by = c('toxbatch','species','lab'),
             suffix = c('','_control')
           )
       ",
@@ -277,12 +351,12 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     create_download_link(data = control_summary, logfile = logfile, filename = 'tox.summary-controls-w-controls.csv', linktext = 'Download Tox Controls joined with themselves', verbose = verbose)
 
     # Stack the results and controls joined dataframes
-    summary <- rbind.fill(results_summary, control_summary)
+    summary <- dplyr::bind_rows(results_summary, control_summary)
     writelog(
       "\n### stack the previous two dataframes\n  ",
       logfile = logfile,
       code = "
-      summary <- plyr::rbind.fill(results_summary, control_summary)
+      summary <- dplyr::bind_rows(results_summary, control_summary)
     ",
       data = summary %>% head(25),
       verbose = verbose
@@ -308,13 +382,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   # Check for all result/control NA
   check_all_na <- summary %>%
-    group_by(
-      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
-    ) %>%
-    summarize(
-      allna = all(is.na(result)) || all(is.na(result_control))
-    ) %>%
-    filter(allna)
+    rowwise() %>%
+    filter(all(is.na(result)) || all(is.na(result_control))) %>%
+    ungroup()
   badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
   if (is.vector(badtoxbatches) && length(badtoxbatches))
     warning(
@@ -334,13 +404,9 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     code = '
       # Check for all result/control NA
       check_all_na <- summary %>%
-        group_by(
-          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
-        ) %>%
-        summarize(
-          allna = all(is.na(result)) || all(is.na(result_control))
-        ) %>%
-        filter(allna)
+        rowwise() %>%
+        filter(all(is.na(result)) || all(is.na(result_control))) %>%
+        ungroup()
       badtoxbatches <- check_all_na %>% pull(toxbatch) %>% unique()
       if (is.vector(badtoxbatches) && length(badtoxbatches))
         warning(
@@ -360,24 +426,22 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
 
   writelog("\n#### Explanation of what the next steps are going to be",logfile = logfile, verbose = verbose)
-  writelog('Group by lab, stationid, toxbatch, species, fieldrep, sampletypecode\n', logfile = logfile, verbose = verbose)
+  writelog('Each row has result and result_control as list columns (vectors of replicate values, possibly different lengths)\n', logfile = logfile, verbose = verbose)
   writelog('Calculate two sided t-test p value (t.test function in R) - the two samples being the result and the control result\n', logfile = logfile, verbose = verbose)
   writelog('t.test function in R by default will treat them as two samples from two populations (not assuming equal variances)\n', logfile = logfile, verbose = verbose)
   writelog('The function call to t.test is this:\n', logfile = logfile, verbose = verbose)
   writelog("> t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = 'two.sided')$p.value / 2\n  ", logfile = logfile, verbose = verbose)
   writelog("\n#### Further explanation of the function call:\n", logfile = logfile, verbose = verbose)
-  writelog("---- x = result and y = result_control: These are the two vectors (samples) being compared.\n", logfile = logfile, verbose = verbose)
+  writelog("---- x = result and y = result_control: These are the two vectors (samples) being compared. They may be different lengths (e.g. 5 sample reps vs 20 control reps).\n", logfile = logfile, verbose = verbose)
   writelog("---- mu = 0: The null hypothesis is that the difference between the means of the two samples is zero.\n", logfile = logfile, verbose = verbose)
   writelog("---- var.equal = F: The variances of the two samples are not assumed to be equal (Welch's t-test).\n", logfile = logfile, verbose = verbose)
   writelog("---- alternative = 'two.sided': The alternative hypothesis is that the means are different (two-sided test).\n", logfile = logfile, verbose = verbose)
   writelog("---- $p.value / 2: The p-value of the t-test is divided by 2. This division suggests that the intention is to obtain a one-tailed p-value from a two-tailed test.\n", logfile = logfile, verbose = verbose)
 
-  # Get the stats
+  # Get the stats — each row is already one group (result and result_control are list columns)
   summary <- summary %>%
-    group_by(
-      across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
-    ) %>%
-    summarize(
+    rowwise() %>%
+    mutate(
       p = tryCatch({
         # it errors out when you pass two constant vectors as the first two arguments
         t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
@@ -392,8 +456,8 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
         if(all(is.na(result)) || all(is.na(result_control))){
           # It is possible for one or both of these two vectors to be all NA values.
           return(NA_real_)
-        } else if (all(result == result_control)) {
-          # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
+        } else if (length(unique(c(na.omit(result), na.omit(result_control)))) <= 1) {
+          # All non-NA values across both samples are the same constant - P value cant be computed
           return(NA_real_)
         } else {
           # if they were two completely different constant vectors, then they are significantly different
@@ -402,113 +466,52 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
       }
       ),
 
-      # mean can return NaN or NA in certain cases.
+      # mean can return NaN or NA in certain cases. result_control can be NULL if no matching control was found.
       result_mean = mean(result, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
-      control_mean = mean(result_control, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+      control_mean = ifelse(is.null(result_control), NA_real_, mean(result_control, na.rm = TRUE)) %>% dplyr::coalesce(NA_real_),
       # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
       pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
       stddev = sd(result, na.rm = TRUE),
       # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
       cv = stddev / dplyr::na_if(result_mean, 0),
-
-      #n = n()
-      # April 15, 2025 - let n be the number of not-null replicate result values
-      n = length(result %>% purrr::discard(is.na)),
-
-      # New - include these columns in the output summary table
-      # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
-      # These columns may or may not be there in the original data
-      units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
-      endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-      qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
-                          paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
-                          NA_character_),
-      treatment = ifelse ("treatment" %in% names(pick(everything())),
-                          case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
-                                    .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
-                          NA_character_),
-      comments  = ifelse ("comments" %in% names(pick(everything())),
-                          comments %>%
-                            stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
-                            stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
-                          NA_character_),
-      matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
-    ) %>%
-    ungroup() %>%
-    mutate(
       sigdiff = if_else(p < 0.05, TRUE, FALSE)
-    )
+    ) %>%
+    ungroup()
 
   writelog(
     "\n### Get the tox summary statistics\n  ",
     logfile = logfile,
     code = '
-      # Get the stats
+      # Get the stats — each row is already one group (result and result_control are list columns)
       summary <- summary %>%
-        group_by(
-          across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))
-        ) %>%
-        summarize(
+        rowwise() %>%
+        mutate(
           p = tryCatch({
-            # it errors out when you pass two constant vectors as the first two arguments
             t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
           },
           warning = function(w){
-            # If there was a warning, we still want the output of the function
             return(
               t.test(x = result, y = result_control, mu = 0, var.equal = F, alternative = "two.sided")$p.value / 2
             )
           },
           error = function(err){
             if(all(is.na(result)) || all(is.na(result_control))){
-              # It is possible for one or both of these two vectors to be all NA values.
               return(NA_real_)
-            } else if (all(result == result_control)) {
-              # This would be the case where every single value is exactly the same across the two samples - in this case the P value cant be computed
+            } else if (length(unique(c(na.omit(result), na.omit(result_control)))) <= 1) {
               return(NA_real_)
             } else {
-              # if they were two completely different constant vectors, then they are significantly different
               return(0)
             }
           }
           ),
-
-          # mean returns NaN if the vector is empty. Handle that case.
-          result_mean = mean(result, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
-          control_mean = mean(result_control, na.rm = TRUE) |> is.nan() %>% ifelse(NA_real_, .),
-          # Handle case where control_mean is 0 by making it NA, then the division will produce NA.
+          result_mean = mean(result, na.rm = TRUE) %>% dplyr::coalesce(NA_real_),
+          control_mean = ifelse(is.null(result_control), NA_real_, mean(result_control, na.rm = TRUE)) %>% dplyr::coalesce(NA_real_),
           pct_control = 100 * (result_mean / dplyr::na_if(control_mean, 0)),
           stddev = sd(result, na.rm = TRUE),
-          # Handle case where result_mean is 0 by making it NA, then the division will produce NA.
           cv = stddev / dplyr::na_if(result_mean, 0),
-
-          #n = n()
-          # April 15, 2025 - let n be the number of not-null replicate result values
-          n = length(result %>% purrr::discard(is.na)),
-
-          # New - include these columns in the output summary table
-          # Set to NA_character if the columns are not included in the dataframe that we are grouping by.
-          # These columns may or may not be there in the original data
-          units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
-          endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-          qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
-                              paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
-                              NA_character_),
-          treatment = ifelse ("treatment" %in% names(pick(everything())),
-                              case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
-                                        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
-                              NA_character_),
-          comments  = ifelse ("comments" %in% names(pick(everything())),
-                              comments %>%
-                                stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
-                                stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
-                              NA_character_),
-          matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_)
-        ) %>%
-        ungroup() %>%
-        mutate(
           sigdiff = if_else(p < 0.05, TRUE, FALSE)
-        )
+        ) %>%
+        ungroup()
     ',
     data = summary %>% head(25),
     verbose = verbose
@@ -618,7 +621,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   # Finalize selection and naming of columns
   summary <- summary %>%
-    select(-c(nontox, lowtox, modtox, hightox)) %>%
+    select(-c(nontox, lowtox, modtox, hightox, result, result_control)) %>%
     rename(
       lab = lab,
       stationid = stationid,
@@ -640,7 +643,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     code = '
       # Finalize selection and naming of columns
       summary <- summary %>%
-        select(-c(nontox, lowtox, modtox, hightox)) %>%
+        select(-c(nontox, lowtox, modtox, hightox, result, result_control)) %>%
         rename(
           lab = lab,
           stationid = stationid,
