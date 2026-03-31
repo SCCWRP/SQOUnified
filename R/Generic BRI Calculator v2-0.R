@@ -74,7 +74,6 @@ load("Reference Files/pcode_14.RData") #pcode values by depth and taxa associate
 
 #ensuring data are in the correct formats
 
-#think about adding a latitude gaurdrails
 
 
 station_info.2<-station_info %>%
@@ -130,7 +129,7 @@ write.csv(all.4.bri, paste(output_path, "/", file_id, " interim file 4 - taxa an
 
 
 
-####          Calculate Scores
+####          Calculate Scores #####
 
 #pulling out defaunated samples and classifying them as Defaunation and assigning a score of 5 (i.e., the worst)
 defaunated<-all.4.bri %>%
@@ -278,13 +277,12 @@ dataset_names <- list("final - BRI Scores"=bri_w_station_info, "int_1 - taxa sub
 #export each data frame to separate sheets in same Excel file
 write.xlsx(dataset_names, file = paste(output_path, "/", file_id, " Offshore BRI output summary.xlsx", sep=""))
 
-out<-list(taxa_to_calc, with.pcode, no.pcode, all.4.bri, bri_w_station_info )
 
-bri.outputs.2<-list(final_bri_scores=out[[5]],
-                    int1_taxa_sumbitted=out[[1]],
-                    int2_taxa_with_pcode=out[[2]],
-                    int3_taxa_wo_pcode=out[[3]],
-                    int4_all_taxa_by_sample=out[[4]])
+bri.outputs.2<-list("final_bri_scores"=bri_w_station_info,
+                    "int1_taxa_sumbitted"=taxa_to_calc,
+                    "int2_taxa_with_pcode"=with.pcode,
+                    "int3_taxa_wo_pcode"=no.pcode,
+                    "int4_all_taxa_by_sample"=all.4.bri)
 
 return(bri.outputs.2) #so the user can see the scores and interim files in the in R Studio environment
 
