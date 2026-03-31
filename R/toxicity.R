@@ -222,7 +222,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
   writelog(
     "\n### Get the results dataframe without the controls\n  ",
     logfile = logfile,
-    code = "results <- tox.summary.input %>% filter( ( (stationid != '0000') | (sampletypecode %in% results.sampletypes) ) )",
+    code = "results <- tox.summary.input %>% filter( (sampletypecode %in% results.sampletypes) )",
     data = results,
     verbose = verbose
   )
