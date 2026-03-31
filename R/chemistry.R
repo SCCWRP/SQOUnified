@@ -2058,13 +2058,13 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         # One estimation approach is to use 50% of the MDL for any samples with ND results for that analyte;
         # however, the previous section should be consulted for addressing ND values within summed groups of constituents.
         # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
-        (coalesce(result, -88) < 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
+        (coalesce(result, -88) <= 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
 
         # For the summed group of constituents, we get the directions of how to deal with them in page 36 of the SQO Manual
         # First paragraph below table 3.4
         # "Compounds qualified as non-detected are treated as having a concentration of zero for the purpose of summing"
         # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
-        (coalesce(result, -88) < 0) & !(compound %in% single_analytes) ~ 0,
+        (coalesce(result, -88) <= 0) & !(compound %in% single_analytes) ~ 0,
         TRUE ~ result
       )
     )
@@ -2080,13 +2080,13 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
             # One estimation approach is to use 50% of the MDL for any samples with ND results for that analyte;
             # however, the previous section should be consulted for addressing ND values within summed groups of constituents.
             # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
-            (coalesce(result, -88) < 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
+            (coalesce(result, -88) <= 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
 
             # For the summed group of constituents, we get the directions of how to deal with them in page 36 of the SQO Manual
             # First paragraph below table 3.4
             # "Compounds qualified as non-detected are treated as having a concentration of zero for the purpose of summing"
             # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
-            (coalesce(result, -88) < 0) & !(compound %in% single_analytes) ~ 0,
+            (coalesce(result, -88) <= 0) & !(compound %in% single_analytes) ~ 0,
             TRUE ~ result
           )
         )
