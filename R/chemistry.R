@@ -2058,6 +2058,13 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
         # One estimation approach is to use 50% of the MDL for any samples with ND results for that analyte;
         # however, the previous section should be consulted for addressing ND values within summed groups of constituents.
         # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
+        # Per Charles Wong on Tuesday March 31, 2026 - if the MDL is not reported, we cannot estimate a missing result
+        # value using the MDL. Therefore, we will leave it as a missing value. He did not explicitly state that we should
+        # apply the same logic to the Max(RL) replacing the sum of grouped analytes, but I believe it is safe to apply
+        # the same logic. This issue came up when we noticed an estimated Mercury value was -49.5 (because it was missing,
+        # and the mdl was reported as -99. This caused an inaccurate calculation for station B98-2128, and potentially others
+        # If the MDL is also missing/invalid (-99, -88, NA, null, or 0), we cannot approximate the result, so it becomes NA
+        (coalesce(result, -88) <= 0) & (compound %in% single_analytes) & (coalesce(mdl, 0) <= 0) ~ NA_real_,
         (coalesce(result, -88) <= 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
 
         # For the summed group of constituents, we get the directions of how to deal with them in page 36 of the SQO Manual
@@ -2080,6 +2087,13 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
             # One estimation approach is to use 50% of the MDL for any samples with ND results for that analyte;
             # however, the previous section should be consulted for addressing ND values within summed groups of constituents.
             # NA or negative result values are treated as missing values (covers -88, -99 or actual null values)
+            # Per Charles Wong on Tuesday March 31, 2026 - if the MDL is not reported, we cannot estimate a missing result
+            # value using the MDL. Therefore, we will leave it as a missing value. He did not explicitly state that we should
+            # apply the same logic to the Max(RL) replacing the sum of grouped analytes, but I believe it is safe to apply
+            # the same logic. This issue came up when we noticed an estimated Mercury value was -49.5 (because it was missing,
+            # and the mdl was reported as -99. This caused an inaccurate calculation for station B98-2128, and potentially others
+            # If the MDL is also missing/invalid (-99, -88, NA, null, or 0), we cannot approximate the result, so it becomes NA
+            (coalesce(result, -88) <= 0) & (compound %in% single_analytes) & (coalesce(mdl, 0) <= 0) ~ NA_real_,
             (coalesce(result, -88) <= 0) & (compound %in% single_analytes) ~ as.numeric(1/2*mdl),
 
             # For the summed group of constituents, we get the directions of how to deal with them in page 36 of the SQO Manual
@@ -2157,8 +2171,12 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       # if the sum of the results is zero, assign it the max of the RL's
       # Page 36 of SQO Plan, first paragraph below table 3.4
       # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
-      result = if_else(
-        sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
+      result = case_when(
+        # Single analytes already had non-detect handling in Step 10 - pass through as-is
+        first(compound) %in% single_analytes ~ first(result),
+        sum(result, na.rm = T) != 0 ~ sum(result, na.rm = T),
+        max(rl) > 0 ~ max(rl),
+        TRUE ~ NA_real_
       )
     ) %>%
     ungroup()
@@ -2175,8 +2193,13 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
           # if the sum of the results is zero, assign it the max of the RLs
           # Page 36 of SQO Plan, first paragraph below table 3.4
           # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
-          result = if_else(
-            sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
+          # If max RL is also non-positive (missing/invalid), result is NA
+          # Single analytes already had non-detect handling in Step 10 - pass through as-is
+          result = case_when(
+            first(compound) %in% single_analytes ~ first(result),
+            sum(result, na.rm = T) != 0 ~ sum(result, na.rm = T),
+            max(rl) > 0 ~ max(rl),
+            TRUE ~ NA_real_
           )
         ) %>%
     ungroup()
@@ -2241,11 +2264,10 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
   ddts_total <- ddts_total.13a %>%
     group_by(stationid,compound) %>%
     summarize(
-      result = if_else(
-        # if the sum of the results is zero, assign it the max of the RLs
-        # Page 30 of SQO Plan, first paragraph below table 3.4
-        # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
-        sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
+      result = case_when(
+        sum(result, na.rm = T) != 0 ~ sum(result, na.rm = T),
+        max(rl) > 0 ~ max(rl),
+        TRUE ~ NA_real_
       )
     ) %>% ungroup()
 
@@ -2255,11 +2277,14 @@ chemdata_prep <- function(chemdata_prep.input, logfile = file.path(getwd(), 'log
       ddts_total <- ddts_total.13a %>%
         group_by(stationid,compound) %>%
         summarize(
-          result = if_else(
-            # if the sum of the results is zero, assign it the max of the RLs
-            # Page 30 of SQO Plan, first paragraph below table 3.4
-            # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
-            sum(result, na.rm = T) != 0, sum(result, na.rm = T), max(rl)
+          # if the sum of the results is zero, assign it the max of the RLs
+          # Page 30 of SQO Plan, first paragraph below table 3.4
+          # "If all components of a sum are non-detected, then the highest reporting limit of any one compound in the group should be used to represent the sum value."
+          # If max RL is also non-positive (missing/invalid), result is NA
+          result = case_when(
+            sum(result, na.rm = T) != 0 ~ sum(result, na.rm = T),
+            max(rl) > 0 ~ max(rl),
+            TRUE ~ NA_real_
           )
         ) %>%
         ungroup()
