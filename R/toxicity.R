@@ -241,7 +241,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   # Nest result values per station/group
   results_nested <- results %>%
-    group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))) %>%
+    group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
     summarize(
       n = sum(!is.na(result)),
       result = list(result),
@@ -265,17 +265,19 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   # Nest control values per batch (all reps included)
   controls_nested <- controls %>%
-    group_by(toxbatch, species, lab) %>%
+    group_by(across(any_of(c("toxbatch", "species", "lab", "surveyyear")))) %>%
     summarize(
       n = sum(!is.na(result)),
       result = list(result), 
       .groups = "drop"
     )
 
-  # Join on batch-level keys — no labrep 
-  # This will allow the t test to take place even with a differing number of replicates 
+  # Join on batch-level keys — no labrep
+  # This will allow the t test to take place even with a differing number of replicates
+  # Also join on surveyyear if it exists in both dataframes
+  join_keys <- intersect(c("toxbatch", "species", "lab", "surveyyear"), intersect(names(results_nested), names(controls_nested)))
   results_summary <- results_nested %>%
-    left_join(controls_nested, by = c("toxbatch", "species", "lab"), suffix = c('','_control'))
+    left_join(controls_nested, by = join_keys, suffix = c('','_control'))
 
   writelog(
     "\n### Join results and controls on 'toxbatch', 'species', and 'lab'\n  ",
@@ -283,7 +285,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     code = '
       # Nest result values per station/group
       results_nested <- results %>%
-        group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode")))) %>%
+        group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
         summarize(
           n = sum(!is.na(result)),
           result = list(result),
@@ -307,17 +309,19 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
       # Nest control values per batch (all reps included)
       controls_nested <- controls %>%
-        group_by(toxbatch, species, lab) %>%
+        group_by(across(any_of(c("toxbatch", "species", "lab", "surveyyear")))) %>%
         summarize(
           n = sum(!is.na(result)),
-          result = list(result), 
+          result = list(result),
           .groups = "drop"
         )
 
-      # Join on batch-level keys — no labrep 
-      # This will allow the t test to take place even with a differing number of replicates 
+      # Join on batch-level keys — no labrep
+      # This will allow the t test to take place even with a differing number of replicates
+      # Also join on surveyyear if it exists in both dataframes
+      join_keys <- intersect(c("toxbatch", "species", "lab", "surveyyear"), intersect(names(results_nested), names(controls_nested)))
       results_summary <- results_nested %>%
-        left_join(controls_nested, by = c("toxbatch", "species", "lab"), suffix = c("","_control"))
+        left_join(controls_nested, by = join_keys, suffix = c("","_control"))
 
 
     ',
@@ -328,20 +332,22 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
   if(include.controls) {
     # Join controls with the controls, so the control data is easily readable in one of the rows of the summary output
+    control_join_keys <- intersect(c("toxbatch", "species", "lab", "surveyyear"), names(controls_nested))
     control_summary <- controls_nested %>%
       inner_join(
         controls_nested,
-        by = c('toxbatch','species','lab'),
+        by = control_join_keys,
         suffix = c('','_control')
       )
     writelog(
-      "\n### Join controls with itself on 'toxbatch', 'species', and 'lab'\n  ",
+      "\n### Join controls with itself on 'toxbatch', 'species', 'lab' (and 'surveyyear' if present)\n  ",
       logfile = logfile,
       code = "
+        control_join_keys <- intersect(c('toxbatch', 'species', 'lab', 'surveyyear'), names(controls_nested))
         control_summary <- controls_nested %>%
           inner_join(
             controls_nested,
-            by = c('toxbatch','species','lab'),
+            by = control_join_keys,
             suffix = c('','_control')
           )
       ",
