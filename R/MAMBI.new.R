@@ -242,6 +242,8 @@ alt.MAMBI.generic <- function(benthic_data,
   # Calculating base 2 shannon wiener diversity for each sample
   Divy <- Input_File %>%
     filter(exclude != "Yes") %>%
+    group_by(stationid, replicate, sampledate, taxon) %>%
+    summarise(abundance = sum(abundance), .groups = "drop") %>%
     pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = taxon, values_from = abundance, values_fill = 0) %>%
     mutate(H = vegan::diversity(select(., 4:ncol(.)), index = "shannon", base = 2)) %>%
     select(stationid, replicate, sampledate, H)
@@ -349,6 +351,8 @@ alt.MAMBI.generic <- function(benthic_data,
     # calculate shannon wiener diversity (base 2) for each sample
     TF.Divy <- Input_File %>%
       filter(SalZone == "TF") %>%
+      group_by(stationid, replicate, sampledate, taxon) %>%
+      summarise(abundance = sum(abundance), .groups = "drop") %>%
       pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = taxon, values_from = abundance, values_fill = 0) %>%
       mutate(H = diversity((select(., 4:(ncol(.)))), index = "shannon", base = 2)) %>%
       select(., stationid, replicate, sampledate, H)

@@ -28,7 +28,7 @@ Maintainer: Robert Butler <robertb@sccwrp.org>
 License: CCO
 Encoding: UTF-8
 LazyData: true
-Imports: 
+Imports:
   dbplyr,
   reshape2,
   vegan,
@@ -37,10 +37,13 @@ Imports:
   purrr,
   stringr,
   tidyr,
+  tibble,
   lubridate,
   DT,
   knitr,
   rmarkdown
-Depends: 
+Suggests:
+  fuzzyjoin
+Depends:
   R (>= 3.5.0)
 RoxygenNote: 7.3.3
