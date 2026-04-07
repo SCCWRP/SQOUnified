@@ -49,11 +49,11 @@
 #' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
 #'
 #' @usage
-#' alt.SQO.BRI.generic(benthic_data)
+#' BRI(benthic_data)
 #'
 #' @examples
 #' \dontrun{
-#'   alt.SQO.BRI.generic(my_benthic_data)
+#'   BRI(my_benthic_data)
 #' }
 #'
 #' @import dplyr
@@ -61,7 +61,7 @@
 #' @importFrom lubridate ymd
 #'
 #' @export
-alt.SQO.BRI.generic <- function(benthic_data,
+BRI <- function(benthic_data,
                                 logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRI_generic_log.Rmd'),
                                 verbose = FALSE,
                                 knitlog = FALSE)

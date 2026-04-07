@@ -2,58 +2,63 @@
 % Please edit documentation in R/BRI.R
 \name{BRI}
 \alias{BRI}
-\title{Compute the benthic response index (BRI) score and BRI condition category.}
+\title{Compute the benthic response index (BRI) score and BRI condition category (generic version).}
 \usage{
 BRI(benthic_data)
 }
 \arguments{
-\item{BenthicData}{a data frame with the following headings
+\item{benthic_data}{a data frame containing benthic data and station information with at minimum:
 
-   \strong{\code{StationID}} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-   \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-   \strong{\code{SampleDate}} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-   \strong{\code{Latitude}} - latitude in decimal degrees;
+   \strong{\code{taxon}} - name of the organism. Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-   \strong{\code{Longitude}} - longitude in decimal degrees.
-   Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{abundance}} - number of individuals counted;
 
-   \strong{\code{Species}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;}
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.}
+
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
+
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
+
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-The BRI is the abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-  the BRI score, the more degraded the benthic community represented by the sample.
+The BRI is the 4th root abundance weighted pollution tolerance score of the organisms present in a sample
+  relative to the 4th root abundance of all taxa in the sample with a tolerance score (aka p-code, p-value).
+  The higher the BRI score, the more degraded the sample.
 }
 \details{
-The BRI is the 4th root relative abundance weighted pollution tolerance score of the organisms present in a benthic sample. The higher
-  the BRI score, the more degraded the benthic community represented by the sample.
+Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality
+  Assessment Technical Support Manual. SCCWRP Technical Report 777.
 
-  Two types of data are needed to calculate the BRI:
+  Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five
+  indicators of benthic community condition in two California bay and estuary habitats. Marine Pollution
+  Bulletin 59:5-13.
 
-  (1) the abundance of each species
-  (2) species-specific pollution tolerance score (aka, P Value)
+  Background concepts of the index can be found in Smith et al 2001. Benthic Response Index for Assessing
+  Infaunal Communities on the Southern California Mainland Shelf. Ecological Applications 11: 1073-1087.
 
-  Tolerance Values are stored in the Southern California SQO Species List provided with this coded. Species names are periodically
-  updated by benthic experts.
+  The BRI score is calculated as:
+  \deqn{ BRI = \frac{\sum \left(\sqrt[4]{\textrm{Abundance}} \times P\right)}{\sum \sqrt[4]{\textrm{Abundance}}} }
 
-  The BRI is only calculated from those taxa with a tolerance score. The first step in the BRI calculation is to compute the 4th root
-  of the abundance of each taxon in the sample that have an associated tolerance score
-  The next step is to multiply the 4th root abundance value by the tolerance score for each taxon.
-  The next step is to sum all of the 4th root abundance values in a given sample.
-  The actual BRI score is calculated as:
+  BRI condition categories for Southern California Marine Bays:
+  \itemize{
+    \item Reference: score < 39.96 (category score 1)
+    \item Low Disturbance: 39.96 <= score < 49.15 (category score 2)
+    \item Moderate Disturbance: 49.15 <= score < 73.27 (category score 3)
+    \item High Disturbance: score >= 73.27 (category score 4)
+  }
 
-  \deqn{ \frac{\sum \left(\sqrt[p]{\textrm{Abundance}} \right) \times P}{\sum \sqrt[p]{\textrm{Abundance}}} }
-
-  The last step is to convert the BRI score to condition category using the category thresholds listed in Table 5.
-
-  <Table 5. To be included in R markdown file>
+  This version uses the SQO Excel tool look-up list as decided by the Bight 23 index code subcommittee.
 }
 \examples{
-data(benthic_sampledata) # load sample data
-BRI(benthic_sampledata) # see the output
+\dontrun{
+  BRI(my_benthic_data)
+}
 
 }

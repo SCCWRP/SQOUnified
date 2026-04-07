@@ -220,20 +220,20 @@ benthic.sqo <- function(BenthicData,
 
   writelog('\n#### BLOE Step 3 - Calculating individual indices\n', logfile = logfile, verbose = verbose)
 
-  bri.scores.x <- alt.SQO.BRI.generic(BenthicData.3, logfile = logfile, verbose = verbose)
+  bri.scores.x <- BRI(BenthicData.3, logfile = logfile, verbose = verbose)
   writelog('\nSQO BRI Complete\n', logfile = logfile, verbose = verbose)
 
-  ibi.scores.x <- alt.IBI.generic(BenthicData.3, logfile = logfile, verbose = verbose)
+  ibi.scores.x <- IBI(BenthicData.3, logfile = logfile, verbose = verbose)
   writelog('\nSQO IBI Complete\n', logfile = logfile, verbose = verbose)
 
-  rbi.scores.x <- alt.RBI.generic(BenthicData.3, logfile = logfile, verbose = verbose)
+  rbi.scores.x <- RBI(BenthicData.3, logfile = logfile, verbose = verbose)
   writelog('\nSQO RBI Complete\n', logfile = logfile, verbose = verbose)
 
-  rivpacs.scores.x <- alt.RIVPACS.generic(BenthicData.3, logfile = logfile, verbose = verbose)
+  rivpacs.scores.x <- RIVPACS(BenthicData.3, logfile = logfile, verbose = verbose)
   writelog('\nSQO RIVPACS Complete\n', logfile = logfile, verbose = verbose)
 
   # Note: MAMBI uses modern (ed14) taxonomy, not the SQO-retrofitted taxonomy
-  mambi.scores.x <- alt.MAMBI.generic(BenthicData, EG_Ref_values = EG_Ref_values, EG_Scheme = EG_Scheme,
+  mambi.scores.x <- MAMBI(BenthicData, EG_Ref_values = EG_Ref_values, EG_Scheme = EG_Scheme,
                                        logfile = logfile, verbose = verbose)
   writelog('\nSQO M-AMBI Complete\n', logfile = logfile, verbose = verbose)
 

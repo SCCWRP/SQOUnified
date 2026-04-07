@@ -2,68 +2,73 @@
 % Please edit documentation in R/IBI.R
 \name{IBI}
 \alias{IBI}
-\title{Compute the Index of Biotic Integrity (IBI) and IBI condition category.}
+\title{Compute the Index of Biotic Integrity (IBI) and IBI condition category (generic version).}
 \usage{
 IBI(benthic_data)
 }
 \arguments{
-\item{BenthicData}{a data frame with AT LEAST the following information with these headings:
+\item{benthic_data}{a data frame containing benthic data and station information with at minimum:
 
-   \code{StationID} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-   \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-   \code{SampleDate} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-   \code{Latitude} - latitude in decimal degrees;
+   \strong{\code{taxon}} - name of the organism. Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-   \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{abundance}} - number of individuals counted;
 
-   \code{Species} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.}
 
-   \code{Abundance} - the number of each Species observed in a sample;
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
 
-   \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling.}
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
+
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-The IBI compares the values of four different metrics to the ranges expected under reference conditions. Each metric
-  that is outside of the reference range increases the IBI score by one. Therefore, if all four metrics were inside
-  the reference range, the score would be 0. Conversely, if all four metrics were outside the reference range, the
-  value would be 4.
+The IBI is a multi-metric index that compares the values of four different metrics to the ranges expected under
+  reference conditions. The score increases by one for each metric that is outside of the reference range. The four
+  metrics are:
+
+  (1) the total number of taxa - measure of biodiversity
+  (2) the total number of mollusc taxa - measure of sensitivity to eutrophication and potentially invasive taxa
+  (3) the abundance of Notomastus sp. - measure of the presence of organic matter indicative taxa
+  (4) the number of sensitive taxa - measure of the presence of pollution sensitive taxa designated by Thompson and Lowe, 2004
 }
 \details{
-The IBI compares the values of four different metrics to the ranges expected under reference conditions. Each metric
-  that is outside of the reference range increases the IBI score by one. Therefore, if all four metrics were inside
-  the reference range, the score would be 0. Conversely, if all four metrics were outside the reference range, the
-  value would be 4.
+Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality Assessment
+  Technical Support Manual. SCCWRP Technical Report 777.
 
-  The data needed to calculate the IBI are:
-  (1) the total number of taxa,
-  (2) the total number of mollusc taxa,
-  (3) the abundance of \emph{Notomastus} sp., and
-  (4) the number of sensitive taxa.
+  Details on validation of the index can be found in Ranasinghe et al. 2009 Calibration and evaluation of five indicators
+  of benthic community condition in two California bay and estuary habitats. Marine Pollution Bulletin 59:5-13.
 
-  The total numnber of taxa, number of mollusc taxa, and abundance of \emph{Notomastus} sp. can be obtained directly
-  from the data. The list of sensitive species should be based on the species list for Southern California Marine Bays
-  and the percentage of sensitive taxa present is calulated as:
+  Background concepts of the index can be found in Thompson and Lowe 2004. Assessment of macrobenthos response to sediment
+  contamination in the San Francisco Estuary, California USA. Environmental Toxicology and Chemistry 23:2178-2187.
 
-  \deqn{\% \textrm{sensitive taxa} = (\textrm{number of sensistive taxa} / \textrm{total number of taxa}) \times 100}
+  Reference ranges for IBI metrics in Southern California Marine Bays
+  (Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68):
+  \itemize{
+    \item NumOfTaxa: 13 - 99
+    \item NumOfMolluscTaxa: 2 - 25
+    \item NotomastusAbun: 0 - 59
+    \item PctSensTaxa: 19 - 47.1
+  }
 
-  The value for each metric is then compared to a reference range for that metric (Table 2).
-  The IBI score is set to zero before comparison to the reference range. For each metric that is out of the reference
-  range (above or below), the IBI score goes up by one.
+  IBI condition categories:
+  \itemize{
+    \item Reference: score = 0 (category score 1)
+    \item Low Disturbance: score = 1 (category score 2)
+    \item Moderate Disturbance: score = 2 (category score 3)
+    \item High Disturbance: score = 3 or 4 (category score 4)
+  }
 
-  <Include Table 2>
-
-  The IBI score is then compared to condition category thresholds (Table 3) in order to determine the IBI category and
-  score.
-
-  <Include Table 3>
+  This version uses the SQO Excel tool look-up list as decided by the Bight 23 index code subcommittee.
 }
 \examples{
-data(benthic_sampledata)
-IBI(BenthicData)
+\dontrun{
+  IBI(my_benthic_data)
+}
 
 }

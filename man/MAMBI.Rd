@@ -2,93 +2,89 @@
 % Please edit documentation in R/MAMBI.R
 \name{MAMBI}
 \alias{MAMBI}
-\title{Compute the multivariate AMBI (M-AMBI) index score.}
+\title{Compute the multivariate AMBI (M-AMBI) index score (generic version).}
 \usage{
-MAMBI(benthic_data, EG_Ref_values = EG_Ref, EG_Scheme = "Hybrid")
+MAMBI(benthic_data)
 }
 \arguments{
-\item{\strong{BenthicData}}{a data frame with the following columns:
+\item{benthic_data}{a data frame containing benthic data and station information with at minimum:
 
-   \strong{\code{StationID}} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-   \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-   \strong{\code{SampleDate}} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-   \strong{\code{Latitude}} - latitude in decimal degrees;
+   \strong{\code{latitude}} - latitude in decimal degrees;
 
-   \strong{\code{Longitude}} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{longitude}} - longitude in decimal degrees (negative for west);
 
-   \strong{\code{Taxon}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;
+   \strong{\code{salinity}} - bottom water salinity in PSU;
 
-   \strong{\code{Abundance}} - the number of each Species observed in a sample;
+   \strong{\code{taxon}} - name of the organism (SCAMIT ed14 format preferred).
+       Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-   \strong{\code{Salinity}} - the salinity observed at the location in PSU, ideally at time of sampling.}
+   \strong{\code{abundance}} - number of individuals counted;
 
-\item{\strong{EG_Ref_values}}{-  A data frame with the suite of US Ecological Groups assigned
-    initially in Gillett et al. 2015. This EG Ref values has multiple versions of the EG values and a Yes/No designation
-    if the fauna are Oligochaetes or not. The default dataframe is one called EG_Ref which was originally
-    read in from a csv called "Ref - EG Values 2018.csv."
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.}
 
-    Replace with other data as you see fit, but make sure the data you use is in a similar format and uses
-    the same column names. Additionally, new taxa can be added at the bottom of the list with the EG values the user
-    feels appropriate, THOUGH THIS IS NOT RECOMMENDED}
+\item{EG_Ref_values}{a data frame with Ecological Group assignments. If NULL (default),
+uses the standard EG list based on Gillett et al. 2015, updated with each Bight cycle.}
 
-\item{\strong{EG_Scheme}}{A quoted string with the name of the EG Scheme to be used in the AMBI scoring.
-The default is Hybrid, though one could use US (all coasts),
-Standard (Values from Angel Borja and colleagues),
-US_East (US East Coast), US_Gulf (US Gulf of Mexico Coast), or US_West (US West Coast).}
-}
-\value{
-The output of the function will be a dataframe with
+\item{EG_Scheme}{a quoted string specifying which EG value column to use. Default is "Hybrid".
+Other options: "US_East", "US_West", "US_Gulf", "US", "Standard".}
 
-    \code{StationID}, \code{Replicate}, \code{SampleDate},
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
 
-    \code{Latitude}, \code{Longitude},
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
 
-    \code{SalZone} (The Salinity Zone assigned by M-AMBI),
-
-    \code{AMBI_Score},
-
-    \code{S} (Species Richness),
-
-    \code{H} (Species Diversity),
-
-    \code{Oligo_pct} (Relative Abundance of Oligochaetes),
-
-    \code{MAMBI_Score}, \code{Orig_MAMBI_Condition}, \code{New_MAMBI_Condition},
-
-    \code{Use_MAMBI} (Can M-AMBI be applied?), \code{Use_AMBI} (Can AMBI be applied?),
-
-    \code{YesEG} (percentage of Abundance with a EG value)
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-This is a function to calculate multivariate AMBI (M-AMBI) index scores following Pelletier et al. 2018
-    which is in turn built upon the work of Sigovini et al. 2013 and Muxica et al. 2007.
-    This is an alternate version that allows for manipulation of the data within R before
-    submitting it to the function in lieu of directly reading in an excel file to the function.
+This function calculates the United States version of the multivariate AMBI (M-AMBI) index scores
+  following Pelletier et al. 2018, which is in turn built upon the work of Sigovini et al. 2013
+  and Muxica et al. 2007.
+}
+\details{
+The M-AMBI integrates three metrics via factor analysis:
+  \itemize{
+    \item AMBI score - abundance-weighted ecological group tolerance score
+    \item Species Richness (S) - for saline samples; or percent Oligochaetes for tidal freshwater
+    \item Shannon-Wiener Diversity (H') - base-2 Shannon diversity
+  }
 
-    The function is designed for use in US estuarine waters and requires three arguments:
-    BenthicData, EG_Ref_values, and EG_Scheme. More details are given below.
+  Samples are classified by salinity zone and compared against good/bad standards from
+  Pelletier et al. 2018 for each zone. Factor analysis (PCA with varimax rotation) is used
+  to produce M-AMBI scores via the Ecological Quality Ratio (EQR) transformation.
 
-    Two additional dataframes are also needed to run the script: Saline and Tidal freshwater
-    good-bad standards for the M-AMBI that are in TidalFresh_Standards.RData and Saline_Standards.RData
+  Salinity zones:
+  \itemize{
+    \item TF: Tidal Freshwater (0 - 0.2 PSU) - uses AMBI, H', and percent Oligochaetes
+    \item OH: Oligohaline (0.2 - 5 PSU)
+    \item MH: Mesohaline (5 - 18 PSU)
+    \item PH/WPH: Polyhaline (18 - 30 PSU)
+    \item EH/WEH: Euhaline (30 - 40 PSU)
+    \item HH: Hyperhaline (> 40 PSU)
+  }
 
-    For the function to run, the following packages NEED to be installed:  tidyverse, reshape2, vegan,
-    and readxl. Additionally the EQR.R function must also be installed and is included with this code.
+  M-AMBI condition categories (SQO):
+  \itemize{
+    \item Reference: score >= 0.578
+    \item Low Disturbance: 0.483 <= score < 0.578
+    \item Moderate Disturbance: 0.387 < score < 0.483
+    \item High Disturbance: score <= 0.387
+  }
+
+  AMBI applicability guidelines follow Borja and Muxica 2005:
+  \itemize{
+    \item <= 20 percent unassigned abundance: AMBI applicable
+    \item 20-50 percent: Use with care
+    \item > 50 percent: Not recommended
+  }
 }
 \examples{
-data(benthic_sampledata) # load sample dataset to environment
-data(TidalFresh_Standards) # Load tidal fresh standards if you want to look at them
-data(Saline_Standards) # Load Saline standards if you want to look at them
-data(EG_Ref) # load the default EG_Ref values
-MAMBI(benthic_sampledata, EG_Ref, "Hybrid")
-MAMBI(benthic_sampledata, EG_Ref, "US Gulf")
-MAMBI(benthic_sampledata) # uses default values for the last two args
-
+\dontrun{
+  MAMBI(my_benthic_data)
 }
-\author{
-David Gillett \email{davidg@sccwrp.org}
+
 }

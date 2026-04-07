@@ -86,7 +86,7 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, knitlog = F) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, offshore_stations = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -95,14 +95,14 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
   #load("data/site_assessment_criteria.RData")
 
-  if (all(is.null(c(benthic,chem,tox)))){
+  if (all(is.null(c(benthic,chem,tox,offshore_benthic, offshore_stations)))){
     stop("
       No data was provided.
       Please provide benthic, chemistry and toxicity data to get the integrated site assessments
     ")
   }
   # check the data coming in before anything
-  checkdata(benthic, chem, tox, logfile = logfile, verbose = verbose)
+  checkdata(benthic, chem, tox, offshore_benthic, offshore_stations, logfile = logfile, verbose = verbose)
 
 
 
@@ -117,9 +117,17 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
 
     init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
 
+    # Work in progress here - probably have to extract all the dataframes from the list to extract their scores
     benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = knitlog) %>%
-      mutate(LOE = 'Benthic') %>%
-      select(StationID, Replicate, SampleDate, LOE, Index, Score, Category, `Category Score`) %>%
+      mutate(LOE = 'Benthic', Index) %>%
+      rename(
+        StationID = stationid,
+        Replicate = replicate,
+        Score = BLOE_score,
+        Category = BLOE_category,
+        `Category Score` = BLOE_score
+      ) %>%
+      select(StationID, Replicate,  LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
       # 999 times out of 1000 there should only be one replicate
       filter(
@@ -133,7 +141,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, logfile = file.p
       # there are not two sampledates for the same station, unlike SMC, which has permanent station names,
       # and sampledates are used to distinguish the station at different times
       # The Bight program however, which only samples every 5 years, puts the year of the sample in the stationid
-      select(-c(Replicate,SampleDate))
+      select(-c(Replicate))
 
     writelog('See the Benthic subdirectory for the benthic SQO logs', logfile = logfile, verbose = verbose)
 
