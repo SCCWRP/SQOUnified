@@ -5,6 +5,5 @@
 .Renviron
 example/
 ignore/
-scripts/
 logs/
 .DS_Store

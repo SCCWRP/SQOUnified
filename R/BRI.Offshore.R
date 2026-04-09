@@ -74,8 +74,8 @@
 #' BRI.Offshore(BenthicData, StationData)
 #'
 #' @examples
-#' data(offshore_bri_sampledata) # loads offshore_infauna_sampledata and offshore_station_sampledata
-#' BRI.Offshore(offshore_infauna_sampledata, offshore_station_sampledata)
+#' data(offshore_bri_sampledata) # loads offshore_benthic_sampledata and offshore_station_sampledata
+#' BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
 #'
 #' @import dplyr
 #' @importFrom tidyr drop_na pivot_longer
