@@ -42,11 +42,12 @@
 #' @importFrom stats t.test na.omit
 #' @importFrom tidyr separate
 #' @import dplyr
+#' @importFrom stringr str_unique str_sort str_subset str_split_1 str_flatten str_flatten_comma str_trim str_length str_detect
 #' @export
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
 # DEFAULT leave it out and do only Results
-tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
+tox.summary <- function(tox.summary.input, results.sampletypes = c('Result', 'Grab'), control.sampletypes = c('CNEG'), include.controls = F, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -219,9 +220,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
       sampletypecode %in% results.sampletypes
     ) %>%
     # Set result to NA where qacode contains "X" so it is excluded from calculations
-    mutate(
-      result = ifelse("qacode" %in% names(.) & grepl("X", qacode, ignore.case = TRUE), NA_real_, result)
-    )
+    {if ("qacode" %in% names(.)) mutate(., result = ifelse(grepl("X", qacode, ignore.case = TRUE), NA_real_, result)) else .}
 
   writelog(
     "\n### Get the results dataframe without the controls\n  ",
@@ -240,28 +239,68 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
 
 
   # Nest result values per station/group
+  # Determine which optional columns are present before summarizing
+  has_units     <- "units" %in% names(results)
+  has_endpoint  <- "endpoint" %in% names(results)
+  has_qacode    <- "qacode" %in% names(results)
+  has_treatment <- "treatment" %in% names(results)
+  has_comments  <- "comments" %in% names(results)
+  has_matrix    <- "matrix" %in% names(results)
+
   results_nested <- results %>%
     group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
     summarize(
       n = sum(!is.na(result)),
       result = list(result),
-      units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
-      endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-      qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
-                          paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
-                          NA_character_),
-      treatment = ifelse ("treatment" %in% names(pick(everything())),
-                          case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
-                                    .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
-                          NA_character_),
-      comments  = ifelse ("comments" %in% names(pick(everything())),
-                          comments %>%
-                            stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
-                            stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
-                          NA_character_),
-      matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_),
       .groups = "drop"
     )
+
+  # Summarize optional columns separately and join back
+  if (has_units) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(units = paste(unique(as.character(units)), collapse = ";"), .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$units <- NA_character_ }
+
+  if (has_endpoint) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(endpoint = paste(unique(as.character(endpoint)), collapse = ";"), .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$endpoint <- NA_character_ }
+
+  if (has_qacode) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(qacode = if (!all(is.na(qacode)))
+                           paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(na.omit(qacode)), ""), "[:alpha:]"))), collapse = ", ")
+                         else NA_character_, .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$qacode <- NA_character_ }
+
+  if (has_treatment) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(treatment = if (any(!is.na(treatment))) treatment %>% na.omit() %>% unique() %>% paste(collapse = ";") else NA_character_, .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$treatment <- NA_character_ }
+
+  if (has_comments) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(comments = comments %>%
+                  stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
+                  stringr::str_flatten(collapse="; ") %>% {if (stringr::str_length(.) > 0) . else NA_character_}, .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$comments <- NA_character_ }
+
+  if (has_matrix) {
+    results_nested <- results %>%
+      group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
+      summarize(matrix = paste(unique(as.character(matrix)), collapse = ";"), .groups = "drop") %>%
+      left_join(results_nested, ., by = intersect(names(results_nested), c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))
+  } else { results_nested$matrix <- NA_character_ }
 
   # Nest control values per batch (all reps included)
   controls_nested <- controls %>%
@@ -283,47 +322,21 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result'), co
     "\n### Join results and controls on 'toxbatch', 'species', and 'lab'\n  ",
     logfile = logfile,
     code = '
-      # Nest result values per station/group
+      # Nest result values per station/group, then conditionally summarize optional columns
       results_nested <- results %>%
         group_by(across(any_of(c("lab", "stationid", "toxbatch", "species", "dilution", "fieldrep", "sampletypecode", "surveyyear")))) %>%
-        summarize(
-          n = sum(!is.na(result)),
-          result = list(result),
-          units     = ifelse ("units" %in% names(pick(everything())), paste(unique(as.character(units)), collapse = ";"), NA_character_),
-          endpoint  = ifelse ("endpoint" %in% names(pick(everything())), paste(unique(as.character(endpoint)), collapse = ";"), NA_character_),
-          qacode    = ifelse ("qacode" %in% names(pick(everything())) & !all(is.na(qacode)),
-                              paste(str_unique(str_sort(str_subset(str_split_1(str_flatten(qacode), ""), "[:alpha:]"))), collapse = ", "),
-                              NA_character_),
-          treatment = ifelse ("treatment" %in% names(pick(everything())),
-                              case_when(treatment %>% na.omit() %>% length() == 0 ~ NA_character_,
-                                        .default = treatment %>% na.omit() %>% unique() %>% paste(collapse = ";")),
-                              NA_character_),
-          comments  = ifelse ("comments" %in% names(pick(everything())),
-                              comments %>%
-                                stringr::str_trim() %>% dplyr::na_if("") %>% purrr::discard(is.na) %>% stringr::str_unique() %>%
-                                stringr::str_flatten(collapse="; ") %>% ifelse(stringr::str_length(.) > 0, ., NA_character_),
-                              NA_character_),
-          matrix    = ifelse ("matrix" %in% names(pick(everything())), paste(unique(as.character(matrix)), collapse = ";"), NA_character_),
-          .groups = "drop"
-        )
+        summarize(n = sum(!is.na(result)), result = list(result), .groups = "drop")
+      # Optional columns (units, endpoint, qacode, treatment, comments, matrix) are
+      # summarized separately and joined back only when present in the input data.
 
       # Nest control values per batch (all reps included)
       controls_nested <- controls %>%
         group_by(across(any_of(c("toxbatch", "species", "lab", "surveyyear")))) %>%
-        summarize(
-          n = sum(!is.na(result)),
-          result = list(result),
-          .groups = "drop"
-        )
+        summarize(n = sum(!is.na(result)), result = list(result), .groups = "drop")
 
-      # Join on batch-level keys — no labrep
-      # This will allow the t test to take place even with a differing number of replicates
-      # Also join on surveyyear if it exists in both dataframes
       join_keys <- intersect(c("toxbatch", "species", "lab", "surveyyear"), intersect(names(results_nested), names(controls_nested)))
       results_summary <- results_nested %>%
         left_join(controls_nested, by = join_keys, suffix = c("","_control"))
-
-
     ',
     data = results_summary %>% head(25),
     verbose = verbose

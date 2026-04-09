@@ -363,7 +363,7 @@ tox_batches_mg <- c("NOAAS24SedTest1", "NOAAS24SedTest2")
 # Control results (high survival/normal development)
 set.seed(42)
 
-make_tox_rows <- function(stationid, toxbatch, species, sampletypecode, matrix, results) {
+make_tox_rows <- function(stationid, toxbatch, species, sampletypecode, matrix, results, qacodes = rep(NA_character_, 5)) {
   data.frame(
     stationid = stationid,
     toxbatch = toxbatch,
@@ -372,6 +372,7 @@ make_tox_rows <- function(stationid, toxbatch, species, sampletypecode, matrix, 
     matrix = matrix,
     labrep = 1:5,
     result = results,
+    qacode = qacodes,
     stringsAsFactors = FALSE
   )
 }
@@ -391,7 +392,8 @@ tox_rows[[3]] <- make_tox_rows("S24-1002", tox_batches_ee[1], "Eohaustorius estu
 tox_rows[[4]] <- make_tox_rows("0000", tox_batches_ee[2], "Eohaustorius estuarius", "CNEG", "Whole Sediment",
                                 c(100, 100, 95, 100, 100))
 tox_rows[[5]] <- make_tox_rows("S24-1003", tox_batches_ee[2], "Eohaustorius estuarius", "Grab", "Whole Sediment",
-                                c(50, 55, 45, 60, 40))
+                                c(50, 55, 45, 60, 40),
+                                c(NA, NA, "X", NA, NA))
 tox_rows[[6]] <- make_tox_rows("S24-1004", tox_batches_ee[2], "Eohaustorius estuarius", "Grab", "Whole Sediment",
                                 c(10, 15, 5, 20, 0))
 
@@ -408,7 +410,8 @@ tox_rows[[9]] <- make_tox_rows("0000", tox_batches_mg[1], "Mytilus galloprovinci
 tox_rows[[10]] <- make_tox_rows("S24-1001", tox_batches_mg[1], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
                                  c(88, 85, 90, 82, 86))
 tox_rows[[11]] <- make_tox_rows("S24-1002", tox_batches_mg[1], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
-                                 c(75, 70, 78, 72, 68))
+                                 c(75, 70, 78, 72, 68),
+                                 c(NA, "Q", NA, NA, NA))
 tox_rows[[12]] <- make_tox_rows("S24-1003", tox_batches_mg[1], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
                                  c(40, 35, 45, 38, 42))
 
@@ -416,7 +419,8 @@ tox_rows[[12]] <- make_tox_rows("S24-1003", tox_batches_mg[1], "Mytilus gallopro
 tox_rows[[13]] <- make_tox_rows("0000", tox_batches_mg[2], "Mytilus galloprovincialis", "CNEG", "Sediment Water Interface",
                                  c(92, 88, 90, 94, 90))
 tox_rows[[14]] <- make_tox_rows("S24-1004", tox_batches_mg[2], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
-                                 c(8, 12, 5, 15, 10))
+                                 c(8, 12, 5, 15, 10),
+                                 c(NA, NA, NA, "X", NA))
 tox_rows[[15]] <- make_tox_rows("S24-1005", tox_batches_mg[2], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
                                  c(60, 55, 65, 58, 62))
 
