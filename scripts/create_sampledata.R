@@ -49,11 +49,15 @@ metal_vals <- list(
 
 chem_metals <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = metals,
-    result      = as.character(metal_vals[[stn]]),
-    rl          = metal_rl,
-    mdl         = metal_mdl,
+    stationid      = stn,
+    analytename    = metals,
+    result         = as.character(metal_vals[[stn]]),
+    rl             = metal_rl,
+    mdl            = metal_mdl,
+    units          = "mg/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -102,22 +106,30 @@ hpah_vals <- list(
 
 chem_lpahs <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = lpahs,
-    result      = as.character(lpah_vals[[stn]]),
-    rl          = pah_rl,
-    mdl         = pah_mdl,
+    stationid      = stn,
+    analytename    = lpahs,
+    result         = as.character(lpah_vals[[stn]]),
+    rl             = pah_rl,
+    mdl            = pah_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
 
 chem_hpahs <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = hpahs,
-    result      = as.character(hpah_vals[[stn]]),
-    rl          = pah_rl,
-    mdl         = pah_mdl,
+    stationid      = stn,
+    analytename    = hpahs,
+    result         = as.character(hpah_vals[[stn]]),
+    rl             = pah_rl,
+    mdl            = pah_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -146,11 +158,15 @@ pest_vals <- list(
 
 chem_pesticides <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = pesticides,
-    result      = as.character(pest_vals[[stn]]),
-    rl          = pest_rl,
-    mdl         = pest_mdl,
+    stationid      = stn,
+    analytename    = pesticides,
+    result         = as.character(pest_vals[[stn]]),
+    rl             = pest_rl,
+    mdl            = pest_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -198,11 +214,15 @@ pcb_vals <- list(
 
 chem_pcbs <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = pcbs,
-    result      = as.character(pcb_vals[[stn]]),
-    rl          = pcb_rl,
-    mdl         = pcb_mdl,
+    stationid      = stn,
+    analytename    = pcbs,
+    result         = as.character(pcb_vals[[stn]]),
+    rl             = pcb_rl,
+    mdl            = pcb_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -230,11 +250,15 @@ pyr_vals <- list(
 
 chem_pyrethroids <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = pyrethroids,
-    result      = as.character(pyr_vals[[stn]]),
-    rl          = pyr_rl,
-    mdl         = pyr_mdl,
+    stationid      = stn,
+    analytename    = pyrethroids,
+    result         = as.character(pyr_vals[[stn]]),
+    rl             = pyr_rl,
+    mdl            = pyr_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -259,11 +283,15 @@ fip_vals <- list(
 
 chem_fipronils <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = fipronils,
-    result      = as.character(fip_vals[[stn]]),
-    rl          = fip_rl,
-    mdl         = fip_mdl,
+    stationid      = stn,
+    analytename    = fipronils,
+    result         = as.character(fip_vals[[stn]]),
+    rl             = fip_rl,
+    mdl            = fip_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -291,11 +319,15 @@ pbde_vals <- list(
 
 chem_pbdes <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = pbdes,
-    result      = as.character(pbde_vals[[stn]]),
-    rl          = pbde_rl,
-    mdl         = pbde_mdl,
+    stationid      = stn,
+    analytename    = pbdes,
+    result         = as.character(pbde_vals[[stn]]),
+    rl             = pbde_rl,
+    mdl            = pbde_mdl,
+    units          = "ug/kg dw",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -320,11 +352,15 @@ sed_vals <- list(
 
 chem_sed <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = sed_params,
-    result      = as.character(sed_vals[[stn]]),
-    rl          = sed_rl,
-    mdl         = sed_mdl,
+    stationid      = stn,
+    analytename    = sed_params,
+    result         = as.character(sed_vals[[stn]]),
+    rl             = sed_rl,
+    mdl            = sed_mdl,
+    units          = "%",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
@@ -365,11 +401,15 @@ phi_vals <- list(
 
 chem_phi <- do.call(rbind, lapply(chem_stations, function(stn) {
   data.frame(
-    stationid   = stn,
-    analytename = phi_names,
-    result      = as.character(phi_vals[[stn]]),
-    rl          = phi_rl,
-    mdl         = phi_mdl,
+    stationid      = stn,
+    analytename    = phi_names,
+    result         = as.character(phi_vals[[stn]]),
+    rl             = phi_rl,
+    mdl            = phi_mdl,
+    units          = "%",
+    fieldrep       = 1,
+    labrep         = 1,
+    sampletypecode = "Result",
     stringsAsFactors = FALSE
   )
 }))
