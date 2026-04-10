@@ -84,10 +84,14 @@
 #' @export
 BRI.Offshore <- function(BenthicData,
                          StationData,
+                         output_format = 'wide',
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRI_Offshore_log.Rmd'),
                          verbose = FALSE,
                          knitlog = FALSE)
 {
+
+  if (!output_format %in% c('wide','long')) stop('Invalid output format - ', output_format, ' - Acceptable values are "wide" or "long"')
+
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -335,6 +339,33 @@ BRI.Offshore <- function(BenthicData,
   create_download_link(data = bri_w_station_info, logfile = logfile, filename = 'BRI_offshore-final_scores.csv', linktext = 'Download final offshore BRI scores', verbose = verbose)
 
   writelog('\n### END: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
+
+
+  if (output_format == 'long') {
+    bri_w_station_info <- bri_w_station_info %>%
+      select(
+        stationid,
+        sampledate,
+        replicate,
+        depth,
+        notes = note,
+        OFFSHORE_BRI_score = bri_score,
+        OFFSHORE_BRI_category = bri_cond,
+        OFFSHORE_BRI_category_score = bri_class
+      ) %>%
+      pivot_longer(
+        cols = -c(stationid, sampledate, replicate, depth, notes),
+        names_to = c("index", ".value"),
+        names_pattern = "^(.+?)_(score|category_score|category)$"
+      ) %>% 
+      mutate(
+        index = if_else(
+          index == 'OFFSHORE_BRI',
+          'Offshore BRI',
+          index
+        )
+      )
+  }
 
   return(bri_w_station_info)
 }

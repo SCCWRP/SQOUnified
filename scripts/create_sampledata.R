@@ -15,7 +15,10 @@ library(dplyr)
 #   "S24-1004" = high contamination
 #   "S24-1005" = mixed contamination
 
-chem_stations <- c("0000", "S24-1001", "S24-1002", "S24-1003", "S24-1004", "S24-1005")
+# Bay/estuary stations (shared across chem, tox, benthic)
+# Offshore stations (shared across chem, tox, offshore benthic/stations — NOT in benthic)
+chem_stations <- c("0000", "S24-1001", "S24-1002", "S24-1003", "S24-1004", "S24-1005",
+                   "OFS-01", "OFS-02", "OFS-03", "OFS-04")
 
 # -- Metals (mg/dry kg) --
 metals <- c("Aluminum", "Antimony", "Arsenic", "Barium", "Beryllium",
@@ -37,7 +40,11 @@ metal_vals <- list(
   "S24-1002" = c(15000, 0.8, 7.5, 55.3, 0.7,  0.15, 42.0, 55.0, 22000, 28.0,  0.10, 15.8, 0.4, 0.06, 120.0),
   "S24-1003" = c(20000, 1.5, 12.0, 80.2, 1.2, 0.50, 65.0, 110.0, 28000, 70.0, 0.50, 25.3, 0.8, 0.15, 220.0),
   "S24-1004" = c(25000, 3.0, 18.5, 120.0, 2.0, 1.80, 95.0, 450.0, 35000, 180.0, 2.50, 40.0, 1.5, 0.50, 700.0),
-  "S24-1005" = c(18000, 1.0, 9.0, 60.0, 0.9,  0.30, 50.0, 80.0, 25000, 45.0, 0.25, 18.0, 0.5, 0.08, 160.0)
+  "S24-1005" = c(18000, 1.0, 9.0, 60.0, 0.9,  0.30, 50.0, 80.0, 25000, 45.0, 0.25, 18.0, 0.5, 0.08, 160.0),
+  "OFS-01"   = c(11000, 0.2, 4.8, 35.0, 0.4,  0.06, 28.0, 12.0, 16000, 6.5,  0.03, 9.0, 0.15, 0.02, 48.0),
+  "OFS-02"   = c(14000, 0.5, 6.8, 48.0, 0.6,  0.12, 38.0, 42.0, 20000, 22.0, 0.08, 13.5, 0.3, 0.05, 95.0),
+  "OFS-03"   = c(16000, 0.9, 8.5, 62.0, 0.8,  0.20, 48.0, 65.0, 24000, 35.0, 0.15, 17.0, 0.45, 0.07, 140.0),
+  "OFS-04"   = c(22000, 2.0, 15.0, 95.0, 1.5, 1.00, 78.0, 200.0, 30000, 100.0, 1.00, 30.0, 1.0, 0.25, 350.0)
 )
 
 chem_metals <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -72,7 +79,11 @@ lpah_vals <- list(
   "S24-1002" = c(5.0, 3.5, 8.0, 2.5, 6.0, 8.5, 22.0, 4.0, 5.5, 2.0, 1.5, 3.0),
   "S24-1003" = c(15.0, 10.0, 25.0, 8.0, 18.0, 22.0, 65.0, 12.0, 16.0, 6.0, 4.5, 9.0),
   "S24-1004" = c(80.0, 55.0, 130.0, 40.0, 90.0, 120.0, 350.0, 60.0, 85.0, 30.0, 22.0, 45.0),
-  "S24-1005" = c(10.0, 7.0, 15.0, 5.0, 12.0, 16.0, 45.0, 8.0, 11.0, 4.0, 3.0, 6.0)
+  "S24-1005" = c(10.0, 7.0, 15.0, 5.0, 12.0, 16.0, 45.0, 8.0, 11.0, 4.0, 3.0, 6.0),
+  "OFS-01"   = c(1.5, 1.0, 2.0, 0.8, 2.0, 2.5, 6.0, 1.0, 1.5, 0.6, 0.4, 0.8),
+  "OFS-02"   = c(4.0, 3.0, 6.5, 2.0, 5.0, 7.0, 18.0, 3.5, 4.5, 1.8, 1.2, 2.5),
+  "OFS-03"   = c(8.0, 5.5, 12.0, 4.0, 9.0, 13.0, 38.0, 6.5, 9.0, 3.5, 2.5, 5.0),
+  "OFS-04"   = c(40.0, 28.0, 65.0, 20.0, 45.0, 60.0, 180.0, 30.0, 42.0, 15.0, 11.0, 22.0)
 )
 
 # HPAH values per station
@@ -82,7 +93,11 @@ hpah_vals <- list(
   "S24-1002" = c(18.0, 15.0, 20.0, 12.0, 10.0, 8.0, 22.0, 3.5, 35.0, 8.5, 6.0, 30.0),
   "S24-1003" = c(55.0, 48.0, 60.0, 38.0, 32.0, 25.0, 68.0, 10.0, 110.0, 28.0, 18.0, 95.0),
   "S24-1004" = c(280.0, 250.0, 320.0, 200.0, 170.0, 130.0, 350.0, 55.0, 580.0, 145.0, 90.0, 490.0),
-  "S24-1005" = c(38.0, 32.0, 42.0, 26.0, 22.0, 17.0, 48.0, 7.0, 75.0, 19.0, 12.0, 65.0)
+  "S24-1005" = c(38.0, 32.0, 42.0, 26.0, 22.0, 17.0, 48.0, 7.0, 75.0, 19.0, 12.0, 65.0),
+  "OFS-01"   = c(3.5, 3.0, 4.0, 2.5, 2.0, 1.8, 4.5, 0.7, 7.0, 1.8, 1.5, 6.0),
+  "OFS-02"   = c(14.0, 12.0, 16.0, 10.0, 8.0, 6.5, 18.0, 2.8, 28.0, 7.0, 5.0, 24.0),
+  "OFS-03"   = c(30.0, 26.0, 34.0, 22.0, 18.0, 14.0, 38.0, 6.0, 60.0, 15.0, 10.0, 52.0),
+  "OFS-04"   = c(140.0, 125.0, 160.0, 100.0, 85.0, 65.0, 175.0, 28.0, 290.0, 72.0, 45.0, 245.0)
 )
 
 chem_lpahs <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -122,7 +137,11 @@ pest_vals <- list(
   "S24-1002" = c(0.5, 0.6, 0.2, 0.1, -88, 0.8, 1.2, 0.3, 0.2, 0.1, -88, -88),
   "S24-1003" = c(1.5, 1.8, 0.8, 0.4, 0.2, 3.0, 5.5, 1.5, 0.8, 0.5, 0.2, 0.3),
   "S24-1004" = c(12.0, 15.0, 5.0, 2.5, 1.5, 28.0, 50.0, 8.0, 5.0, 3.0, 1.5, 2.0),
-  "S24-1005" = c(0.8, 1.0, 0.4, 0.2, -88, 2.0, 3.5, 0.8, 0.5, 0.3, -88, 0.1)
+  "S24-1005" = c(0.8, 1.0, 0.4, 0.2, -88, 2.0, 3.5, 0.8, 0.5, 0.3, -88, 0.1),
+  "OFS-01"   = rep(-88, length(pesticides)),
+  "OFS-02"   = c(0.3, 0.4, -88, -88, -88, 0.5, 0.8, 0.2, -88, -88, -88, -88),
+  "OFS-03"   = c(0.8, 1.0, 0.3, 0.2, -88, 1.5, 2.8, 0.6, 0.3, 0.2, -88, -88),
+  "OFS-04"   = c(6.0, 7.5, 2.5, 1.2, 0.8, 14.0, 25.0, 4.0, 2.5, 1.5, 0.8, 1.0)
 )
 
 chem_pesticides <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -170,7 +189,11 @@ pcb_vals <- list(
   "S24-1002" = make_pcb_vals(15),
   "S24-1003" = make_pcb_vals(30),
   "S24-1004" = make_pcb_vals(300),
-  "S24-1005" = make_pcb_vals(20)
+  "S24-1005" = make_pcb_vals(20),
+  "OFS-01"   = make_pcb_vals(3),
+  "OFS-02"   = make_pcb_vals(10),
+  "OFS-03"   = make_pcb_vals(18),
+  "OFS-04"   = make_pcb_vals(150)
 )
 
 chem_pcbs <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -198,7 +221,11 @@ pyr_vals <- list(
   "S24-1002" = c(0.5, -88, -88, -88, -88, -88, 0.3, 0.2),
   "S24-1003" = c(2.0, 0.5, 0.3, 0.8, -88, -88, 1.5, 1.0),
   "S24-1004" = c(8.0, 2.5, 1.5, 3.0, 1.0, 0.5, 6.0, 4.0),
-  "S24-1005" = c(1.0, -88, -88, 0.3, -88, -88, 0.8, 0.5)
+  "S24-1005" = c(1.0, -88, -88, 0.3, -88, -88, 0.8, 0.5),
+  "OFS-01"   = rep(-88, length(pyrethroids)),
+  "OFS-02"   = rep(-88, length(pyrethroids)),
+  "OFS-03"   = c(0.3, -88, -88, -88, -88, -88, 0.2, -88),
+  "OFS-04"   = c(4.0, 1.2, 0.8, 1.5, 0.5, 0.3, 3.0, 2.0)
 )
 
 chem_pyrethroids <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -223,7 +250,11 @@ fip_vals <- list(
   "S24-1002" = rep(-88, 4),
   "S24-1003" = c(0.3, 0.1, 0.2, 0.15),
   "S24-1004" = c(1.5, 0.8, 1.0, 0.6),
-  "S24-1005" = rep(-88, 4)
+  "S24-1005" = rep(-88, 4),
+  "OFS-01"   = rep(-88, 4),
+  "OFS-02"   = rep(-88, 4),
+  "OFS-03"   = rep(-88, 4),
+  "OFS-04"   = c(0.8, 0.4, 0.5, 0.3)
 )
 
 chem_fipronils <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -251,7 +282,11 @@ pbde_vals <- list(
   "S24-1002" = c(-88, -88, 0.5, -88, -88, -88, 0.3, 0.1, -88, -88, -88, -88, -88),
   "S24-1003" = c(-88, 0.2, 2.0, 0.3, 0.1, -88, 1.5, 0.5, 0.1, 0.2, 0.1, -88, -88),
   "S24-1004" = c(0.3, 0.8, 8.0, 1.2, 0.5, 0.3, 6.0, 2.0, 0.5, 0.8, 0.5, 0.2, 0.1),
-  "S24-1005" = c(-88, 0.1, 1.0, 0.1, -88, -88, 0.8, 0.3, -88, 0.1, -88, -88, -88)
+  "S24-1005" = c(-88, 0.1, 1.0, 0.1, -88, -88, 0.8, 0.3, -88, 0.1, -88, -88, -88),
+  "OFS-01"   = rep(-88, length(pbdes)),
+  "OFS-02"   = c(-88, -88, 0.3, -88, -88, -88, 0.2, -88, -88, -88, -88, -88, -88),
+  "OFS-03"   = c(-88, 0.1, 1.2, 0.2, -88, -88, 0.9, 0.3, -88, 0.1, -88, -88, -88),
+  "OFS-04"   = c(0.2, 0.5, 5.0, 0.8, 0.3, 0.2, 3.5, 1.2, 0.3, 0.5, 0.3, 0.1, -88)
 )
 
 chem_pbdes <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -276,7 +311,11 @@ sed_vals <- list(
   "S24-1002" = c(1.2, 0.08, 0.2),
   "S24-1003" = c(2.0, 0.15, 0.4),
   "S24-1004" = c(3.5, 0.28, 0.8),
-  "S24-1005" = c(1.5, 0.10, 0.3)
+  "S24-1005" = c(1.5, 0.10, 0.3),
+  "OFS-01"   = c(0.4, 0.03, 0.08),
+  "OFS-02"   = c(0.9, 0.06, 0.15),
+  "OFS-03"   = c(1.5, 0.10, 0.3),
+  "OFS-04"   = c(2.8, 0.22, 0.6)
 )
 
 chem_sed <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -317,7 +356,11 @@ phi_vals <- list(
   "S24-1002" = round((phi_sandy + phi_silty) / 2, 2),
   "S24-1003" = phi_silty,
   "S24-1004" = phi_silty * 1.02,
-  "S24-1005" = round((phi_sandy * 0.7 + phi_silty * 0.3), 2)
+  "S24-1005" = round((phi_sandy * 0.7 + phi_silty * 0.3), 2),
+  "OFS-01"   = phi_sandy * 0.95,
+  "OFS-02"   = round((phi_sandy * 0.6 + phi_silty * 0.4), 2),
+  "OFS-03"   = round((phi_sandy * 0.3 + phi_silty * 0.7), 2),
+  "OFS-04"   = phi_silty * 0.98
 )
 
 chem_phi <- do.call(rbind, lapply(chem_stations, function(stn) {
@@ -423,6 +466,39 @@ tox_rows[[14]] <- make_tox_rows("S24-1004", tox_batches_mg[2], "Mytilus gallopro
                                  c(NA, NA, NA, "X", NA))
 tox_rows[[15]] <- make_tox_rows("S24-1005", tox_batches_mg[2], "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
                                  c(60, 55, 65, 58, 62))
+
+# ---- Offshore stations: Eohaustorius estuarius (Whole Sediment) ----
+# Batch 4: controls + OFS-01, OFS-02
+tox_batches_ee_ofs <- "09/24S24eea"
+tox_rows[[16]] <- make_tox_rows("0000", tox_batches_ee_ofs, "Eohaustorius estuarius", "CNEG", "Whole Sediment",
+                                 c(100, 95, 100, 95, 100))
+tox_rows[[17]] <- make_tox_rows("OFS-01", tox_batches_ee_ofs, "Eohaustorius estuarius", "Grab", "Whole Sediment",
+                                 c(90, 95, 85, 90, 95))
+tox_rows[[18]] <- make_tox_rows("OFS-02", tox_batches_ee_ofs, "Eohaustorius estuarius", "Grab", "Whole Sediment",
+                                 c(75, 80, 70, 78, 72))
+
+# Batch 5: controls + OFS-03, OFS-04
+tox_batches_ee_ofs2 <- "10/24S24eea"
+tox_rows[[19]] <- make_tox_rows("0000", tox_batches_ee_ofs2, "Eohaustorius estuarius", "CNEG", "Whole Sediment",
+                                 c(100, 100, 95, 100, 95))
+tox_rows[[20]] <- make_tox_rows("OFS-03", tox_batches_ee_ofs2, "Eohaustorius estuarius", "Grab", "Whole Sediment",
+                                 c(80, 85, 75, 82, 78))
+tox_rows[[21]] <- make_tox_rows("OFS-04", tox_batches_ee_ofs2, "Eohaustorius estuarius", "Grab", "Whole Sediment",
+                                 c(20, 25, 15, 30, 10))
+
+# ---- Offshore stations: Mytilus galloprovincialis (Sediment Water Interface) ----
+# Batch 3: controls + OFS-01, OFS-02, OFS-03, OFS-04
+tox_batches_mg_ofs <- "NOAAS24SedTest3"
+tox_rows[[22]] <- make_tox_rows("0000", tox_batches_mg_ofs, "Mytilus galloprovincialis", "CNEG", "Sediment Water Interface",
+                                 c(90, 92, 88, 90, 94))
+tox_rows[[23]] <- make_tox_rows("OFS-01", tox_batches_mg_ofs, "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
+                                 c(85, 88, 82, 86, 84))
+tox_rows[[24]] <- make_tox_rows("OFS-02", tox_batches_mg_ofs, "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
+                                 c(68, 72, 65, 70, 66))
+tox_rows[[25]] <- make_tox_rows("OFS-03", tox_batches_mg_ofs, "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
+                                 c(72, 75, 68, 70, 74))
+tox_rows[[26]] <- make_tox_rows("OFS-04", tox_batches_mg_ofs, "Mytilus galloprovincialis", "Grab", "Sediment Water Interface",
+                                 c(15, 20, 10, 18, 12))
 
 tox_sampledata <- do.call(rbind, tox_rows)
 

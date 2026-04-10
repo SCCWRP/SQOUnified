@@ -118,14 +118,15 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
 
     # Work in progress here - probably have to extract all the dataframes from the list to extract their scores
-    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = knitlog) %>%
-      mutate(LOE = 'Benthic', Index) %>%
+    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = knitlog)$all_benthic_sqo_scores_long %>%
+      mutate(LOE = 'Benthic') %>%
       rename(
         StationID = stationid,
         Replicate = replicate,
-        Score = BLOE_score,
-        Category = BLOE_category,
-        `Category Score` = BLOE_score
+        Index = index,
+        Score = score,
+        Category = category,
+        `Category Score` = category_score
       ) %>%
       select(StationID, Replicate,  LOE, Index, Score, Category, `Category Score`) %>%
       # David says only keep replicate 1.
@@ -206,9 +207,55 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     )
   }
 
-  integrated <- bind_rows(benthic, chem, tox) %>%
+
+  # ---- Offshore BRI ----
+  if ( (!is.null(offshore_benthic)) && (!is.null(offshore_stations)) ) {
+
+    obrilogfile <- file.path( dirname(logfile), 'Offshore BRI', 'offshorebri_log.Rmd' )
+    obrilibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(obrilogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = obrilibs)
+
+    offshore_bri <- BRI.Offshore(offshore_benthic, offshore_stations, output_format = 'long') %>%
+      mutate(LOE = 'Benthic') %>%
+      select(
+          StationID = stationid, 
+          LOE, 
+          Index = index, 
+          Score = score, 
+          Category = category, 
+          `Category Score` = category_score
+      )
+
+    writelog('See the Offshore BRI subdirectory for the Offshore BRI SQO logs', logfile = logfile, verbose = verbose)
+
+  } else {
+    offshore_bri <- data.frame(
+      StationID = c(),
+      LOE = c(),
+      Index = c(),
+      Score = c(),
+      Category = c(),
+      `Category Score` = c()
+    )
+  }
+
+  # For integrated site assessment, each station needs one Benthic, Chemistry, and Toxicity category.
+  # Stations with bay/estuary benthic data use the BLOE category.
+  # Stations with only offshore BRI use the offshore BRI category mapped to standard benthic categories.
+  integrated <- bind_rows(benthic, chem, tox, offshore_bri) %>%
     filter(
-      grepl("SQO",Index)
+      grepl("Assessment|Offshore", Index)
+    ) %>%
+    # Map offshore BRI categories to standard benthic LOE categories
+    mutate(
+      Category = case_when(
+        Category == "Marginal Deviation" ~ "Low Disturbance",
+        Category == "Biodiversity Loss"  ~ "Moderate Disturbance",
+        Category == "Function Loss"      ~ "High Disturbance",
+        Category == "Defaunation"        ~ "High Disturbance",
+        TRUE ~ Category
+      )
     ) %>%
     select(
       StationID, LOE, Category
@@ -242,7 +289,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     )
 
   out <- bind_rows(
-    benthic, chem, tox, integrated
+    benthic, chem, tox, offshore_bri, integrated
   ) %>%
   arrange(
     StationID, LOE, Index

@@ -1078,7 +1078,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         TRUE ~ NA_character_
       ),
       `Category Score` = Score,
-      Index = "Integrated SQO"
+      Index = "Integrated Toxicity LOE SQO Assessment Score"
     ) %>%
     mutate(
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
@@ -1100,7 +1100,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
             TRUE ~ NA_character_
           ),
           `Category Score` = Score,
-          Index = "Integrated SQO"
+          Index = "Integrated Toxicity LOE SQO Assessment Score"
         ) %>%
         mutate(
           `Category Score` = Score # just for purposes of the very final unified output, all three LOEs in one table

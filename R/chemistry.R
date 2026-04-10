@@ -1257,7 +1257,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
   # Actually execute the code
   combined3 <- combined2 %>%
     mutate(
-      Index = "Integrated SQO",
+      Index = "Integrated Chemistry LOE SQO Assessment Score",
       Category = case_when(
         Score == 1 ~ "Minimal Exposure",
         Score == 2 ~ "Low Exposure",
@@ -1277,7 +1277,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
     code = '
       combined3 <- combined2 %>%
         mutate(
-          Index = "Integrated SQO",
+          Index = "Integrated Chemistry LOE SQO Assessment Score",
           Category = case_when(
             Score == 1 ~ "Minimal Exposure",
             Score == 2 ~ "Low Exposure",

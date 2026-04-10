@@ -313,6 +313,99 @@ benthic.sqo <- function(BenthicData,
                   "rivpacs" = rivpacs.scores.x,
                   "mambi" = mambi.scores.sqoformat,
                   "sqo_potential_mismatches" = unmatched_taxa)
+  
+  sqo_bloe <- results$sqo_bloe
+  bri <- results$sqo_bri
+  ibi <- results$ibi
+  rbi <- results$rbi
+  rivpacs <- results$rivpacs
+
+
+
+  # Build a comments column with depth, salinity, and stratum for human review
+  sqo_bloe <- sqo_bloe %>%
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      depth,
+      salinity,
+      stratum, 
+      # same thing for the integrated benthic assessment score
+      BLOE_score,
+      BLOE_category_score = BLOE_score, 
+      
+      BLOE_category,
+      notes
+    ) 
+
+  bri <- bri %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      BRI_score = score,
+      BRI_category_score = condition_category_score,
+      BRI_category = condition_category
+    )
+    
+  ibi <- ibi %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      IBI_score = score,
+      IBI_category_score = condition_category_score,
+      IBI_category = condition_category
+    )
+    
+  rbi <- rbi %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      RBI_score = score,
+      RBI_category_score = condition_category_score,
+      RBI_category = condition_category
+    )
+    
+  rivpacs <- rivpacs %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      RIVPACS_score = score,
+      RIVPACS_category_score = condition_category_score,
+      RIVPACS_category = condition_category
+    )
+    
+
+
+
+  joined <- sqo_bloe %>% 
+    left_join(bri, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(ibi, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(rbi, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(rivpacs, by = c('stationid', 'sampledate', 'replicate')) 
+
+  # Pivot longer: BLOE, BRI, IBI, RBI, RIVPACS, MAMBI each become a row
+  # with their _score, _category_score, and _category values in dedicated columns
+  allsqo_long <- joined %>%
+    pivot_longer(
+      cols = -c(stationid, sampledate, replicate, depth, salinity, stratum, notes),
+      names_to = c("index", ".value"),
+      names_pattern = "^(.+?)_(score|category_score|category)$"
+    ) %>%
+    mutate(
+      index = case_when(
+        index == "BLOE" ~ "Integrated Benthic LOE SQO Assessment Score",
+        TRUE ~ index
+      )
+    )
+
+  
+
+  results$all_benthic_sqo_scores_long <- allsqo_long
 
   return(results)
 }
