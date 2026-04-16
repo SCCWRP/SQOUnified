@@ -1,6 +1,11 @@
-## Run this ONCE from the R session that has rawchem, preppedchem,
-## and chem.sqo.out already loaded (e.g. right after scripts/create_test_data.R).
-## It writes the three fixtures the testthat suite loads.
+## Run this from the R session that has the fixture objects loaded.
+## Chem set:  rawchem, preppedchem, chem.sqo.out
+##            (sourced from scripts/create_test_data.R)
+## Tox set:   tox, toxsqo_scores, toxsummary
+##            (sourced from scripts/create_tox_sampledata.R)
+##
+## Each set is saved independently — you can run this after either script
+## and only the objects that are loaded will be written.
 
 fixtures_dir <- file.path("tests", "testthat", "fixtures")
 if (!dir.exists(fixtures_dir)) {
@@ -10,18 +15,55 @@ if (!dir.exists(fixtures_dir)) {
   )
 }
 
-required <- c("rawchem", "preppedchem", "chem.sqo.out")
-missing  <- setdiff(required, ls(envir = .GlobalEnv))
-if (length(missing) > 0) {
+fixture_sets <- list(
+  chem = list(
+    rawchem        = "rawchem.rds",
+    preppedchem    = "preppedchem.rds",
+    `chem.sqo.out` = "chem_sqo_out.rds"
+  ),
+  tox = list(
+    tox           = "tox.rds",
+    toxsqo_scores = "toxsqo_scores.rds",
+    toxsummary    = "toxsummary.rds"
+  )
+)
+
+loaded <- ls(envir = .GlobalEnv)
+written <- character(0)
+skipped_sets <- character(0)
+
+for (set_name in names(fixture_sets)) {
+  mapping <- fixture_sets[[set_name]]
+  missing <- setdiff(names(mapping), loaded)
+
+  if (length(missing) == length(mapping)) {
+    skipped_sets <- c(skipped_sets, set_name)
+    next
+  }
+  if (length(missing) > 0) {
+    stop(
+      "Partial '", set_name, "' fixture set in the global environment. Missing: ",
+      paste(missing, collapse = ", "),
+      ". Rerun the matching create_*.R script first."
+    )
+  }
+
+  for (obj_name in names(mapping)) {
+    out_path <- file.path(fixtures_dir, mapping[[obj_name]])
+    saveRDS(get(obj_name, envir = .GlobalEnv), out_path)
+    written <- c(written, out_path)
+  }
+}
+
+if (length(written) == 0) {
   stop(
-    "Missing objects in the global environment: ",
-    paste(missing, collapse = ", "),
-    ". Run scripts/create_test_data.R first."
+    "No fixture objects found in the global environment. ",
+    "Source scripts/create_test_data.R and/or scripts/create_tox_sampledata.R first."
   )
 }
 
-saveRDS(get("rawchem",      envir = .GlobalEnv), file.path(fixtures_dir, "rawchem.rds"))
-saveRDS(get("preppedchem",  envir = .GlobalEnv), file.path(fixtures_dir, "preppedchem.rds"))
-saveRDS(get("chem.sqo.out", envir = .GlobalEnv), file.path(fixtures_dir, "chem_sqo_out.rds"))
-
-message("Wrote fixtures to ", normalizePath(fixtures_dir))
+message("Wrote ", length(written), " fixture file(s) to ", normalizePath(fixtures_dir))
+for (p in written) message("  - ", basename(p))
+if (length(skipped_sets) > 0) {
+  message("Skipped (objects not in global env): ", paste(skipped_sets, collapse = ", "))
+}
