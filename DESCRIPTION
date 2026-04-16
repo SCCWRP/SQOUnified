@@ -43,7 +43,8 @@ Imports:
   knitr,
   rmarkdown
 Suggests:
-  fuzzyjoin
+  fuzzyjoin,
+  testthat (>= 3.0.0)
 Depends:
   R (>= 3.5.0)
 RoxygenNote: 7.3.3
