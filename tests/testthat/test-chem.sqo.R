@@ -1,3 +1,28 @@
+# Test data for chem from vw_unified_chem_sqo_rawdata
+#  SELECT chem.stationid,
+#   st.latitude,
+#   st.longitude,
+#   st.stratum,
+#   chem.analytename,
+#   chem.result,
+#   chem.mdl,
+#   chem.rl,
+#   chem.units,
+#   chem.sampletype AS sampletypecode,
+#   chem.labreplicate AS labrep,
+#       CASE
+#           WHEN chem.fieldduplicate = 0 THEN 1
+#           ELSE chem.fieldduplicate
+#       END AS fieldrep,
+#   chem.surveyyear
+#  FROM tbl_chemistryunifiedpublish chem
+#    LEFT JOIN lu_bight_stations st ON chem.stationid::text = st.stationid::text
+# WHERE chem.sampletype::text = 'Result'::text AND chem.labreplicate = 1 AND (chem.fieldduplicate = ANY (ARRAY[0, 1])) AND chem.analytename::text <> 'Fines'::text AND lower(chem.analytename::text) !~~ 'phi%'::text AND chem.analytename::text !~ '^SEM'::text AND (chem.stationid::text <> ALL (ARRAY['B23-B1'::character varying::text, 'B23-SONGS Unit 2'::character varying::text, 'B23-12148'::character varying::text, 'B23-12150'::character varying::text, 'B23-13260'::character varying::text, 'B23-12363'::character varying::text, 'B23-12364'::character varying::text, 'B23-12366'::character varying::text, 'B23-12368'::character varying::text, 'B23-12369'::character varying::text]))
+# ORDER BY chem.surveyyear, chem.stationid, chem.analytename, chem.result, chem.units;
+
+# expected output is produced by the R package as of version 0.9.5
+
+
 test_that("chem.sqo reproduces the expected final SQO output", {
   rawchem      <- load_fixture("rawchem.rds")
   chem_sqo_out <- load_fixture("chem_sqo_out.rds")
