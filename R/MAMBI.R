@@ -262,7 +262,8 @@ MAMBI <- function(benthic_data,
   no.SalZone.data <- metrics.1 %>%
     filter(is.na(SalZone)) %>%
     left_join(., Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
-    select(stationid, replicate, sampledate, ambi_score, S, H, latitude, longitude, SalZone)
+    select(stationid, replicate, sampledate, ambi_score, S, H, latitude, longitude, SalZone) %>%
+    mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
 
   # Adding the standard good/bad endpoints for each salinity zone
   metrics.2 <- metrics.1 %>%
