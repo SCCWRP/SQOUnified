@@ -93,8 +93,11 @@ RIVPACS <- function(BenthicData,
     distinct()
 
   #in case a sample had no animals, force it into the High Disturbance category
+  # Collapse any duplicate NoOrganismsPresent rows within a sample so we don't
+  # emit multiple defaunated rows per (stationid, sampledate, replicate).
   defaunated <- BenthicData %>%
     filter(taxon == "NoOrganismsPresent") %>%
+    distinct(stationid, sampledate, replicate, .keep_all = TRUE) %>%
     mutate(index = "Rivpacs", score = NaN, condition_category = "High Disturbance", condition_category_score = 4, note = "Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
@@ -136,7 +139,7 @@ RIVPACS <- function(BenthicData,
   # gathering the station information associated with each sample
   oe.stations <- BenthicData %>%
     select(-taxon, -abundance, -exclude) %>%
-    distinct()
+    distinct(stationid, sampledate, replicate, .keep_all = TRUE)
 
   # Assign condition categories based upon O:E scores and thresholds
   rivpacs.scores <- oe.tab %>%
@@ -155,6 +158,11 @@ RIVPACS <- function(BenthicData,
     verbose = verbose
   )
   create_download_link(data = rivpacs.scores, logfile = logfile, filename = 'RIVPACS_generic-step1-OE_details.csv', linktext = 'Download RIVPACS O/E details', verbose = verbose)
+
+  # Drop any samples from defaunated that already have a calculated score, so
+  # the bind_rows + join below can never emit two rows per sample.
+  defaunated <- defaunated %>%
+    anti_join(rivpacs.scores, by = c("stationid", "sampledate", "replicate"))
 
   #clean up scores and add associated station information
   rivpacs.scores.2 <- rivpacs.scores %>%

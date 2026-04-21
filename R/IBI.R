@@ -96,8 +96,11 @@ IBI <- function(benthic_data,
                          note = NA)
 
   #in case a sample had no animals, force it into the High Disturbance category
+  # Collapse any duplicate NoOrganismsPresent rows within a sample so we don't
+  # emit multiple defaunated rows per (stationid, sampledate, replicate).
   defaunated <- benthic_data %>%
     filter(taxon == "NoOrganismsPresent") %>%
+    distinct(stationid, sampledate, replicate, .keep_all = TRUE) %>%
     mutate(index = "IBI", score = NaN, condition_category = "High Disturbance", condition_category_score = 4, note = "Defaunated Sample") %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
@@ -207,7 +210,12 @@ IBI <- function(benthic_data,
   #gathering the station information for each site
   ibi.stations <- benthic_data %>%
     select(-taxon, -abundance, -exclude) %>%
-    distinct()
+    distinct(stationid, sampledate, replicate, .keep_all = TRUE)
+
+  # Drop any samples from defaunated that already have a calculated score, so
+  # the bind_rows + join below can never emit two rows per sample.
+  defaunated <- defaunated %>%
+    anti_join(ibi.scores, by = c("stationid", "sampledate", "replicate"))
 
   ibi.out <- ibi.scores %>%
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score) %>%

@@ -119,11 +119,28 @@ BRI.Offshore <- function(BenthicData,
   names(StationData) <- tolower(names(StationData))
 
   # ---- Prep the data ----
+  # Collapse StationData to one row per stationid before joining. Without this,
+  # any view that has multiple rows per station (e.g. one row per visit) will
+  # multiply every downstream score row.
   station_info <- StationData %>%
     mutate(
       stationid = as.character(stationid),
       depth = as.numeric(depth)
+    ) %>%
+    distinct(stationid, .keep_all = TRUE)
+
+  n_station_dupes <- nrow(StationData) - nrow(station_info)
+  if (n_station_dupes > 0) {
+    writelog(
+      paste0(
+        '\n*StationData contained ', n_station_dupes,
+        ' duplicate stationid row(s); kept the first row per stationid to ',
+        'avoid duplicating scores in the output.*\n'
+      ),
+      logfile = logfile,
+      verbose = verbose
     )
+  }
 
   infauna <- BenthicData %>%
     mutate(
