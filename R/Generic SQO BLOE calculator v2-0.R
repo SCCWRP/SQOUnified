@@ -110,8 +110,13 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
   BenthicData.1<-BenthicData.0 %>%
     relocate(abundance,taxon.2, .before = stationid) %>%
     left_join(., ed14.rollups, by=c("taxon.2"="ed.14_daughters")) %>%
+    # mutate(taxon.3=if_else(is.na(sqo.name), taxon.2, sqo.name),
+    #        rolled_up=if_else(is.na(sqo.name), "no", "yes"), .before = taxon.2) %>%
+
     mutate(taxon.3=if_else(is.na(sqo.name), taxon.2, sqo.name),
-           rolled_up=if_else(is.na(sqo.name), "no", "yes"), .before = taxon.2) %>%
+           rolled_up=case_when(is.na(sqo.name)~"no",
+                               taxon.3==taxon.2~"no",
+                               TRUE~"yes"), .before = taxon.2) %>%
 
     select(-sqo.name) %>%
     group_by(stationid, replicate, sampledate, taxon.3) %>%
@@ -143,16 +148,21 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
     mutate(taxon.4=case_when(Priority=="yes"~ Original.SQO.Taxon,
                              TRUE~taxon.3), .before = taxon.3) %>%
     mutate(change_type.3=case_when(Priority=="yes"~"complex",
-                                   TRUE~change_type.2), .before = change_type.2)
+                                   TRUE~change_type.2),
+           taxa_changed.3=if_else(change_type.3=="complex", taxon.3, taxa_changed.2),
+           .before = change_type.2)
 
 #Step 4 is to create an interim output file detailing all of the changes made to the submitted data
 
     taxa.changes<-BenthicData.2 %>%
     group_by(stationid, replicate, sampledate, taxon.4, change_type.3) %>%
   mutate(
-         taxa_changed.3= str_flatten_comma(taxa_changed.2),
+         taxa_changed.4= str_flatten_comma(taxa_changed.3),
          .before=abundance) %>%
-    select(stationid, sampledate, replicate, taxon_used=taxon.4, taxon_submitted=taxon.2, changed_taxa=taxa_changed.3,
+      ungroup() %>%
+      mutate(taxon_submitted=case_when(change_type%in%c("one-to-one", "convention")~taxa_changed,
+                                       TRUE~taxon.2), .after = taxon.4) %>%
+    select(stationid, sampledate, replicate, taxon_used=taxon.4, taxon_submitted, changed_taxa=taxa_changed.4,
            abundance_used=abundance.2,
            abundance_submitted=abundance, type_of_change=change_type.3)
 
