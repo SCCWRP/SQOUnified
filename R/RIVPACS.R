@@ -49,6 +49,9 @@
 #'
 #'    \strong{\code{depth}} - station depth in meters.
 #'
+#' @param retrofit_taxonomy Logical. If TRUE (default), modern SCAMIT Edition 14 taxonomy in the
+#'    submitted data is retrofitted back to SQO-compatible names via \code{\link{benthicdata_prep}}
+#'    before the index is calculated. Set FALSE if the data has already been prepped/retrofitted.
 #' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
 #' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
 #' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
@@ -68,6 +71,7 @@
 #'
 #' @export
 RIVPACS <- function(BenthicData,
+                                retrofit_taxonomy = TRUE,
                                 logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'RIVPACS_generic_log.Rmd'),
                                 verbose = FALSE,
                                 knitlog = FALSE)
@@ -80,6 +84,9 @@ RIVPACS <- function(BenthicData,
 
   # Reference data (socal.reference.*, socal.example.*) is available via R/sysdata.rda
   # SoCalRivpacs.2() is available in the package namespace from R/SoCalRivpacs2.R
+
+  # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
+  BenthicData <- benthicdata_prep(BenthicData, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
 
   #rectifying field and dataframe naming conventions to match pre-existing RIVPACS code
   benthic_data <- BenthicData %>%

@@ -53,6 +53,9 @@
 #'
 #'    \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.
 #'
+#' @param retrofit_taxonomy Logical. If TRUE (default), modern SCAMIT Edition 14 taxonomy in the
+#'    submitted data is retrofitted back to SQO-compatible names via \code{\link{benthicdata_prep}}
+#'    before the index is calculated. Set FALSE if the data has already been prepped/retrofitted.
 #' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
 #' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
 #' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
@@ -71,6 +74,7 @@
 #'
 #' @export
 RBI <- function(benthic_data,
+                            retrofit_taxonomy = TRUE,
                             logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'RBI_generic_log.Rmd'),
                             verbose = FALSE,
                             knitlog = FALSE)
@@ -80,6 +84,9 @@ RBI <- function(benthic_data,
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
   writelog('\n### BEGIN: Generic RBI function.\n', logfile = logfile, verbose = verbose)
+
+  # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
+  benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
 
   # Reference data (xl_tool.SoCalLUList) is available via R/sysdata.rda
 

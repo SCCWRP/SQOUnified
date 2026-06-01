@@ -27,6 +27,10 @@ alt.RIVPACS.generic(BenthicData)
 
    \strong{\code{depth}} - station depth in meters.}
 
+\item{retrofit_taxonomy}{Logical. If TRUE (default), modern SCAMIT Edition 14 taxonomy in the
+submitted data is retrofitted back to SQO-compatible names via \code{\link{benthicdata_prep}}
+before the index is calculated. Set FALSE if the data has already been prepped/retrofitted.}
+
 \item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
 
 \item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
