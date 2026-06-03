@@ -74,7 +74,7 @@ BRI <- function(benthic_data,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic SQO BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Generic SQO BRI function.\n', logfile = logfile, verbose = verbose)
 
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
   benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
@@ -113,7 +113,7 @@ BRI <- function(benthic_data,
     drop_na(ToleranceScore)
 
   writelog(
-    '#### BRI Step 1 - Taxa with a tolerance score\n',
+    '### BRI Step 1 - Taxa with a tolerance score\n',
     logfile = logfile,
     data = taxa_w_pvalue %>% head(25),
     verbose = verbose
@@ -129,7 +129,7 @@ BRI <- function(benthic_data,
     select(-ToleranceScore)
 
   writelog(
-    '#### BRI Step 2 - Taxa without a tolerance score\n',
+    '### BRI Step 2 - Taxa without a tolerance score\n',
     logfile = logfile,
     data = taxa_wo_pvalue %>% head(25),
     verbose = verbose
@@ -183,14 +183,14 @@ BRI <- function(benthic_data,
   }
 
   writelog(
-    '#### BRI Final - BRI Scores\n',
+    '### BRI Final - BRI Scores\n',
     logfile = logfile,
     data = bri.out.3 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri.out.3, logfile = logfile, filename = 'BRI_generic-final_scores.csv', linktext = 'Download BRI scores', verbose = verbose)
 
-  writelog('\n### END: Generic SQO BRI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Generic SQO BRI function.\n', logfile = logfile, verbose = verbose)
 
   return(bri.out.3)
 }

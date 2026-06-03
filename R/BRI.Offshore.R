@@ -97,7 +97,7 @@ BRI.Offshore <- function(BenthicData,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
 
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
   rawinput.filename <- 'offshore.bri.input.RData'
@@ -159,7 +159,7 @@ BRI.Offshore <- function(BenthicData,
     arrange(sample_id, desc(abundance))
 
   writelog(
-    '#### Offshore BRI Step 1 - Taxa joined to station info\n',
+    '### Offshore BRI Step 1 - Taxa joined to station info\n',
     logfile = logfile,
     data = taxa_to_calc %>% head(25),
     verbose = verbose
@@ -180,7 +180,7 @@ BRI.Offshore <- function(BenthicData,
     arrange(taxon)
 
   writelog(
-    '#### Offshore BRI Step 2 - Taxa with assigned p-codes\n',
+    '### Offshore BRI Step 2 - Taxa with assigned p-codes\n',
     logfile = logfile,
     data = with.pcode %>% head(25),
     verbose = verbose
@@ -195,7 +195,7 @@ BRI.Offshore <- function(BenthicData,
     arrange(taxon)
 
   writelog(
-    '#### Offshore BRI Step 3 - Taxa without p-codes\n',
+    '### Offshore BRI Step 3 - Taxa without p-codes\n',
     logfile = logfile,
     data = no.pcode %>% head(25),
     verbose = verbose
@@ -203,7 +203,7 @@ BRI.Offshore <- function(BenthicData,
   create_download_link(data = no.pcode, logfile = logfile, filename = 'BRI_offshore-step3-taxa_without_pcode.csv', linktext = 'Download taxa without p-codes', verbose = verbose)
 
   writelog(
-    '#### Offshore BRI Step 4 - All taxa with p-codes by sample\n',
+    '### Offshore BRI Step 4 - All taxa with p-codes by sample\n',
     logfile = logfile,
     data = all.4.bri %>% head(25),
     verbose = verbose
@@ -277,7 +277,7 @@ BRI.Offshore <- function(BenthicData,
   bri_scores.deep    <- calc_zone_bri(all.4.bri, "deep", "deep_bri_score")
 
   writelog(
-    '\n#### Offshore BRI Step 5 - Depth-zone BRI scores calculated (shallow, mid, deep)\n',
+    '\n### Offshore BRI Step 5 - Depth-zone BRI scores calculated (shallow, mid, deep)\n',
     logfile = logfile,
     verbose = verbose
   )
@@ -348,14 +348,14 @@ BRI.Offshore <- function(BenthicData,
     relocate(depth, latitude, longitude, .after = replicate)
 
   writelog(
-    '#### Offshore BRI Step 6 - Final BRI Scores\n',
+    '### Offshore BRI Step 6 - Final BRI Scores\n',
     logfile = logfile,
     data = bri_w_station_info %>% head(25),
     verbose = verbose
   )
   create_download_link(data = bri_w_station_info, logfile = logfile, filename = 'BRI_offshore-final_scores.csv', linktext = 'Download final offshore BRI scores', verbose = verbose)
 
-  writelog('\n### END: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
 
 
   if (output_format == 'long') {

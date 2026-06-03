@@ -772,7 +772,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
 
   # For the sake of running the RMarkdown - define the results.sampletypes and control.sampletypes vectors, and include.controls boolean
   writelog(
-    "\n### Ensure the results/control.sampletypes arguments are defined for the RMarkdown:\n  ",
+    "\n## Ensure the results/control.sampletypes arguments are defined for the RMarkdown:\n  ",
     logfile = logfile,
     code = paste0("results.sampletypes <- c('", paste0( results.sampletypes, collapse = "','" ), "')"  ),
     verbose = verbose
@@ -793,7 +793,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
 
   # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
-    "\n### Raw input to tox.sqo:\n  ",
+    "\n## Raw input to tox.sqo:\n  ",
     logfile = logfile,
     code = paste0("load('", rawinput.filename, "') # This will load a dataframe called 'toxresults' into your environment"),
     data = toxresults %>% head(25),
@@ -805,7 +805,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
   toxresults$stationid <- replace(toxresults$stationid, toxresults$stationid %>% as.character() == '0', '0000')
 
   writelog(
-    "\n### Replace stations that may say '0' with the bight 'QA station' '0000'\n  ",
+    "\n## Replace stations that may say '0' with the bight 'QA station' '0000'\n  ",
     logfile = logfile,
     code = "
       # It is common that there is a station called '0' which is actually supposed to be a string of four zeros ('0000')
@@ -831,7 +831,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     verbose = verbose
   )
   writelog(
-    "\n### Calling Tox Summary within Tox.SQO function\n  ",
+    "\n## Calling Tox Summary within Tox.SQO function\n  ",
     logfile = logfile,
     code = "
       # Call tox summary function
@@ -857,7 +857,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
       Category
     )
   writelog(
-    "\n### Selecting certain columns stationid, species, Endpoint Method, Score, Category\n  ",
+    "\n## Selecting certain columns stationid, species, Endpoint Method, Score, Category\n  ",
     logfile = logfile,
     code = "
       tox_nonintegrated2 <- tox_nonintegrated1 %>%
@@ -882,7 +882,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     ) %>%
     select(-Species)
   writelog(
-    "\n### Isolate Genus - separate Genus from the Species\n  ",
+    "\n## Isolate Genus - separate Genus from the Species\n  ",
     logfile = logfile,
     code = "
       # Isolate the Genus
@@ -909,7 +909,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
       )
     )
   writelog(
-    "\n### Isolate Genus - separate Genus from the Species\n  ",
+    "\n## Isolate Genus - separate Genus from the Species\n  ",
     logfile = logfile,
     code = "
       # Define the Type of test based on Genus and Endpoint Method
@@ -936,7 +936,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
       `Category Score` = Score # just for purposes of the very final unified output, all three LOE's in one table
     )
   writelog(
-    "\n### Create Category Score column\n  ",
+    "\n## Create Category Score column\n  ",
     logfile = logfile,
     code = "
       # Create category score column for purpose of final unified output
@@ -961,7 +961,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         by = 'stationid'
       )
     writelog(
-      "\n### Include the stratum if it was provided in the initial toxresults\n  ",
+      "\n## Include the stratum if it was provided in the initial toxresults\n  ",
       logfile = logfile,
       code = "
       # Include the stratum if it was provided in the initial toxresults
@@ -979,7 +979,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
 
   }
 
-  writelog("\n#### Explanation of assigning the Tox SQO Score based on the Manual\n", logfile = logfile, verbose = verbose)
+  writelog("\n### Explanation of assigning the Tox SQO Score based on the Manual\n", logfile = logfile, verbose = verbose)
 
   writelog("For Toxicity, we take the mean of SQO scores among the tox tests at the site (CASQO manual, June 2021 edition, page 109).\n", logfile = logfile, verbose = verbose)
 
@@ -1040,7 +1040,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
       )
     )
   writelog(
-    "\n### Determine if all necessary tests are present and assign a score for the site\n  ",
+    "\n## Determine if all necessary tests are present and assign a score for the site\n  ",
     logfile = logfile,
     code = "
       group_vars <- if ('stratum' %in% names(tox_nonintegrated)) {
@@ -1086,7 +1086,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     select(stationid, dplyr::any_of("stratum"), Index, Score, Category, `Category Score`)
 
   writelog(
-    "\n### Assign Category and select final columns\n  ",
+    "\n## Assign Category and select final columns\n  ",
     logfile = logfile,
     code = '
       # Assign Category and select final columns
@@ -1119,7 +1119,7 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
       StationID, Index, Category
     )
   writelog(
-    "\n### Concat Integrated scores with the regular non integrated scores (scores for each test)\n  ",
+    "\n## Concat Integrated scores with the regular non integrated scores (scores for each test)\n  ",
     logfile = logfile,
     code = '
       # final output - integrated scores and scores of individual tests (non integrated scores)

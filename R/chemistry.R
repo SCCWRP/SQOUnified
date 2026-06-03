@@ -433,7 +433,7 @@ LRM <- function(chemdata.lrm.input, preprocessed = F, logfile = file.path(getwd(
   # Log the separation space between steps
   writelog("\n___\n___\n___" , logfile = logfile, verbose = verbose)
 
-  writelog("##### END Chem LRM Function\n", logfile = logfile, verbose = verbose)
+  writelog("## END Chem LRM Function\n", logfile = logfile, verbose = verbose)
 
 
   if (verbose && knitlog) {
@@ -1119,7 +1119,7 @@ chem.sqo <- function(chemdata, logfile = file.path(getwd(), 'logs', format(Sys.t
     verbose = verbose
   )
   writelog(
-    "#### Here is its final output along with a code block (for R Studio users):",
+    "### Here is its final output along with a code block (for R Studio users):",
     logfile = logfile,
     code = 'chemdata_lrm <- LRM(chemdata, preprocessed = TRUE)',
     data = chemdata_lrm,

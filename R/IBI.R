@@ -85,7 +85,7 @@ IBI <- function(benthic_data,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic IBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Generic IBI function.\n', logfile = logfile, verbose = verbose)
 
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
   benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
@@ -123,7 +123,7 @@ IBI <- function(benthic_data,
     select(stationid, sampledate, replicate, taxon, abundance, exclude, SpeciesLevel, Mollusc, IBISensitive, Notomastus_flag)
 
   writelog(
-    '#### IBI Step 1 - Data to be analyzed with SQO designations\n',
+    '### IBI Step 1 - Data to be analyzed with SQO designations\n',
     logfile = logfile,
     data = ibi_data.review %>% head(25),
     verbose = verbose
@@ -179,7 +179,7 @@ IBI <- function(benthic_data,
     full_join(ibi4, by = c("sampledate", "stationid", "replicate"))
 
   writelog(
-    '#### IBI Step 2 - IBI metric values\n',
+    '### IBI Step 2 - IBI metric values\n',
     logfile = logfile,
     data = ibi_metrics %>% head(25),
     verbose = verbose
@@ -239,14 +239,14 @@ IBI <- function(benthic_data,
   }
 
   writelog(
-    '#### IBI Final - IBI Scores\n',
+    '### IBI Final - IBI Scores\n',
     logfile = logfile,
     data = ibi.out.2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = ibi.out.2, logfile = logfile, filename = 'IBI_generic-final_scores.csv', linktext = 'Download IBI scores', verbose = verbose)
 
-  writelog('\n### END: Generic IBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Generic IBI function.\n', logfile = logfile, verbose = verbose)
 
   return(ibi.out.2)
 }

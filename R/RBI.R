@@ -83,7 +83,7 @@ RBI <- function(benthic_data,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic RBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Generic RBI function.\n', logfile = logfile, verbose = verbose)
 
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
   benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
@@ -126,7 +126,7 @@ RBI <- function(benthic_data,
     select(stationid, sampledate, replicate, taxon, abundance, exclude, SpeciesLevel, Mollusc, Crustacean, rich_flag, pit_flag, nit_flag)
 
   writelog(
-    '#### RBI Step 1 - Data to be analyzed with SQO designations\n',
+    '### RBI Step 1 - Data to be analyzed with SQO designations\n',
     logfile = logfile,
     data = rbi_data.review %>% head(25),
     verbose = verbose
@@ -214,7 +214,7 @@ RBI <- function(benthic_data,
     dplyr::full_join(rbi8, by = c("stationid", "replicate", "sampledate"))
 
   writelog(
-    '#### RBI Step 2 - Raw RBI metrics\n',
+    '### RBI Step 2 - Raw RBI metrics\n',
     logfile = logfile,
     data = rbi_metrics %>% head(25),
     verbose = verbose
@@ -252,7 +252,7 @@ RBI <- function(benthic_data,
            index = "RBI")
 
   writelog(
-    '#### RBI Step 3 - Scaled RBI metrics\n',
+    '### RBI Step 3 - Scaled RBI metrics\n',
     logfile = logfile,
     data = rbi_scaled %>% select(-condition_category, -condition_category_score) %>% head(25),
     verbose = verbose
@@ -285,14 +285,14 @@ RBI <- function(benthic_data,
   }
 
   writelog(
-    '#### RBI Final - RBI Scores\n',
+    '### RBI Final - RBI Scores\n',
     logfile = logfile,
     data = rbi.out.2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rbi.out.2, logfile = logfile, filename = 'RBI_generic-final_scores.csv', linktext = 'Download RBI scores', verbose = verbose)
 
-  writelog('\n### END: Generic RBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Generic RBI function.\n', logfile = logfile, verbose = verbose)
 
   return(rbi.out.2)
 }

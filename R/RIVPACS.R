@@ -80,7 +80,7 @@ RIVPACS <- function(BenthicData,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
   # Reference data (socal.reference.*, socal.example.*) is available via R/sysdata.rda
   # SoCalRivpacs.2() is available in the package namespace from R/SoCalRivpacs2.R
@@ -130,7 +130,7 @@ RIVPACS <- function(BenthicData,
     column_to_rownames("sample_id")
 
   writelog(
-    '#### RIVPACS Step 1 - Predictors and taxa matrices prepared\n',
+    '### RIVPACS Step 1 - Predictors and taxa matrices prepared\n',
     logfile = logfile,
     verbose = verbose
   )
@@ -159,7 +159,7 @@ RIVPACS <- function(BenthicData,
     relocate(., stationid, sampledate, replicate, O, E, index, score, outlier.05, outlier.01, note)
 
   writelog(
-    '#### RIVPACS Step 2 - O/E details\n',
+    '### RIVPACS Step 2 - O/E details\n',
     logfile = logfile,
     data = rivpacs.scores %>% head(25),
     verbose = verbose
@@ -186,14 +186,14 @@ RIVPACS <- function(BenthicData,
     left_join(oe.stations, ., by = c("stationid", "sampledate", "replicate"))
 
   writelog(
-    '#### RIVPACS Final - RIVPACS Scores\n',
+    '### RIVPACS Final - RIVPACS Scores\n',
     logfile = logfile,
     data = rivpacs.scores.2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = rivpacs.scores.2, logfile = logfile, filename = 'RIVPACS_generic-final_scores.csv', linktext = 'Download RIVPACS scores', verbose = verbose)
 
-  writelog('\n### END: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
   return(rivpacs.scores.2)
 }

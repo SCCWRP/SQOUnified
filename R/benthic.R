@@ -87,7 +87,7 @@ benthic.sqo <- function(BenthicData,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n# BEGIN: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
 
   # Reference data (SoCal.SQO.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
   # is available via R/sysdata.rda
@@ -112,7 +112,7 @@ benthic.sqo <- function(BenthicData,
 
   #### Run each of the individual benthic indices ####
 
-  writelog('\n#### BLOE Step 3 - Calculating individual indices\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BLOE Step 3 - Calculating individual indices\n', logfile = logfile, verbose = verbose)
 
   # Data has already been retrofitted by benthicdata_prep above, so the indices
   # are told not to retrofit again (retrofit_taxonomy = FALSE).
@@ -140,7 +140,7 @@ benthic.sqo <- function(BenthicData,
     arrange(., stationid, sampledate, replicate, index)
 
   writelog(
-    '#### BLOE Step 4 - All benthic index scores\n',
+    '## BLOE Step 4 - All benthic index scores\n',
     logfile = logfile,
     data = all.sqo.scores.x %>% head(25),
     verbose = verbose
@@ -191,14 +191,14 @@ benthic.sqo <- function(BenthicData,
 
 
   writelog(
-    '#### BLOE Final - Integrated BLOE scores with M-AMBI\n',
+    '## BLOE Final - Integrated BLOE scores with M-AMBI\n',
     logfile = logfile,
     data = BLOE.scores.w.MAMBI %>% head(25),
     verbose = verbose
   )
   create_download_link(data = BLOE.scores.w.MAMBI, logfile = logfile, filename = 'BLOE-final_scores.csv', linktext = 'Download BLOE scores', verbose = verbose)
 
-  writelog('\n### END: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n# END: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
 
   # Return list with all results for inspection
   results <- list("sqo_bloe" = BLOE.scores.x,
@@ -389,7 +389,7 @@ benthicdata_prep <- function(BenthicData,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
 
   # Reference data (SoCal.SQO.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
   # is available via R/sysdata.rda
@@ -493,7 +493,7 @@ benthicdata_prep <- function(BenthicData,
              abundance_submitted = abundance, type_of_change = change_type.3)
 
     writelog(
-      '#### BLOE Step 1 - Ed14 to SQO taxonomy changes\n',
+      '### BLOE Step 1 - Ed14 to SQO taxonomy changes\n',
       logfile = logfile,
       data = taxa.changes %>% head(25),
       verbose = verbose
@@ -543,14 +543,14 @@ benthicdata_prep <- function(BenthicData,
   }
 
   writelog(
-    '#### BLOE Step 2 - Unmatched taxa\n',
+    '### BLOE Step 2 - Unmatched taxa\n',
     logfile = logfile,
     data = unmatched_taxa %>% head(25),
     verbose = verbose
   )
   create_download_link(data = unmatched_taxa, logfile = logfile, filename = 'BLOE-step2-unmatched_taxa.csv', linktext = 'Download unmatched taxa', verbose = verbose)
 
-  writelog('\n### END: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
 
   return(
     list(

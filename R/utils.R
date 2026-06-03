@@ -133,7 +133,10 @@ create_download_link <- function(data, logfile, filename, linktext = 'Download t
   if(verbose){
     csvfile <- file.path(dirname(logfile), paste0(filename))
     write.csv(data, csvfile, row.names = include.row.names)
-    write(paste0("\n[", linktext , "](./", basename(csvfile), ")\n    \n<br>"), file = logfile, append = TRUE)
+    # Trailing blank line after <br> is required: a raw-HTML block runs until a
+    # blank line, so without it the next markdown header gets absorbed into the
+    # <br> paragraph and rendered literally (e.g. "#### BRI Step 2 ...").
+    write(paste0("\n[", linktext, "](./", basename(csvfile), ")\n\n<br>\n"), file = logfile, append = TRUE)
   }
 }
 

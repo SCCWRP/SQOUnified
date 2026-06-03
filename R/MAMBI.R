@@ -98,7 +98,7 @@ MAMBI <- function(benthic_data,
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
 
-  writelog('\n### BEGIN: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## BEGIN: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
 
   # Reference data (Saline_Standards, TidalFresh_Standards, us.mambi.eg.values.04_23_24) is available via R/sysdata.rda
   # EQR() is available in the package namespace from R/EQR.R
@@ -167,7 +167,7 @@ MAMBI <- function(benthic_data,
     summarise(total_abundance = sum(abundance), .groups = "drop_last")
 
   writelog(
-    '#### M-AMBI Step 1 - Taxa with EG values\n',
+    '### M-AMBI Step 1 - Taxa with EG values\n',
     logfile = logfile,
     data = taxa_w_EG %>% head(25),
     verbose = verbose
@@ -181,7 +181,7 @@ MAMBI <- function(benthic_data,
     summarise(total_abundance = sum(abundance), .groups = "drop_last")
 
   writelog(
-    '#### M-AMBI Step 2 - Taxa without EG values\n',
+    '### M-AMBI Step 2 - Taxa without EG values\n',
     logfile = logfile,
     data = taxa_wo_EG %>% head(25),
     verbose = verbose
@@ -457,14 +457,14 @@ MAMBI <- function(benthic_data,
     left_join(., station.info, by = c("stationid", "sampledate", "replicate", "latitude", "longitude"))
 
   writelog(
-    '#### M-AMBI Final - M-AMBI Scores\n',
+    '### M-AMBI Final - M-AMBI Scores\n',
     logfile = logfile,
     data = Overall.Results.2 %>% head(25),
     verbose = verbose
   )
   create_download_link(data = Overall.Results.2, logfile = logfile, filename = 'MAMBI_generic-final_scores.csv', linktext = 'Download M-AMBI scores', verbose = verbose)
 
-  writelog('\n### END: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
+  writelog('\n## END: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
 
   return(Overall.Results.2)
 }
