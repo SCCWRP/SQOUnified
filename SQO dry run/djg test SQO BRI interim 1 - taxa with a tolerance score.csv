@@ -1,7 +1,6 @@
 "taxon","ToleranceScore","Freq_of_Occ"
 "Acteocina culcitella",4.9242949388,3
 "Acteocina harpa",-8.353899397,4
-"Acteocina inculta",110.14822329,10
 "Acuminodeutopus heteruropus",53.563846501,8
 "Alderia modesta",50.015981051,1
 "Alia carinata",16.675525376,4
@@ -17,7 +16,7 @@
 "Ampharete labrops",-19.74965799,16
 "Amphicteis scaphobranchiata",6.3320841065,25
 "Amphideutopus oculatus",-0.357155467,81
-"Amphiodia sp",8.364538189,37
+"Amphiodia sp",8.364538189,49
 "Amphipholis squamata",22.699178555,55
 "Ampithoe lacertosa",72.064983945,1
 "Ampithoe plumulosa",38.31695808,1
@@ -71,14 +70,14 @@
 "Chone albocincta",-16.05150732,4
 "Chone minuta",19.661208466,3
 "Chone veleronis",-3.938047661,1
-"Cirratulus sp",55.640313195,5
+"Cirratulus sp",55.640313195,6
 "Cirriformia sp",89.043977159,17
 "Cirrophorus furcatus",-37.35445764,2
 "Compsomyax subdiaphana",-22.84158765,14
 "Conus californicus",-24.01599569,1
 "Cooperella subdiaphana",-8.378979585,11
 "Corbula porcella",-38.44527345,2
-"Corymorpha sp",44.43132945,5
+"Corymorpha sp",44.43132945,6
 "Cossura candida",33.970385864,23
 "Cossura sp A",49.794335417,65
 "Crangon alaskensis",-8.233607492,1
@@ -141,13 +140,12 @@
 "Hippolyte californiensis",42.411788976,10
 "Hippomedon sp",23.619822395,3
 "Hyalidae",19.150748062,7
-"Hydroides elegans",28.099191378,1
+"Hydroides pacificus",57.650195917,1
 "Iselica ovoidea",64.260650703,1
 "Jassa slatteryi",30.435782059,1
 "Kalliapseudes crassus",11.561255472,1
 "Kurtziella plumbea",-16.60308392,1
 "Laevicardium substriatum",40.384416339,69
-"Laonice cirrata",-27.89323086,30
 "Leitoscoloplos pugettensis",64.430386263,117
 "Lepidonotus sp",-0.301413913,2
 "Leporimetis obesa",-12.29505918,10
@@ -158,7 +156,7 @@
 "Leuroleberis sharpei",0.0578599919,1
 "Levinsenia gracilis",-10.45877163,7
 "Limaria hemphilli",1.8685766279,2
-"Lineidae",3.9557490611,48
+"Lineidae",3.9557490611,53
 "Listriella eriopisa",64.174646144,2
 "Listriella goleta",-18.66310753,30
 "Listriella melanica",5.7956960583,7
@@ -174,7 +172,7 @@
 "Macoma yoldiformis",-9.177529625,27
 "Mactrotoma californica",5.1071165348,19
 "Malacoplax californiensis",14.403104497,7
-"Maldanidae",26.054237095,48
+"Maldanidae",26.054237095,49
 "Malmgreniella sp",-25.45976205,22
 "Marphysa angelensis",97.8190499,2
 "Marphysa disjuncta",-5.906467936,21
@@ -190,7 +188,6 @@
 "Microspio microcera",2.5841656972,1
 "Microspio pigmentata",-2.26044449,7
 "Molgula sp",46.610080945,7
-"Monocorophium acherusicum",61.68529117,33
 "Monocorophium insidiosum",103.41852217,14
 "Monticellina cryptica",0.2211809813,28
 "Monticellina siblina",8.2948049723,34
@@ -206,13 +203,13 @@
 "Neastacilla californica",1.3309034341,5
 "Nebalia pugettensis Cmplx",40.617251724,2
 "Nemertea",33.990543223,71
-"Neotrypaea sp",30.337914733,32
+"Neotrypaea sp",30.337914733,37
 "Nephtys caecoides",35.511183664,14
 "Nephtys californiensis",-2.333127847,1
 "Nephtys cornuta",20.401780493,12
 "Nephtys simoni",25.383061774,3
 "Nereis procera",-31.64244393,13
-"Notomastus sp",13.547510644,28
+"Notomastus sp",13.547510644,29
 "Nuculana taphria",-18.20248779,28
 "Odontosyllis phosphorea",26.108676533,16
 "Odostomia sp",37.995435685,3
@@ -221,14 +218,11 @@
 "Ophiactis simplex",14.68999525,5
 "Ophiodromus pugettensis",18.131261845,7
 "Ostrea sp",28.830579967,1
-"Owenia collaris",-29.20788261,7
-"Oxyurostylis pacifica",32.660009311,31
 "Paleanotus bellis",1.8346758081,1
 "Paracaprella sp",28.222840157,3
 "Paracerceis sculpta",40.150577037,28
 "Paradexamine sp SD1",53.695443978,11
 "Paramage scutata",-16.52175523,21
-"Paramicrodeutopus schmitti",9.8064830581,7
 "Parandalia fauveli",-18.11492863,2
 "Paranemertes californica",34.247389455,40
 "Paraprionospio pinnata",11.369760574,43
@@ -250,8 +244,7 @@
 "Phyllodoce longipes",-10.79605748,2
 "Pinnixa sp",-16.57878402,7
 "Pista percyi",42.020980278,48
-"Pista sp",97.499788913,8
-"Pista wui",4.0563342659,19
+"Pista sp",97.499788913,9
 "Pitar newcombianus",-34.0095603,4
 "Platynereis bicanaliculata",-3.36546107,5
 "Podarkeopsis glabrus",71.1359426,4
@@ -296,7 +289,6 @@
 "Scoletoma sp A",19.737601778,40
 "Scoletoma sp B",37.523280344,29
 "Scoletoma sp C",74.272645626,96
-"Scoletoma tetraura Cmplx",45.457600233,5
 "Scoloplos acmeceps",18.012243892,15
 "Scoloplos armiger Cmplx",-0.478162624,1
 "Scyphoproctus oculatus",25.424014651,5
@@ -317,6 +309,7 @@
 "Styela sp",30.02957713,3
 "Sulcoretusa xystrum",18.852647102,1
 "Syllis (Syllis) gracilis",-3.654858105,5
+"Syllis (Typosyllis) nipponica",40.638179631,25
 "Tagelus affinis",30.333084483,70
 "Tagelus subteres",37.282868851,18
 "Tellina cadieni",42.428798239,27

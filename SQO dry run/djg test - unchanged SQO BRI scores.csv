@@ -1,7 +1,7 @@
 "stationid","replicate","sampledate","salinity","latitude","longitude","depth","index","score","condition_category","condition_category_score","note"
 "poor-001",1,2018-09-19,28,33.75301,-118.1053,3,"BRI",110.938754784791,"High Disturbance",4,NA
 "good_001",1,2018-07-17,33,32.71823,-117.2304,3.2,"BRI",-4.20166286851641,"Reference",1,NA
-"art_005",1,2018-08-16,31,33.75551,-118.1299,17.8,"BRI",30.6321684845143,"Reference",1,NA
+"art_005",1,2018-08-16,31,33.75551,-118.1299,17.8,"BRI",26.3851081592044,"Reference",1,NA
 "art-004",1,2018-08-08,30,32.6895,-117.238,12.8,"BRI",17.1848537620817,"Reference",1,NA
 "art-003",1,2018-07-18,30,32.72496,-117.1834,4.3,"BRI",18.6726129655443,"Reference",1,NA
 "art-002",1,2018-08-08,32,32.7095,-117.1869,17.4,"BRI",19.8998805552463,"Reference",1,NA

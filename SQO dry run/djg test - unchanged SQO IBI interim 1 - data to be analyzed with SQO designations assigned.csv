@@ -136,7 +136,7 @@
 "art_005",2018-08-16,1,"Alpheus clamator",2,"No",NA,NA,NA,0
 "art_005",2018-08-16,1,"Pseudotanais sp",2,"No",NA,NA,NA,0
 "art_005",2018-08-16,1,"Calocarides sp",3,"No",NA,NA,NA,0
-"art_005",2018-08-16,1,"Harmothoe sp",1,"No","Drop",NA,NA,0
+"art_005",2018-08-16,1,"Harmothoe sp 1",1,"No","Drop",NA,NA,0
 "art_005",2018-08-16,1,"Insecta",1,"No",NA,NA,NA,0
 "art_005",2018-08-16,1,"Isaeidae",14,"No","Drop",NA,NA,0
 "art_005",2018-08-16,1,"Heterophoxus ellisi",5,"No",NA,NA,NA,0
@@ -145,6 +145,7 @@
 "art_005",2018-08-16,1,"Ocinebrina sp",5,"No",NA,"Mollusc",NA,0
 "art_005",2018-08-16,1,"Scyra acutifrons",2,"No",NA,NA,NA,0
 "art_005",2018-08-16,1,"Lineidae",12,"No",NA,NA,NA,0
+"art_005",2018-08-16,1,"Lineidae",12,"Yes",NA,NA,NA,0
 "art_005",2018-08-16,1,"Polycirrus sp",2,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Acidostoma hancocki",1,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Aglaja ocelligera",5,"No",NA,"Mollusc",NA,0
@@ -292,7 +293,7 @@
 "art-004",2018-08-08,1,"Sige sp A",2,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Siriella pacifica",3,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Solen rostriformis",3,"No",NA,"Mollusc",NA,0
-"art-004",2018-08-08,1,"Sphaerosyllis sp",4,"No","Drop",NA,NA,0
+"art-004",2018-08-08,1,"Sphaerosyllis sp 7 (Harris)",4,"No","Drop",NA,NA,0
 "art-004",2018-08-08,1,"Sthenelais tertiaglabra",1,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Streblospio benedicti",8,"No",NA,NA,NA,0
 "art-004",2018-08-08,1,"Styelidae",35,"No","Drop",NA,NA,0

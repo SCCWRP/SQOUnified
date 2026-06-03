@@ -71,7 +71,7 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
   source("R/sqo component indices/alt RBI - generic.R")
   source("R/sqo component indices/alt RIVPACS - generic.R")
   source("R/sqo component indices/alt MAMBI - generic.R")
-  load("Reference Files/ed14_to_SQO.RData")#loading in files to convert from Ed14 taxonomy to SQO compatible taxonomy
+  load("Reference Files/ed14_to_SQO_v2.RData")#loading in files to convert from Ed14 taxonomy to SQO compatible taxonomy
   load("Reference Files/SoCal SQO xls LU.RData")#loading in SQO look up list
 
   print(paste("saving files to ", output_path, sep=""))
@@ -90,7 +90,7 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
 
 
   #Step 1 is to take one to one changes and swap the new names back to their old version
-  one.to.one<-SoCal.SQO.ed14.link %>%
+  one.to.one<-SoCal.SQO.xls.ed14.link %>%
     select(original_sqo_taxon, ed_14_taxon, change, type) %>%
     filter(type%in%c("one-to-one", "convention", "worms", "removed"))
 
