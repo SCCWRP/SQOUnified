@@ -175,7 +175,7 @@ SQO_BLOE.generic_v2<-function(file_id, infauna_path, output_path)
 
   BenthicData.3<-BenthicData.2 %>%
    select(-abundance, -taxon.2, -taxon.3, -rolled_up, -change, -change_type, -change_type.2, -change_type.3,
-          -taxa_changed, -taxa_changed.2, -join_level, -Original.SQO.Taxon, -change, -type, -Priority) %>%
+          -taxa_changed, -taxa_changed.2, , -taxa_changed.3,-join_level, -Original.SQO.Taxon, -change, -type, -Priority) %>%
    distinct() %>%
    rename(taxon=taxon.4, abundance=abundance.2) %>%
    relocate(taxon, abundance, .after=sampledate)
