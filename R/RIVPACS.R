@@ -82,7 +82,7 @@ RIVPACS <- function(BenthicData,
 
   writelog('\n## BEGIN: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
-  # Reference data (socal.reference.*, socal.example.*) is available via R/sysdata.rda
+  # Reference data (socal.reference.*, socal.example.*) are available as package datasets — see ?socal.reference.taxa
   # SoCalRivpacs.2() is available in the package namespace from R/SoCalRivpacs2.R
 
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names

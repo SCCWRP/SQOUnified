@@ -4,10 +4,11 @@
 \alias{BRI.Offshore}
 \title{Compute the offshore Benthic Response Index (BRI) score using SCAMIT Edition 14 tolerance values.}
 \usage{
-BRI.Offshore(BenthicData, StationData)
+BRI.Offshore(BenthicData, output_format = 'wide')
 }
 \arguments{
-\item{BenthicData}{a data frame containing infauna abundance data with the following columns:
+\item{BenthicData}{a data frame containing infauna abundance and station information with the
+   following columns (column names are case-insensitive):
 
    \strong{\code{StationID}} - an alpha-numeric identifier of the sampling location;
 
@@ -18,11 +19,7 @@ BRI.Offshore(BenthicData, StationData)
    \strong{\code{Taxon}} - name of the organism (SCAMIT Edition 14 naming conventions).
        If no organisms were present, use \code{NoOrganismsPresent} with 0 abundance;
 
-   \strong{\code{Abundance}} - number of individuals counted for the specified taxon.}
-
-\item{StationData}{a data frame containing station information with the following columns:
-
-   \strong{\code{StationID}} - an alpha-numeric identifier matching \code{BenthicData};
+   \strong{\code{Abundance}} - number of individuals counted for the specified taxon;
 
    \strong{\code{Depth}} - station depth in meters;
 
@@ -30,11 +27,29 @@ BRI.Offshore(BenthicData, StationData)
 
    \strong{\code{Longitude}} - station longitude in decimal degrees (negative for west).}
 
+\item{output_format}{Quoted string controlling the shape of the \code{bri_scores} element of the
+returned list. \code{"wide"} (default) returns one row per sample with the score, condition
+category, class, and notes. \code{"long"} pivots to a tidy \code{index}/\code{score}/\code{category}/
+\code{category_score} layout (used by \code{\link{SQOUnified}}).}
+
 \item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
 
 \item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
 
 \item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
+}
+\value{
+A named \code{list} with the scores plus the intermediate tables users can review:
+  \itemize{
+    \item \code{bri_scores} - the BRI score, condition category, class, and usage notes for each
+      sample. One row per sample when \code{output_format = "wide"}; a tidy index/score/category/
+      category_score layout when \code{output_format = "long"}.
+    \item \code{taxa_with_pcode} - distinct submitted taxa that matched a p-code.
+    \item \code{taxa_without_pcode} - submitted taxa with no p-code, with fuzzy-matched
+      \code{did_you_mean_taxon} suggestions when the \code{fuzzyjoin} package is installed.
+    \item \code{all_taxa_by_sample} - every taxon joined to its p-code and depth-zone tolerance
+      values, by sample.
+  }
 }
 \description{
 Calculates BRI scores for offshore benthic samples using depth-zone-specific pollution tolerance
@@ -42,6 +57,10 @@ Calculates BRI scores for offshore benthic samples using depth-zone-specific pol
   depth-dependent community composition by applying separate tolerance scores in shallow (<25m),
   mid (35-110m), and deep (130-324m) depth zones. Samples in overlapping depth ranges (25-35m
   and 110-130m) receive the average of the two adjacent zone scores.
+
+  In addition to the scores, the function returns the intermediate tables it builds along the way
+  (taxa matched to p-codes, unmatched taxa with "did you mean" suggestions, and every taxon joined
+  to its p-code by sample) so users can review exactly how their data were processed.
 }
 \details{
 The offshore BRI is calculated as the cube root (rather than 4th root) abundance-weighted pollution
@@ -58,7 +77,7 @@ The offshore BRI is calculated as the cube root (rather than 4th root) abundance
     \item Mid: 35-110m (mid p-values only)
     \item Mid-Deep overlap: 110-130m (average of mid and deep scores)
     \item Deep: 130-324m (deep p-values only)
-    \item Samples deeper than 324m are flagged as out of range
+    \item Samples deeper than 324m are flagged "BRI not Applicable"
   }
 
   Condition categories based on BRI score:
@@ -71,15 +90,21 @@ The offshore BRI is calculated as the cube root (rather than 4th root) abundance
   }
 
   This function was developed based on Smith et al. (2001) and refined by the Bight 2023
-  index code sub-committee. Version 2.0 calculates BRI scores for overlapping depth zones
-  by averaging scores from each adjacent depth zone.
+  index code sub-committee. Version 3.0 calculates BRI scores for overlapping depth zones by
+  averaging the scores from each adjacent depth zone (rather than using overlap p-values), retains
+  every in-range sample even when it has no taxa with a p-code in its depth zone, and flags samples
+  whose organisms have no p-code with a caution note.
 
   Geographic warnings are issued for samples north of Point Conception (lat > 34.45) or
   south of the US-Mexico border (lat < 32.52), as the BRI is nominally applicable only
-  to the Southern California Bight.
+  to the Southern California Bight. Samples whose taxon names cannot be matched to a p-code are
+  returned in \code{taxa_without_pcode}; when the optional \code{fuzzyjoin} package is installed,
+  a \code{did_you_mean_taxon} column suggests close matches (e.g. for likely misspellings).
 }
 \examples{
-data(offshore_bri_sampledata) # loads offshore_benthic_sampledata and offshore_station_sampledata
-BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+data(offshore_bri_sampledata)
+result <- BRI.Offshore(offshore_bri_sampledata)
+result$bri_scores          # the BRI scores by station and replicate
+result$taxa_without_pcode  # submitted taxa that could not be matched to a p-code
 
 }

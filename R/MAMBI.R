@@ -100,7 +100,7 @@ MAMBI <- function(benthic_data,
 
   writelog('\n## BEGIN: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
 
-  # Reference data (Saline_Standards, TidalFresh_Standards, us.mambi.eg.values.04_23_24) is available via R/sysdata.rda
+  # Reference data (Saline_Standards, TidalFresh_Standards, us.mambi.eg.values.04_23_24) are available as package datasets
   # EQR() is available in the package namespace from R/EQR.R
 
   # If no custom EG reference values provided, use the standard list

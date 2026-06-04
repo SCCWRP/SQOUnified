@@ -90,7 +90,7 @@ IBI <- function(benthic_data,
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
   benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
 
-  # Reference data (xl_tool.SoCalLUList) is available via R/sysdata.rda
+  # Reference data (xl_tool.SoCalLUList) is available as a package dataset — see ?xl_tool.SoCalLUList
 
   #create an empty dataframe to populate with IBI scores
   ibi.out.null <- tibble(stationid = "dummy",

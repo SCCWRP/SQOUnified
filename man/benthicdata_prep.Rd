@@ -64,8 +64,8 @@ When \code{retrofit = TRUE} the following taxonomy conversion steps are applied:
   \code{\link{RBI}}, and \code{\link{RIVPACS}}. It is intentionally NOT used by \code{MAMBI}
   (which uses modern ed14 taxonomy) or by \code{BRI.Offshore}.
 
-  Reference data (\code{SoCal.SQO.ed14.link}, \code{ed14.rollups}, \code{ed.14.complex},
-  \code{xl_tool.SoCalLUList}) is available via \code{R/sysdata.rda}.
+  Reference data (\code{SoCal.SQO.xls.ed14.link}, \code{ed14.rollups}, \code{ed.14.complex},
+  \code{xl_tool.SoCalLUList}) are available as package datasets — see \code{?SoCal.SQO.xls.ed14.link}.
 }
 \examples{
 \dontrun{

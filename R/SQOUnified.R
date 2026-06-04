@@ -216,14 +216,22 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
     init.log(obrilogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = obrilibs)
 
-    offshore_bri <- BRI.Offshore(offshore_benthic, offshore_stations, output_format = 'long') %>%
+    # BRI.Offshore takes a single combined data frame; join benthic and station data here.
+    offshore_combined <- dplyr::left_join(
+      offshore_benthic %>% dplyr::rename_with(tolower),
+      offshore_stations %>% dplyr::rename_with(tolower),
+      by = "stationid"
+    )
+
+    # BRI.Offshore returns a list (scores + interim tables); pull the long-format scores table
+    offshore_bri <- BRI.Offshore(offshore_combined, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = knitlog)$bri_scores %>%
       mutate(LOE = 'Benthic') %>%
       select(
-          StationID = stationid, 
-          LOE, 
-          Index = index, 
-          Score = score, 
-          Category = category, 
+          StationID = stationid,
+          LOE,
+          Index = index,
+          Score = score,
+          Category = category,
           `Category Score` = category_score
       )
 

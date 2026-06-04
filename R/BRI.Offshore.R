@@ -8,6 +8,10 @@
 #'   mid (35-110m), and deep (130-324m) depth zones. Samples in overlapping depth ranges (25-35m
 #'   and 110-130m) receive the average of the two adjacent zone scores.
 #'
+#'   In addition to the scores, the function returns the intermediate tables it builds along the way
+#'   (taxa matched to p-codes, unmatched taxa with "did you mean" suggestions, and every taxon joined
+#'   to its p-code by sample) so users can review exactly how their data were processed.
+#'
 #' @details
 #'   The offshore BRI is calculated as the cube root (rather than 4th root) abundance-weighted pollution
 #'   tolerance score:
@@ -23,7 +27,7 @@
 #'     \item Mid: 35-110m (mid p-values only)
 #'     \item Mid-Deep overlap: 110-130m (average of mid and deep scores)
 #'     \item Deep: 130-324m (deep p-values only)
-#'     \item Samples deeper than 324m are flagged as out of range
+#'     \item Samples deeper than 324m are flagged "BRI not Applicable"
 #'   }
 #'
 #'   Condition categories based on BRI score:
@@ -36,14 +40,19 @@
 #'   }
 #'
 #'   This function was developed based on Smith et al. (2001) and refined by the Bight 2023
-#'   index code sub-committee. Version 2.0 calculates BRI scores for overlapping depth zones
-#'   by averaging scores from each adjacent depth zone.
+#'   index code sub-committee. Version 3.0 calculates BRI scores for overlapping depth zones by
+#'   averaging the scores from each adjacent depth zone (rather than using overlap p-values), retains
+#'   every in-range sample even when it has no taxa with a p-code in its depth zone, and flags samples
+#'   whose organisms have no p-code with a caution note.
 #'
 #'   Geographic warnings are issued for samples north of Point Conception (lat > 34.45) or
 #'   south of the US-Mexico border (lat < 32.52), as the BRI is nominally applicable only
-#'   to the Southern California Bight.
+#'   to the Southern California Bight. Samples whose taxon names cannot be matched to a p-code are
+#'   returned in \code{taxa_without_pcode}; when the optional \code{fuzzyjoin} package is installed,
+#'   a \code{did_you_mean_taxon} column suggests close matches (e.g. for likely misspellings).
 #'
-#' @param BenthicData a data frame containing infauna abundance data with the following columns:
+#' @param BenthicData a data frame containing infauna abundance and station information with the
+#'    following columns (column names are case-insensitive):
 #'
 #'    \strong{\code{StationID}} - an alpha-numeric identifier of the sampling location;
 #'
@@ -54,11 +63,7 @@
 #'    \strong{\code{Taxon}} - name of the organism (SCAMIT Edition 14 naming conventions).
 #'        If no organisms were present, use \code{NoOrganismsPresent} with 0 abundance;
 #'
-#'    \strong{\code{Abundance}} - number of individuals counted for the specified taxon.
-#'
-#' @param StationData a data frame containing station information with the following columns:
-#'
-#'    \strong{\code{StationID}} - an alpha-numeric identifier matching \code{BenthicData};
+#'    \strong{\code{Abundance}} - number of individuals counted for the specified taxon;
 #'
 #'    \strong{\code{Depth}} - station depth in meters;
 #'
@@ -66,29 +71,56 @@
 #'
 #'    \strong{\code{Longitude}} - station longitude in decimal degrees (negative for west).
 #'
+#' @param output_format Quoted string controlling the shape of the \code{bri_scores} element of the
+#'    returned list. \code{"wide"} (default) returns one row per sample with the score, condition
+#'    category, class, and notes. \code{"long"} pivots to a tidy \code{index}/\code{score}/\code{category}/
+#'    \code{category_score} layout (used by \code{\link{SQOUnified}}).
 #' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
 #' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
 #' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
 #'
+#' @return
+#'   A named \code{list} with the scores plus the intermediate tables users can review:
+#'   \itemize{
+#'     \item \code{bri_scores} - the BRI score, condition category, class, and usage notes for each
+#'       sample. One row per sample when \code{output_format = "wide"}; a tidy index/score/category/
+#'       category_score layout when \code{output_format = "long"}.
+#'     \item \code{taxa_with_pcode} - distinct submitted taxa that matched a p-code.
+#'     \item \code{taxa_without_pcode} - submitted taxa with no p-code, with fuzzy-matched
+#'       \code{did_you_mean_taxon} suggestions when the \code{fuzzyjoin} package is installed.
+#'     \item \code{all_taxa_by_sample} - every taxon joined to its p-code and depth-zone tolerance
+#'       values, by sample.
+#'   }
+#'
 #' @usage
-#' BRI.Offshore(BenthicData, StationData)
+#' BRI.Offshore(BenthicData, output_format = 'wide')
 #'
 #' @examples
-#' data(offshore_bri_sampledata) # loads offshore_benthic_sampledata and offshore_station_sampledata
-#' BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+#' data(offshore_bri_sampledata)
+#' result <- BRI.Offshore(offshore_bri_sampledata)
+#' result$bri_scores          # the BRI scores by station and replicate
+#' result$taxa_without_pcode  # submitted taxa that could not be matched to a p-code
 #'
 #' @import dplyr
 #' @importFrom tidyr drop_na pivot_longer
-#' @importFrom stats na.omit
+#' @importFrom lubridate as_date
 #'
 #' @export
 BRI.Offshore <- function(BenthicData,
-                         StationData,
                          output_format = 'wide',
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRI_Offshore_log.Rmd'),
                          verbose = FALSE,
                          knitlog = FALSE)
 {
+
+  # Backwards compatibility: old two-argument call BRI.Offshore(benthic_data, station_data)
+  if (is.data.frame(output_format)) {
+    shared_cols <- intersect(tolower(names(BenthicData)), tolower(names(output_format)))
+    names(BenthicData)    <- tolower(names(BenthicData))
+    names(output_format)  <- tolower(names(output_format))
+    BenthicData  <- dplyr::left_join(BenthicData, output_format, by = shared_cols)
+    output_format <- 'wide'
+  }
 
   if (!output_format %in% c('wide','long')) stop('Invalid output format - ', output_format, ' - Acceptable values are "wide" or "long"')
 
@@ -102,7 +134,7 @@ BRI.Offshore <- function(BenthicData,
   # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
   rawinput.filename <- 'offshore.bri.input.RData'
   if (verbose) {
-    save(BenthicData, StationData, file = file.path(dirname(logfile), rawinput.filename))
+    save(BenthicData, file = file.path(dirname(logfile), rawinput.filename))
   }
 
   writelog(
@@ -111,51 +143,25 @@ BRI.Offshore <- function(BenthicData,
     verbose = verbose
   )
 
-  # Reference data (ed.14.ptaxa, pcodes) is available via R/sysdata.rda — loaded into
-  # the package namespace automatically when the package is loaded.
+  # Reference data (ed.14.ptaxa, pcodes) are exported package datasets (see ?ed.14.ptaxa, ?pcodes).
+  # ed.14.ptaxa maps each taxon to a p_code; pcodes maps each p_code to its depth-zone tolerance values.
 
   # ---- Standardize column names to lowercase ----
   names(BenthicData) <- tolower(names(BenthicData))
-  names(StationData) <- tolower(names(StationData))
 
   # ---- Prep the data ----
-  # Collapse StationData to one row per stationid before joining. Without this,
-  # any view that has multiple rows per station (e.g. one row per visit) will
-  # multiply every downstream score row.
-  station_info <- StationData %>%
-    mutate(
-      stationid = as.character(stationid),
-      depth = as.numeric(depth)
-    ) %>%
-    distinct(stationid, .keep_all = TRUE)
-
-  n_station_dupes <- nrow(StationData) - nrow(station_info)
-  if (n_station_dupes > 0) {
-    writelog(
-      paste0(
-        '\n*StationData contained ', n_station_dupes,
-        ' duplicate stationid row(s); kept the first row per stationid to ',
-        'avoid duplicating scores in the output.*\n'
-      ),
-      logfile = logfile,
-      verbose = verbose
-    )
-  }
-
   infauna <- BenthicData %>%
     mutate(
       stationid = as.character(stationid),
       abundance = as.numeric(abundance),
+      depth     = as.numeric(depth),
+      sampledate = as_date(sampledate),
       sample_id = paste(stationid, sampledate, replicate, sep = "_")
     )
 
-  # Join taxa names and counts to depth and geographic information
   taxa_to_calc <- infauna %>%
-    select(sample_id, stationid, replicate, sampledate, taxon, abundance) %>%
-    left_join(
-      station_info %>% select(stationid, depth, latitude, longitude),
-      by = "stationid"
-    ) %>%
+    select(sample_id, stationid, replicate, sampledate, taxon, abundance,
+           depth, latitude, longitude) %>%
     arrange(sample_id, desc(abundance))
 
   writelog(
@@ -168,6 +174,8 @@ BRI.Offshore <- function(BenthicData,
 
 
   # ---- Match taxa to p-codes ----
+  # The pre-averaged shallow_mid / mid_deep transition-zone p-values are dropped; overlap-zone
+  # scores are instead derived by averaging the two adjacent zone scores (see Step 5).
   all.4.bri <- taxa_to_calc %>%
     left_join(ed.14.ptaxa, by = "taxon") %>%
     left_join(pcodes, by = "p_code") %>%
@@ -176,7 +184,7 @@ BRI.Offshore <- function(BenthicData,
   # Taxa with assigned p-codes
   with.pcode <- all.4.bri %>%
     distinct(taxon, p_code) %>%
-    tidyr::drop_na(p_code) %>%
+    drop_na(p_code) %>%
     arrange(taxon)
 
   writelog(
@@ -187,15 +195,27 @@ BRI.Offshore <- function(BenthicData,
   )
   create_download_link(data = with.pcode, logfile = logfile, filename = 'BRI_offshore-step2-taxa_with_pcode.csv', linktext = 'Download taxa with p-codes', verbose = verbose)
 
-  # Taxa without p-codes
+  # Taxa without p-codes. When fuzzyjoin (Suggests) is installed, attach close-match suggestions so
+  # users can spot likely misspellings; otherwise return the submitted taxa with empty suggestions.
   no.pcode <- all.4.bri %>%
     distinct(taxon, p_code) %>%
     filter(is.na(p_code)) %>%
+    filter(taxon != "NoOrganismsPresent") %>%
     select(-p_code) %>%
     arrange(taxon)
 
+  if (requireNamespace("fuzzyjoin", quietly = TRUE)) {
+    no.pcode <- no.pcode %>%
+      fuzzyjoin::stringdist_left_join(ed.14.ptaxa, by = "taxon", max_dist = 2) %>%
+      select(submitted_taxon = taxon.x, did_you_mean_taxon = taxon.y, p_code)
+  } else {
+    no.pcode <- no.pcode %>%
+      mutate(did_you_mean_taxon = NA_character_, p_code = NA_character_) %>%
+      select(submitted_taxon = taxon, did_you_mean_taxon, p_code)
+  }
+
   writelog(
-    '### Offshore BRI Step 3 - Taxa without p-codes\n',
+    '### Offshore BRI Step 3 - Taxa without p-codes (with did-you-mean suggestions)\n',
     logfile = logfile,
     data = no.pcode %>% head(25),
     verbose = verbose
@@ -211,13 +231,15 @@ BRI.Offshore <- function(BenthicData,
   create_download_link(data = all.4.bri, logfile = logfile, filename = 'BRI_offshore-step4-all_taxa_by_sample.csv', linktext = 'Download all taxa by sample', verbose = verbose)
 
 
-  # ---- Identify special cases ----
+  # ---- Identify special-case samples ----
 
-  # Defaunated samples
+  # Defaunated samples (no organisms present) -> worst condition (class 5). depth is carried so the
+  # downstream notes and final output report it.
   defaunated <- all.4.bri %>%
     filter(taxon == "NoOrganismsPresent") %>%
-    select(sample_id, stationid, sampledate, replicate) %>%
+    distinct(sample_id, stationid, sampledate, replicate, depth) %>%
     mutate(
+      tot_bri_abun_dz = 0,
       bri_score = NaN,
       bri_cond = "Defaunation",
       bri_class = 5
@@ -225,11 +247,14 @@ BRI.Offshore <- function(BenthicData,
 
   defaunated.samps <- unique(defaunated$sample_id)
 
-  # Samples too deep for BRI
+  # Samples too deep for the BRI (>324m). anti_join keeps a sample that is both defaunated and too
+  # deep classified as defaunated (the more informative label).
   too.deep <- all.4.bri %>%
     filter(depth > 324) %>%
-    distinct(sample_id, stationid, sampledate, replicate) %>%
+    distinct(sample_id, stationid, sampledate, replicate, depth) %>%
+    anti_join(defaunated, by = "sample_id") %>%
     mutate(
+      tot_bri_abun_dz = NaN,
       bri_score = NaN,
       bri_cond = "BRI not Applicable",
       bri_class = NaN
@@ -239,42 +264,41 @@ BRI.Offshore <- function(BenthicData,
 
   # ---- Calculate depth-zone-specific BRI scores ----
 
-  # Helper: flag samples to exclude from calculation
+  # Helper: drop defaunated / too-deep samples from the scoring calculation
   flag_exclusions <- function(df) {
     df %>%
-      mutate(
-        drop_flag = case_when(
-          sample_id %in% too.deep.samps ~ 1,
-          sample_id %in% defaunated.samps ~ 1,
-          TRUE ~ 0
-        )
-      ) %>%
-      filter(drop_flag == 0) %>%
-      select(-drop_flag)
+      filter(!(sample_id %in% too.deep.samps), !(sample_id %in% defaunated.samps))
   }
 
-  # Helper: calculate BRI score for a given depth zone column
-  calc_zone_bri <- function(df, zone_col, score_name) {
+  # Helper: calculate the BRI score and total p-coded abundance for a given depth-zone p-value column
+  calc_zone_bri <- function(df, zone_col) {
     df %>%
       flag_exclusions() %>%
-      tidyr::drop_na(!!sym(zone_col)) %>%
-      mutate(cube_abun = (abundance)^(1/3)) %>%
-      group_by(sample_id, stationid, sampledate, replicate) %>%
+      filter(!is.na(.data[[zone_col]])) %>%
       mutate(
-        tot_bri_abun = sum(abundance),
-        tot_cube_abun = sum(cube_abun),
-        tol_score = !!sym(zone_col) * cube_abun
+        cube_abun = abundance^(1/3),
+        tol_score = .data[[zone_col]] * cube_abun
       ) %>%
-      ungroup() %>%
-      group_by(sample_id, stationid, depth, sampledate, replicate, tot_bri_abun, tot_cube_abun) %>%
-      summarise(numerator = sum(tol_score), .groups = "drop_last") %>%
-      ungroup() %>%
-      mutate(!!score_name := numerator / tot_cube_abun)
+      group_by(sample_id, stationid, sampledate, replicate, depth) %>%
+      summarise(
+        tot_bri_abun = sum(abundance),
+        zone_bri_score = sum(tol_score) / sum(cube_abun),
+        .groups = "drop"
+      )
   }
 
-  bri_scores.shallow <- calc_zone_bri(all.4.bri, "shallow", "shallow_bri_score")
-  bri_scores.mid     <- calc_zone_bri(all.4.bri, "mid", "mid_bri_score")
-  bri_scores.deep    <- calc_zone_bri(all.4.bri, "deep", "deep_bri_score")
+  # Skeleton of every in-range, non-defaunated sample. Left-joining the zone scores onto this
+  # guarantees a sample is never dropped just because it has no taxa with a p-code in a given zone.
+  sample_skeleton <- all.4.bri %>%
+    flag_exclusions() %>%
+    distinct(sample_id, stationid, sampledate, replicate, depth)
+
+  bri_scores.shallow <- calc_zone_bri(all.4.bri, "shallow") %>%
+    rename(shallow_bri_score = zone_bri_score, tot_abun_shallow = tot_bri_abun)
+  bri_scores.mid <- calc_zone_bri(all.4.bri, "mid") %>%
+    rename(mid_bri_score = zone_bri_score, tot_abun_mid = tot_bri_abun)
+  bri_scores.deep <- calc_zone_bri(all.4.bri, "deep") %>%
+    rename(deep_bri_score = zone_bri_score, tot_abun_deep = tot_bri_abun)
 
   writelog(
     '\n### Offshore BRI Step 5 - Depth-zone BRI scores calculated (shallow, mid, deep)\n',
@@ -282,20 +306,14 @@ BRI.Offshore <- function(BenthicData,
     verbose = verbose
   )
 
-  # ---- Combine depth zone scores ----
+  # ---- Combine depth-zone scores and resolve the score for each sample's depth zone ----
   join_cols <- c("sample_id", "stationid", "sampledate", "replicate", "depth")
 
-  bri_scores.1 <- bri_scores.shallow %>%
-    left_join(bri_scores.mid, by = join_cols, suffix = c("_s", "_m")) %>%
-    left_join(bri_scores.deep, by = join_cols, suffix = c("", "_d")) %>%
+  zone_scores <- sample_skeleton %>%
+    left_join(bri_scores.shallow, by = join_cols) %>%
+    left_join(bri_scores.mid, by = join_cols) %>%
+    left_join(bri_scores.deep, by = join_cols) %>%
     mutate(
-      bri_score = case_when(
-        depth < 25 ~ shallow_bri_score,
-        depth >= 25 & depth <= 35 ~ (shallow_bri_score + mid_bri_score) / 2,
-        depth > 35 & depth < 110 ~ mid_bri_score,
-        depth >= 110 & depth <= 130 ~ (mid_bri_score + deep_bri_score) / 2,
-        depth > 130 & depth <= 324 ~ deep_bri_score
-      ),
       depth_zone = case_when(
         depth < 25 ~ "shallow",
         depth >= 25 & depth <= 35 ~ "shallow_mid",
@@ -303,13 +321,29 @@ BRI.Offshore <- function(BenthicData,
         depth >= 110 & depth <= 130 ~ "mid_deep",
         depth > 130 & depth <= 324 ~ "deep",
         TRUE ~ "out_of_range"
+      ),
+      bri_score = case_when(
+        depth < 25 ~ shallow_bri_score,
+        depth >= 25 & depth <= 35 ~ (shallow_bri_score + mid_bri_score) / 2,
+        depth > 35 & depth < 110 ~ mid_bri_score,
+        depth >= 110 & depth <= 130 ~ (mid_bri_score + deep_bri_score) / 2,
+        depth > 130 & depth <= 324 ~ deep_bri_score
+      ),
+      # Total p-coded abundance for the sample's depth zone (overlap zones average the two, rounded
+      # up to keep the reported count an integer). Drives the "no organisms with P-code" caution.
+      tot_bri_abun_dz = case_when(
+        depth < 25 ~ tot_abun_shallow,
+        depth >= 25 & depth <= 35 ~ ceiling((tot_abun_shallow + tot_abun_mid) / 2),
+        depth > 35 & depth < 110 ~ tot_abun_mid,
+        depth >= 110 & depth <= 130 ~ ceiling((tot_abun_mid + tot_abun_deep) / 2),
+        depth > 130 & depth <= 324 ~ tot_abun_deep
       )
     )
 
   # ---- Assign condition categories ----
-  bri_scores.2 <- bri_scores.1 %>%
+  bri_scores.2 <- zone_scores %>%
     select(sample_id, stationid, sampledate, replicate, depth, depth_zone,
-           shallow_bri_score, mid_bri_score, deep_bri_score, bri_score) %>%
+           shallow_bri_score, mid_bri_score, deep_bri_score, tot_bri_abun_dz, bri_score) %>%
     mutate(
       bri_cond = case_when(
         bri_score < 25  ~ "Reference",
@@ -326,18 +360,18 @@ BRI.Offshore <- function(BenthicData,
         bri_score >= 72 ~ 5
       )
     ) %>%
-    ungroup() %>%
     bind_rows(defaunated, too.deep)
 
   # ---- Attach station info and add usage notes ----
   bri_w_station_info <- bri_scores.2 %>%
     left_join(
-      station_info %>% select(stationid, latitude, longitude),
+      infauna %>% distinct(stationid, latitude, longitude),
       by = "stationid"
     ) %>%
     mutate(
       note = case_when(
         sample_id %in% defaunated.samps ~ "No fauna in sample",
+        tot_bri_abun_dz == 0 ~ "Caution - No organisms with P-code in Sample",
         latitude > 34.45  ~ "Caution - Sample outside of the geographic range of the BRI",
         latitude < 32.52  ~ "Caution - Sample outside of the geographic range of the BRI",
         depth > 200 & depth <= 324 ~ "Caution - Sample deeper than Bight recommendations but within BRI calibration",
@@ -345,6 +379,8 @@ BRI.Offshore <- function(BenthicData,
         TRUE ~ "None"
       )
     ) %>%
+    # tot_bri_abun_dz was only needed to derive the caution note above
+    select(-tot_bri_abun_dz) %>%
     relocate(depth, latitude, longitude, .after = replicate)
 
   writelog(
@@ -358,8 +394,9 @@ BRI.Offshore <- function(BenthicData,
   writelog('\n## END: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
 
 
+  # output_format controls the shape of the main scores table only
   if (output_format == 'long') {
-    bri_w_station_info <- bri_w_station_info %>%
+    bri_scores_out <- bri_w_station_info %>%
       select(
         stationid,
         sampledate,
@@ -374,7 +411,7 @@ BRI.Offshore <- function(BenthicData,
         cols = -c(stationid, sampledate, replicate, depth, notes),
         names_to = c("index", ".value"),
         names_pattern = "^(.+?)_(score|category_score|category)$"
-      ) %>% 
+      ) %>%
       mutate(
         index = if_else(
           index == 'OFFSHORE_BRI',
@@ -382,7 +419,18 @@ BRI.Offshore <- function(BenthicData,
           index
         )
       )
+  } else {
+    bri_scores_out <- bri_w_station_info
   }
 
-  return(bri_w_station_info)
+  # Return the scores along with the intermediate tables so users can review how the index
+  # processed their data (e.g. result$taxa_without_pcode).
+  return(
+    list(
+      bri_scores         = bri_scores_out,
+      taxa_with_pcode    = with.pcode,
+      taxa_without_pcode = no.pcode,
+      all_taxa_by_sample = all.4.bri
+    )
+  )
 }

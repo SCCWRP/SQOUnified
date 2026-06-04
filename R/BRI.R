@@ -79,7 +79,7 @@ BRI <- function(benthic_data,
   # Standardize and (optionally) retrofit the submitted taxonomy to SQO-compatible names
   benthic_data <- benthicdata_prep(benthic_data, retrofit = retrofit_taxonomy, logfile = logfile, verbose = verbose)$benthic_data
 
-  # Reference data (xl_tool.SoCalLUList) is available via R/sysdata.rda
+  # Reference data (xl_tool.SoCalLUList) is available as a package dataset — see ?xl_tool.SoCalLUList
 
   #create empty dataframe to populate w/ bri scores
   bri.out.null <- tibble(stationid = "dummy",
@@ -101,6 +101,7 @@ BRI <- function(benthic_data,
     select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
 
   #matching p codes to taxa in the submitted data
+  # Grab Tolerance score from the xl_tool.SoCalLUList
   all.for.bri <- benthic_data %>%
     filter(taxon != "NoOrganismsPresent") %>%
     left_join(., select(xl_tool.SoCalLUList, TaxonName, ToleranceScore), by = c('taxon' = 'TaxonName'))

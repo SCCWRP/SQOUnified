@@ -89,8 +89,8 @@ benthic.sqo <- function(BenthicData,
 
   writelog('\n# BEGIN: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
 
-  # Reference data (SoCal.SQO.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
-  # is available via R/sysdata.rda
+  # Reference data (SoCal.SQO.xls.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
+  # are available as package datasets — see ?SoCal.SQO.xls.ed14.link, ?xl_tool.SoCalLUList
   # Individual index functions (alt.SQO.BRI.generic, alt.IBI.generic, alt.RBI.generic,
   # alt.RIVPACS.generic, alt.MAMBI.generic) are available in the package namespace
 
@@ -221,19 +221,17 @@ benthic.sqo <- function(BenthicData,
   # Build a comments column with depth, salinity, and stratum for human review
   sqo_bloe <- sqo_bloe %>%
     select(
-      stationid, 
-      sampledate, 
-      replicate, 
+      stationid,
+      sampledate,
+      replicate,
       depth,
       salinity,
-      stratum, 
-      # same thing for the integrated benthic assessment score
+      any_of("stratum"),
       BLOE_score,
-      BLOE_category_score = BLOE_score, 
-      
+      BLOE_category_score = BLOE_score,
       BLOE_category,
       notes
-    ) 
+    )
 
   bri <- bri %>% 
     select(
@@ -288,7 +286,7 @@ benthic.sqo <- function(BenthicData,
   # with their _score, _category_score, and _category values in dedicated columns
   allsqo_long <- joined %>%
     pivot_longer(
-      cols = -c(stationid, sampledate, replicate, depth, salinity, stratum, notes),
+      cols = -any_of(c("stationid", "sampledate", "replicate", "depth", "salinity", "stratum", "notes")),
       names_to = c("index", ".value"),
       names_pattern = "^(.+?)_(score|category_score|category)$"
     ) %>%
@@ -332,8 +330,8 @@ benthic.sqo <- function(BenthicData,
 #'   \code{\link{RBI}}, and \code{\link{RIVPACS}}. It is intentionally NOT used by \code{MAMBI}
 #'   (which uses modern ed14 taxonomy) or by \code{BRI.Offshore}.
 #'
-#'   Reference data (\code{SoCal.SQO.ed14.link}, \code{ed14.rollups}, \code{ed.14.complex},
-#'   \code{xl_tool.SoCalLUList}) is available via \code{R/sysdata.rda}.
+#'   Reference data (\code{SoCal.SQO.xls.ed14.link}, \code{ed14.rollups}, \code{ed.14.complex},
+#'   \code{xl_tool.SoCalLUList}) are available as package datasets — see \code{?SoCal.SQO.xls.ed14.link}.
 #'
 #' @param BenthicData a data frame containing benthic data and station information with at minimum:
 #'
@@ -391,15 +389,16 @@ benthicdata_prep <- function(BenthicData,
 
   writelog('\n## BEGIN: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
 
-  # Reference data (SoCal.SQO.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
-  # is available via R/sysdata.rda
+  # Reference data (SoCal.SQO.xls.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
+  # are available as package datasets — see ?SoCal.SQO.xls.ed14.link, ?xl_tool.SoCalLUList
 
   # Standardize column names and ensure correct types
   names(BenthicData) <- tolower(names(BenthicData))
 
   BenthicData <- BenthicData %>%
     mutate(stationid = as.character(stationid),
-           abundance = as.numeric(abundance))
+           abundance = as.numeric(abundance),
+           sampledate = lubridate::as_date(sampledate))
 
   # Standardize missing sentinel values for salinity and depth (only if present)
   if ("salinity" %in% names(BenthicData)) {
@@ -420,7 +419,7 @@ benthicdata_prep <- function(BenthicData,
     #### Retrofitting modern taxonomy back to SQO-compatible names ####
 
     # Step 1: One-to-one name changes (swap new names back to old versions)
-    one.to.one <- SoCal.SQO.ed14.link %>%
+    one.to.one <- SoCal.SQO.xls.ed14.link %>%
       select(original_sqo_taxon, ed_14_taxon, change, type) %>%
       filter(type %in% c("one-to-one", "convention", "worms", "removed"))
 
@@ -461,6 +460,7 @@ benthicdata_prep <- function(BenthicData,
 
 
     # Step 3: Complex changes where a single ed14 taxon was multiple taxa on the SQO LU list
+    # The taxa to choose among the old SQO names was prioritized to select a taxon that had a tolerance score, sensitivity designation, etc vesus one that didn't
     ed.14.complex.2 <- ed.14.complex %>%
       filter(Priority == "yes")
 
@@ -488,7 +488,7 @@ benthicdata_prep <- function(BenthicData,
           ),
           .after = taxon.4
         ) %>%
-      select(stationid, sampledate, replicate, taxon_used = taxon.4, taxon_submitted = taxon.2, changed_taxa = taxa_changed.4,
+      select(stationid, sampledate, replicate, taxon_used = taxon.4, taxon_submitted , changed_taxa = taxa_changed.4,
              abundance_used = abundance.2,
              abundance_submitted = abundance, type_of_change = change_type.3)
 
@@ -504,7 +504,7 @@ benthicdata_prep <- function(BenthicData,
     # Step 5: Create final dataframe for index calculation
     BenthicData.3 <- BenthicData.2 %>%
       select(-abundance, -taxon.2, -taxon.3, -rolled_up, -change, -change_type, -change_type.2, -change_type.3,
-             -taxa_changed, -taxa_changed.2, -join_level, -Original.SQO.Taxon, -type, -Priority) %>%
+             -taxa_changed, -taxa_changed.2, -taxa_changed.3, -join_level, -Original.SQO.Taxon, -type, -Priority) %>%
       distinct() %>%
       rename(taxon = taxon.4, abundance = abundance.2) %>%
       relocate(taxon, abundance, .after = sampledate)

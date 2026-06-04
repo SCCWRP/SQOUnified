@@ -1,3 +1,9 @@
+# Combined offshore sample data used by test-BRI.Offshore.R
+.offshore_env <- new.env()
+data(offshore_bri_sampledata, package = "SQOUnified", envir = .offshore_env)
+offshore_data <- .offshore_env$offshore_bri_sampledata
+rm(.offshore_env)
+
 load_fixture <- function(name) {
   path <- testthat::test_path("fixtures", name)
   if (!file.exists(path)) {
