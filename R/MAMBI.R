@@ -274,6 +274,16 @@ MAMBI <- function(benthic_data,
   saline.mambi <- purrr::map(Sal_range.dataset, function(sal)
   {
     sal.df <- filter(metrics.2, SalZone == sal)
+
+    # Rows with NA ambi_score, S, or H cannot pass through cov()/princomp (produces NA covariance
+    # → "missing value where TRUE/FALSE needed" inside princomp.default). Separate them out before
+    # the factor analysis and bind them back as NA-scored rows at the end.
+    # Standards must stay in sal.df (they are the EQR calibration endpoints and should never be NA).
+    is_standard <- sal.df$stationid %in% Saline_Standards$stationid
+    metrics_complete <- !is.na(sal.df$ambi_score) & !is.na(sal.df$S) & !is.na(sal.df$H)
+    incomplete_samples <- sal.df[!metrics_complete & !is_standard, ]
+    sal.df <- sal.df[metrics_complete | is_standard, ]
+
     METRICS.tot <- select(sal.df, ambi_score, S, H)
 
     options(warn = -1)
@@ -310,6 +320,17 @@ MAMBI <- function(benthic_data,
           mambi_score >= 0.483 & mambi_score < 0.578 ~ "Low Disturbance",
           mambi_score >= 0.578 ~ "Reference")
       )
+
+    # Bind back samples with incomplete metrics as NA-scored rows
+    if (nrow(incomplete_samples) > 0) {
+      na_results <- incomplete_samples %>%
+        left_join(Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+        select(stationid, replicate, sampledate, latitude, longitude, SalZone, ambi_score, S, H) %>%
+        mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
+      results <- bind_rows(results, na_results)
+    }
+
+    results
   }) %>% list_rbind()
 
 
@@ -372,6 +393,12 @@ MAMBI <- function(benthic_data,
     # add the best and worst standard values for tidal freshwater
     TF.metrics.2 <- bind_rows(TF.metrics.1, TidalFresh_Standards)
 
+    # Same guard as saline branch: filter incomplete TF samples before cov()/princomp
+    tf_is_standard <- TF.metrics.2$stationid %in% TidalFresh_Standards$stationid
+    tf_metrics_complete <- !is.na(TF.metrics.2$ambi_score) & !is.na(TF.metrics.2$H) & !is.na(TF.metrics.2$oligo_pct)
+    tf_incomplete_samples <- TF.metrics.2[!tf_metrics_complete & !tf_is_standard, ]
+    TF.metrics.2 <- TF.metrics.2[tf_metrics_complete | tf_is_standard, ]
+
     TF.METRICS.tot <- TF.metrics.2 %>%
       select(ambi_score, H, oligo_pct)
 
@@ -408,6 +435,14 @@ MAMBI <- function(benthic_data,
           mambi_score > 0.387 & mambi_score < 0.483 ~ "Moderate Disturbance",
           mambi_score >= 0.483 & mambi_score < 0.578 ~ "Low Disturbance",
           mambi_score >= 0.578 ~ "Reference"))
+
+    if (nrow(tf_incomplete_samples) > 0) {
+      tf_na_results <- tf_incomplete_samples %>%
+        left_join(Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+        select(stationid, replicate, sampledate, latitude, longitude, ambi_score, H, oligo_pct) %>%
+        mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
+      TF.mambi <- bind_rows(TF.mambi, tf_na_results)
+    }
 
     # combine saline and TF results
     saline.mambi.2 <- saline.mambi %>%

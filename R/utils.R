@@ -132,6 +132,18 @@ init.log <- function(
 create_download_link <- function(data, logfile, filename, linktext = 'Download the data', include.row.names = FALSE, verbose = F){
   if(verbose){
     csvfile <- file.path(dirname(logfile), paste0(filename))
+    # write.csv() cannot serialize list-columns (e.g. tox 'result'/'result_control' hold
+    # per-row vectors of replicate values) and errors with "unimplemented type 'list' in
+    # 'EncodeElement'". Collapse any list-columns to a comma-separated string for the CSV
+    # artifact only - the returned data frame the caller holds is untouched.
+    list.cols <- names(data)[vapply(data, is.list, logical(1))]
+    for (col in list.cols) {
+      data[[col]] <- vapply(
+        data[[col]],
+        function(x) paste(format(x, trim = TRUE), collapse = ", "),
+        character(1)
+      )
+    }
     write.csv(data, csvfile, row.names = include.row.names)
     # Trailing blank line after <br> is required: a raw-HTML block runs until a
     # blank line, so without it the next markdown header gets absorbed into the

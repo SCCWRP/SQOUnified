@@ -135,6 +135,44 @@ RIVPACS <- function(BenthicData,
     verbose = verbose
   )
 
+  # Guard: when a sample's predictors are far outside all reference groups, every exp(-0.5*d)
+  # underflows to 0, the normalizing sum is 0, and dividing produces NaN probabilities that crash
+  # the downstream subscript indexing in SoCalRivpacs.2. Detect these samples here and route them
+  # to NA scores rather than letting them reach the model.
+  nan_mask <- vapply(seq_len(nrow(scb.predictors)), function(i) {
+    d <- mahalanobis(socal.reference.group.means, scb.predictors[i, ], socal.reference.covariance, inverted = TRUE)
+    s <- sum(table(socal.reference.groups) * exp(-0.5 * d))
+    !is.finite(s) || s == 0
+  }, logical(1))
+
+  out_of_envelope <- sampleids %>%
+    dplyr::filter(sample_id %in% rownames(scb.predictors)[nan_mask]) %>%
+    dplyr::mutate(
+      index = "Rivpacs",
+      score = NA_real_,
+      condition_category = NA_character_,
+      condition_category_score = NA_real_,
+      note = "Outside RIVPACS calibration envelope — group probabilities sum to zero (station likely outside SoCal embayment depth/location range)"
+    ) %>%
+    dplyr::select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score, note)
+
+  if (any(nan_mask)) {
+    if (all(nan_mask)) {
+      stop(
+        "All samples are outside the SoCal RIVPACS calibration envelope (group probabilities sum to ",
+        "zero for every sample). No scores can be computed. Check station depth and location.",
+        call. = FALSE
+      )
+    }
+    warning(
+      nrow(out_of_envelope), " sample(s) are outside the SoCal RIVPACS calibration envelope and will ",
+      "receive NA scores. Affected samples: ",
+      paste(rownames(scb.predictors)[nan_mask], collapse = ", "),
+      call. = FALSE
+    )
+    scb.predictors <- scb.predictors[!nan_mask, , drop = FALSE]
+  }
+
   #submitting abiotic predictors and biotic response data to the RIVPACS discriminant function
   rivpacs.mod <- SoCalRivpacs.2(observed.predictors = scb.predictors, observed.taxa = scb.taxa.2)
 
@@ -166,10 +204,11 @@ RIVPACS <- function(BenthicData,
   )
   create_download_link(data = rivpacs.scores, logfile = logfile, filename = 'RIVPACS_generic-step1-OE_details.csv', linktext = 'Download RIVPACS O/E details', verbose = verbose)
 
-  # Drop any samples from defaunated that already have a calculated score, so
-  # the bind_rows + join below can never emit two rows per sample.
+  # Drop any samples from defaunated that already have a calculated score or an out-of-envelope
+  # NA score, so the bind_rows + join below can never emit two rows per sample.
   defaunated <- defaunated %>%
-    anti_join(rivpacs.scores, by = c("stationid", "sampledate", "replicate"))
+    anti_join(rivpacs.scores, by = c("stationid", "sampledate", "replicate")) %>%
+    anti_join(out_of_envelope, by = c("stationid", "sampledate", "replicate"))
 
   #clean up scores and add associated station information
   rivpacs.scores.2 <- rivpacs.scores %>%
@@ -181,7 +220,7 @@ RIVPACS <- function(BenthicData,
                                                 condition_category == "Low Disturbance" ~ 2,
                                                 condition_category == "Moderate Disturbance" ~ 3,
                                                 condition_category == "High Disturbance" ~ 4)) %>%
-    bind_rows(defaunated, .) %>%
+    bind_rows(defaunated, out_of_envelope, .) %>%
     select(-O, -E, -outlier.05, -outlier.01) %>%
     left_join(oe.stations, ., by = c("stationid", "sampledate", "replicate"))
 
