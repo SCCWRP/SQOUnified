@@ -109,6 +109,11 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
   # Compute ALL SQO scores
   writelog('Compute ALL SQO scores', logfile = logfile, verbose = verbose)
 
+  # Each line of evidence writes its own self-contained log (with its intermediate tables) into a
+  # subfolder. We record them here and, at the end, merge them into this one consolidated report
+  # which is knit to a single self-contained HTML (see the "Assemble the consolidated report" block).
+  report.sections <- list()
+
   # ---- Benthic ----
   if (!is.null(benthic)) {
 
@@ -118,7 +123,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
 
     # Work in progress here - probably have to extract all the dataframes from the list to extract their scores
-    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = knitlog)$all_benthic_sqo_scores_long %>%
+    benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = FALSE)$all_benthic_sqo_scores_long %>%
       mutate(LOE = 'Benthic') %>%
       rename(
         StationID = stationid,
@@ -144,7 +149,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
       # The Bight program however, which only samples every 5 years, puts the year of the sample in the stationid
       select(-c(Replicate))
 
-    writelog('See the Benthic subdirectory for the benthic SQO logs', logfile = logfile, verbose = verbose)
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Benthic', logfile = benthiclogfile, subdir = 'Benthic')
 
   } else {
     benthic = data.frame(
@@ -165,11 +170,11 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
     init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs)
 
-    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = knitlog) %>%
+    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = FALSE) %>%
       mutate(LOE = 'Chemistry') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
 
-    writelog('See the Chemistry subdirectory for the chemistry SQO logs', logfile = logfile, verbose = verbose)
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Chemistry', logfile = chemlogfile, subdir = 'Chemistry')
 
   } else {
     chem = data.frame(
@@ -190,11 +195,11 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
     init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs)
 
-    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = knitlog) %>%
+    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = FALSE) %>%
       mutate(LOE = 'Toxicity') %>%
       select(StationID, LOE, Index, Score, Category, `Category Score`)
 
-    writelog('See the Toxicity subdirectory for the toxicity SQO logs', logfile = logfile, verbose = verbose)
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Toxicity', logfile = toxlogfile, subdir = 'Toxicity')
 
   } else {
     tox <- data.frame(
@@ -224,7 +229,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     )
 
     # BRI.Offshore returns a list (scores + interim tables); pull the long-format scores table
-    offshore_bri <- BRI.Offshore(offshore_combined, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = knitlog)$bri_scores %>%
+    offshore_bri <- BRI.Offshore(offshore_combined, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = FALSE)$bri_scores %>%
       mutate(LOE = 'Benthic') %>%
       select(
           StationID = stationid,
@@ -235,7 +240,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
           `Category Score` = category_score
       )
 
-    writelog('See the Offshore BRI subdirectory for the Offshore BRI SQO logs', logfile = logfile, verbose = verbose)
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Offshore BRI', logfile = obrilogfile, subdir = 'Offshore BRI')
 
   } else {
     offshore_bri <- data.frame(
@@ -305,7 +310,22 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
   writelog('Done computing ALL SQO scores', logfile = logfile, verbose = verbose)
 
-  # Not worth knitting the main SQOUnified log to HTML, as it just tells them to look at the subfolders
+  # ---- Assemble the consolidated report ----
+  # Merge each line-of-evidence log into this single report (in a sensible reading order) and knit
+  # it to one self-contained HTML. Because each section's tables are read from the snapshots
+  # writelog() saved, nothing is recomputed at knit time. The per-LOE intermediate CSVs remain in
+  # their respective subfolders.
+  if (length(report.sections) > 0) {
+    section.order <- c('Benthic', 'Offshore BRI', 'Toxicity', 'Chemistry')
+    section.titles <- vapply(report.sections, `[[`, character(1), 'title')
+    report.sections <- report.sections[order(match(section.titles, section.order))]
+
+    for (sec in report.sections) {
+      append_log_section(logfile, sec$logfile, subdir = sec$subdir, title = sec$title, verbose = verbose)
+    }
+
+    knit.log(logfile, verbose = verbose, knitlog = knitlog)
+  }
 
   return(out)
 

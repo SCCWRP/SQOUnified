@@ -423,6 +423,10 @@ BRI.Offshore <- function(BenthicData,
     bri_scores_out <- bri_w_station_info
   }
 
+  # Knit this offshore BRI log to HTML on a direct call (no-op when knitlog = FALSE, e.g. when
+  # SQOUnified() drives this and merges the log into its consolidated report instead).
+  knit.log(logfile, verbose = verbose, knitlog = knitlog)
+
   # Return the scores along with the intermediate tables so users can review how the index
   # processed their data (e.g. result$taxa_without_pcode).
   return(

@@ -301,6 +301,10 @@ benthic.sqo <- function(BenthicData,
 
   results$all_benthic_sqo_scores_long <- allsqo_long
 
+  # Knit this benthic log to HTML on a direct call (no-op when knitlog = FALSE, e.g. when
+  # SQOUnified() drives this and merges the log into its consolidated report instead).
+  knit.log(logfile, verbose = verbose, knitlog = knitlog)
+
   return(results)
 }
 
