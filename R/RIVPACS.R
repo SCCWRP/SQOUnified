@@ -78,7 +78,7 @@ RIVPACS <- function(BenthicData,
 {
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'RIVPACS SQO Logs')
 
   writelog('\n## BEGIN: Generic RIVPACS function.\n', logfile = logfile, verbose = verbose)
 
@@ -132,6 +132,30 @@ RIVPACS <- function(BenthicData,
   writelog(
     '### RIVPACS Step 1 - Predictors and taxa matrices prepared\n',
     logfile = logfile,
+    code = '
+      # Rectify naming to match the pre-existing RIVPACS code and build a sample_id key
+      benthic_data <- BenthicData %>%
+        rename(Taxa = taxon) %>%
+        mutate(sample_id = paste(stationid, sampledate, replicate, sep = "_")) %>%
+        filter(Taxa != "NoOrganismsPresent")
+
+      # Predictor matrix (latitude / longitude / depth) for the discriminant function model
+      scb.predictors <- benthic_data %>%
+        select(sample_id, Latitude = latitude, Longitude = longitude, SampleDepth = depth) %>%
+        distinct() %>%
+        column_to_rownames("sample_id") %>%
+        as.matrix()
+
+      # Observed taxon-abundance matrix (taxon names rewritten to match the model)
+      scb.taxa.2 <- benthic_data %>%
+        filter(exclude == "No") %>%
+        select(sample_id, Taxa, Abundance = abundance) %>%
+        mutate(Taxa = str_replace_all(Taxa, "[ ()]", "_")) %>%
+        group_by(sample_id, Taxa) %>%
+        summarise(Abundance = sum(Abundance), .groups = "drop") %>%
+        pivot_wider(id_cols = sample_id, names_from = Taxa, values_from = Abundance, values_fill = 0) %>%
+        column_to_rownames("sample_id")
+    ',
     verbose = verbose
   )
 
@@ -199,6 +223,25 @@ RIVPACS <- function(BenthicData,
   writelog(
     '### RIVPACS Step 2 - O/E details\n',
     logfile = logfile,
+    code = '
+      # Submit the abiotic predictors and biotic response data to the RIVPACS discriminant function
+      rivpacs.mod <- SoCalRivpacs.2(observed.predictors = scb.predictors, observed.taxa = scb.taxa.2)
+
+      # Pull the observed/expected table back out and attach the sample id information
+      oe.tab <- rivpacs.mod$oe.table %>%
+        as_tibble() %>%
+        left_join(., sampleids, by = "sample_id")
+
+      # Flag habitat-model outliers and tidy up column order
+      rivpacs.scores <- oe.tab %>%
+        rename(score = O.over.E) %>%
+        select(-sample_id) %>%
+        mutate(
+          note = case_when(outlier.01 == \'FAIL\' ~ "Caution-Sample Outside RIVPACS habitat model",
+                           TRUE ~ NA),
+          index = "Rivpacs") %>%
+        relocate(., stationid, sampledate, replicate, O, E, index, score, outlier.05, outlier.01, note)
+    ',
     data = rivpacs.scores %>% head(25),
     verbose = verbose
   )
@@ -227,6 +270,22 @@ RIVPACS <- function(BenthicData,
   writelog(
     '### RIVPACS Final - RIVPACS Scores\n',
     logfile = logfile,
+    code = '
+      # Assign condition categories from the O:E score thresholds, fold in defaunated and
+      # out-of-envelope samples, and attach the station information
+      rivpacs.scores.2 <- rivpacs.scores %>%
+        mutate(condition_category = case_when((score <= 0.32) ~ "High Disturbance",
+                                              ((score > 0.32 & score <= 0.74) | (score >= 1.26)) ~ "Moderate Disturbance",
+                                              ((score > 0.74 & score <= 0.90) | score >= 1.10 & score < 1.26) ~ "Low Disturbance",
+                                              (score > 0.90 | score < 1.10) ~ "Reference"),
+               condition_category_score = case_when(condition_category == "Reference" ~ 1,
+                                                    condition_category == "Low Disturbance" ~ 2,
+                                                    condition_category == "Moderate Disturbance" ~ 3,
+                                                    condition_category == "High Disturbance" ~ 4)) %>%
+        bind_rows(defaunated, out_of_envelope, .) %>%
+        select(-O, -E, -outlier.05, -outlier.01) %>%
+        left_join(oe.stations, ., by = c("stationid", "sampledate", "replicate"))
+    ',
     data = rivpacs.scores.2 %>% head(25),
     verbose = verbose
   )

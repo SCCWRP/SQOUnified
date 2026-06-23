@@ -81,7 +81,7 @@ RBI <- function(benthic_data,
 {
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'RBI SQO Logs')
 
   writelog('\n## BEGIN: Generic RBI function.\n', logfile = logfile, verbose = verbose)
 
@@ -128,6 +128,22 @@ RBI <- function(benthic_data,
   writelog(
     '### RBI Step 1 - Data to be analyzed with SQO designations\n',
     logfile = logfile,
+    code = '
+      # Join the SQO look-up list designations onto the submitted taxa
+      rbi_data <- benthic_data %>%
+        select(stationid, replicate, sampledate, taxon, abundance, exclude) %>%
+        left_join(xl_tool.SoCalLUList, by = c("taxon" = "TaxonName")) %>%
+        filter(taxon != "NoOrganismsPresent")
+
+      # Flag richness, positive (PIT) and negative (NIT) indicator taxa and keep the review columns
+      rbi_data.review <- rbi_data %>%
+        mutate(rich_flag = case_when(Phylum == "" ~ 0,
+                                     is.na(Phylum) ~ 0,
+                                     TRUE ~ 1),
+               pit_flag = if_else(taxon %in% c("Monocorophium insidiosum", "Asthenothaerus diegensis", "Goniada littorea"), 1, 0),
+               nit_flag = if_else(taxon %in% c("Capitella capitata Cmplx", "Oligochaeta"), 1, 0)) %>%
+        select(stationid, sampledate, replicate, taxon, abundance, exclude, SpeciesLevel, Mollusc, Crustacean, rich_flag, pit_flag, nit_flag)
+    ',
     data = rbi_data.review %>% head(25),
     verbose = verbose
   )
@@ -216,6 +232,75 @@ RBI <- function(benthic_data,
   writelog(
     '### RBI Step 2 - Raw RBI metrics\n',
     logfile = logfile,
+    code = '
+      # Metric 1: taxa richness
+      rbi1 <- rbi_data %>%
+        filter(exclude == "No") %>%
+        mutate(rich_flag = case_when(Phylum == "" ~ 0,
+                                     is.na(Phylum) ~ 0,
+                                     TRUE ~ 1)) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(NumOfTaxa = sum(rich_flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metric 2: mollusc taxa richness
+      rbi2 <- rbi_data %>%
+        filter(exclude == "No") %>%
+        mutate(flag = (case_when(Mollusc == "Mollusc" ~ 1,
+                                 TRUE ~ 0))) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(NumOfMolluscTaxa = sum(flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metric 3: crustacean taxa richness
+      rbi3 <- rbi_data %>%
+        filter(exclude == "No") %>%
+        mutate(flag = case_when(Crustacean == "Crustacean" ~ 1,
+                                TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(NumOfCrustaceanTaxa = sum(flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metric 4: crustacean abundance
+      rbi4 <- rbi_data %>%
+        mutate(flag = case_when(Crustacean == "Crustacean" ~ abundance,
+                                TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(CrustaceanAbun = sum(flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metrics 5-7: abundance of the three positive indicator taxa
+      rbi5 <- rbi_data %>%
+        mutate(flag = case_when(taxon == "Monocorophium insidiosum" ~ abundance, TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(M_insidiosumAbun = sum(flag), .groups = "drop_last") %>% ungroup()
+      rbi6 <- rbi_data %>%
+        mutate(flag = case_when(taxon == "Asthenothaerus diegensis" ~ abundance, TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(A_diegensisAbun = sum(flag), .groups = "drop_last") %>% ungroup()
+      rbi7 <- rbi_data %>%
+        mutate(flag = case_when(taxon == "Goniada littorea" ~ abundance, TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(G_littoreaAbun = sum(flag), .groups = "drop_last") %>% ungroup()
+
+      # Metric 8: negative indicator taxa score (NIT)
+      rbi8 <- rbi_data %>%
+        mutate(badness = case_when(taxon %in% c("Capitella capitata Cmplx", "Oligochaeta") ~ -0.1,
+                                   TRUE ~ 0)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(NIT = sum(badness), .groups = "drop_last") %>%
+        ungroup()
+
+      # Combine all the metrics into one data frame
+      rbi_metrics <- rbi1 %>%
+        dplyr::full_join(rbi2, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi3, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi4, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi5, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi6, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi7, by = c("stationid", "replicate", "sampledate")) %>%
+        dplyr::full_join(rbi8, by = c("stationid", "replicate", "sampledate"))
+    ',
     data = rbi_metrics %>% head(25),
     verbose = verbose
   )
@@ -254,6 +339,35 @@ RBI <- function(benthic_data,
   writelog(
     '### RBI Step 3 - Scaled RBI metrics\n',
     logfile = logfile,
+    code = '
+      # Scale observed values to the maxima from the index calibration dataset, combine into the
+      # TWV / PIT / NIT meta-metrics, integrate into the raw RBI, scale the score, and categorize
+      rbi_scaled <- rbi_metrics %>%
+        mutate(scaled_NumTaxa = (NumOfTaxa / 99),
+               scaled_NumMolluscTaxa = (NumOfMolluscTaxa / 28),
+               scaled_NumCrustaceanTaxa = (NumOfCrustaceanTaxa / 29),
+               scaled_CrustaceanAbun = (CrustaceanAbun / 1693),
+               # Taxa Richness Weighted Value (TWV)
+               TWV = (scaled_NumTaxa + scaled_NumMolluscTaxa + scaled_NumCrustaceanTaxa + (0.25 * scaled_CrustaceanAbun)),
+               # scale the positive indicator taxa
+               scaled_M_insid = (((M_insidiosumAbun)^(1/4)) / ((473)^(1/4))),
+               scaled_A_dieg = (((A_diegensisAbun)^(1/4)) / ((27)^(1/4))),
+               scaled_G_littor = (((G_littoreaAbun)^(1/4)) / ((15)^(1/4))),
+               # Positive Indicator Taxa (PIT)
+               PIT = scaled_M_insid + scaled_A_dieg + scaled_G_littor,
+               # integrate TWV, NIT, and PIT, then scale
+               Raw_RBI = TWV + NIT + (2 * PIT),
+               score = ((Raw_RBI - 0.03) / 4.69),
+               condition_category = case_when((score > 0.27) ~ "Reference",
+                                              (score > 0.16 & score <= 0.27) ~ "Low Disturbance",
+                                              (score >= 0.09 & score <= 0.16) ~ "Moderate Disturbance",
+                                              (score < 0.09) ~ "High Disturbance"),
+               condition_category_score = case_when((condition_category == "Reference") ~ 1,
+                                                    (condition_category == "Low Disturbance") ~ 2,
+                                                    (condition_category == "Moderate Disturbance") ~ 3,
+                                                    (condition_category == "High Disturbance") ~ 4),
+               index = "RBI")
+    ',
     data = rbi_scaled %>% select(-condition_category, -condition_category_score) %>% head(25),
     verbose = verbose
   )
@@ -287,6 +401,19 @@ RBI <- function(benthic_data,
   writelog(
     '### RBI Final - RBI Scores\n',
     logfile = logfile,
+    code = '
+      # Gather station info, fold in defaunated (High Disturbance) samples, and drop the placeholder row
+      rbi.stations <- benthic_data %>%
+        select(-taxon, -abundance, -exclude) %>%
+        distinct(stationid, sampledate, replicate, .keep_all = TRUE)
+
+      rbi.out.2 <- rbi_scaled %>%
+        select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score) %>%
+        bind_rows(rbi.out.null, ., defaunated) %>%
+        full_join(rbi.stations, ., by = c("stationid", "sampledate", "replicate")) %>%
+        filter(stationid != "dummy") %>%
+        mutate(note = if_else(is.na(note), "none", note))
+    ',
     data = rbi.out.2 %>% head(25),
     verbose = verbose
   )

@@ -83,7 +83,7 @@ IBI <- function(benthic_data,
 {
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'IBI SQO Logs')
 
   writelog('\n## BEGIN: Generic IBI function.\n', logfile = logfile, verbose = verbose)
 
@@ -125,6 +125,18 @@ IBI <- function(benthic_data,
   writelog(
     '### IBI Step 1 - Data to be analyzed with SQO designations\n',
     logfile = logfile,
+    code = '
+      # Join the SQO look-up list designations onto the submitted taxa
+      ibi_data <- benthic_data %>%
+        left_join(xl_tool.SoCalLUList, by = c("taxon" = "TaxonName")) %>%
+        filter(taxon != "NoOrganismsPresent")
+
+      # Flag Notomastus and keep the columns used in subsequent metric calculations
+      ibi_data.review <- ibi_data %>%
+        mutate(Notomastus_flag = case_when(str_detect(taxon, "Notomastus") ~ 1,
+                                           TRUE ~ 0)) %>%
+        select(stationid, sampledate, replicate, taxon, abundance, exclude, SpeciesLevel, Mollusc, IBISensitive, Notomastus_flag)
+    ',
     data = ibi_data.review %>% head(25),
     verbose = verbose
   )
@@ -181,6 +193,50 @@ IBI <- function(benthic_data,
   writelog(
     '### IBI Step 2 - IBI metric values\n',
     logfile = logfile,
+    code = '
+      # Metric 1: taxa richness
+      ibi1 <- ibi_data %>%
+        filter(exclude == "No") %>%
+        mutate(rich_flag = case_when(Phylum == "" ~ 0,
+                                     is.na(Phylum) ~ 0,
+                                     TRUE ~ 1)) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(NumOfTaxa = length(taxon), .groups = "drop_last")
+
+      # Metric 2: mollusc taxa richness
+      ibi2 <- ibi_data %>%
+        filter(exclude == "No") %>%
+        mutate(flag = (case_when(Mollusc == "Mollusc" ~ 1,
+                                 TRUE ~ 0))) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(NumOfMolluscTaxa = sum(flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metric 3: Notomastus spp. abundance
+      ibi3 <- ibi_data %>%
+        mutate(flag = case_when(str_detect(taxon, "Notomastus") ~ abundance,
+                                TRUE ~ 0)) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(NotomastusAbun = sum(flag), .groups = "drop_last") %>%
+        ungroup()
+
+      # Metric 4: percent sensitive taxa
+      ibi4 <- ibi_data %>%
+        mutate(flag = case_when(IBISensitive == "S" ~ 1,
+                                TRUE ~ 0)) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(sensitive_S = sum(flag), .groups = "drop_last") %>%
+        ungroup() %>%
+        left_join(ibi1, by = c("stationid", "sampledate", "replicate")) %>%
+        mutate(PctSensTaxa = (sensitive_S / NumOfTaxa) * 100) %>%
+        select(stationid, sampledate, replicate, PctSensTaxa)
+
+      # Combine the four metrics into one table
+      ibi_metrics <- ibi1 %>%
+        full_join(ibi2, by = c("sampledate", "stationid", "replicate")) %>%
+        full_join(ibi3, by = c("sampledate", "stationid", "replicate")) %>%
+        full_join(ibi4, by = c("sampledate", "stationid", "replicate"))
+    ',
     data = ibi_metrics %>% head(25),
     verbose = verbose
   )
@@ -241,6 +297,44 @@ IBI <- function(benthic_data,
   writelog(
     '### IBI Final - IBI Scores\n',
     logfile = logfile,
+    code = '
+      # Reference ranges for IBI metrics in Southern California Marine Bays
+      # (Table 4.19 CASQO Technical Manual 3rd edition 2021 - page 68)
+      ibi_ref_ranges_table <- data.frame(metric = c("NumOfTaxa", "NumOfMolluscTaxa", "NotomastusAbun", "PctSensTaxa"),
+                                         ref_low = c(13, 2, 0, 19),
+                                         ref_high = c(99, 25, 59, 47.1))
+
+      # Score = number of metrics outside the reference range; map to condition categories
+      ibi.scores <- ibi_metrics %>%
+        pivot_longer(., cols = c(-stationid, -sampledate, -replicate), names_to = "metric", values_to = "value") %>%
+        left_join(., ibi_ref_ranges_table, by = "metric") %>%
+        mutate(out_of_range = case_when(value < ref_low | value > ref_high ~ 1,
+                                        TRUE ~ 0)) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarise(score = sum(out_of_range), .groups = "drop_last") %>%
+        ungroup() %>%
+        mutate(index = "IBI", .before = score) %>%
+        mutate(condition_category = case_when(score == 0 ~ "Reference",
+                                              score == 1 ~ "Low Disturbance",
+                                              score == 2 ~ "Moderate Disturbance",
+                                              score %in% c(3, 4) ~ "High Disturbance"),
+               condition_category_score = case_when(score == 0 ~ 1,
+                                                    score == 1 ~ 2,
+                                                    score == 2 ~ 3,
+                                                    score %in% c(3, 4) ~ 4))
+
+      # Gather station info, fold in defaunated (High Disturbance) samples, and drop the placeholder row
+      ibi.stations <- benthic_data %>%
+        select(-taxon, -abundance, -exclude) %>%
+        distinct(stationid, sampledate, replicate, .keep_all = TRUE)
+
+      ibi.out.2 <- ibi.scores %>%
+        select(stationid, sampledate, replicate, index, score, condition_category, condition_category_score) %>%
+        bind_rows(ibi.out.null, ., defaunated) %>%
+        full_join(ibi.stations, ., by = c("stationid", "sampledate", "replicate")) %>%
+        filter(stationid != "dummy") %>%
+        mutate(note = if_else(is.na(note), "none", note))
+    ',
     data = ibi.out.2 %>% head(25),
     verbose = verbose
   )

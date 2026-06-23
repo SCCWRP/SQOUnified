@@ -86,11 +86,11 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, offshore_stations = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, knitlog = F) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, offshore_stations = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, logtitle = 'Unified SQO Logs', knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
 
 
   #load("data/site_assessment_criteria.RData")
@@ -120,7 +120,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     benthiclogfile <- file.path( dirname(logfile), 'Benthic', 'benthiclog.Rmd' )
     benthiclibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
-    init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs)
+    init.log(benthiclogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = benthiclibs, title = 'Benthic SQO Logs')
 
     # Work in progress here - probably have to extract all the dataframes from the list to extract their scores
     benthic <- benthic.sqo(benthic, logfile = benthiclogfile, verbose = verbose, knitlog = FALSE)$all_benthic_sqo_scores_long %>%
@@ -168,7 +168,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     chemlogfile <- file.path( dirname(logfile), 'Chemistry', 'chemlog.Rmd' )
     chemlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
-    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs)
+    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs, title = 'Chemistry SQO Logs')
 
     chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = FALSE) %>%
       mutate(LOE = 'Chemistry') %>%
@@ -193,7 +193,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
     toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
-    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs)
+    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs, title = 'Toxicity SQO Logs')
 
     tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = FALSE) %>%
       mutate(LOE = 'Toxicity') %>%
@@ -219,7 +219,7 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     obrilogfile <- file.path( dirname(logfile), 'Offshore BRI', 'offshorebri_log.Rmd' )
     obrilibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
-    init.log(obrilogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = obrilibs)
+    init.log(obrilogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = obrilibs, title = 'Offshore BRI SQO Logs')
 
     # BRI.Offshore takes a single combined data frame; join benthic and station data here.
     offshore_combined <- dplyr::left_join(

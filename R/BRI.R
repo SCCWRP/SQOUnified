@@ -72,7 +72,7 @@ BRI <- function(benthic_data,
 {
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'BRI SQO Logs')
 
   writelog('\n## BEGIN: Generic SQO BRI function.\n', logfile = logfile, verbose = verbose)
 
@@ -116,6 +116,19 @@ BRI <- function(benthic_data,
   writelog(
     '### BRI Step 1 - Taxa with a tolerance score\n',
     logfile = logfile,
+    code = '
+      # Match tolerance scores (p-codes) from the xl_tool.SoCalLUList to the submitted taxa
+      all.for.bri <- benthic_data %>%
+        filter(taxon != "NoOrganismsPresent") %>%
+        left_join(., select(xl_tool.SoCalLUList, TaxonName, ToleranceScore), by = c(\'taxon\' = \'TaxonName\'))
+
+      # Identify the submitted taxa that DO have a tolerance score
+      taxa_w_pvalue <- all.for.bri %>%
+        group_by(taxon, ToleranceScore) %>%
+        summarise(Freq_of_Occ = length(stationid), .groups = "drop_last") %>%
+        ungroup() %>%
+        drop_na(ToleranceScore)
+    ',
     data = taxa_w_pvalue %>% head(25),
     verbose = verbose
   )
@@ -132,6 +145,15 @@ BRI <- function(benthic_data,
   writelog(
     '### BRI Step 2 - Taxa without a tolerance score\n',
     logfile = logfile,
+    code = '
+      # Identify the submitted taxa that do NOT have a tolerance score
+      taxa_wo_pvalue <- all.for.bri %>%
+        group_by(taxon, ToleranceScore) %>%
+        summarise(Freq_of_Occ = length(stationid), .groups = "drop_last") %>%
+        ungroup() %>%
+        filter(is.na(ToleranceScore)) %>%
+        select(-ToleranceScore)
+    ',
     data = taxa_wo_pvalue %>% head(25),
     verbose = verbose
   )
@@ -186,6 +208,41 @@ BRI <- function(benthic_data,
   writelog(
     '### BRI Final - BRI Scores\n',
     logfile = logfile,
+    code = '
+      # Calculate the BRI score per sample (4th-root abundance weighted tolerance), then assign
+      # condition categories and category scores from the SoCal Marine Bay thresholds
+      bri.out <- all.for.bri %>%
+        drop_na(ToleranceScore) %>%
+        mutate(fourthroot_abun = abundance ** 0.25,
+               tolerance_value = fourthroot_abun * ToleranceScore) %>%
+        group_by(stationid, sampledate, replicate) %>%
+        summarize(numerator = sum(tolerance_value, na.rm = T), denomenator = sum(fourthroot_abun, na.rm = T), score = numerator / denomenator, .groups = "drop_last") %>%
+        select(stationid, sampledate, replicate, score) %>%
+        mutate(
+          condition_category = case_when((score < 39.96) ~ "Reference",
+                                         (score >= 39.96 & score < 49.15) ~ "Low Disturbance",
+                                         (score >= 49.15 & score < 73.27) ~ "Moderate Disturbance",
+                                         (score >= 73.27) ~ "High Disturbance")) %>%
+        mutate(
+          condition_category_score = case_when((condition_category == "Reference") ~ 1,
+                                               (condition_category == "Low Disturbance") ~ 2,
+                                               (condition_category == "Moderate Disturbance") ~ 3,
+                                               (condition_category == "High Disturbance") ~ 4),
+          note = NA)
+
+      # Gather station info, fold in defaunated (High Disturbance) samples, and drop the placeholder row
+      bri.stations <- benthic_data %>%
+        select(-taxon, -abundance, -exclude) %>%
+        distinct(stationid, sampledate, replicate, .keep_all = TRUE)
+
+      bri.out.3 <- bri.out.null %>%
+        bind_rows(bri.out, defaunated) %>%
+        left_join(bri.stations, ., by = c("stationid", "sampledate", "replicate")) %>%
+        mutate(note = case_when(is.na(condition_category) ~ "Unable to calculate BRI, likely no p-code taxa",
+                                TRUE ~ note),
+               index = "BRI") %>%
+        filter(stationid != "dummy")
+    ',
     data = bri.out.3 %>% head(25),
     verbose = verbose
   )

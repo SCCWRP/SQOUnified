@@ -110,6 +110,7 @@ BRI.Offshore <- function(BenthicData,
                          output_format = 'wide',
                          logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BRI_Offshore_log.Rmd'),
                          verbose = FALSE,
+                         logtitle = 'Offshore BRI SQO Logs',
                          knitlog = FALSE)
 {
 
@@ -127,7 +128,7 @@ BRI.Offshore <- function(BenthicData,
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
 
   writelog('\n## BEGIN: Offshore BRI (Edition 14) function.\n', logfile = logfile, verbose = verbose)
 

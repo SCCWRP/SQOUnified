@@ -749,7 +749,7 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result', 'Gr
 #' tox.sqo(tox_sampledata)
 #'
 #' @export
-tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F , logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, knitlog = F) {
+tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.sampletypes = c('CNEG'), include.controls = F , logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'ToxLog.Rmd' ), verbose = F, logtitle = 'Toxicity SQO Logs', knitlog = F) {
 
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
   init.log(
@@ -758,7 +758,8 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
     type = logfile.type,
     current.time = Sys.time(),
     is.base.func = length(sys.calls()) == 1,
-    verbose = verbose
+    verbose = verbose,
+    title = logtitle
   )
 
 

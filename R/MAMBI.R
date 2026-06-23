@@ -96,7 +96,7 @@ MAMBI <- function(benthic_data,
 {
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'M-AMBI SQO Logs')
 
   writelog('\n## BEGIN: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
 
@@ -169,6 +169,28 @@ MAMBI <- function(benthic_data,
   writelog(
     '### M-AMBI Step 1 - Taxa with EG values\n',
     logfile = logfile,
+    code = '
+      # Pull the chosen Ecological Group (EG) scheme column from the reference values
+      EG_to_use <- EG_Ref_values %>%
+        select(all_of(EG_Scheme), Taxon, Exclude) %>%
+        rename(EG = all_of(EG_Scheme)) %>%
+        relocate(Taxon, Exclude, EG) %>%
+        mutate(EG = ifelse(Taxon == "Oligochaeta", "V", EG))
+
+      # Assign an EG to each submitted taxon and compute relative abundance within each sample
+      EG.Assignment <- Input_File %>%
+        left_join(., EG_to_use, by = c("taxon" = "Taxon")) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        mutate(tot_abun = sum(abundance)) %>%
+        ungroup() %>%
+        mutate(rel_abun = ((abundance / tot_abun) * 100))
+
+      # Taxa that received an EG value (I-V)
+      taxa_w_EG <- EG.Assignment %>%
+        filter(EG %in% c("I", "II", "III", "IV", "V")) %>%
+        group_by(taxon, EG) %>%
+        summarise(total_abundance = sum(abundance), .groups = "drop_last")
+    ',
     data = taxa_w_EG %>% head(25),
     verbose = verbose
   )
@@ -183,6 +205,13 @@ MAMBI <- function(benthic_data,
   writelog(
     '### M-AMBI Step 2 - Taxa without EG values\n',
     logfile = logfile,
+    code = '
+      # Taxa with no EG value (missing or blank) - drive the AMBI applicability check
+      taxa_wo_EG <- EG.Assignment %>%
+        filter(is.na(EG) | EG == "") %>%
+        group_by(taxon) %>%
+        summarise(total_abundance = sum(abundance), .groups = "drop_last")
+    ',
     data = taxa_wo_EG %>% head(25),
     verbose = verbose
   )
@@ -494,6 +523,46 @@ MAMBI <- function(benthic_data,
   writelog(
     '### M-AMBI Final - M-AMBI Scores\n',
     logfile = logfile,
+    code = '
+      # Calculate the three M-AMBI metrics per sample from the EG-assigned data:
+      #   AMBI score (abundance-weighted EG tolerance), species richness (S), Shannon-Wiener (H)
+      AMBI.Scores <- EG.Assignment %>%
+        group_by(stationid, replicate, sampledate, tot_abun, EG) %>%
+        summarise(sum_rel = sum(rel_abun), .groups = "drop_last") %>%
+        ungroup() %>%
+        replace_na(list(EG = "NoEG")) %>%
+        mutate(EG_Score = case_when(EG == "I" ~ sum_rel * 0,   EG == "II" ~ sum_rel * 1.5,
+                                    EG == "III" ~ sum_rel * 3, EG == "IV" ~ sum_rel * 4.5,
+                                    EG == "V" ~ sum_rel * 6,   EG == "NoEG" ~ 0)) %>%
+        mutate(EG_Score = ifelse(tot_abun == 0, 7, EG_Score)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(ambi_score = (sum(EG_Score, na.rm = TRUE) / 100), .groups = "drop_last") %>%
+        ungroup()
+
+      metrics.1 <- Sample.info %>%
+        left_join(., AMBI.Scores, by = c("stationid", "replicate", "sampledate")) %>%
+        left_join(., Rich, by = c("stationid", "replicate", "sampledate")) %>%
+        left_join(., Divy, by = c("stationid", "replicate", "sampledate")) %>%
+        select(stationid, replicate, sampledate, ambi_score, S, H, SalZone)
+
+      # For each salinity zone the three metrics are combined with the Pelletier et al. 2018
+      # good/bad standards and run through a factor analysis (princomp + varimax rotation) and the
+      # EQR transformation to produce the mambi_score (see the saline.mambi / tidal-freshwater
+      # branches in the source). The scored results come back as saline.mambi (+ TF.mambi.2).
+
+      # Classify the scores, fold in defaunated and no-salinity samples, attach applicability
+      # notes, then join the full station information back on
+      Overall.Results.2 <- saline.mambi %>%
+        bind_rows(., no.SalZone.data) %>%
+        left_join(., MAMBI.applicability, by = c("stationid", "replicate", "sampledate")) %>%
+        mutate(note = case_when(is.na(SalZone) ~ "No salinity data - cannot calculate M-AMBI",
+                                use_mambi == "Yes" ~ "None",
+                                use_mambi == "Caution - Sparse AMBI Coverage" ~ "Check sample - M-AMBI ok, but limited taxa coverage",
+                                use_mambi == "Not Recommended - Poor AMBI Coverage" ~ "M-AMBI not recommended - poor taxa coverage")) %>%
+        bind_rows(., defaunated) %>%
+        mutate(index = "M-AMBI", .before = latitude) %>%
+        left_join(., station.info, by = c("stationid", "sampledate", "replicate", "latitude", "longitude"))
+    ',
     data = Overall.Results.2 %>% head(25),
     verbose = verbose
   )
