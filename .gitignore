@@ -7,3 +7,4 @@ example/
 ignore/
 logs/
 .DS_Store
+savedata.R

@@ -15,6 +15,7 @@ SQOUnified(
   logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S"),
     "log.Rmd"),
   verbose = F,
+  logtitle = "Unified SQO Logs",
   knitlog = F
 )
 }

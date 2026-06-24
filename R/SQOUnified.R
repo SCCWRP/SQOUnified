@@ -114,6 +114,58 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
   # which is knit to a single self-contained HTML (see the "Assemble the consolidated report" block).
   report.sections <- list()
 
+  # ---- Toxicity ----
+  if (!is.null(tox)) {
+
+    toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
+    toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs, title = 'Toxicity SQO Logs')
+
+    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = FALSE) %>%
+      mutate(LOE = 'Toxicity') %>%
+      select(StationID, LOE, Index, Score, Category, `Category Score`)
+
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Toxicity', logfile = toxlogfile, subdir = 'Toxicity')
+
+  } else {
+    tox <- data.frame(
+      StationID = c(),
+      LOE = c(),
+      Index = c(),
+      Score = c(),
+      Category = c(),
+      `Category Score` = c()
+    )
+  }
+
+  # ---- Chemistry ----
+  if (!is.null(chem)) {
+
+    chemlogfile <- file.path( dirname(logfile), 'Chemistry', 'chemlog.Rmd' )
+    chemlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
+
+    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs, title = 'Chemistry SQO Logs')
+
+    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = FALSE) %>%
+      mutate(LOE = 'Chemistry') %>%
+      select(StationID, LOE, Index, Score, Category, `Category Score`)
+
+    report.sections[[length(report.sections) + 1]] <- list(title = 'Chemistry', logfile = chemlogfile, subdir = 'Chemistry')
+
+  } else {
+    chem = data.frame(
+      StationID = c(),
+      LOE = c(),
+      Index = c(),
+      Score = c(),
+      Category = c(),
+      `Category Score` = c()
+    )
+  }
+
+  
+
   # ---- Benthic ----
   if (!is.null(benthic)) {
 
@@ -162,56 +214,6 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     )
   }
 
-  # ---- Chemistry ----
-  if (!is.null(chem)) {
-
-    chemlogfile <- file.path( dirname(logfile), 'Chemistry', 'chemlog.Rmd' )
-    chemlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
-
-    init.log(chemlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = chemlibs, title = 'Chemistry SQO Logs')
-
-    chem <- chem.sqo(chem, logfile = chemlogfile, verbose = verbose, knitlog = FALSE) %>%
-      mutate(LOE = 'Chemistry') %>%
-      select(StationID, LOE, Index, Score, Category, `Category Score`)
-
-    report.sections[[length(report.sections) + 1]] <- list(title = 'Chemistry', logfile = chemlogfile, subdir = 'Chemistry')
-
-  } else {
-    chem = data.frame(
-      StationID = c(),
-      LOE = c(),
-      Index = c(),
-      Score = c(),
-      Category = c(),
-      `Category Score` = c()
-    )
-  }
-
-  # ---- Toxicity ----
-  if (!is.null(tox)) {
-
-    toxlogfile <- file.path( dirname(logfile), 'Toxicity', 'toxlog.Rmd' )
-    toxlibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
-
-    init.log(toxlogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = toxlibs, title = 'Toxicity SQO Logs')
-
-    tox <- tox.sqo(tox, logfile = toxlogfile, verbose = verbose, knitlog = FALSE) %>%
-      mutate(LOE = 'Toxicity') %>%
-      select(StationID, LOE, Index, Score, Category, `Category Score`)
-
-    report.sections[[length(report.sections) + 1]] <- list(title = 'Toxicity', logfile = toxlogfile, subdir = 'Toxicity')
-
-  } else {
-    tox <- data.frame(
-      StationID = c(),
-      LOE = c(),
-      Index = c(),
-      Score = c(),
-      Category = c(),
-      `Category Score` = c()
-    )
-  }
-
 
   # ---- Offshore BRI ----
   if ( (!is.null(offshore_benthic)) && (!is.null(offshore_stations)) ) {
@@ -230,6 +232,10 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
     # BRI.Offshore returns a list (scores + interim tables); pull the long-format scores table
     offshore_bri <- BRI.Offshore(offshore_combined, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = FALSE)$bri_scores %>%
+      # Keep only replicate 1, mirroring the bay/estuary benthic rule (David: keep replicate 1;
+      # there is almost always only one). This gives each station a single Benthic row so the
+      # spread() in the integrated assessment cannot hit duplicate StationID + LOE keys.
+      filter(replicate == 1) %>%
       mutate(LOE = 'Benthic') %>%
       select(
           StationID = stationid,
@@ -256,7 +262,11 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
   # For integrated site assessment, each station needs one Benthic, Chemistry, and Toxicity category.
   # Stations with bay/estuary benthic data use the BLOE category.
   # Stations with only offshore BRI use the offshore BRI category mapped to standard benthic categories.
-  integrated <- bind_rows(benthic, chem, tox, offshore_bri) %>%
+  # Build the wide, one-row-per-station table of LOE categories joined to the site assessment
+  # criteria. The Benthic category comes from either the bay/estuary BLOE (benthic.sqo) or the
+  # offshore BRI (both carry LOE = 'Benthic'); a station needs all three LOEs to receive an
+  # integrated assessment. This wide table is also displayed in the consolidated report below.
+  integrated_wide <- bind_rows(benthic, chem, tox, offshore_bri) %>%
     filter(
       grepl("Assessment|Offshore", Index)
     ) %>%
@@ -279,10 +289,23 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
     spread(
       LOE, Category
     ) %>%
+    # An entire line of evidence can be absent from a run (e.g. only benthic and/or offshore
+    # data was supplied), in which case spread() never creates that column and the criteria
+    # join below would error on the missing column. Guarantee all three category columns exist;
+    # any station missing one or more LOEs then simply gets NA and so no integrated assessment.
+    {
+      missing_loes <- setdiff(c("Benthic", "Chemistry", "Toxicity"), names(.))
+      if (length(missing_loes) > 0) .[missing_loes] <- NA_character_
+      .
+    } %>%
     left_join(
       site_assessment_criteria,
       by = c("Benthic","Chemistry","Toxicity")
     ) %>%
+    ungroup()
+
+  # Reshape the wide table into the long score format used for the returned data frame
+  integrated <- integrated_wide %>%
     select(
       StationID, `Site Assessment`
     ) %>%
@@ -316,13 +339,84 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
   # writelog() saved, nothing is recomputed at knit time. The per-LOE intermediate CSVs remain in
   # their respective subfolders.
   if (length(report.sections) > 0) {
-    section.order <- c('Benthic', 'Offshore BRI', 'Toxicity', 'Chemistry')
-    section.titles <- vapply(report.sections, `[[`, character(1), 'title')
-    report.sections <- report.sections[order(match(section.titles, section.order))]
-
+    # Sections appear in the consolidated report in the order their line-of-evidence blocks run
+    # above (currently Toxicity, then Chemistry, then Benthic, then Offshore BRI). To change the
+    # report order, reorder those blocks - there is no separate ordering list to keep in sync.
     for (sec in report.sections) {
       append_log_section(logfile, sec$logfile, subdir = sec$subdir, title = sec$title, verbose = verbose)
     }
+
+    # ---- Integrated site assessment ----
+    # The integration runs in this master function (not a per-LOE sub-log), so its code and result
+    # tables are written directly into the consolidated report here, after the per-LOE sections.
+    writelog('\n# Integrated Site Assessment\n', logfile = logfile, verbose = verbose)
+    writelog(
+      paste(
+        'The overall site assessment integrates the Benthic, Chemistry, and Toxicity category for',
+        'each station. The Benthic category comes from either the bay/estuary benthic line of',
+        'evidence (benthic.sqo) or the offshore BRI (BRI.Offshore). A station must have all three',
+        'lines of evidence to receive an integrated site assessment; stations missing any line of',
+        'evidence appear with an NA site assessment.'
+      ),
+      logfile = logfile,
+      verbose = verbose
+    )
+
+    writelog(
+      '\n## Site assessment criteria\n\nLook-up table mapping each combination of Benthic, Chemistry, and Toxicity categories to an overall site assessment (CASQO Technical Manual, Bay et al. 2021).',
+      logfile = logfile,
+      data = site_assessment_criteria,
+      verbose = verbose,
+      pageLength = 15
+    )
+
+    writelog(
+      '\n## Integrated categories by station\n',
+      logfile = logfile,
+      code = '
+        # Reduce each line of evidence to its site-level category, one row per station. The Benthic
+        # category comes from either benthic.sqo or BRI.Offshore (both carry LOE = "Benthic", with
+        # the offshore BRI categories mapped onto the standard benthic categories first). Absent
+        # lines of evidence are filled with NA so every station still appears.
+        integrated_wide <- bind_rows(benthic, chem, tox, offshore_bri) %>%
+          filter(grepl("Assessment|Offshore", Index)) %>%
+          mutate(
+            Category = case_when(
+              Category == "Marginal Deviation" ~ "Low Disturbance",
+              Category == "Biodiversity Loss"  ~ "Moderate Disturbance",
+              Category == "Function Loss"      ~ "High Disturbance",
+              Category == "Defaunation"        ~ "High Disturbance",
+              TRUE ~ Category
+            )
+          ) %>%
+          select(StationID, LOE, Category) %>%
+          group_by(StationID) %>%
+          spread(LOE, Category) %>%
+          # Fill any line of evidence absent from this run with NA so the criteria join never
+          # fails on a missing column (single-LOE / offshore-only runs).
+          {
+            missing_loes <- setdiff(c("Benthic", "Chemistry", "Toxicity"), names(.))
+            if (length(missing_loes) > 0) .[missing_loes] <- NA_character_
+            .
+          } %>%
+          left_join(site_assessment_criteria, by = c("Benthic", "Chemistry", "Toxicity")) %>%
+          ungroup()
+
+        # The joined "Site Assessment" column is the overall integrated category for each station
+      ',
+      data = integrated_wide %>% select(StationID, Benthic, Chemistry, Toxicity, `Site Assessment`),
+      verbose = verbose
+    )
+    # Write the integrated assessment scores to a CSV in the master log directory and add a
+    # download link. Written directly to the master log (not via append_log_section), so the
+    # './...' link resolves relative to the consolidated report's own location.
+    create_download_link(
+      data = integrated_wide %>% select(StationID, Benthic, Chemistry, Toxicity, `Site Assessment`),
+      logfile = logfile,
+      filename = 'integrated-site-assessment-scores.csv',
+      linktext = 'Download integrated site assessment scores',
+      verbose = verbose
+    )
 
     knit.log(logfile, verbose = verbose, knitlog = knitlog)
   }

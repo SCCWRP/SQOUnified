@@ -248,3 +248,131 @@
 #'   \code{\link{socal.reference.covariance}}, \code{\link{RIVPACS}}
 #' @source SCCWRP internal reference data. Stored in \code{data/SoCalReference.RData}.
 "socal.reference.taxa"
+
+
+# ---- Compiled Southern California Bight regional monitoring datasets ----
+# The four bight.unified.* frames below are all stored together in
+# data/unified.bight.data.RData and are provided as example / reference input data
+# for the SQO line-of-evidence functions.
+
+#' Compiled Bight chemistry data
+#'
+#' Sediment chemistry results compiled across Southern California Bight regional
+#' monitoring survey years, in long (one row per analyte per station) format.
+#' Suitable as example input to \code{\link{chem.sqo}} (and, with the other lines
+#' of evidence, \code{\link{SQOUnified}}).
+#'
+#' @format A data frame with 231,693 rows and 14 columns:
+#' \describe{
+#'   \item{stationid}{Station identifier}
+#'   \item{latitude}{Latitude in decimal degrees}
+#'   \item{longitude}{Longitude in decimal degrees}
+#'   \item{stratum}{Habitat stratum (e.g. Bay, Marina, Inner Shelf)}
+#'   \item{analytename}{Chemical analyte name}
+#'   \item{result}{Measured concentration}
+#'   \item{mdl}{Method detection limit (\code{-99} when not reported)}
+#'   \item{rl}{Reporting limit (\code{-99} when not reported)}
+#'   \item{units}{Units of \code{result} (e.g. ng/g dw, ug/g dw, \%)}
+#'   \item{sampletypecode}{Sample type code (e.g. Result)}
+#'   \item{labrep}{Laboratory replicate number}
+#'   \item{fieldrep}{Field replicate number}
+#'   \item{surveyyear}{Bight survey year}
+#'   \item{date_pulled}{Timestamp the dataset was compiled from the source database}
+#' }
+#' @seealso \code{\link{bight.unified.tox}}, \code{\link{bight.unified.benthic}},
+#'   \code{\link{bight.unified.benthic.offshore}}, \code{\link{chem.sqo}}, \code{\link{SQOUnified}}
+#' @source Compiled from the Southern California Bight regional monitoring program (SCCWRP).
+#'   Stored in \code{data/unified.bight.data.RData}.
+"bight.unified.chem"
+
+
+#' Compiled Bight toxicity data
+#'
+#' Sediment toxicity test results compiled across Southern California Bight regional
+#' monitoring survey years, including control samples (e.g. \code{sampletypecode}
+#' \code{CNEG}). Suitable as example input to \code{\link{tox.sqo}} (and, with the
+#' other lines of evidence, \code{\link{SQOUnified}}).
+#'
+#' @format A data frame with 14,499 rows and 16 columns:
+#' \describe{
+#'   \item{lab}{Laboratory that performed the test}
+#'   \item{stationid}{Station identifier (control samples use \code{0000})}
+#'   \item{latitude}{Latitude in decimal degrees}
+#'   \item{longitude}{Longitude in decimal degrees}
+#'   \item{stratum}{Habitat stratum (e.g. Bay, Marina, Inner Shelf)}
+#'   \item{toxbatch}{Toxicity batch identifier (links samples to their control)}
+#'   \item{species}{Test organism (genus and species)}
+#'   \item{sampletypecode}{Sample type code (e.g. Grab, CNEG control, RFCD reference toxicant)}
+#'   \item{matrix}{Test matrix (e.g. Whole Sediment, Sediment Water Interface, Reference Toxicant)}
+#'   \item{labrep}{Laboratory replicate number}
+#'   \item{fieldrep}{Field replicate number}
+#'   \item{result}{Test endpoint (percent survival or normal development)}
+#'   \item{qacode}{Quality assurance code}
+#'   \item{comments}{Free-text QA/result comments}
+#'   \item{surveyyear}{Bight survey year}
+#'   \item{date_pulled}{Timestamp the dataset was compiled from the source database}
+#' }
+#' @seealso \code{\link{bight.unified.chem}}, \code{\link{bight.unified.benthic}},
+#'   \code{\link{bight.unified.benthic.offshore}}, \code{\link{tox.sqo}}, \code{\link{SQOUnified}}
+#' @source Compiled from the Southern California Bight regional monitoring program (SCCWRP).
+#'   Stored in \code{data/unified.bight.data.RData}.
+"bight.unified.tox"
+
+
+#' Compiled Bight bay/estuary benthic infauna data
+#'
+#' Benthic infaunal abundance records (one row per taxon per sample) for
+#' bay/estuary stations, compiled across Southern California Bight regional
+#' monitoring survey years, with the full WoRMS taxonomic hierarchy and station
+#' metadata attached. Suitable as example input to \code{\link{benthic.sqo}}
+#' (and, with the other lines of evidence, \code{\link{SQOUnified}}).
+#'
+#' @format A data frame with 41,955 rows and 38 columns:
+#' \describe{
+#'   \item{surveyyear}{Bight survey year}
+#'   \item{stationid}{Station identifier}
+#'   \item{replicate}{Replicate number}
+#'   \item{taxon}{Taxon name as identified}
+#'   \item{abundance}{Number of individuals counted}
+#'   \item{exclude}{"Yes"/"No" flag marking ambiguous taxa to exclude from richness metrics}
+#'   \item{phylum, subphylum, superclass, class, subclass, infraclass, superorder,
+#'     order, suborder, infraorder, superfamily, family, subfamily, tribe, genus,
+#'     subgenus, species}{WoRMS taxonomic hierarchy for the taxon}
+#'   \item{describer}{Taxonomic authority (describer and year)}
+#'   \item{latitude}{Latitude in decimal degrees}
+#'   \item{longitude}{Longitude in decimal degrees}
+#'   \item{datum}{Geographic datum (e.g. WGS84, NAD83)}
+#'   \item{sampledate}{Sample collection date}
+#'   \item{depth}{Station depth}
+#'   \item{stationdepthunits}{Units for \code{depth} (e.g. m)}
+#'   \item{salinity}{Bottom-water salinity}
+#'   \item{salinityunits}{Units for \code{salinity} (e.g. psu, ppt)}
+#'   \item{areaweight}{Areal weighting factor for the station within its stratum}
+#'   \item{stratum}{Habitat stratum}
+#'   \item{region}{Geographic region / waterbody}
+#'   \item{samplingorganization}{Organization that collected the sample}
+#'   \item{revisit}{Whether the station was a revisit}
+#'   \item{date_pulled}{Timestamp the dataset was compiled from the source database}
+#' }
+#' @seealso \code{\link{bight.unified.benthic.offshore}}, \code{\link{bight.unified.chem}},
+#'   \code{\link{bight.unified.tox}}, \code{\link{benthic.sqo}}, \code{\link{SQOUnified}}
+#' @source Compiled from the Southern California Bight regional monitoring program (SCCWRP).
+#'   Stored in \code{data/unified.bight.data.RData}.
+"bight.unified.benthic"
+
+
+#' Compiled Bight offshore benthic infauna data
+#'
+#' Benthic infaunal abundance records (one row per taxon per sample) for offshore
+#' (shelf) stations, compiled across Southern California Bight regional monitoring
+#' survey years. Same column schema as \code{\link{bight.unified.benthic}}. Suitable
+#' as example input to the offshore Benthic Response Index, \code{\link{BRI.Offshore}}
+#' (and, via \code{\link{SQOUnified}}, the integrated offshore benthic line of evidence).
+#'
+#' @format A data frame with 98,988 rows and 38 columns. Columns are identical to
+#'   \code{\link{bight.unified.benthic}}; see that dataset for the full column descriptions.
+#' @seealso \code{\link{bight.unified.benthic}}, \code{\link{bight.unified.chem}},
+#'   \code{\link{bight.unified.tox}}, \code{\link{BRI.Offshore}}, \code{\link{SQOUnified}}
+#' @source Compiled from the Southern California Bight regional monitoring program (SCCWRP).
+#'   Stored in \code{data/unified.bight.data.RData}.
+"bight.unified.benthic.offshore"
