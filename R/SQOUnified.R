@@ -54,7 +54,7 @@
 #'
 #'
 #'
-#' @param toxresults a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
+#' @param tox a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
 #'    matrix, labrep, result. This data must also include the control samples
 #'    (stationcode 0000, sampletypecode CNEG etc)
 #'
@@ -77,8 +77,36 @@
 #'    \strong{\code{result}} - the percentage that survived the test, or had normal development
 #'
 #'
+#' @param offshore_benthic a single data frame of offshore (shelf) benthic infauna for the offshore
+#'    Benthic Response Index line of evidence. This is passed directly to \code{\link{BRI.Offshore}},
+#'    so it must contain both the infauna and the station information in one table (column names are
+#'    case-insensitive):
+#'
+#'    \code{StationID} - an alpha-numeric identifier of the location;
+#'
+#'    \code{SampleDate} - the date of sample collection;
+#'
+#'    \code{Replicate} - a numeric identifying the replicate number;
+#'
+#'    \code{Taxon} - name of the organism (SCAMIT Edition 14 naming conventions). If no organisms were
+#'        present, use NoOrganismsPresent with 0 abundance;
+#'
+#'    \code{Abundance} - the number of individuals counted for the taxon;
+#'
+#'    \code{Depth} - station depth in meters (selects the depth-zone tolerance values);
+#'
+#'    \code{Latitude} - latitude in decimal degrees;
+#'
+#'    \code{Longitude} - longitude in decimal degrees (negative for west).
+#'
+#'    See \code{\link{BRI.Offshore}} for the full depth-zone and category details.
+#'
+#'
 #' @examples
 #' SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
+#'
+#' # Offshore benthic line of evidence (offshore BRI), using the single combined offshore frame
+#' SQOUnified(chem = chem_sampledata, tox = tox_sampledata, offshore_benthic = offshore_bri_sampledata)
 #'
 #' @importFrom dplyr case_when full_join select rename mutate arrange
 #' @importFrom purrr map
@@ -86,7 +114,7 @@
 
 
 #' @export
-SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, offshore_stations = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, logtitle = 'Unified SQO Logs', knitlog = F) {
+SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F, logtitle = 'Unified SQO Logs', knitlog = F) {
 
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
@@ -95,14 +123,14 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
   #load("data/site_assessment_criteria.RData")
 
-  if (all(is.null(c(benthic,chem,tox,offshore_benthic, offshore_stations)))){
+  if (all(is.null(c(benthic,chem,tox,offshore_benthic)))){
     stop("
       No data was provided.
       Please provide benthic, chemistry and toxicity data to get the integrated site assessments
     ")
   }
   # check the data coming in before anything
-  checkdata(benthic, chem, tox, offshore_benthic, offshore_stations, logfile = logfile, verbose = verbose)
+  checkdata(benthic, chem, tox, offshore_benthic, logfile = logfile, verbose = verbose)
 
 
 
@@ -216,22 +244,17 @@ SQOUnified <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic
 
 
   # ---- Offshore BRI ----
-  if ( (!is.null(offshore_benthic)) && (!is.null(offshore_stations)) ) {
+  if ( !is.null(offshore_benthic)) {
 
     obrilogfile <- file.path( dirname(logfile), 'Offshore BRI', 'offshorebri_log.Rmd' )
     obrilibs <- c('tidyverse', 'DT', 'knitr', 'rmarkdown', 'SQOUnified')
 
     init.log(obrilogfile, base.func.name = sys.call(), type = 'RMarkdown', current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, libraries = obrilibs, title = 'Offshore BRI SQO Logs')
 
-    # BRI.Offshore takes a single combined data frame; join benthic and station data here.
-    offshore_combined <- dplyr::left_join(
-      offshore_benthic %>% dplyr::rename_with(tolower),
-      offshore_stations %>% dplyr::rename_with(tolower),
-      by = "stationid"
-    )
 
+    # BRI.Offshore takes a single combined data frame (infauna + station depth/lat/long).
     # BRI.Offshore returns a list (scores + interim tables); pull the long-format scores table
-    offshore_bri <- BRI.Offshore(offshore_combined, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = FALSE)$bri_scores %>%
+    offshore_bri <- BRI.Offshore(offshore_benthic, output_format = 'long', logfile = obrilogfile, verbose = verbose, knitlog = FALSE)$bri_scores %>%
       # Keep only replicate 1, mirroring the bay/estuary benthic rule (David: keep replicate 1;
       # there is almost always only one). This gives each station a single Benthic row so the
       # spread() in the integrated assessment cannot hit duplicate StationID + LOE keys.

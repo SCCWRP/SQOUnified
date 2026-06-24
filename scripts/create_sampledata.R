@@ -1,6 +1,6 @@
 # Script to generate updated sample data for SQOUnified package
-# Creates: chem_sampledata, tox_sampledata, benthic_sampledata,
-#          offshore_benthic_sampledata, offshore_station_sampledata
+# Creates: chem_sampledata, tox_sampledata, benthic_sampledata, offshore_bri_sampledata
+# (the offshore infauna and station info are combined into a single offshore_bri_sampledata frame)
 
 library(dplyr)
 
@@ -749,16 +749,16 @@ off_rows[[6]] <- make_offshore_infauna(
   c(4, 6, 12, 3, 2, 5, 2, 3, 1, 2, 1, 1)
 )
 
-offshore_benthic_sampledata <- do.call(rbind, off_rows)
+offshore_infauna <- do.call(rbind, off_rows)
 
-cat("\nOffshore infauna sample data:", nrow(offshore_benthic_sampledata), "rows x", ncol(offshore_benthic_sampledata), "cols\n")
-cat("  Stations:", length(unique(offshore_benthic_sampledata$stationid)), "\n")
+cat("\nOffshore infauna sample data:", nrow(offshore_infauna), "rows x", ncol(offshore_infauna), "cols\n")
+cat("  Stations:", length(unique(offshore_infauna$stationid)), "\n")
 
 
 # ============================================================================
 # 5. OFFSHORE STATION DATA
 # ============================================================================
-offshore_station_sampledata <- data.frame(
+offshore_station_info <- data.frame(
   stationid  = c("OFS-01", "OFS-02", "OFS-03", "OFS-04", "OFS-05", "OFS-06"),
   sampledate = c("8/15/2024", "8/18/2024", "8/20/2024", "8/22/2024", "8/25/2024", "8/28/2024"),
   latitude   = c(34.0237, 32.8075, 32.5859, 33.6954, 34.3870, 34.2053),
@@ -767,7 +767,18 @@ offshore_station_sampledata <- data.frame(
   stringsAsFactors = FALSE
 )
 
-cat("\nOffshore station sample data:", nrow(offshore_station_sampledata), "rows x", ncol(offshore_station_sampledata), "cols\n")
+cat("\nOffshore station info:", nrow(offshore_station_info), "rows x", ncol(offshore_station_info), "cols\n")
+
+
+# Combine infauna with the per-station depth/lat/long into the single frame the package ships.
+# BRI.Offshore (and SQOUnified, via offshore_benthic) expect one combined table, so the infauna and
+# station info are joined here on stationid + sampledate.
+offshore_bri_sampledata <- offshore_infauna %>%
+  dplyr::left_join(offshore_station_info, by = c("stationid", "sampledate")) %>%
+  dplyr::select(stationid, sampledate, replicate, taxon, abundance, latitude, longitude, depth)
+
+cat("\nOffshore BRI sample data (combined):", nrow(offshore_bri_sampledata), "rows x", ncol(offshore_bri_sampledata), "cols\n")
+cat("  Stations:", length(unique(offshore_bri_sampledata$stationid)), "\n")
 
 
 # ============================================================================
@@ -776,13 +787,11 @@ cat("\nOffshore station sample data:", nrow(offshore_station_sampledata), "rows 
 save(chem_sampledata, file = "data/chem_sampledata.RData")
 save(tox_sampledata, file = "data/tox_sampledata.RData")
 save(benthic_sampledata, file = "data/benthic_sampledata.RData")
-save(offshore_benthic_sampledata, offshore_station_sampledata,
-     file = "data/offshore_bri_sampledata.RData")
+save(offshore_bri_sampledata, file = "data/offshore_bri_sampledata.RData")
 
 cat("\nAll sample data saved to data/ directory.\n")
 cat("\nSummary:\n")
-cat("  chem_sampledata:              ", nrow(chem_sampledata), "rows\n")
-cat("  tox_sampledata:               ", nrow(tox_sampledata), "rows\n")
-cat("  benthic_sampledata:           ", nrow(benthic_sampledata), "rows\n")
-cat("  offshore_benthic_sampledata:  ", nrow(offshore_benthic_sampledata), "rows\n")
-cat("  offshore_station_sampledata:  ", nrow(offshore_station_sampledata), "rows\n")
+cat("  chem_sampledata:           ", nrow(chem_sampledata), "rows\n")
+cat("  tox_sampledata:            ", nrow(tox_sampledata), "rows\n")
+cat("  benthic_sampledata:        ", nrow(benthic_sampledata), "rows\n")
+cat("  offshore_bri_sampledata:   ", nrow(offshore_bri_sampledata), "rows\n")

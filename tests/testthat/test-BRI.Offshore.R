@@ -1,5 +1,6 @@
 # Tests for the offshore Benthic Response Index (BRI.Offshore)
-# offshore_data is a joined benthic+station fixture defined in helper-fixtures.R
+# offshore_data is the single combined offshore sample-data frame (offshore_bri_sampledata),
+# defined in helper-fixtures.R
 
 test_that("BRI.Offshore returns the documented list structure", {
   res <- BRI.Offshore(offshore_data)

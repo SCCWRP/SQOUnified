@@ -29,18 +29,12 @@ library(SQOUnified)
 #                              for the offshore BRI line of evidence
 SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
 
-# Include the offshore benthic line of evidence (offshore BRI).
-# offshore_bri_sampledata is one combined frame, but SQOUnified takes the offshore data as two
-# arguments (infauna + station info) and joins them on stationid, so split it first:
-library(dplyr)
-offshore_benthic  <- offshore_bri_sampledata %>% select(stationid, sampledate, replicate, taxon, abundance)
-offshore_stations <- offshore_bri_sampledata %>% distinct(stationid, latitude, longitude, depth)
-
+# Include the offshore benthic line of evidence (offshore BRI) by passing the single combined
+# offshore frame (infauna + station depth/lat/long) as offshore_benthic
 SQOUnified(
   chem = chem_sampledata,
   tox = tox_sampledata,
-  offshore_benthic = offshore_benthic,
-  offshore_stations = offshore_stations
+  offshore_benthic = offshore_bri_sampledata
 )
 
 ### Other misc examples:
@@ -123,7 +117,7 @@ The offshore Benthic Response Index requires depth in addition to the standard b
 
 **Note:** The BRI is calibrated for the Southern California Bight. Samples north of Point Conception (`lat > 34.45`) or south of the US-Mexico border (`lat < 32.52`) are retained but flagged with a geographic-range caution.
 
-When feeding the offshore line of evidence into `SQOUnified` (rather than calling `BRI.Offshore` directly), the data is instead supplied as **two** dataframes — an infauna frame (`StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`) and a station-info frame (`StationID`, `Depth`, `Latitude`, `Longitude`) — which `SQOUnified` joins on `StationID`. The two frames must share only the `StationID` column (any other shared column would collide in the join). See the `SQOUnified` example below.
+`SQOUnified` accepts this same single dataframe via its `offshore_benthic` argument and passes it straight through to `BRI.Offshore`, so no separate station-info frame is needed.
 
 
 #### 4. Input Data for toxicity functions (`tox.sqo`, `tox.summary`)
@@ -152,7 +146,7 @@ Below we will list all the functions of the SQOUnified package, grouped into 4 s
 
 The primary function `SQOUnified` computes integrated sediment quality scores based on the available lines of evidence: benthic, chemistry, and toxicity data. Every argument is optional and defaults to `NULL` - the function calculates scores for whatever data you provide, and produces an integrated site assessment for any station that has all three lines of evidence (Benthic, Chemistry, and Toxicity).
 
-The benthic line of evidence can come from **either** bay/estuary benthic data (via `benthic`) **or** offshore (shelf) benthic data (via `offshore_benthic` + `offshore_stations`). The offshore path runs the offshore Benthic Response Index (`BRI.Offshore`) and maps its condition categories onto the standard benthic categories, so both feed the same integrated assessment.
+The benthic line of evidence can come from **either** bay/estuary benthic data (via `benthic`) **or** offshore (shelf) benthic data (via `offshore_benthic`). The offshore path runs the offshore Benthic Response Index (`BRI.Offshore`) and maps its condition categories onto the standard benthic categories, so both feed the same integrated assessment.
 
 **Example Usage:**
 
@@ -169,17 +163,15 @@ tox_data <- read.csv("path/to/your/tox_data.csv")
 result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
 print(result)
 
-# To use offshore benthic data instead of (or in addition to) bay/estuary benthic data,
-# supply the offshore infauna and its matching station info (which carries depth/lat/long).
-# SQOUnified joins these two frames on StationID, so they must share ONLY the StationID column.
-offshore_benthic_data <- read.csv("path/to/your/offshore_benthic_data.csv")  # StationID, SampleDate, Replicate, Taxon, Abundance
-offshore_station_data <- read.csv("path/to/your/offshore_station_data.csv")  # StationID, Depth, Latitude, Longitude
+# To use offshore benthic data instead of (or in addition to) bay/estuary benthic data, supply a
+# single combined offshore frame (infauna + station depth/lat/long) as offshore_benthic. It is
+# passed straight through to BRI.Offshore (see its required columns below).
+offshore_data <- read.csv("path/to/your/offshore_data.csv")  # StationID, SampleDate, Replicate, Taxon, Abundance, Depth, Latitude, Longitude
 
 result <- SQOUnified(
   chem = chem_data,
   tox = tox_data,
-  offshore_benthic = offshore_benthic_data,
-  offshore_stations = offshore_station_data
+  offshore_benthic = offshore_data
 )
 ```
 
@@ -187,8 +179,7 @@ result <- SQOUnified(
 - `benthic`: A dataframe containing bay/estuary benthic data for assessment.
 - `chem`: A dataframe containing chemical concentration data.
 - `tox`: A dataframe containing toxicity test results.
-- `offshore_benthic`: (*optional*) A dataframe of offshore (shelf) benthic infauna (`StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`) for the offshore BRI line of evidence. Must be supplied together with `offshore_stations`.
-- `offshore_stations`: (*optional*) A dataframe of offshore station info (`StationID`, `Depth`, `Latitude`, `Longitude`), joined to `offshore_benthic` on `StationID`. The two frames must share **only** the `StationID` column - any other column present in both (e.g. `SampleDate`) would collide in the join.
+- `offshore_benthic`: (*optional*) A single dataframe of offshore (shelf) benthic infauna **with** station info (`StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`, `Depth`, `Latitude`, `Longitude`) for the offshore BRI line of evidence. Passed directly to `BRI.Offshore`.
 - `logfile`: (*optional*) Path to the log file. Defaults to a timestamped `.Rmd` file under a `logs/` directory in the working directory.
 - `verbose`: (*optional*) Logical; if `TRUE`, detailed intermediate tables are written to the log. Default `FALSE`.
 - `logtitle`: (*optional*) Title used for the generated log. Default `'Unified SQO Logs'`.
@@ -339,13 +330,15 @@ offshore_results <- BRI.Offshore(offshore_bri_sampledata, output_format = 'long'
 offshore_results <- BRI.Offshore(offshore_infauna_data, offshore_station_data)
 ```
 
+`SQOUnified` accepts the same single combined frame via its `offshore_benthic` argument.
+
 - **Input:** Offshore benthic infauna with station info (see *Input Data for the offshore benthic function* above). Required columns: `StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`, `Depth`, `Latitude`, `Longitude`.
 - **Output:** A named `list`. The main element, `bri_scores`, holds the BRI score, condition category (Reference, Marginal Deviation, Biodiversity Loss, Function Loss, Defaunation), class, and usage notes for each sample. The list also returns the intermediate tables so you can review how your data were processed:
   - `taxa_with_pcode` - submitted taxa that matched a p-code
   - `taxa_without_pcode` - submitted taxa with no p-code (with fuzzy-matched "did you mean" suggestions when the optional `fuzzyjoin` package is installed)
   - `all_taxa_by_sample` - every taxon joined to its p-code and depth-zone tolerance values, by sample
 
-**NOTE:** When `SQOUnified` is called with `offshore_benthic` and `offshore_stations`, it calls `BRI.Offshore` internally (in `output_format = 'long'`), so there is no need to run this beforehand to feed the integrated assessment.
+**NOTE:** When `SQOUnified` is called with `offshore_benthic`, it passes that frame to `BRI.Offshore` internally (in `output_format = 'long'`), so there is no need to run this beforehand to feed the integrated assessment.
 
 
 
@@ -405,18 +398,13 @@ The `depth`, `latitude`, and `longitude` are what make this an offshore-BRI data
 BRI.Offshore(offshore_bri_sampledata)
 ```
 
-**`SQOUnified` instead takes the offshore data as two arguments** (`offshore_benthic` + `offshore_stations`) and joins them on `stationid`, so the single bundled frame must first be split into an infauna part and a station-info part that share only `stationid`:
+**`SQOUnified` takes the same single frame** via its `offshore_benthic` argument (it passes the frame straight to `BRI.Offshore`):
 
 ```r
-library(dplyr)
-offshore_benthic  <- offshore_bri_sampledata %>% select(stationid, sampledate, replicate, taxon, abundance)
-offshore_stations <- offshore_bri_sampledata %>% distinct(stationid, latitude, longitude, depth)
-
 SQOUnified(
   chem = chem_sampledata,
   tox = tox_sampledata,
-  offshore_benthic = offshore_benthic,
-  offshore_stations = offshore_stations
+  offshore_benthic = offshore_bri_sampledata
 )
 ```
 

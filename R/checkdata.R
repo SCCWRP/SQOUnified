@@ -5,7 +5,7 @@
 #'
 #'
 #' @export
-checkdata <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, offshore_stations = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F){
+checkdata <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic = NULL, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'log.Rmd' ), verbose = F){
 
   # Initialize Logging
   init.log(logfile, base.func.name = sys.call(), current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
@@ -34,17 +34,9 @@ checkdata <- function(benthic = NULL, chem = NULL, tox = NULL, offshore_benthic 
   }
   
   if (is.null(offshore_benthic)){
-    warning("Benthic data was not provided.")
+    warning("Offshore benthic data was not provided.")
   } else {
-    if (!is.null(offshore_stations)) {
-      missing_stations <- setdiff(unique(offshore_benthic$stationid), unique(offshore_stations$stationid))
-      if (length(missing_stations) > 0) {
-        stop(
-          "The following stationid(s) are in the offshore benthic data but not in the offshore stations data: ",
-          paste(missing_stations, collapse = ", ")
-        )
-      }
-    }
+    # perform offshore benthic checks
   }
   
 

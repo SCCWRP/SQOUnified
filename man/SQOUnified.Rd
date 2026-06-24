@@ -11,7 +11,6 @@ SQOUnified(
   chem = NULL,
   tox = NULL,
   offshore_benthic = NULL,
-  offshore_stations = NULL,
   logfile = file.path(getwd(), "logs", format(Sys.time(), "\%Y-\%m-\%d_\%H-\%M-\%S"),
     "log.Rmd"),
   verbose = F,
@@ -65,7 +64,7 @@ SQOUnified(
 
    \code{sampletypecode} (optional) - data will be filtered to where sampletypecode = Result (to avoid including data from QA/QC samples)}
 
-\item{toxresults}{a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
+\item{tox}{a dataframe with the following columns: stationid, toxbatch, species, sampletypecode
    matrix, labrep, result. This data must also include the control samples
    (stationcode 0000, sampletypecode CNEG etc)
 
@@ -86,6 +85,30 @@ SQOUnified(
    \strong{\code{labrep}} - There should be 5 per station, species pair
 
    \strong{\code{result}} - the percentage that survived the test, or had normal development}
+
+\item{offshore_benthic}{a single data frame of offshore (shelf) benthic infauna for the offshore
+   Benthic Response Index line of evidence. This is passed directly to \code{\link{BRI.Offshore}},
+   so it must contain both the infauna and the station information in one table (column names are
+   case-insensitive):
+
+   \code{StationID} - an alpha-numeric identifier of the location;
+
+   \code{SampleDate} - the date of sample collection;
+
+   \code{Replicate} - a numeric identifying the replicate number;
+
+   \code{Taxon} - name of the organism (SCAMIT Edition 14 naming conventions). If no organisms were
+       present, use NoOrganismsPresent with 0 abundance;
+
+   \code{Abundance} - the number of individuals counted for the taxon;
+
+   \code{Depth} - station depth in meters (selects the depth-zone tolerance values);
+
+   \code{Latitude} - latitude in decimal degrees;
+
+   \code{Longitude} - longitude in decimal degrees (negative for west).
+
+   See \code{\link{BRI.Offshore}} for the full depth-zone and category details.}
 }
 \description{
 When this function is called, it will calculate scores based on whatever data is passed into it.
@@ -93,5 +116,8 @@ If Chem, Tox, and Benthic are provided, integrated scores will be calculated bas
 }
 \examples{
 SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
+
+# Offshore benthic line of evidence (offshore BRI), using the single combined offshore frame
+SQOUnified(chem = chem_sampledata, tox = tox_sampledata, offshore_benthic = offshore_bri_sampledata)
 
 }
