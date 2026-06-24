@@ -22,29 +22,33 @@ The package also comes with example data sets which are available when the packa
 library(SQOUnified)
 
 # The package ships with sample data for each line of evidence:
-#   benthic_sampledata           - bay/estuary benthic infauna
-#   chem_sampledata              - sediment chemistry
-#   tox_sampledata               - sediment toxicity
-#   offshore_benthic_sampledata  - offshore (shelf) benthic infauna  } used together for the
-#   offshore_station_sampledata  - offshore station info (depth, lat/long) } offshore BRI line of evidence
+#   benthic_sampledata       - bay/estuary benthic infauna
+#   chem_sampledata          - sediment chemistry
+#   tox_sampledata           - sediment toxicity
+#   offshore_bri_sampledata  - offshore (shelf) benthic infauna with station depth/lat/long,
+#                              for the offshore BRI line of evidence
 SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
 
-# Include the offshore benthic line of evidence (offshore BRI) by also passing the
-# offshore benthic infauna and the matching offshore station info
+# Include the offshore benthic line of evidence (offshore BRI).
+# offshore_bri_sampledata is one combined frame, but SQOUnified takes the offshore data as two
+# arguments (infauna + station info) and joins them on stationid, so split it first:
+library(dplyr)
+offshore_benthic  <- offshore_bri_sampledata %>% select(stationid, sampledate, replicate, taxon, abundance)
+offshore_stations <- offshore_bri_sampledata %>% distinct(stationid, latitude, longitude, depth)
+
 SQOUnified(
-  benthic = benthic_sampledata,
   chem = chem_sampledata,
   tox = tox_sampledata,
-  offshore_benthic = offshore_benthic_sampledata,
-  offshore_stations = offshore_station_sampledata
+  offshore_benthic = offshore_benthic,
+  offshore_stations = offshore_stations
 )
 
 ### Other misc examples:
 # Benthic integrated SQO (returns all individual indices as well)
 benthic.sqo(benthic_sampledata)
 
-# Offshore Benthic Response Index (Edition 14)
-BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+# Offshore Benthic Response Index (Edition 14) - takes the single combined frame directly
+BRI.Offshore(offshore_bri_sampledata)
 
 # Tox summary
 tox.summary(tox_sampledata)
@@ -106,7 +110,7 @@ The chemistry functions require a dataframe containing:
 
 #### 3. Input Data for the offshore benthic function (`BRI.Offshore`)
 
-The offshore Benthic Response Index requires depth in addition to the standard benthic columns, because tolerance values are applied per depth zone. Column names are case-insensitive. The data can be supplied either as a single dataframe that already contains all of these columns, or as two dataframes (benthic infauna + station info) that share `StationID` (this is how the bundled `offshore_benthic_sampledata` / `offshore_station_sampledata` are organized):
+The offshore Benthic Response Index requires depth in addition to the standard benthic columns, because tolerance values are applied per depth zone. Column names are case-insensitive. `BRI.Offshore` accepts a single dataframe containing all of the columns below (this is how the bundled `offshore_bri_sampledata` is organized):
 
 - **StationID**: An alphanumeric identifier representing the sampling location.
 - **SampleDate**: The date when the sample was collected.
@@ -118,6 +122,8 @@ The offshore Benthic Response Index requires depth in addition to the standard b
 - **Longitude**: Longitude in decimal degrees; use a negative sign for Western Hemisphere coordinates.
 
 **Note:** The BRI is calibrated for the Southern California Bight. Samples north of Point Conception (`lat > 34.45`) or south of the US-Mexico border (`lat < 32.52`) are retained but flagged with a geographic-range caution.
+
+When feeding the offshore line of evidence into `SQOUnified` (rather than calling `BRI.Offshore` directly), the data is instead supplied as **two** dataframes — an infauna frame (`StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`) and a station-info frame (`StationID`, `Depth`, `Latitude`, `Longitude`) — which `SQOUnified` joins on `StationID`. The two frames must share only the `StationID` column (any other shared column would collide in the join). See the `SQOUnified` example below.
 
 
 #### 4. Input Data for toxicity functions (`tox.sqo`, `tox.summary`)
@@ -164,9 +170,10 @@ result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
 print(result)
 
 # To use offshore benthic data instead of (or in addition to) bay/estuary benthic data,
-# supply the offshore infauna and its matching station info (which carries depth/lat/long)
-offshore_benthic_data <- read.csv("path/to/your/offshore_benthic_data.csv")
-offshore_station_data <- read.csv("path/to/your/offshore_station_data.csv")
+# supply the offshore infauna and its matching station info (which carries depth/lat/long).
+# SQOUnified joins these two frames on StationID, so they must share ONLY the StationID column.
+offshore_benthic_data <- read.csv("path/to/your/offshore_benthic_data.csv")  # StationID, SampleDate, Replicate, Taxon, Abundance
+offshore_station_data <- read.csv("path/to/your/offshore_station_data.csv")  # StationID, Depth, Latitude, Longitude
 
 result <- SQOUnified(
   chem = chem_data,
@@ -180,8 +187,8 @@ result <- SQOUnified(
 - `benthic`: A dataframe containing bay/estuary benthic data for assessment.
 - `chem`: A dataframe containing chemical concentration data.
 - `tox`: A dataframe containing toxicity test results.
-- `offshore_benthic`: (*optional*) A dataframe of offshore (shelf) benthic infauna for the offshore BRI line of evidence. Must be supplied together with `offshore_stations`.
-- `offshore_stations`: (*optional*) A dataframe of offshore station info (`StationID`, `Depth`, `Latitude`, `Longitude`, `SampleDate`), joined to `offshore_benthic` on `StationID`.
+- `offshore_benthic`: (*optional*) A dataframe of offshore (shelf) benthic infauna (`StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`) for the offshore BRI line of evidence. Must be supplied together with `offshore_stations`.
+- `offshore_stations`: (*optional*) A dataframe of offshore station info (`StationID`, `Depth`, `Latitude`, `Longitude`), joined to `offshore_benthic` on `StationID`. The two frames must share **only** the `StationID` column - any other column present in both (e.g. `SampleDate`) would collide in the join.
 - `logfile`: (*optional*) Path to the log file. Defaults to a timestamped `.Rmd` file under a `logs/` directory in the working directory.
 - `verbose`: (*optional*) Logical; if `TRUE`, detailed intermediate tables are written to the log. Default `FALSE`.
 - `logtitle`: (*optional*) Title used for the generated log. Default `'Unified SQO Logs'`.
@@ -319,15 +326,17 @@ The `BRI.Offshore` function computes the offshore Benthic Response Index using d
 **Usage:**
 
 ```r
-# The offshore infauna and the station info (depth/lat/long) can be passed as two dataframes
-offshore_results <- BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
-
-# ...or as a single dataframe that already contains all required columns
-offshore_results <- BRI.Offshore(combined_offshore_data)
+# Pass a single dataframe that contains all required columns (this is the shape of the
+# bundled offshore_bri_sampledata)
+offshore_results <- BRI.Offshore(offshore_bri_sampledata)
 
 # output_format controls the shape of the scores table: 'wide' (default) returns one row per
 # sample; 'long' returns a tidy index/score/category layout (the form SQOUnified consumes)
-offshore_results <- BRI.Offshore(combined_offshore_data, output_format = 'long')
+offshore_results <- BRI.Offshore(offshore_bri_sampledata, output_format = 'long')
+
+# For backward compatibility, the infauna and the station info may also be passed as two
+# separate dataframes; they are joined on their shared columns
+offshore_results <- BRI.Offshore(offshore_infauna_data, offshore_station_data)
 ```
 
 - **Input:** Offshore benthic infauna with station info (see *Input Data for the offshore benthic function* above). Required columns: `StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`, `Depth`, `Latitude`, `Longitude`.
@@ -380,32 +389,36 @@ These are compact, synthetic datasets designed to exercise each function quickly
 | `benthic_sampledata` | Bay/estuary benthic infauna (one row per taxon per sample) | `benthic.sqo`, `BRI`, `RBI`, `IBI`, `RIVPACS`, `MAMBI`, `SQOUnified` |
 | `chem_sampledata` | Sediment chemistry (long format, one row per analyte per station) | `chem.sqo`, `CSI`, `LRM`, `SQOUnified` |
 | `tox_sampledata` | Sediment toxicity test results, including control samples | `tox.sqo`, `tox.summary`, `SQOUnified` |
-| `offshore_benthic_sampledata` | Offshore (shelf) benthic infauna across a range of depths | `BRI.Offshore`, `SQOUnified` |
-| `offshore_station_sampledata` | Offshore station info (`stationid`, `sampledate`, `latitude`, `longitude`, `depth`) | `BRI.Offshore`, `SQOUnified` |
+| `offshore_bri_sampledata` | Offshore (shelf) benthic infauna with station depth/lat/long, across a range of depths | `BRI.Offshore`, `SQOUnified` |
 
 #### About the offshore sample data
 
-The offshore benthic line of evidence is split across **two** dataframes that are joined on `stationid`:
+`offshore_bri_sampledata` is a **single** dataframe (6 offshore stations, `OFS-01` ... `OFS-06`) that already combines the infauna abundances with the per-station environmental info the offshore BRI needs. Its columns are:
 
-- `offshore_benthic_sampledata` holds the infauna - `stationid`, `replicate`, `sampledate`, `taxon`, `abundance`.
-- `offshore_station_sampledata` holds the per-station environmental info needed for depth-zone scoring - `stationid`, `sampledate`, `latitude`, `longitude`, `depth`.
+`stationid`, `sampledate`, `replicate`, `taxon`, `abundance`, `latitude`, `longitude`, `depth`
 
-They are kept separate (rather than as one wide table) because the offshore BRI needs station `depth` to choose the correct depth-zone tolerance values, and because this mirrors how the data are typically stored. Both `BRI.Offshore` and `SQOUnified` accept them as two arguments and join them internally:
+The `depth`, `latitude`, and `longitude` are what make this an offshore-BRI dataset: `depth` selects the depth-zone tolerance values and the coordinates drive the geographic-range check. The example stations span shallow, mid, and deep depth zones (plus a heavily disturbed shallow site) so the depth-dependent behavior of `BRI.Offshore` can be observed.
+
+**`BRI.Offshore` takes this frame as-is:**
 
 ```r
-# Standalone offshore BRI
-BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+BRI.Offshore(offshore_bri_sampledata)
+```
 
-# As the benthic line of evidence in the full integrated assessment
+**`SQOUnified` instead takes the offshore data as two arguments** (`offshore_benthic` + `offshore_stations`) and joins them on `stationid`, so the single bundled frame must first be split into an infauna part and a station-info part that share only `stationid`:
+
+```r
+library(dplyr)
+offshore_benthic  <- offshore_bri_sampledata %>% select(stationid, sampledate, replicate, taxon, abundance)
+offshore_stations <- offshore_bri_sampledata %>% distinct(stationid, latitude, longitude, depth)
+
 SQOUnified(
   chem = chem_sampledata,
   tox = tox_sampledata,
-  offshore_benthic = offshore_benthic_sampledata,
-  offshore_stations = offshore_station_sampledata
+  offshore_benthic = offshore_benthic,
+  offshore_stations = offshore_stations
 )
 ```
-
-The example stations cover shallow, mid, and deep depth zones (as well as a heavily disturbed shallow site) so the depth-dependent behavior of `BRI.Offshore` can be observed.
 
 ### Compiled Bight regional monitoring data
 
