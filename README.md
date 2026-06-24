@@ -21,13 +21,30 @@ The package also comes with example data sets which are available when the packa
 # load the package
 library(SQOUnified)
 
-# package comes with sample data
-# the dataframes are called 'benthic_sampledata', 'chem_sampledata', and 'tox_sampledata'
+# The package ships with sample data for each line of evidence:
+#   benthic_sampledata           - bay/estuary benthic infauna
+#   chem_sampledata              - sediment chemistry
+#   tox_sampledata               - sediment toxicity
+#   offshore_benthic_sampledata  - offshore (shelf) benthic infauna  } used together for the
+#   offshore_station_sampledata  - offshore station info (depth, lat/long) } offshore BRI line of evidence
 SQOUnified(benthic = benthic_sampledata, chem = chem_sampledata, tox = tox_sampledata)
+
+# Include the offshore benthic line of evidence (offshore BRI) by also passing the
+# offshore benthic infauna and the matching offshore station info
+SQOUnified(
+  benthic = benthic_sampledata,
+  chem = chem_sampledata,
+  tox = tox_sampledata,
+  offshore_benthic = offshore_benthic_sampledata,
+  offshore_stations = offshore_station_sampledata
+)
 
 ### Other misc examples:
 # Benthic integrated SQO (returns all individual indices as well)
 benthic.sqo(benthic_sampledata)
+
+# Offshore Benthic Response Index (Edition 14)
+BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
 
 # Tox summary
 tox.summary(tox_sampledata)
@@ -41,6 +58,12 @@ CSI(chem_sampledata)
 # Chemistry Integrated SQO Score
 chem.sqo(chem_sampledata)
 ```
+
+In addition to the small, self-contained `*_sampledata` sets above, the package also ships
+larger compiled Southern California Bight regional monitoring datasets (`bight.unified.chem`,
+`bight.unified.tox`, `bight.unified.benthic`, and `bight.unified.benthic.offshore`). These are
+real, multi-survey-year data and can be used as more realistic inputs to the line-of-evidence
+functions. See the [Example Datasets](#example-datasets) section below for details.
 
 ## Usage
 
@@ -81,7 +104,23 @@ The chemistry functions require a dataframe containing:
 - All measurements should be expressed on a dry-weight basis: metals in `mg/dry kg` and organic compounds in `ug/dry kg`.
 
 
-#### 3. Input Data for toxicity functions (`tox.sqo`, `tox.summary`)
+#### 3. Input Data for the offshore benthic function (`BRI.Offshore`)
+
+The offshore Benthic Response Index requires depth in addition to the standard benthic columns, because tolerance values are applied per depth zone. Column names are case-insensitive. The data can be supplied either as a single dataframe that already contains all of these columns, or as two dataframes (benthic infauna + station info) that share `StationID` (this is how the bundled `offshore_benthic_sampledata` / `offshore_station_sampledata` are organized):
+
+- **StationID**: An alphanumeric identifier representing the sampling location.
+- **SampleDate**: The date when the sample was collected.
+- **Replicate**: A numeric value indicating the replicate sample number.
+- **Taxon**: The name of the organism, in SCAMIT Edition 14 naming conventions. If no organisms are present, use `NoOrganismsPresent` with an abundance of `0`.
+- **Abundance**: The number of individuals counted for each taxon.
+- **Depth**: Station depth in meters. Determines which depth-zone tolerance values are applied (shallow `<25m`, mid `35-110m`, deep `130-324m`, with overlap zones at `25-35m` and `110-130m`). Samples deeper than `324m` are flagged "BRI not Applicable".
+- **Latitude**: Latitude in decimal degrees.
+- **Longitude**: Longitude in decimal degrees; use a negative sign for Western Hemisphere coordinates.
+
+**Note:** The BRI is calibrated for the Southern California Bight. Samples north of Point Conception (`lat > 34.45`) or south of the US-Mexico border (`lat < 32.52`) are retained but flagged with a geographic-range caution.
+
+
+#### 4. Input Data for toxicity functions (`tox.sqo`, `tox.summary`)
 
 The toxicity functions require a dataframe containing:
 
@@ -105,7 +144,9 @@ Below we will list all the functions of the SQOUnified package, grouped into 4 s
 
 ### `SQOUnified` Function
 
-The primary function `SQOUnified` computes integrated sediment quality scores based on various lines of evidence: benthic, chemistry, and toxicity data. It requires input data for each category and outputs an integrated assessment.
+The primary function `SQOUnified` computes integrated sediment quality scores based on the available lines of evidence: benthic, chemistry, and toxicity data. Every argument is optional and defaults to `NULL` - the function calculates scores for whatever data you provide, and produces an integrated site assessment for any station that has all three lines of evidence (Benthic, Chemistry, and Toxicity).
+
+The benthic line of evidence can come from **either** bay/estuary benthic data (via `benthic`) **or** offshore (shelf) benthic data (via `offshore_benthic` + `offshore_stations`). The offshore path runs the offshore Benthic Response Index (`BRI.Offshore`) and maps its condition categories onto the standard benthic categories, so both feed the same integrated assessment.
 
 **Example Usage:**
 
@@ -118,18 +159,35 @@ benthic_data <- read.csv("path/to/your/benthic_data.csv")
 chem_data <- read.csv("path/to/your/chem_data.csv")
 tox_data <- read.csv("path/to/your/tox_data.csv")
 
-# Run the function
+# Run the function (bay/estuary benthic + chemistry + toxicity)
 result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = tox_data)
 print(result)
+
+# To use offshore benthic data instead of (or in addition to) bay/estuary benthic data,
+# supply the offshore infauna and its matching station info (which carries depth/lat/long)
+offshore_benthic_data <- read.csv("path/to/your/offshore_benthic_data.csv")
+offshore_station_data <- read.csv("path/to/your/offshore_station_data.csv")
+
+result <- SQOUnified(
+  chem = chem_data,
+  tox = tox_data,
+  offshore_benthic = offshore_benthic_data,
+  offshore_stations = offshore_station_data
+)
 ```
 
 #### Parameters
-- `benthic`: A dataframe containing benthic data for assessment.
+- `benthic`: A dataframe containing bay/estuary benthic data for assessment.
 - `chem`: A dataframe containing chemical concentration data.
 - `tox`: A dataframe containing toxicity test results.
+- `offshore_benthic`: (*optional*) A dataframe of offshore (shelf) benthic infauna for the offshore BRI line of evidence. Must be supplied together with `offshore_stations`.
+- `offshore_stations`: (*optional*) A dataframe of offshore station info (`StationID`, `Depth`, `Latitude`, `Longitude`, `SampleDate`), joined to `offshore_benthic` on `StationID`.
+- `logfile`: (*optional*) Path to the log file. Defaults to a timestamped `.Rmd` file under a `logs/` directory in the working directory.
+- `verbose`: (*optional*) Logical; if `TRUE`, detailed intermediate tables are written to the log. Default `FALSE`.
+- `logtitle`: (*optional*) Title used for the generated log. Default `'Unified SQO Logs'`.
+- `knitlog`: (*optional*) Logical; if `TRUE`, the consolidated log is knit to a single self-contained HTML report. Default `FALSE`.
 
-
-The function will compute and log the results for each of these inputs, generating an integrated score based on the criteria defined in the package. The output dataframe also includes all individual scores and indices:
+The function computes and logs the results for each input, generating an integrated score based on the criteria defined in the package. The output dataframe also includes all individual scores and indices:
 - Integrated Chemistry Score
 - CSI
 - LRM
@@ -141,6 +199,7 @@ The function will compute and log the results for each of these inputs, generati
 - IBI
 - RIVPACS
 - MAMBI (Not used for calculation of SQO Score)
+- Offshore BRI (when offshore data is provided; contributes to the Benthic line of evidence in the integrated assessment)
 
 
 
@@ -248,22 +307,36 @@ benthic_results <- benthic.sqo(benthic_data)
 ```
 
 - **Input:** `benthic_data` - A dataframe containing benthic community data.
-- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria.
+- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria. It also contains the individual benthic index scores (BRI, RBI, IBI, RIVPACS and MAMBI)
 
-#### `benthic.sqo`
+**NOTE:** It will be the same for each of the benthic functions - BRI, RBI, IBI, RIVPACS and MAMBI
 
-The `benthic.sqo` function computes benthic indices to evaluate the biological condition of the sediments.
+
+#### `BRI.Offshore`
+
+The `BRI.Offshore` function computes the offshore Benthic Response Index using depth-zone-specific pollution tolerance values (p-codes) from SCAMIT Edition 14. Unlike the bay/estuary `BRI`, it accounts for depth-dependent community composition by applying separate tolerance scores in shallow (`<25m`), mid (`35-110m`), and deep (`130-324m`) depth zones; samples in the overlap ranges (`25-35m` and `110-130m`) receive the average of the two adjacent zone scores.
 
 **Usage:**
 
 ```r
-benthic_results <- benthic.sqo(benthic_data)
+# The offshore infauna and the station info (depth/lat/long) can be passed as two dataframes
+offshore_results <- BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+
+# ...or as a single dataframe that already contains all required columns
+offshore_results <- BRI.Offshore(combined_offshore_data)
+
+# output_format controls the shape of the scores table: 'wide' (default) returns one row per
+# sample; 'long' returns a tidy index/score/category layout (the form SQOUnified consumes)
+offshore_results <- BRI.Offshore(combined_offshore_data, output_format = 'long')
 ```
 
-- **Input:** `benthic_data` - A dataframe containing benthic community data.
-- **Output:** A dataframe with SQO scores and categories for each station based on benthic criteria. It also contains the individual benthic index scores (BRI, RBI, IBI, RIVPACS and MAMBI)
+- **Input:** Offshore benthic infauna with station info (see *Input Data for the offshore benthic function* above). Required columns: `StationID`, `SampleDate`, `Replicate`, `Taxon`, `Abundance`, `Depth`, `Latitude`, `Longitude`.
+- **Output:** A named `list`. The main element, `bri_scores`, holds the BRI score, condition category (Reference, Marginal Deviation, Biodiversity Loss, Function Loss, Defaunation), class, and usage notes for each sample. The list also returns the intermediate tables so you can review how your data were processed:
+  - `taxa_with_pcode` - submitted taxa that matched a p-code
+  - `taxa_without_pcode` - submitted taxa with no p-code (with fuzzy-matched "did you mean" suggestions when the optional `fuzzyjoin` package is installed)
+  - `all_taxa_by_sample` - every taxon joined to its p-code and depth-zone tolerance values, by sample
 
-**NOTE:** It will be the same for each of the benthic functions - BRI, RBI, IBI, RIVPACS and MAMBI
+**NOTE:** When `SQOUnified` is called with `offshore_benthic` and `offshore_stations`, it calls `BRI.Offshore` internally (in `output_format = 'long'`), so there is no need to run this beforehand to feed the integrated assessment.
 
 
 
@@ -291,6 +364,61 @@ integrated_result <- SQOUnified(benthic = benthic_data, chem = chem_data, tox = 
 # View the results
 print(integrated_result)
 ```
+
+
+
+## Example Datasets
+
+The package bundles two tiers of example data, all lazy-loaded and available by name once the package is loaded (`library(SQOUnified)`).
+
+### Small, self-contained sample data
+
+These are compact, synthetic datasets designed to exercise each function quickly. They span a range of contamination/condition levels (a clean reference site through a heavily disturbed site).
+
+| Dataset | Description | Used with |
+|---|---|---|
+| `benthic_sampledata` | Bay/estuary benthic infauna (one row per taxon per sample) | `benthic.sqo`, `BRI`, `RBI`, `IBI`, `RIVPACS`, `MAMBI`, `SQOUnified` |
+| `chem_sampledata` | Sediment chemistry (long format, one row per analyte per station) | `chem.sqo`, `CSI`, `LRM`, `SQOUnified` |
+| `tox_sampledata` | Sediment toxicity test results, including control samples | `tox.sqo`, `tox.summary`, `SQOUnified` |
+| `offshore_benthic_sampledata` | Offshore (shelf) benthic infauna across a range of depths | `BRI.Offshore`, `SQOUnified` |
+| `offshore_station_sampledata` | Offshore station info (`stationid`, `sampledate`, `latitude`, `longitude`, `depth`) | `BRI.Offshore`, `SQOUnified` |
+
+#### About the offshore sample data
+
+The offshore benthic line of evidence is split across **two** dataframes that are joined on `stationid`:
+
+- `offshore_benthic_sampledata` holds the infauna - `stationid`, `replicate`, `sampledate`, `taxon`, `abundance`.
+- `offshore_station_sampledata` holds the per-station environmental info needed for depth-zone scoring - `stationid`, `sampledate`, `latitude`, `longitude`, `depth`.
+
+They are kept separate (rather than as one wide table) because the offshore BRI needs station `depth` to choose the correct depth-zone tolerance values, and because this mirrors how the data are typically stored. Both `BRI.Offshore` and `SQOUnified` accept them as two arguments and join them internally:
+
+```r
+# Standalone offshore BRI
+BRI.Offshore(offshore_benthic_sampledata, offshore_station_sampledata)
+
+# As the benthic line of evidence in the full integrated assessment
+SQOUnified(
+  chem = chem_sampledata,
+  tox = tox_sampledata,
+  offshore_benthic = offshore_benthic_sampledata,
+  offshore_stations = offshore_station_sampledata
+)
+```
+
+The example stations cover shallow, mid, and deep depth zones (as well as a heavily disturbed shallow site) so the depth-dependent behavior of `BRI.Offshore` can be observed.
+
+### Compiled Bight regional monitoring data
+
+The package also ships larger, real datasets compiled across multiple Southern California Bight regional monitoring survey years (1998-2023). These share a consistent schema and can be used as realistic inputs to the line-of-evidence functions.
+
+| Dataset | Description | Used with |
+|---|---|---|
+| `bight.unified.chem` | Compiled sediment chemistry (long format) | `chem.sqo`, `SQOUnified` |
+| `bight.unified.tox` | Compiled sediment toxicity results (with controls) | `tox.sqo`, `SQOUnified` |
+| `bight.unified.benthic` | Compiled bay/estuary benthic infauna (with full WoRMS taxonomy) | `benthic.sqo`, `SQOUnified` |
+| `bight.unified.benthic.offshore` | Compiled offshore (shelf) benthic infauna | `BRI.Offshore`, `SQOUnified` |
+
+Each dataset is documented in the package help; use `?bight.unified.chem` (etc.) for the full column descriptions.
 
 
 
