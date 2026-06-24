@@ -2,42 +2,72 @@
 % Please edit documentation in R/RIVPACS.R
 \name{RIVPACS}
 \alias{RIVPACS}
-\title{River Invertebrate Prediction and Classification System (RIVPACS) Index and RIVPACS Condition Category
-(SoCal only)}
+\title{Compute the RIVPACS (River Invertebrate Prediction and Classification System) index (generic version).}
 \usage{
-RIVPACS(benthic_data)
+alt.RIVPACS.generic(BenthicData)
 }
 \arguments{
-\item{benthic_data}{data frame stored in the R environment. Note that this data frame MUST contain the following
-                   information with these headings:
+\item{BenthicData}{a data frame containing benthic data and station information with at minimum:
 
-                        \code{StationID} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-                        \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-                        \code{SampleDate} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-                        \code{Latitude} - latitude in decimal degrees;
+   \strong{\code{taxon}} - name of the organism. Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-                        \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{abundance}} - number of individuals counted;
 
-                        \code{Taxon} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous;
 
-                        \code{Abundance} - the number of each Species observed in a sample;
+   \strong{\code{latitude}} - latitude in decimal degrees;
 
-                        \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
+   \strong{\code{longitude}} - longitude in decimal degrees (negative for west);
 
-                        \code{Stratum} - ;
+   \strong{\code{depth}} - station depth in meters.}
 
-                        \code{Exclude} - ;}
+\item{retrofit_taxonomy}{Logical. If TRUE (default), modern SCAMIT Edition 14 taxonomy in the
+submitted data is retrofitted back to SQO-compatible names via \code{\link{benthicdata_prep}}
+before the index is calculated. Set FALSE if the data has already been prepped/retrofitted.}
+
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
+
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
+
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-For more information concerning RIVPACS, consult the CASQO Technical Manual page 80
+The RIVPACS index is an Observed-to-Expected (O/E) index comparing the infaunal community observed
+  in a sample to that which would be expected at the location under reference conditions, based on a
+  predictive discriminant function model using latitude, longitude, and water depth.
+}
+\details{
+The RIVPACS model assigns each sample to reference site clusters based on abiotic predictors
+  (latitude, longitude, depth) using Mahalanobis distance. Taxa expected at each site are predicted
+  from reference community composition weighted by cluster membership probabilities. The O/E ratio
+  compares observed richness to expected richness.
+
+  Samples flagged as outliers (outside the chi-squared critical value at the 0.01 level) receive
+  a caution note indicating they may be outside the RIVPACS habitat model calibration range.
+
+  RIVPACS condition categories:
+  \itemize{
+    \item Reference: 0.90 < score < 1.10 (category score 1)
+    \item Low Disturbance: 0.74 < score <= 0.90 or 1.10 <= score < 1.26 (category score 2)
+    \item Moderate Disturbance: 0.32 < score <= 0.74 or score >= 1.26 (category score 3)
+    \item High Disturbance: score <= 0.32 (category score 4)
+  }
+
+  Details on the specifics of the calculation can be found in Bay et al. 2021. Sediment Quality
+  Assessment Technical Support Manual. SCCWRP Technical Report 777.
+
+  Background concepts can be found in Van Sickle et al. 2006. Selecting discriminant function models
+  for predicting the expected richness of aquatic macroinvertebrates. Freshwater Biology 51:359-372.
 }
 \examples{
-data(benthic_sampledata)
-RIVPACS(benthic_sampledata)
+\dontrun{
+  alt.RIVPACS.generic(my_benthic_data)
+}
 
 }

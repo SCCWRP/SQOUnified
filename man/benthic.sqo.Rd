@@ -2,44 +2,79 @@
 % Please edit documentation in R/benthic.R
 \name{benthic.sqo}
 \alias{benthic.sqo}
-\title{Get Benthic Related Indices, and the Integrated Benthic SQO Score}
+\title{Compute the SQO Benthic Line of Evidence (BLOE) integrated score (generic version).}
 \usage{
-benthic.sqo(benthic_data)
+SQO_BLOE.generic(BenthicData)
 }
 \arguments{
-\item{benthic_data}{a data frame. This data frame must contain the following
- information with these headings:
+\item{BenthicData}{a data frame containing benthic data and station information with at minimum:
 
-   \code{StationID} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-   \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-   \code{SampleDate} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-   \code{Latitude} - latitude in decimal degrees;
+   \strong{\code{taxon}} - name of the organism (SCAMIT Edition 14 naming preferred).
+       Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-   \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{abundance}} - number of individuals counted;
 
-   \code{Taxon} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous;
 
-   \code{Abundance} - the number of each Species observed in a sample;
+   \strong{\code{latitude}} - latitude in decimal degrees;
 
-   \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
+   \strong{\code{longitude}} - longitude in decimal degrees (negative for west);
 
-   \code{Stratum} - The stratum under which the station falls (Bays, Estuaries, etc);
+   \strong{\code{depth}} - station depth in meters;
 
-   \code{Exclude} - Yes or No;}
+   \strong{\code{salinity}} - bottom water salinity in PSU (used for BLOE applicability notes and M-AMBI).}
+
+\item{EG_Ref_values}{Optional. A data frame with Ecological Group assignments for M-AMBI.
+If NULL (default), uses the standard EG list.}
+
+\item{EG_Scheme}{Quoted string specifying the EG value column to use for M-AMBI. Default "Hybrid".}
+
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
+
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
+
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-This function will calculate, RBI, IBI, BRI, RIVPACS, MAMBI,
-as well as the Integrated Benthic SQO score / category.
-The ultimate guide for these indices (EXCEPT MAMBI) is the CASQO Technical Manual
-pages 64 to 94
+Wrapper function that calculates all four SQO benthic indices (BRI, IBI, RBI, RIVPACS) plus
+  M-AMBI, integrates them into a BLOE score, and performs SCAMIT Edition 14 to SQO taxonomy conversion.
+}
+\details{
+This function performs the following steps:
+  \enumerate{
+    \item Converts submitted SCAMIT Edition 14 taxonomy back to SQO-compatible taxonomy via one-to-one
+          name swaps, daughter-to-parent rollups, and complex many-to-one resolutions
+    \item Identifies taxa not on the SQO look-up list (with optional fuzzy matching suggestions
+          if the \code{fuzzyjoin} package is installed)
+    \item Calculates each benthic index: BRI, IBI, RBI, RIVPACS, and M-AMBI
+    \item Integrates the four traditional SQO indices (BRI, IBI, RBI, RIVPACS) into a BLOE score
+          by taking the ceiling of the median condition category score
+    \item Returns BLOE scores with M-AMBI results attached
+  }
+
+  IMPORTANT: The indices contained in this calculator are only intended for Southern California
+  embayments (i.e., not offshore).
+
+  The SQO taxa lookup list from the online Excel SQO calculator is used (per Bight 23 index code
+  subcommittee decision). The exclude code notation is used to eliminate ambiguous taxa.
+
+  BLOE condition categories (based on median of four index category scores, rounded up):
+  \itemize{
+    \item Reference: BLOE score = 1
+    \item Low Disturbance: BLOE score = 2
+    \item Moderate Disturbance: BLOE score = 3
+    \item High Disturbance: BLOE score = 4
+  }
 }
 \examples{
-data(benthic_sampledata) # load the sample data
-benthic.sqo(benthic_sampledata) # get scores and see output
+\dontrun{
+  SQO_BLOE.generic(my_benthic_data)
+}
 
 }

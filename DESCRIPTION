@@ -1,8 +1,8 @@
 Package: SQOUnified
 Type: Package
 Title: Tools for calculating SQO scores based on three Lines of Evidence (Benthic, Tox, Chem)
-Version: 0.8.1
-Date: 2024-08-28
+Version: 0.10.14
+Date: 2026-04-10
 Description: Calculates Site Assessments based on the three lines of evidence as outlined in the CASQO Manual
             Benthic, Toxicity, and Chemistry
 Authors@R: c(
@@ -28,7 +28,8 @@ Maintainer: Robert Butler <robertb@sccwrp.org>
 License: CCO
 Encoding: UTF-8
 LazyData: true
-Imports: 
+LazyDataCompression: xz
+Imports:
   dbplyr,
   reshape2,
   vegan,
@@ -37,10 +38,14 @@ Imports:
   purrr,
   stringr,
   tidyr,
+  tibble,
   lubridate,
   DT,
   knitr,
   rmarkdown
-Depends: 
+Suggests:
+  fuzzyjoin,
+  testthat (>= 3.0.0)
+Depends:
   R (>= 3.5.0)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3

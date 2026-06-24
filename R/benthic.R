@@ -1,355 +1,716 @@
-# ---- benthic sqo function ----
-#' Get Benthic Related Indices, and the Integrated Benthic SQO Score
+# GENERIC SQO BENTHIC LINE OF EVIDENCE (Alt) --------------------------------------------------
+#' Compute the SQO Benthic Line of Evidence (BLOE) integrated score (generic version).
 #'
-#' This function will calculate, RBI, IBI, BRI, RIVPACS, MAMBI,
-#' as well as the Integrated Benthic SQO score / category.
-#' The ultimate guide for these indices (EXCEPT MAMBI) is the CASQO Technical Manual
-#' pages 64 to 94
+#' @description
+#'   Wrapper function that calculates all four SQO benthic indices (BRI, IBI, RBI, RIVPACS) plus
+#'   M-AMBI, integrates them into a BLOE score, and performs SCAMIT Edition 14 to SQO taxonomy conversion.
+#'
+#' @details
+#'   This function performs the following steps:
+#'   \enumerate{
+#'     \item Converts submitted SCAMIT Edition 14 taxonomy back to SQO-compatible taxonomy via one-to-one
+#'           name swaps, daughter-to-parent rollups, and complex many-to-one resolutions
+#'     \item Identifies taxa not on the SQO look-up list (with optional fuzzy matching suggestions
+#'           if the \code{fuzzyjoin} package is installed)
+#'     \item Calculates each benthic index: BRI, IBI, RBI, RIVPACS, and M-AMBI
+#'     \item Integrates the four traditional SQO indices (BRI, IBI, RBI, RIVPACS) into a BLOE score
+#'           by taking the ceiling of the median condition category score
+#'     \item Returns BLOE scores with M-AMBI results attached
+#'   }
+#'
+#'   IMPORTANT: The indices contained in this calculator are only intended for Southern California
+#'   embayments (i.e., not offshore).
+#'
+#'   The SQO taxa lookup list from the online Excel SQO calculator is used (per Bight 23 index code
+#'   subcommittee decision). The exclude code notation is used to eliminate ambiguous taxa.
+#'
+#'   BLOE condition categories (based on median of four index category scores, rounded up):
+#'   \itemize{
+#'     \item Reference: BLOE score = 1
+#'     \item Low Disturbance: BLOE score = 2
+#'     \item Moderate Disturbance: BLOE score = 3
+#'     \item High Disturbance: BLOE score = 4
+#'   }
+#'
+#' @param BenthicData a data frame containing benthic data and station information with at minimum:
+#'
+#'    \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
+#'
+#'    \strong{\code{replicate}} - a numeric identifying the replicate number;
+#'
+#'    \strong{\code{sampledate}} - the date of sample collection;
+#'
+#'    \strong{\code{taxon}} - name of the organism (SCAMIT Edition 14 naming preferred).
+#'        Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
+#'
+#'    \strong{\code{abundance}} - number of individuals counted;
+#'
+#'    \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous;
+#'
+#'    \strong{\code{latitude}} - latitude in decimal degrees;
+#'
+#'    \strong{\code{longitude}} - longitude in decimal degrees (negative for west);
+#'
+#'    \strong{\code{depth}} - station depth in meters;
+#'
+#'    \strong{\code{salinity}} - bottom water salinity in PSU (used for BLOE applicability notes and M-AMBI).
+#'
+#' @param EG_Ref_values Optional. A data frame with Ecological Group assignments for M-AMBI.
+#'    If NULL (default), uses the standard EG list.
+#' @param EG_Scheme Quoted string specifying the EG value column to use for M-AMBI. Default "Hybrid".
+#' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
+#' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
+#' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
 #'
 #' @usage
-#' benthic.sqo(benthic_data)
+#' SQO_BLOE.generic(BenthicData)
 #'
 #' @examples
-#' data(benthic_sampledata) # load the sample data
-#' benthic.sqo(benthic_sampledata) # get scores and see output
+#' \dontrun{
+#'   SQO_BLOE.generic(my_benthic_data)
+#' }
 #'
-#' @param benthic_data a data frame. This data frame must contain the following
-#'  information with these headings:
-#'
-#'    \code{StationID} - an alpha-numeric identifier of the location;
-#'
-#'    \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
-#'
-#'    \code{SampleDate} - the date of sample collection;
-#'
-#'    \code{Latitude} - latitude in decimal degrees;
-#'
-#'    \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
-#'
-#'    \code{Taxon} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-#'        use sp only or just the Genus. If no animals were present in the sample use
-#'        NoOrganismsPresent with 0 abundance;
-#'
-#'    \code{Abundance} - the number of each Species observed in a sample;
-#'
-#'    \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
-#'
-#'    \code{Stratum} - The stratum under which the station falls (Bays, Estuaries, etc);
-#'
-#'    \code{Exclude} - Yes or No;
-#'
-#' @importFrom dplyr bind_rows
+#' @import dplyr
+#' @importFrom tidyr pivot_wider replace_na
+#' @importFrom stringr str_flatten_comma str_detect str_flatten
+#' @importFrom fuzzyjoin stringdist_left_join
 #'
 #' @export
-
-benthic.sqo <- function(benthic_data, logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'benthiclog.Rmd' ), verbose = F, knitlog = F){
-
+benthic.sqo <- function(BenthicData,
+                              EG_Ref_values = NULL,
+                              EG_Scheme = "Hybrid",
+                              logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'BLOE_generic_log.Rmd'),
+                              verbose = FALSE,
+                              logtitle = 'Benthic SQO Logs',
+                              knitlog = FALSE)
+{
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = logtitle)
+
+  writelog('\n# BEGIN: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
+
+  # Reference data (SoCal.SQO.xls.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
+  # are available as package datasets — see ?SoCal.SQO.xls.ed14.link, ?xl_tool.SoCalLUList
+  # Individual index functions (alt.SQO.BRI.generic, alt.IBI.generic, alt.RBI.generic,
+  # alt.RIVPACS.generic, alt.MAMBI.generic) are available in the package namespace
+
+  # Standardize the submitted data and retrofit the modern (Ed14) taxonomy back to
+  # SQO-compatible names. benthicdata_prep() handles column standardization, the
+  # Ed14 -> SQO taxonomy retrofitting, and identification of taxa not on the SQO
+  # look-up list. Its taxonomy-change and unmatched-taxa logs are written within.
+  prepped <- benthicdata_prep(BenthicData, retrofit = TRUE, logfile = logfile, verbose = verbose)
+
+  # Retrofitted data is what the four traditional SQO indices are calculated on
+  BenthicData.3 <- prepped$benthic_data
+
+  # Taxa not on the SQO look-up list (returned to the caller for review)
+  unmatched_taxa <- prepped$unmatched_taxa
+
+  # M-AMBI uses modern (ed14) taxonomy, so it gets the standardized-but-not-retrofitted data
+  BenthicData <- prepped$standardized
 
 
-  writelog("\n# Benthic SQO Main Function\n", logfile = logfile, verbose = verbose)
+  #### Run each of the individual benthic indices ####
 
-  # ---- Save the raw input to an RData file (for the sake of those who want the auditing logs) ----
-  rawinput.filename <- 'benthic.sqo.input.RData'
-  if (verbose) {
-    save(benthic_data, file = file.path( dirname(logfile), rawinput.filename ))
-  }
-
-
-  # Display raw input data, create a download link for the knitted final RMarkdown output
   writelog(
-    "\n### Raw input to benthic.sqo:\n",
-    logfile = logfile,
-    code = paste0("load('", rawinput.filename, "') ### This will load a dataframe called 'benthic_data' into your environment"),
-    verbose = verbose
-  )
-  create_download_link(data = benthic_data, logfile = logfile, filename = 'BenthicSQO-RawInput.csv', linktext = 'Download Raw Input to Benthic SQO Function', verbose = verbose)
-
-
-
-  writelog('\n  \n## Calling M-AMBI within Benthic SQO function', logfile = logfile, verbose = verbose)
-  mambi.score <- MAMBI(benthic_data, logfile = logfile , verbose = verbose) %>%
-    mutate(
-      Score = MAMBI_Score,
-      Category = New_MAMBI_Condition
-    ) %>%
-    mutate(
-      `Category Score` = case_when(
-        Category == "Reference" ~ 1,
-        Category == "Low Disturbance" ~ 2,
-        Category == "Moderate Disturbance" ~ 3,
-        Category == "High Disturbance" ~ 4,
-        TRUE ~ NA_real_
-      )
-    )
-  # Create code block and download link to RBI output
-  writelog(
-    "\n## MAMBI output - Here is its output along with a code block (for R Studio users)\n",
+    '\n## BLOE Step 3 - Calculating individual indices\n',
     logfile = logfile,
     code = '
-      mambi.score <- MAMBI(benthic_data, verbose = FALSE) %>%
-      mutate(
-        Score = MAMBI_Score,
-        Category = New_MAMBI_Condition
-      ) %>%
-      mutate(
-        `Category Score` = case_when(
-          Category == "Reference" ~ 1,
-          Category == "Low Disturbance" ~ 2,
-          Category == "Moderate Disturbance" ~ 3,
-          Category == "High Disturbance" ~ 4,
-          TRUE ~ NA_real_
-        )
-      )
+      # Run each benthic index on the retrofitted data. retrofit_taxonomy = FALSE because
+      # benthicdata_prep() already retrofitted above; M-AMBI uses the standardized ed14 taxonomy.
+      bri.scores.x     <- BRI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+      ibi.scores.x     <- IBI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+      rbi.scores.x     <- RBI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+      rivpacs.scores.x <- RIVPACS(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+      mambi.scores.x   <- MAMBI(BenthicData, EG_Ref_values = EG_Ref_values, EG_Scheme = EG_Scheme, logfile = logfile, verbose = verbose)
     ',
-    data = mambi.score,
     verbose = verbose
   )
-  create_download_link(data = mambi.score, logfile = logfile, filename = 'MAMBI-output.csv', linktext = 'MAMBI output', verbose = verbose)
 
-  writelog('\n#### ***As of now, since M-AMBI is not adopted into the official Benthic Integrated SQO score, details on M-AMBI will be excluded from the audit logs**', logfile = logfile, verbose = verbose)
+  # Data has already been retrofitted by benthicdata_prep above, so the indices
+  # are told not to retrofit again (retrofit_taxonomy = FALSE).
+  bri.scores.x <- BRI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+  writelog('\nSQO BRI Complete\n', logfile = logfile, verbose = verbose)
+
+  ibi.scores.x <- IBI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+  writelog('\nSQO IBI Complete\n', logfile = logfile, verbose = verbose)
+
+  rbi.scores.x <- RBI(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+  writelog('\nSQO RBI Complete\n', logfile = logfile, verbose = verbose)
+
+  rivpacs.scores.x <- RIVPACS(BenthicData.3, retrofit_taxonomy = FALSE, logfile = logfile, verbose = verbose)
+  writelog('\nSQO RIVPACS Complete\n', logfile = logfile, verbose = verbose)
+
+  # Note: MAMBI uses modern (ed14) taxonomy, not the SQO-retrofitted taxonomy
+  mambi.scores.x <- MAMBI(BenthicData, EG_Ref_values = EG_Ref_values, EG_Scheme = EG_Scheme,
+                                       logfile = logfile, verbose = verbose)
+  writelog('\nSQO M-AMBI Complete\n', logfile = logfile, verbose = verbose)
 
 
-  writelog('\n## Calling IBI within Benthic SQO function', logfile = logfile, verbose = verbose)
-  ibi.scores <- IBI(benthic_data, logfile = logfile, verbose = verbose)
-  # Create code block and download link to IBI output
+  #### Integrate individual index scores into BLOE ####
+
+  all.sqo.scores.x <- bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x) %>%
+    arrange(., stationid, sampledate, replicate, index)
+
   writelog(
-    "\n## IBI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    '## BLOE Step 4 - All benthic index scores\n',
     logfile = logfile,
-    code = "ibi.scores <- IBI(benthic_data, verbose = FALSE)",
-    data = ibi.scores,
+    code = '
+      # Stack the four traditional index score tables (BRI, IBI, RBI, RIVPACS) into one long table
+      all.sqo.scores.x <- bind_rows(bri.scores.x, ibi.scores.x, rbi.scores.x, rivpacs.scores.x) %>%
+        arrange(., stationid, sampledate, replicate, index)
+    ',
+    data = all.sqo.scores.x %>% head(25),
     verbose = verbose
   )
-  create_download_link(data = ibi.scores, logfile = logfile, filename = 'IBI-output.csv', linktext = 'Download IBI function output', verbose = verbose)
+  create_download_link(data = all.sqo.scores.x, logfile = logfile, filename = 'BLOE-step3-all_index_scores.csv', linktext = 'Download all index scores', verbose = verbose)
 
 
+  BLOE.scores.x <- all.sqo.scores.x %>%
+    group_by(stationid, sampledate, replicate) %>%
+    # Integrate by calculating the ceiling of the median condition category score
+    mutate(BLOE_score = ceiling(median(condition_category_score, na.rm = TRUE)),
+           Note = str_flatten(note, collapse = ",")) %>%
+    ungroup() %>%
+    pivot_wider(id_cols = c(-score, -condition_category, -note),
+                names_from = index, values_from = condition_category_score) %>%
+    mutate(notes = case_when(is.na(salinity) & is.na(Note) ~ "Salinity value unknown-confirm salinity >=27 PSU for BLOE to be accurate.",
+                             is.na(salinity) & !is.na(Note) ~ paste("Salinity value unknown-confirm salinity >=27 PSU for BLOE to be accurate.", Note, sep = "; "),
+                             salinity < 27 & is.na(Note) ~ "Caution, salinity value <27 PSU - BLOE may not be accurate. Consider M-AMBI",
+                             salinity < 27 & !is.na(Note) ~ paste("Caution, salinity value <27 PSU - BLOE may not be accurate. Consider M-AMBI", Note, sep = "; "),
+                             salinity >= 27 & !is.na(Note) ~ Note,
+                             salinity >= 27 & is.na(Note) ~ "None",
+                             TRUE ~ "None"),
+           BLOE_category = case_when(BLOE_score == 1 ~ "Reference",
+                                     BLOE_score == 2 ~ "Low Disturbance",
+                                     BLOE_score == 3 ~ "Moderate Disturbance",
+                                     BLOE_score == 4 ~ "High Disturbance")
+    ) %>%
+    relocate(stationid, sampledate, replicate, BLOE_score, BLOE_category, BRI_cond = BRI, IBI_cond = IBI, RBI_cond = RBI, Rivpacs_cond = Rivpacs) %>%
+    select(-Note)
+
+  # Attach M-AMBI scores to BLOE output
+  mambi.scores.sqoformat <- mambi.scores.x %>%
+    mutate(MAMBI_cond = case_when(SQO_mambi_condition == "Reference" ~ 1,
+                                  SQO_mambi_condition == "Low Disturbance" ~ 2,
+                                  SQO_mambi_condition == "Moderate Disturbance" ~ 3,
+                                  SQO_mambi_condition == "High Disturbance" ~ 4,
+                                  TRUE ~ NA), .after = SQO_mambi_condition)
+
+  BLOE.scores.w.MAMBI <- BLOE.scores.x %>%
+    left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, SQO_mambi_condition, MAMBI_cond, note),
+              by = c("stationid", "sampledate", "replicate")) %>%
+    mutate(notes = case_when(note == "None" ~ notes,
+                             is.na(note) ~ notes,
+                             TRUE ~ paste(notes, note, sep = "; "))) %>%
+    select(-note) %>%
+    rename(MAMBI_SQO_Cat = SQO_mambi_condition) %>%
+    relocate(MAMBI_SQO_Cat, MAMBI_cond, .after = Rivpacs_cond)
 
 
-  writelog('\n## Calling RBI within Benthic SQO function', logfile = logfile, verbose = verbose)
-  rbi.scores <- RBI(benthic_data, logfile = logfile, verbose = verbose)
-  # Create code block and download link to RBI output
   writelog(
-    "\n## RBI function is finished executing - Here is its output along with a code block (for R Studio users):",
+    '## BLOE Final - Integrated BLOE scores with M-AMBI\n',
     logfile = logfile,
-    code = "rbi.scores <- RBI(benthic_data, verbose = FALSE)",
-    data = rbi.scores,
+    code = '
+      # Integrate the four index category scores into a BLOE score (ceiling of the median),
+      # widen each index into its own column, and build the salinity-based caution notes
+      BLOE.scores.x <- all.sqo.scores.x %>%
+        group_by(stationid, sampledate, replicate) %>%
+        mutate(BLOE_score = ceiling(median(condition_category_score, na.rm = TRUE)),
+               Note = str_flatten(note, collapse = ",")) %>%
+        ungroup() %>%
+        pivot_wider(id_cols = c(-score, -condition_category, -note),
+                    names_from = index, values_from = condition_category_score) %>%
+        mutate(notes = case_when(is.na(salinity) & is.na(Note) ~ "Salinity value unknown-confirm salinity >=27 PSU for BLOE to be accurate.",
+                                 is.na(salinity) & !is.na(Note) ~ paste("Salinity value unknown-confirm salinity >=27 PSU for BLOE to be accurate.", Note, sep = "; "),
+                                 salinity < 27 & is.na(Note) ~ "Caution, salinity value <27 PSU - BLOE may not be accurate. Consider M-AMBI",
+                                 salinity < 27 & !is.na(Note) ~ paste("Caution, salinity value <27 PSU - BLOE may not be accurate. Consider M-AMBI", Note, sep = "; "),
+                                 salinity >= 27 & !is.na(Note) ~ Note,
+                                 salinity >= 27 & is.na(Note) ~ "None",
+                                 TRUE ~ "None"),
+               BLOE_category = case_when(BLOE_score == 1 ~ "Reference",
+                                         BLOE_score == 2 ~ "Low Disturbance",
+                                         BLOE_score == 3 ~ "Moderate Disturbance",
+                                         BLOE_score == 4 ~ "High Disturbance")) %>%
+        relocate(stationid, sampledate, replicate, BLOE_score, BLOE_category, BRI_cond = BRI, IBI_cond = IBI, RBI_cond = RBI, Rivpacs_cond = Rivpacs) %>%
+        select(-Note)
+
+      # Map M-AMBI condition to a 1-4 score and attach it to the BLOE output
+      mambi.scores.sqoformat <- mambi.scores.x %>%
+        mutate(MAMBI_cond = case_when(SQO_mambi_condition == "Reference" ~ 1,
+                                      SQO_mambi_condition == "Low Disturbance" ~ 2,
+                                      SQO_mambi_condition == "Moderate Disturbance" ~ 3,
+                                      SQO_mambi_condition == "High Disturbance" ~ 4,
+                                      TRUE ~ NA), .after = SQO_mambi_condition)
+
+      BLOE.scores.w.MAMBI <- BLOE.scores.x %>%
+        left_join(., select(mambi.scores.sqoformat, stationid, sampledate, replicate, SQO_mambi_condition, MAMBI_cond, note),
+                  by = c("stationid", "sampledate", "replicate")) %>%
+        mutate(notes = case_when(note == "None" ~ notes,
+                                 is.na(note) ~ notes,
+                                 TRUE ~ paste(notes, note, sep = "; "))) %>%
+        select(-note) %>%
+        rename(MAMBI_SQO_Cat = SQO_mambi_condition) %>%
+        relocate(MAMBI_SQO_Cat, MAMBI_cond, .after = Rivpacs_cond)
+    ',
+    data = BLOE.scores.w.MAMBI %>% head(25),
     verbose = verbose
   )
-  create_download_link(data = rbi.scores, logfile = logfile, filename = 'RBI-output.csv', linktext = 'Download RBI output', verbose = verbose)
+  create_download_link(data = BLOE.scores.w.MAMBI, logfile = logfile, filename = 'BLOE-final_scores.csv', linktext = 'Download BLOE scores', verbose = verbose)
+
+  writelog('\n# END: Generic SQO BLOE function.\n', logfile = logfile, verbose = verbose)
+
+  # Return list with all results for inspection
+  results <- list("sqo_bloe" = BLOE.scores.x,
+                  "sqo_bloe_w_mambi" = BLOE.scores.w.MAMBI,
+                  "sqo_bri" = bri.scores.x,
+                  "ibi" = ibi.scores.x,
+                  "rbi" = rbi.scores.x,
+                  "rivpacs" = rivpacs.scores.x,
+                  "mambi" = mambi.scores.sqoformat,
+                  "sqo_potential_mismatches" = unmatched_taxa)
+  
+  sqo_bloe <- results$sqo_bloe
+  bri <- results$sqo_bri
+  ibi <- results$ibi
+  rbi <- results$rbi
+  rivpacs <- results$rivpacs
 
 
 
-  writelog('\n## Calling BRI within Benthic SQO function', logfile = logfile, verbose = verbose)
-  bri.scores <- BRI(benthic_data, logfile = logfile, verbose = verbose)
-  # Create code block and download link to BRI output
-  writelog(
-    "\n## BRI function is finished executing - Here is its output along with a code block (for R Studio users):",
-    logfile = logfile,
-    code = "bri.scores <- BRI(benthic_data, verbose = FALSE)",
-    data = bri.scores,
-    verbose = verbose
-  )
-  create_download_link(data = bri.scores, logfile = logfile, filename = 'BRI-output.csv', linktext = 'Download BRI function output', verbose = verbose)
-
-  writelog('\n## Calling RIVPACS within Benthic SQO function\n', logfile = logfile, verbose = verbose)
-  rivpacs.score <- RIVPACS(benthic_data, logfile = logfile, verbose = verbose) #only SoCal (no SFBay)
-  # Create code block and download link to RIVPACS output
-  writelog(
-    "\n## RIVPACS function is finished executing - Here is its output along with a code block (for R Studio users):",
-    logfile = logfile,
-    code = "rivpacs.score <- RIVPACS(benthic_data, verbose = FALSE)",
-    data = rivpacs.score,
-    verbose = verbose
-  )
-  create_download_link(data = rivpacs.score, logfile = logfile, filename = 'RIVPACS-output.csv', linktext = 'Download RIVPACS function output', verbose = verbose)
-
-  # Integrated Scores
-  # CASQO Technical Manual page 73 -
-  #     Simply take the ceiling of the median of BRI, RBI, IBI and RIVPACS
-  writelog('\n## Calculate Benthic Integrated scores\n  These will be visible in the final scores dataframe (benthic.sqo-final.csv)', logfile = logfile, verbose = verbose)
-  writelog('Line that calculates integrated benthic score: `Category Score` = ceiling(median(`Category Score`, na.rm = T))', logfile = logfile, verbose = verbose)
-  writelog('In other words - group the data by StationID, Replicate, SampleDate, Stratum and then take the ceiling of the mean - excluding missing values', logfile = logfile, verbose = verbose)
-
-  # Stack the different scores dataframes on top of each other
-  integrated.score.step1 <- bind_rows(
-      rbi.scores, ibi.scores, bri.scores, rivpacs.score
-    )
-  # Create code block and download link
-  writelog(
-    "\n### Step 1 combining data for the Integrated Benthic Score - stack the dataframes",
-    logfile = logfile,
-    code = "integrated.score.step1 <- bind_rows(
-      rbi.scores, ibi.scores, bri.scores, rivpacs.score
-    )",
-    data = integrated.score.step1,
-    verbose = verbose
-  )
-  create_download_link(data = integrated.score.step1, logfile = logfile, filename = 'IntegratedBenthicStep1.csv', linktext = 'Download Integrated Benthic Step 1', verbose = verbose)
-
-
-  # Filter to rep 1 and select only needed columns
-  integrated.score.step2 <- integrated.score.step1 %>%
-    # David says take only where replicate = 1, although other scientists have different opinions
-    filter(Replicate == 1) %>%
+  # Build a comments column with depth, salinity, and stratum for human review
+  sqo_bloe <- sqo_bloe %>%
     select(
-      StationID, Replicate, SampleDate, Stratum, Index, `Category Score`
+      stationid,
+      sampledate,
+      replicate,
+      depth,
+      salinity,
+      any_of("stratum"),
+      BLOE_score,
+      BLOE_category_score = BLOE_score,
+      BLOE_category,
+      notes
     )
-  # Create code block and download link
-  writelog(
-    "\n### Step 2 combining data for the Integrated Benthic Score - filter to replicate 1 and select necessary columns in order",
-    logfile = logfile,
-    code = "
-      # Filter to rep 1 and select only needed columns
-      integrated.score.step2 <- integrated.score.step1 %>%
-        filter(Replicate == 1) %>%
-        select(
-          StationID, Replicate, SampleDate, Stratum, Index, `Category Score`
-        )
-    ",
-    data = integrated.score.step2,
-    verbose = verbose
-  )
-  create_download_link(data = integrated.score.step2, logfile = logfile, filename = 'IntegratedBenthicStep2.csv', linktext = 'Download Integrated Benthic Step 2', verbose = verbose)
 
-
-  # Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo
-  integrated.score.step3 <- integrated.score.step2 %>%
-    group_by(
-      StationID, Replicate, SampleDate, Stratum
-    ) %>%
-    summarize(
-      # I asked David Gillett on August 1, 2022 if we should say benthic is unknown if one index is missing, this is his response:
-      #   "We don't really say in the guidance document.
-      #   There really isn't a reason that one of the 4 indices couldn't be calculated if there is a sample.
-      #   My thought is that I wouldn't want to return an unknown if there are fewer than 4 indices, for whatever magic reason that may have occurred."
-      # Based on this answer, we will include the keyword argument, "na.rm = T"
-      # -Robert Butler, August 1, 2022
-
-      `Category Score` = ceiling(median(`Category Score`, na.rm = T))
-    ) %>%
-    ungroup()
-  # Create code block and download link
-  writelog(
-    "\n### Step 3 Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo",
-    logfile = logfile,
-    code = "
-      # Group and get the ceiling of the median of all category scores for each station/rep/sampledate/stratum combo
-      integrated.score.step3 <- integrated.score.step2 %>%
-        group_by(
-          StationID, Replicate, SampleDate, Stratum
-        ) %>%
-        summarize(
-          `Category Score` = ceiling(median(`Category Score`, na.rm = T))
-        ) %>%
-        ungroup()
-    ",
-    data = integrated.score.step3,
-    verbose = verbose
-  )
-  create_download_link(data = integrated.score.step3, logfile = logfile, filename = 'IntegratedBenthicStep3.csv', linktext = 'Download Integrated Benthic Step 2', verbose = verbose)
-
-
-  # Last integrated score step
-  integrated.score <- integrated.score.step3 %>%
-    mutate(
-      Index = 'Integrated SQO',
-      Category = case_when(
-        `Category Score` == 1 ~ "Reference",
-        `Category Score` == 2 ~ "Low Disturbance",
-        `Category Score` == 3 ~ "Moderate Disturbance",
-        `Category Score` == 4 ~ "High Disturbance",
-        TRUE ~ NA_character_
-      ),
-      Score = `Category Score`
-    )
-  # Create code block and download link
-  writelog(
-    "\n### Final benthic integrated scores df",
-    logfile = logfile,
-    code = '
-      # Last integrated score step
-      integrated.score <- integrated.score.step3 %>%
-        mutate(
-          Index = "Integrated SQO",
-          Category = case_when(
-            `Category Score` == 1 ~ "Reference",
-            `Category Score` == 2 ~ "Low Disturbance",
-            `Category Score` == 3 ~ "Moderate Disturbance",
-            `Category Score` == 4 ~ "High Disturbance",
-            TRUE ~ NA_character_
-          ),
-          Score = `Category Score`
-        )
-    ',
-    data = integrated.score,
-    verbose = verbose
-  )
-  create_download_link(data = integrated.score, logfile = logfile, filename = 'IntegratedBenthic-Final.csv', linktext = 'Download Integrated Benthic Final Step', verbose = verbose)
-
-  # Final dataframe
-  # will add other scores to this data frame as they are computed
-  final.scores <- bind_rows(
-      mambi.score,
-      rbi.scores,
-      ibi.scores,
-      bri.scores,
-      rivpacs.score,
-      integrated.score
-    ) %>%
+  bri <- bri %>% 
     select(
-      StationID, Replicate, SampleDate, Stratum, Index, Score, Category, `Category Score`, Use_MAMBI
+      stationid, 
+      sampledate, 
+      replicate, 
+      BRI_score = score,
+      BRI_category_score = condition_category_score,
+      BRI_category = condition_category
+    )
+    
+  ibi <- ibi %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      IBI_score = score,
+      IBI_category_score = condition_category_score,
+      IBI_category = condition_category
+    )
+    
+  rbi <- rbi %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      RBI_score = score,
+      RBI_category_score = condition_category_score,
+      RBI_category = condition_category
+    )
+    
+  rivpacs <- rivpacs %>% 
+    select(
+      stationid, 
+      sampledate, 
+      replicate, 
+      RIVPACS_score = score,
+      RIVPACS_category_score = condition_category_score,
+      RIVPACS_category = condition_category
+    )
+    
+
+
+
+  joined <- sqo_bloe %>% 
+    left_join(bri, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(ibi, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(rbi, by = c('stationid', 'sampledate', 'replicate')) %>%
+    left_join(rivpacs, by = c('stationid', 'sampledate', 'replicate')) 
+
+  # Pivot longer: BLOE, BRI, IBI, RBI, RIVPACS, MAMBI each become a row
+  # with their _score, _category_score, and _category values in dedicated columns
+  allsqo_long <- joined %>%
+    pivot_longer(
+      cols = -any_of(c("stationid", "sampledate", "replicate", "depth", "salinity", "stratum", "notes")),
+      names_to = c("index", ".value"),
+      names_pattern = "^(.+?)_(score|category_score|category)$"
     ) %>%
-    arrange(StationID, SampleDate, Replicate)
-
-  # Create code block and download link
-  writelog(
-    "\n### Final benthic scores df (all scores)",
-    logfile = logfile,
-    code = '
-      final.scores <- bind_rows(
-        mambi.score,
-        rbi.scores,
-        ibi.scores,
-        bri.scores,
-        rivpacs.score,
-        integrated.score
-      ) %>%
-      select(
-        StationID, Replicate, SampleDate, Stratum, Index, Score, Category, `Category Score`, Use_MAMBI
-      ) %>%
-      arrange(StationID, SampleDate, Replicate)
-    ',
-    data = integrated.score,
-    verbose = verbose
-  )
-  create_download_link(data = integrated.score, logfile = logfile, filename = 'AllBenthicScores-Final.csv', linktext = 'Download Final Benthic Scores df', verbose = verbose)
-
-
-  writelog('\n# END: Benthic SQO function.\n', logfile = logfile, verbose = verbose)
-
-  if (verbose && knitlog) {
-    if ( tolower(tools::file_ext(logfile)) =='rmd' ) {
-
-      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
-
-      print(paste0("Rendering ", logfile, " to ", html_file))
-      rmarkdown::render(
-        input = logfile,
-        output_file = html_file,
-        output_format = "html_document",
-        quiet = TRUE
+    mutate(
+      index = case_when(
+        index == "BLOE" ~ "Integrated Benthic LOE SQO Assessment Score",
+        TRUE ~ index
       )
-      print("Done")
+    )
 
-    } else {
-      fn_name <- as.character(sys.call()[[1]])
-      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
-    }
-  }
+  
 
-  return(final.scores)
+  results$all_benthic_sqo_scores_long <- allsqo_long
 
+  # Knit this benthic log to HTML on a direct call (no-op when knitlog = FALSE, e.g. when
+  # SQOUnified() drives this and merges the log into its consolidated report instead).
+  knit.log(logfile, verbose = verbose, knitlog = knitlog)
+
+  return(results)
 }
 
+
+# BENTHIC DATA PREP ---------------------------------------------------------------------------
+#' Standardize and retrofit submitted benthic data for SQO index calculation.
+#'
+#' @description
+#'   Utility function that prepares submitted benthic data for the traditional SQO benthic indices
+#'   (BRI, IBI, RBI, RIVPACS). It standardizes column names and types, normalizes missing sentinel
+#'   values for salinity and depth, and---optionally---retrofits modern SCAMIT Edition 14 taxonomy
+#'   back to the SQO-compatible names that the indices recognize. It also identifies taxa that are
+#'   not on the SQO look-up list.
+#'
+#' @details
+#'   When \code{retrofit = TRUE} the following taxonomy conversion steps are applied:
+#'   \enumerate{
+#'     \item One-to-one name changes (swap new names back to old versions)
+#'     \item Daughter-to-parent rollups (combine daughter taxa to the higher taxonomic level the
+#'           indices recognize)
+#'     \item Complex many-to-one resolutions (a single ed14 taxon that mapped to multiple SQO taxa)
+#'   }
+#'   When \code{retrofit = FALSE} only the standardization steps are performed and the submitted
+#'   taxonomy is passed through unchanged.
+#'
+#'   This function is called at the beginning of \code{\link{BRI}}, \code{\link{IBI}},
+#'   \code{\link{RBI}}, and \code{\link{RIVPACS}}. It is intentionally NOT used by \code{MAMBI}
+#'   (which uses modern ed14 taxonomy) or by \code{BRI.Offshore}.
+#'
+#'   Reference data (\code{SoCal.SQO.xls.ed14.link}, \code{ed14.rollups}, \code{ed.14.complex},
+#'   \code{xl_tool.SoCalLUList}) are available as package datasets — see \code{?SoCal.SQO.xls.ed14.link}.
+#'
+#' @param BenthicData a data frame containing benthic data and station information with at minimum:
+#'
+#'    \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
+#'
+#'    \strong{\code{replicate}} - a numeric identifying the replicate number;
+#'
+#'    \strong{\code{sampledate}} - the date of sample collection;
+#'
+#'    \strong{\code{taxon}} - name of the organism (SCAMIT Edition 14 naming preferred).
+#'        Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
+#'
+#'    \strong{\code{abundance}} - number of individuals counted;
+#'
+#'    \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.
+#'
+#'    \code{salinity} and \code{depth} are normalized (sentinel values -88 and -99 set to NA) when present.
+#'
+#' @param retrofit Logical. If TRUE (default), modern Ed14 taxonomy is retrofitted back to
+#'    SQO-compatible names. If FALSE, the submitted taxonomy is passed through unchanged.
+#' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
+#' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
+#' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
+#'
+#' @return A named list with:
+#'   \itemize{
+#'     \item \code{benthic_data} - the prepared (and, when \code{retrofit = TRUE}, retrofitted) data frame for index calculation;
+#'     \item \code{standardized} - the standardized data frame prior to taxonomy retrofitting;
+#'     \item \code{taxa_changes} - a data frame detailing the taxonomy changes made (NULL when \code{retrofit = FALSE});
+#'     \item \code{unmatched_taxa} - taxa not found on the SQO look-up list (with fuzzy-match suggestions if \code{fuzzyjoin} is installed).
+#'   }
+#'
+#' @usage
+#' benthicdata_prep(BenthicData, retrofit = TRUE)
+#'
+#' @examples
+#' \dontrun{
+#'   benthicdata_prep(my_benthic_data)
+#' }
+#'
+#' @import dplyr
+#' @importFrom stringr str_flatten_comma str_detect
+#' @importFrom fuzzyjoin stringdist_left_join
+#'
+#' @export
+benthicdata_prep <- function(BenthicData,
+                             retrofit = TRUE,
+                             logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'benthicdata_prep_log.Rmd'),
+                             verbose = FALSE,
+                             knitlog = FALSE)
+{
+  # Initialize Logging
+  logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'Benthic Data Prep Logs')
+
+  writelog('\n## BEGIN: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
+
+  # Reference data (SoCal.SQO.xls.ed14.link, ed14.rollups, ed.14.complex, xl_tool.SoCalLUList)
+  # are available as package datasets — see ?SoCal.SQO.xls.ed14.link, ?xl_tool.SoCalLUList
+
+  # Standardize column names and ensure correct types
+  names(BenthicData) <- tolower(names(BenthicData))
+
+  BenthicData <- BenthicData %>%
+    mutate(stationid = as.character(stationid),
+           abundance = as.numeric(abundance),
+           sampledate = lubridate::as_date(sampledate))
+
+  # Standardize missing sentinel values for salinity and depth (only if present)
+  if ("salinity" %in% names(BenthicData)) {
+    BenthicData <- BenthicData %>%
+      mutate(salinity = ifelse(salinity %in% c(-88, -99), NA, salinity))
+  }
+  if ("depth" %in% names(BenthicData)) {
+    BenthicData <- BenthicData %>%
+      mutate(depth = ifelse(depth %in% c(-88, -99), NA, depth))
+  }
+
+  # Keep a copy of the standardized (non-retrofitted) data for consumers that
+  # expect modern (ed14) taxonomy (e.g., M-AMBI).
+  standardized <- BenthicData
+
+  if (retrofit) {
+
+    #### Retrofitting modern taxonomy back to SQO-compatible names ####
+
+    # Step 1: One-to-one name changes (swap new names back to old versions)
+    one.to.one <- SoCal.SQO.xls.ed14.link %>%
+      select(original_sqo_taxon, ed_14_taxon, change, type) %>%
+      filter(type %in% c("one-to-one", "convention", "worms", "removed"))
+
+    BenthicData.0 <- BenthicData %>%
+      left_join(., one.to.one, by = c("taxon" = "ed_14_taxon")) %>%
+      relocate(original_sqo_taxon, .before = taxon) %>%
+      mutate(taxon.2 = if_else(is.na(original_sqo_taxon), taxon, original_sqo_taxon),
+             change_type = if_else(is.na(type), "", type),
+             taxa_changed = if_else(is.na(original_sqo_taxon), "", taxon)) %>%
+      select(-taxon, -type, -change, -original_sqo_taxon)
+
+
+    # Step 2: Combine daughter taxa to the higher taxonomic level the indices recognize
+    BenthicData.1 <- BenthicData.0 %>%
+      relocate(abundance, taxon.2, .before = stationid) %>%
+      left_join(., ed14.rollups, by = c("taxon.2" = "ed.14_daughters")) %>%
+      mutate(taxon.3 = if_else(is.na(sqo.name), taxon.2, sqo.name),
+             # rolled_up = if_else(is.na(sqo.name), "no", "yes"), .before = taxon.2) %>%
+             rolled_up=case_when(is.na(sqo.name)~"no", taxon.3==taxon.2~"no", TRUE~"yes"), .before = taxon.2) %>%
+      select(-sqo.name) %>%
+      group_by(stationid, replicate, sampledate, taxon.3) %>%
+      mutate(abundance.2 = sum(abundance),
+             # When rolling up taxa we may combine taxa w/ different exclude codes
+             # If any of the combined taxa has "No" (i.e., it is unique), give that precedence
+             all.excludes = str_flatten_comma(exclude),
+             exclude.prob.flag = case_when(str_detect(all.excludes, "No, Yes") ~ 1,
+                                           str_detect(all.excludes, "Yes, No") ~ 1,
+                                           TRUE ~ 0),
+             exclude.2 = case_when(rolled_up == "yes" & exclude.prob.flag == 1 ~ "No",
+                                   TRUE ~ exclude),
+             .before = abundance) %>%
+      ungroup() %>%
+      mutate(change_type.2 = if_else(rolled_up == "yes", paste("rolled up to ", join_level, sep = ""), change_type),
+             taxa_changed.2 = if_else(rolled_up == "yes", taxon.2, taxa_changed),
+             .before = stationid) %>%
+      select(-all.excludes, -exclude.prob.flag, -exclude) %>%
+      rename(exclude = exclude.2)
+
+
+    # Step 3: Complex changes where a single ed14 taxon was multiple taxa on the SQO LU list
+    # The taxa to choose among the old SQO names was prioritized to select a taxon that had a tolerance score, sensitivity designation, etc vesus one that didn't
+    ed.14.complex.2 <- ed.14.complex %>%
+      filter(Priority == "yes")
+
+    BenthicData.2 <- BenthicData.1 %>%
+      left_join(., ed.14.complex.2, by = c("taxon.3" = "Ed.14.Taxon")) %>%
+      mutate(taxon.4 = case_when(Priority == "yes" ~ Original.SQO.Taxon,
+                                 TRUE ~ taxon.3), .before = taxon.3) %>%
+      mutate(change_type.3 = case_when(Priority == "yes" ~ "complex",
+                                       # TRUE ~ change_type.2), .before = change_type.2)
+                                       TRUE~change_type.2),
+                                       taxa_changed.3=if_else(change_type.3=="complex", taxon.3, taxa_changed.2),
+                                       .before = change_type.2)
+
+    # Step 4: Interim output detailing all changes made to submitted data
+    taxa.changes <- BenthicData.2 %>%
+      group_by(stationid, replicate, sampledate, taxon.4, change_type.3) %>%
+      mutate(
+        taxa_changed.4 = str_flatten_comma(taxa_changed.3),
+        .before = abundance) %>%
+        ungroup() %>%
+        mutate(
+          taxon_submitted = case_when(
+            change_type %in% c("one-to-one", "convention") ~ taxa_changed,
+            TRUE~taxon.2
+          ),
+          .after = taxon.4
+        ) %>%
+      select(stationid, sampledate, replicate, taxon_used = taxon.4, taxon_submitted , changed_taxa = taxa_changed.4,
+             abundance_used = abundance.2,
+             abundance_submitted = abundance, type_of_change = change_type.3)
+
+    writelog(
+      '### BLOE Step 1 - Ed14 to SQO taxonomy changes\n',
+      logfile = logfile,
+      code = '
+        # Step 1: One-to-one name changes (swap new names back to old versions)
+        one.to.one <- SoCal.SQO.xls.ed14.link %>%
+          select(original_sqo_taxon, ed_14_taxon, change, type) %>%
+          filter(type %in% c("one-to-one", "convention", "worms", "removed"))
+
+        BenthicData.0 <- BenthicData %>%
+          left_join(., one.to.one, by = c("taxon" = "ed_14_taxon")) %>%
+          relocate(original_sqo_taxon, .before = taxon) %>%
+          mutate(taxon.2 = if_else(is.na(original_sqo_taxon), taxon, original_sqo_taxon),
+                 change_type = if_else(is.na(type), "", type),
+                 taxa_changed = if_else(is.na(original_sqo_taxon), "", taxon)) %>%
+          select(-taxon, -type, -change, -original_sqo_taxon)
+
+        # Step 2: Combine daughter taxa to the higher taxonomic level the indices recognize
+        BenthicData.1 <- BenthicData.0 %>%
+          relocate(abundance, taxon.2, .before = stationid) %>%
+          left_join(., ed14.rollups, by = c("taxon.2" = "ed.14_daughters")) %>%
+          mutate(taxon.3 = if_else(is.na(sqo.name), taxon.2, sqo.name),
+                 rolled_up = case_when(is.na(sqo.name) ~ "no", taxon.3 == taxon.2 ~ "no", TRUE ~ "yes"), .before = taxon.2) %>%
+          select(-sqo.name) %>%
+          group_by(stationid, replicate, sampledate, taxon.3) %>%
+          mutate(abundance.2 = sum(abundance),
+                 # When rolling up taxa we may combine taxa w/ different exclude codes;
+                 # if any combined taxon has "No" (i.e., it is unique), give that precedence
+                 all.excludes = str_flatten_comma(exclude),
+                 exclude.prob.flag = case_when(str_detect(all.excludes, "No, Yes") ~ 1,
+                                               str_detect(all.excludes, "Yes, No") ~ 1,
+                                               TRUE ~ 0),
+                 exclude.2 = case_when(rolled_up == "yes" & exclude.prob.flag == 1 ~ "No",
+                                       TRUE ~ exclude),
+                 .before = abundance) %>%
+          ungroup() %>%
+          mutate(change_type.2 = if_else(rolled_up == "yes", paste("rolled up to ", join_level, sep = ""), change_type),
+                 taxa_changed.2 = if_else(rolled_up == "yes", taxon.2, taxa_changed),
+                 .before = stationid) %>%
+          select(-all.excludes, -exclude.prob.flag, -exclude) %>%
+          rename(exclude = exclude.2)
+
+        # Step 3: Complex changes where a single ed14 taxon was multiple taxa on the SQO LU list.
+        # The retained SQO name is the prioritized one (tolerance score / sensitivity designation).
+        ed.14.complex.2 <- ed.14.complex %>%
+          filter(Priority == "yes")
+
+        BenthicData.2 <- BenthicData.1 %>%
+          left_join(., ed.14.complex.2, by = c("taxon.3" = "Ed.14.Taxon")) %>%
+          mutate(taxon.4 = case_when(Priority == "yes" ~ Original.SQO.Taxon,
+                                     TRUE ~ taxon.3), .before = taxon.3) %>%
+          mutate(change_type.3 = case_when(Priority == "yes" ~ "complex",
+                                           TRUE ~ change_type.2),
+                 taxa_changed.3 = if_else(change_type.3 == "complex", taxon.3, taxa_changed.2),
+                 .before = change_type.2)
+
+        # Step 4: Interim output detailing all changes made to the submitted data
+        taxa.changes <- BenthicData.2 %>%
+          group_by(stationid, replicate, sampledate, taxon.4, change_type.3) %>%
+          mutate(taxa_changed.4 = str_flatten_comma(taxa_changed.3), .before = abundance) %>%
+          ungroup() %>%
+          mutate(taxon_submitted = case_when(change_type %in% c("one-to-one", "convention") ~ taxa_changed,
+                                             TRUE ~ taxon.2), .after = taxon.4) %>%
+          select(stationid, sampledate, replicate, taxon_used = taxon.4, taxon_submitted, changed_taxa = taxa_changed.4,
+                 abundance_used = abundance.2, abundance_submitted = abundance, type_of_change = change_type.3)
+      ',
+      data = taxa.changes %>% head(25),
+      verbose = verbose
+    )
+    create_download_link(data = taxa.changes, logfile = logfile, filename = 'BLOE-step1-taxonomy_changes.csv', linktext = 'Download taxonomy changes', verbose = verbose)
+
+
+    # Step 5: Create final dataframe for index calculation
+    BenthicData.3 <- BenthicData.2 %>%
+      select(-abundance, -taxon.2, -taxon.3, -rolled_up, -change, -change_type, -change_type.2, -change_type.3,
+             -taxa_changed, -taxa_changed.2, -taxa_changed.3, -join_level, -Original.SQO.Taxon, -type, -Priority) %>%
+      distinct() %>%
+      rename(taxon = taxon.4, abundance = abundance.2) %>%
+      relocate(taxon, abundance, .after = sampledate)
+
+  } else {
+
+    writelog('\nTaxonomy retrofitting skipped (retrofit = FALSE); submitted taxonomy used as-is.\n', logfile = logfile, verbose = verbose)
+
+    BenthicData.3 <- BenthicData
+    taxa.changes <- NULL
+
+  }
+
+  # Identify unmatched taxa (not on SQO look-up list)
+  unmatched_taxa <- BenthicData.3 %>%
+    left_join(., xl_tool.SoCalLUList, by = c("taxon" = "TaxonName")) %>%
+    select(exclude, stationid, replicate, taxon, Phylum, Class, Order, Family, ToleranceScore, IBISensitive, Mollusc, Crustacean) %>%
+    mutate(unmatched_flag = case_when(exclude != "Yes" & is.na(Phylum) & is.na(ToleranceScore) & is.na(IBISensitive) & is.na(Mollusc) & is.na(Crustacean) ~ "unmatched",
+                                     TRUE ~ "matching")) %>%
+    filter(unmatched_flag == "unmatched") %>%
+    select(stationid, replicate, taxon) %>%
+    filter(taxon != "NoOrganismsPresent")
+
+  # Fuzzy match suggestions if fuzzyjoin is available
+  if (requireNamespace("fuzzyjoin", quietly = TRUE)) {
+    unmatched_taxa <- fuzzyjoin::stringdist_left_join(
+      unmatched_taxa,
+      select(xl_tool.SoCalLUList, TaxonName),
+      by = c("taxon" = "TaxonName"),
+      max_dist = 2
+    ) %>%
+      rename(not_on_LU_list = taxon, did_you_mean = TaxonName)
+  } else {
+    unmatched_taxa <- unmatched_taxa %>%
+      rename(not_on_LU_list = taxon)
+  }
+
+  writelog(
+    '### BLOE Step 2 - Unmatched taxa\n',
+    logfile = logfile,
+    code = '
+      # Flag taxa not found on the SQO look-up list (no Phylum, tolerance, sensitivity, etc.)
+      unmatched_taxa <- BenthicData.3 %>%
+        left_join(., xl_tool.SoCalLUList, by = c("taxon" = "TaxonName")) %>%
+        select(exclude, stationid, replicate, taxon, Phylum, Class, Order, Family, ToleranceScore, IBISensitive, Mollusc, Crustacean) %>%
+        mutate(unmatched_flag = case_when(exclude != "Yes" & is.na(Phylum) & is.na(ToleranceScore) & is.na(IBISensitive) & is.na(Mollusc) & is.na(Crustacean) ~ "unmatched",
+                                         TRUE ~ "matching")) %>%
+        filter(unmatched_flag == "unmatched") %>%
+        select(stationid, replicate, taxon) %>%
+        filter(taxon != "NoOrganismsPresent")
+
+      # Add fuzzy-match suggestions (did_you_mean) when the fuzzyjoin package is available
+      if (requireNamespace("fuzzyjoin", quietly = TRUE)) {
+        unmatched_taxa <- fuzzyjoin::stringdist_left_join(
+          unmatched_taxa,
+          select(xl_tool.SoCalLUList, TaxonName),
+          by = c("taxon" = "TaxonName"),
+          max_dist = 2
+        ) %>%
+          rename(not_on_LU_list = taxon, did_you_mean = TaxonName)
+      } else {
+        unmatched_taxa <- unmatched_taxa %>%
+          rename(not_on_LU_list = taxon)
+      }
+    ',
+    data = unmatched_taxa %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = unmatched_taxa, logfile = logfile, filename = 'BLOE-step2-unmatched_taxa.csv', linktext = 'Download unmatched taxa', verbose = verbose)
+
+  writelog('\n## END: benthicdata_prep function.\n', logfile = logfile, verbose = verbose)
+
+  return(
+    list(
+      benthic_data   = BenthicData.3,
+      standardized   = standardized,
+      taxa_changes   = taxa.changes,
+      unmatched_taxa = unmatched_taxa
+    )
+  )
+}

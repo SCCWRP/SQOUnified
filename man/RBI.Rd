@@ -2,141 +2,76 @@
 % Please edit documentation in R/RBI.R
 \name{RBI}
 \alias{RBI}
-\title{Compute the relative benthic index (RBI) score.}
+\title{Compute the Relative Benthic Index (RBI) score (generic version).}
 \usage{
-BRI(benthic_data)
+RBI(benthic_data)
 }
 \arguments{
-\item{BenthiCData}{a data frame stored in the R environment. Note that this data frame MUST contain the following
-                   information with these headings:
+\item{benthic_data}{a data frame containing benthic data and station information with at minimum:
 
-                        \code{StationID} - an alpha-numeric identifier of the location;
+   \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 
-                        \code{Replicate} - a numeric identifying the replicate number of samples taken at the location;
+   \strong{\code{replicate}} - a numeric identifying the replicate number;
 
-                        \code{SampleDate} - the date of sample collection;
+   \strong{\code{sampledate}} - the date of sample collection;
 
-                        \code{Latitude} - latitude in decimal degrees;
+   \strong{\code{taxon}} - name of the organism. Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 
-                        \code{Longitude} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+   \strong{\code{abundance}} - number of individuals counted;
 
-                        \code{Taxon} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-       use sp only or just the Genus. If no animals were present in the sample use
-       NoOrganismsPresent with 0 abundance;
+   \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.}
 
-                        \code{Abundance} - the number of each Species observed in a sample;
+\item{retrofit_taxonomy}{Logical. If TRUE (default), modern SCAMIT Edition 14 taxonomy in the
+submitted data is retrofitted back to SQO-compatible names via \code{\link{benthicdata_prep}}
+before the index is calculated. Set FALSE if the data has already been prepped/retrofitted.}
 
-                        \code{Salinity} - the salinity observed at the location in PSU, ideally at time of sampling;
+\item{logfile}{Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.}
 
-                        \code{Stratum} - ;
+\item{verbose}{Logical. If TRUE, detailed logging output is produced. Default FALSE.}
 
-                        \code{Exclude} - ;}
-}
-\value{
-The output of the function will be a dataframe with
-
-   StationID,
-
-   Replicate,
-
-   SampleDate,
-
-   Latitude,
-
-   Longitude,
-
-  SalZone (The Salinity Zone assigned by M-AMBI),
-
-  AMBI_Score,
-
-  S (Species Richness),
-
-  H (Species Diversity),
-
-  Oligo_pct (Relative Abundance of Oligochaetes),
-
-  MAMBI_Score,
-
-  Orig_MAMBI_Condition,
-
-  New_MAMBI_Condition,
-
-  Use_MAMBI (Can M-AMBI be applied?),
-
-  Use_AMBI (Can AMBI be applied?),
-
-  YesEG (% of Abundance with a EG value)
+\item{knitlog}{Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.}
 }
 \description{
-The RBI is the weighted sum of: (a) four community metrics related to biodiversity (total number of taxa, number of crustacean taxa, abundance
-  of crustacean individuals, and number of mollusc taxa), (b) abundances of three positive indicator taxa, and (c) the presence of two negative
+The RBI is a multi-metric index calculated from the weighted sum of: (a) four community metrics related to
+  biodiversity (total number of taxa, number of crustacean taxa, abundance of crustacean individuals, and number
+  of mollusc taxa), (b) abundances of three positive indicator taxa, and (c) the presence of two negative
   indicator species.
 }
 \details{
-The RBI is the weighted sum of: (a) four community metrics related to biodiversity (total number of taxa, number of crustacean taxa, abundance
-  of crustacean individuals, and number of mollusc taxa), (b) abundances of three positive indicator taxa, and (c) the presence of two negative
-  indicator species.
+The metrics used in the RBI are:
+  \enumerate{
+    \item Total number of taxa - a measure of biodiversity
+    \item Number of mollusc taxa - measure of taxa sensitive to eutrophication
+    \item Number of crustacean taxa - measure of taxa sensitive to pesticides and low DO
+    \item Crustacean abundance
+    \item Number of individuals of \emph{Monocorophium insidiosum} - pollution sensitive amphipod
+    \item Number of individuals of \emph{Asthenothaerus diegensis} - pollution sensitive bivalve
+    \item Number of individuals of \emph{Goniada littorea} - pollution sensitive polychaete
+    \item Presence of \emph{Capitella capitata} complex and Oligochaeta - pollution indicative taxa
+  }
 
-  The data needed to calculate the RBI are:
-  (1) Total number of taxa,
-  (2) Number of mollusc taxa,
-  (3) Number of crustacean individuals,
-  (4) Number of individuals of \emph{Monocorophium insidiosum},
-  (5) Number of individuals of \emph{Asthenothaerus diegensis},
-  (6) Number of individuals of \emph{Goniada littorea},
-  (7) Whether the data has the presence of \emph{Capitella capitata} complex, and
-  (8) Whether the data has the presence of Oligochaeta.
+  Observed values are scaled relative to values observed at reference sites in the southern California
+  calibration data set. Scaled metrics are combined into three meta-metrics: Taxa Richness Weighted Value (TWV),
+  Positive Indicator Taxa (PIT), and Negative Indicator Taxa (NIT). The final RBI score is:
 
-  To compute the RBI, the first step is to normalize the values for the benthic community metrics relative to maxima for the data used to develop
-  the RBI for the Southern California Marine Bays habitat, to produce values relative to the maxima that are referred to as scaled values. The
-  scaled value calculations use the following formulae:
+  \deqn{ RBI = \frac{(TWV + NIT + 2 \times PIT) - 0.03}{4.69} }
 
-  Total Number of Taxa / 99
-  Number of Mollusc Taxa / 28
-  Number of Crustacean Taxa / 29
+  RBI condition categories:
+  \itemize{
+    \item Reference: score > 0.27 (category score 1)
+    \item Low Disturbance: 0.16 < score <= 0.27 (category score 2)
+    \item Moderate Disturbance: 0.09 <= score <= 0.16 (category score 3)
+    \item High Disturbance: score < 0.09 (category score 4)
+  }
 
+  Details on the specifics of the calculation of the index can be found in Bay et al. 2021. Sediment Quality
+  Assessment Technical Support Manual. SCCWRP Technical Report 777.
 
-  The next step is to calculate the Taxa Richness Weighted Value (TWV) from the scaled values by the equation:
-
-  TWV = Scaled Total Number of Taxa + Scaled Number of Mollusc Taxa + Scaled Number of Crustacean Taxa + (0.25 * Scaled Abundance of Crustacea)
-
-  Next, the value for the two negative indicator taxa (NIT) is calculated. The two negative indicator taxa are \emph{Capitella capitata} complex
-  and Oligochaeta. For each of these taxa that are present, in any abundance, the NIT is decreased by 0.1. Therefore, if neither were found the
-  NIT = 0, if both are found the NIT = -0.2.
-
-  The next step is to calculate the value for the three positive indicator taxa (PIT). The positive indicator taxa are \emph{Monocorophium insidiosum,
-  Asthenothaerus diegensis}, and \emph{Goniada littorea}. First, the PIT value is calculated for each species using the following equations:
-
-  \deqn{\frac{\sqrt[4]{Monocorophium~ insidiosum \textrm{abundance}}}{\sqrt[4]{473}}}
-  \deqn{\frac{\sqrt[4]{Asthenothaerus~ diegensis \textrm{abundance}}}{\sqrt[4]{27}}}
-  \deqn{\frac{\sqrt[4]{Goniada littorea~ \textrm{abundance}}}{\sqrt[4]{15}}}
-
-  The three species PIT values are then summed to calculate the PIT value for the sample. If none of the three species is present, then the sample
-  PIT = 0.
-
-  The next step is to calculate the Raw RBI:
-
-  \deqn{\textrm{Raw RBI} = \textrm{TWV + NIT + } (2 \times \textrm{PIT})}
-
-  The final calculation is for the RBI score, normalizing the Raw RBI by the minimum and maximum Raw RBI values in the index development data:
-
-  \deqn{\textrm{RBI Score} = (\textrm{Raw RBI} - 0.03)/4.69}
-
-  The last step in the RBI process is to compare the RBI Score to a set of thresholds to determine the RBI category (Table 4).
-
-  <Insert Table 4>
-
-  For the function to run, the following packages NEED to be installed:  tidyverse, reshape2, vegan, and readxl.
-  Additionally the EQR.R function must also be installed and is included with this code.
-
-  The output of the function will be a dataframe with StationID, Replicate, SampleDate, Latitude, Longitude,
-  SalZone (The Salinity Zone assigned by M-AMBI), AMBI_Score, S (Species Richness), H (Species Diversity),
-  Oligo_pct (Relative Abundance of Oligochaetes), MAMBI_Score, Orig_MAMBI_Condition, New_MAMBI_Condition,
-  Use_MAMBI (Can M-AMBI be applied?), Use_AMBI (Can AMBI be applied?), and YesEG (% of Abundance with a EG value)
+  This version uses the SQO Excel tool look-up list as decided by the Bight 23 index code subcommittee.
 }
 \examples{
-  RBI(benthic_data)
-  RBI(BenthicData)
-
+\dontrun{
+  RBI(my_benthic_data)
+}
 
 }

@@ -1,261 +1,319 @@
-#' Compute the multivariate AMBI (M-AMBI) index score.
+# GENERIC M-AMBI (Alt) ------------------------------------------------------------------------
+#' Compute the multivariate AMBI (M-AMBI) index score (generic version).
 #'
 #' @description
-#'     This is a function to calculate multivariate AMBI (M-AMBI) index scores following Pelletier et al. 2018
-#'     which is in turn built upon the work of Sigovini et al. 2013 and Muxica et al. 2007.
-#'     This is an alternate version that allows for manipulation of the data within R before
-#'     submitting it to the function in lieu of directly reading in an excel file to the function.
+#'   This function calculates the United States version of the multivariate AMBI (M-AMBI) index scores
+#'   following Pelletier et al. 2018, which is in turn built upon the work of Sigovini et al. 2013
+#'   and Muxica et al. 2007.
 #'
-#'     The function is designed for use in US estuarine waters and requires three arguments:
-#'     BenthicData, EG_Ref_values, and EG_Scheme. More details are given below.
+#' @details
+#'   The M-AMBI integrates three metrics via factor analysis:
+#'   \itemize{
+#'     \item AMBI score - abundance-weighted ecological group tolerance score
+#'     \item Species Richness (S) - for saline samples; or percent Oligochaetes for tidal freshwater
+#'     \item Shannon-Wiener Diversity (H') - base-2 Shannon diversity
+#'   }
 #'
-#'     Two additional dataframes are also needed to run the script: Saline and Tidal freshwater
-#'     good-bad standards for the M-AMBI that are in TidalFresh_Standards.RData and Saline_Standards.RData
+#'   Samples are classified by salinity zone and compared against good/bad standards from
+#'   Pelletier et al. 2018 for each zone. Factor analysis (PCA with varimax rotation) is used
+#'   to produce M-AMBI scores via the Ecological Quality Ratio (EQR) transformation.
 #'
-#'     For the function to run, the following packages NEED to be installed:  tidyverse, reshape2, vegan,
-#'     and readxl. Additionally the EQR.R function must also be installed and is included with this code.
+#'   Salinity zones:
+#'   \itemize{
+#'     \item TF: Tidal Freshwater (0 - 0.2 PSU) - uses AMBI, H', and percent Oligochaetes
+#'     \item OH: Oligohaline (0.2 - 5 PSU)
+#'     \item MH: Mesohaline (5 - 18 PSU)
+#'     \item PH/WPH: Polyhaline (18 - 30 PSU)
+#'     \item EH/WEH: Euhaline (30 - 40 PSU)
+#'     \item HH: Hyperhaline (> 40 PSU)
+#'   }
 #'
-#' @param \strong{BenthicData} a data frame with the following columns:
+#'   M-AMBI condition categories (SQO):
+#'   \itemize{
+#'     \item Reference: score >= 0.578
+#'     \item Low Disturbance: 0.483 <= score < 0.578
+#'     \item Moderate Disturbance: 0.387 < score < 0.483
+#'     \item High Disturbance: score <= 0.387
+#'   }
 #'
-#'    \strong{\code{StationID}} - an alpha-numeric identifier of the location;
+#'   AMBI applicability guidelines follow Borja and Muxica 2005:
+#'   \itemize{
+#'     \item <= 20 percent unassigned abundance: AMBI applicable
+#'     \item 20-50 percent: Use with care
+#'     \item > 50 percent: Not recommended
+#'   }
 #'
-#'    \strong{\code{Replicate}} - a numeric identifying the replicate number of samples taken at the location;
+#' @param benthic_data a data frame containing benthic data and station information with at minimum:
 #'
-#'    \strong{\code{SampleDate}} - the date of sample collection;
+#'    \strong{\code{stationid}} - an alpha-numeric identifier of the sampling location;
 #'
-#'    \strong{\code{Latitude}} - latitude in decimal degrees;
+#'    \strong{\code{replicate}} - a numeric identifying the replicate number;
 #'
-#'    \strong{\code{Longitude}} - longitude in decimal degrees. Make sure there is a negative sign for the Western coordinates;
+#'    \strong{\code{sampledate}} - the date of sample collection;
 #'
-#'    \strong{\code{Taxon}} - name of the fauna, ideally in SCAMIT ed12 format, do not use sp. or spp.,
-#'        use sp only or just the Genus. If no animals were present in the sample use
-#'        NoOrganismsPresent with 0 abundance;
+#'    \strong{\code{latitude}} - latitude in decimal degrees;
 #'
-#'    \strong{\code{Abundance}} - the number of each Species observed in a sample;
+#'    \strong{\code{longitude}} - longitude in decimal degrees (negative for west);
 #'
-#'    \strong{\code{Salinity}} - the salinity observed at the location in PSU, ideally at time of sampling.
+#'    \strong{\code{salinity}} - bottom water salinity in PSU;
 #'
-#' @param
-#'     \strong{EG_Ref_values} -  A data frame with the suite of US Ecological Groups assigned
-#'     initially in Gillett et al. 2015. This EG Ref values has multiple versions of the EG values and a Yes/No designation
-#'     if the fauna are Oligochaetes or not. The default dataframe is one called EG_Ref which was originally
-#'     read in from a csv called "Ref - EG Values 2018.csv."
+#'    \strong{\code{taxon}} - name of the organism (SCAMIT ed14 format preferred).
+#'        Use \code{NoOrganismsPresent} with 0 abundance for empty samples;
 #'
-#'     Replace with other data as you see fit, but make sure the data you use is in a similar format and uses
-#'     the same column names. Additionally, new taxa can be added at the bottom of the list with the EG values the user
-#'     feels appropriate, THOUGH THIS IS NOT RECOMMENDED
-#' @param
-#'     \strong{EG_Scheme} A quoted string with the name of the EG Scheme to be used in the AMBI scoring.
-#'     The default is Hybrid, though one could use US (all coasts),
-#'     Standard (Values from Angel Borja and colleagues),
-#'     US_East (US East Coast), US_Gulf (US Gulf of Mexico Coast), or US_West (US West Coast).
+#'    \strong{\code{abundance}} - number of individuals counted;
 #'
-#' @usage MAMBI(benthic_data, EG_Ref_values = EG_Ref, EG_Scheme = "Hybrid")
+#'    \strong{\code{exclude}} - "Yes" or "No" indicating if the taxon name is ambiguous.
+#'
+#' @param EG_Ref_values a data frame with Ecological Group assignments. If NULL (default),
+#'    uses the standard EG list based on Gillett et al. 2015, updated with each Bight cycle.
+#' @param EG_Scheme a quoted string specifying which EG value column to use. Default is "Hybrid".
+#'    Other options: "US_East", "US_West", "US_Gulf", "US", "Standard".
+#' @param logfile Path to a logfile. Default is an RMarkdown file in a timestamped logs directory.
+#' @param verbose Logical. If TRUE, detailed logging output is produced. Default FALSE.
+#' @param knitlog Logical. If TRUE, the log file is knitted to HTML upon completion. Default FALSE.
+#'
+#' @usage
+#' MAMBI(benthic_data)
 #'
 #' @examples
-#' data(benthic_sampledata) # load sample dataset to environment
-#' data(TidalFresh_Standards) # Load tidal fresh standards if you want to look at them
-#' data(Saline_Standards) # Load Saline standards if you want to look at them
-#' data(EG_Ref) # load the default EG_Ref values
-#' MAMBI(benthic_sampledata, EG_Ref, "Hybrid")
-#' MAMBI(benthic_sampledata, EG_Ref, "US Gulf")
-#' MAMBI(benthic_sampledata) # uses default values for the last two args
+#' \dontrun{
+#'   MAMBI(my_benthic_data)
+#' }
 #'
-#' @return
-#'     The output of the function will be a dataframe with
-#'
-#'     \code{StationID}, \code{Replicate}, \code{SampleDate},
-#'
-#'     \code{Latitude}, \code{Longitude},
-#'
-#'     \code{SalZone} (The Salinity Zone assigned by M-AMBI),
-#'
-#'     \code{AMBI_Score},
-#'
-#'     \code{S} (Species Richness),
-#'
-#'     \code{H} (Species Diversity),
-#'
-#'     \code{Oligo_pct} (Relative Abundance of Oligochaetes),
-#'
-#'     \code{MAMBI_Score}, \code{Orig_MAMBI_Condition}, \code{New_MAMBI_Condition},
-#'
-#'     \code{Use_MAMBI} (Can M-AMBI be applied?), \code{Use_AMBI} (Can AMBI be applied?),
-#'
-#'     \code{YesEG} (percentage of Abundance with a EG value)
-#'
-#' @author David Gillett \email{davidg@@sccwrp.org}
-#'
-#' @import stringr
-#' @import reshape2
+#' @import dplyr
 #' @import vegan
-#' @importFrom dplyr mutate filter select group_by summarise left_join bind_rows bind_cols
-#' @importFrom tidyr replace_na
-#' @importFrom purrr map_dfr
+#' @importFrom tidyr pivot_wider replace_na
+#' @importFrom stringr str_detect str_replace
+#' @importFrom purrr map list_rbind
+#'
 #' @export
-
-MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'MAMBI_Log.Rmd' ), verbose = F, knitlog = F)
+MAMBI <- function(benthic_data,
+                              EG_Ref_values = NULL,
+                              EG_Scheme = "Hybrid",
+                              logfile = file.path(getwd(), 'logs', format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), 'MAMBI_generic_log.Rmd'),
+                              verbose = FALSE,
+                              knitlog = FALSE)
 {
-
   # Initialize Logging
   logfile.type <- ifelse(tolower(tools::file_ext(logfile)) == 'rmd', 'RMarkdown', 'text')
-  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose)
+  init.log(logfile, base.func.name = sys.call(), type = logfile.type, current.time = Sys.time(), is.base.func = length(sys.calls()) == 1, verbose = verbose, title = 'M-AMBI SQO Logs')
 
+  writelog('\n## BEGIN: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
 
+  # Reference data (Saline_Standards, TidalFresh_Standards, us.mambi.eg.values.04_23_24) are available as package datasets
+  # EQR() is available in the package namespace from R/EQR.R
+
+  # If no custom EG reference values provided, use the standard list
   if (is.null(EG_Ref_values)) {
-    EG_Ref_values <- EG_Ref
+    EG_Ref_values <- us.mambi.eg.values.04_23_24
   }
 
-  #Saline_Standards <- saline_standards
-  #TidalFresh_Standards <- tidalFresh_Standards
-  #Saline_Standards<-read_xlsx("data/Pelletier2018_Standards.xlsx", sheet = "Saline Sites")# Good-Bad Benchmarks following Pelletier et al. 2018
-  #TidalFresh_Standards<-read_xlsx("data/Pelletier2018_Standards.xlsx", sheet = "Tidal Fresh Sites") #Good-Bad Benchmarks following Pelletier et al. 2018
-
-  Input_File.0 <- BenthicData %>%
+  Input_File.0 <- benthic_data %>%
     mutate(
-      Species_ended_in_sp = (str_detect(Taxon," sp$")),
-      Taxon=(str_replace(Taxon, " sp$",""))
-    ) %>%
+      Species_ended_in_sp = (str_detect(taxon, " sp$")),
+      taxon = (str_replace(taxon, " sp$", ""))) %>%
+    #splitting out west coast sites to facilitate use of different criteria
     mutate(
-      Coast = (ifelse(Longitude<=-115,"West","Gulf-East"))
-    )%>%
+      Coast = (ifelse(longitude <= -115, "West", "Gulf-East"))) %>%
+    # associating a sample with one of the different salinity zones
     mutate(
       SalZone = case_when(
-        Salinity > 30 & Salinity <= 40 & Coast == "Gulf-East" ~ "EH",
-        Salinity > 18 & Salinity <= 30 & Coast == "Gulf-East" ~ "PH",
-        Salinity > 5 & Salinity <= 18 ~ "MH",
-        Salinity > 0.2 & Salinity <= 5 ~ "OH",
-        Salinity >= 0 & Salinity <= 0.2 ~ "TF",
-        Salinity > 40 ~ "HH",
-        Salinity > 30 & Salinity <= 40 & Coast == "West" ~ "WEH",
-        Salinity > 18 & Salinity <= 30 & Coast == "West" ~ "WPH"
+        salinity > 30 & salinity <= 40 & Coast == "Gulf-East" ~ "EH",
+        salinity > 18 & salinity <= 30 & Coast == "Gulf-East" ~ "PH",
+        salinity > 5 & salinity <= 18 ~ "MH",
+        salinity > 0.2 & salinity <= 5 ~ "OH",
+        salinity >= 0 & salinity <= 0.2 ~ "TF",
+        salinity > 40 ~ "HH",
+        salinity > 30 & salinity <= 40 & Coast == "West" ~ "WEH",
+        salinity > 18 & salinity <= 30 & Coast == "West" ~ "WPH"
       )
     )
 
+  EG_to_use <- EG_Ref_values %>%
+    select(all_of(EG_Scheme), Taxon, Exclude) %>%
+    rename(EG = all_of(EG_Scheme)) %>%
+    relocate(Taxon, Exclude, EG) %>%
+    mutate(EG = ifelse(Taxon == "Oligochaeta", "V", EG))
 
+  #in case a sample had no animals, force it into the High Disturbance category
+  defaunated <- Input_File.0 %>%
+    filter(taxon == "NoOrganismsPresent") %>%
+    mutate(mambi_score = 0, Orig_mambi_condition = "Bad", SQO_mambi_condition = "High Disturbance", ambi_score = 7, H = NaN, S = NaN, oligo_pct = NaN,
+           use_ambi = "Yes", use_mambi = "Yes", note = "Defaunated Sample") %>%
+    select(stationid, sampledate, replicate, latitude, longitude, mambi_score, Orig_mambi_condition, SQO_mambi_condition,
+           ambi_score, H, S, oligo_pct, use_mambi, use_ambi, note)
 
-  EG_Ref_values <- EG_Ref_values %>%
-    select(Taxon, Exclude, EG=EG_Scheme) %>%
-    mutate(
-      EG = ifelse(
-        Taxon=="Oligochaeta", "V", EG
-      )
-    )
-  #EG_Ref_values <- EG_Ref_values %>% select(.,Taxon, Exclude, EG=EG_Scheme) %>% mutate(EG=(ifelse(Taxon=="Oligochaeta", "V", EG)))
+  # dropping azoic samples from analysis
+  Input_File <- Input_File.0 %>% filter(taxon != "NoOrganismsPresent")
 
-  #TODO: Need to fix these lines!!!
-  azoic.samples<-Input_File.0 %>%
-    filter(Taxon=="No Organisms Present") %>%
-    select(StationID, Replicate, SampleDate, Latitude, Longitude, SalZone, Stratum)
+  Sample.info <- Input_File %>%
+    select(stationid, replicate, sampledate, latitude, longitude, salinity, Coast, SalZone) %>%
+    distinct()
 
-
-  #azoic.samples <- if(dim(azoic.samples)[1] == 0){StationID = 1 & Replicate = 1}
-  #  dplyr::mutate(StationID = case_when(dim(StationID) == dim(NA) ~ NA))
-  #  dplyr::mutate(if(dim(azoic.samples)[1] == 0){AMBI_Score = 7  & S=0 & H=0 & Oligo_pct=0 & MAMBI_Score=0 & Orig_MAMBI_Condition="Bad" & New_MAMBI_Condition="High Disturbance" & Use_MAMBI="Yes" & Use_AMBI="Yes - Azoic" & YesEG=NA})
-
-  Input_File<-Input_File.0 %>% filter(Taxon != "No Organisms Present")
-
-
-  total.abundance<-Input_File %>%
-    group_by(StationID, Replicate, SampleDate) %>%
-    summarise(Tot_abun=sum(Abundance))
-
-  Sample.info<-Input_File %>%
-    select(StationID, Replicate, SampleDate, Latitude, Longitude, Salinity, Coast, SalZone, Stratum) %>%
-    unique()
-
-  Input_File2<-Input_File %>%
+  Input_File2 <- Input_File %>%
     filter(!is.na(SalZone))
 
-  EG.Assignment<-Input_File %>%
-    left_join(., EG_Ref_values, by="Taxon") %>% #filter(Exclude!="Yes") #%>%
-    left_join(.,total.abundance, by=c("StationID", "Replicate", "SampleDate")) %>%
-    mutate(
-      Rel_abun=((Abundance/Tot_abun)*100)
-    )
+  EG.Assignment <- Input_File %>%
+    left_join(., EG_to_use, by = c("taxon" = "Taxon")) %>%
+    group_by(stationid, replicate, sampledate) %>%
+    mutate(tot_abun = sum(abundance)) %>%
+    ungroup() %>%
+    mutate(rel_abun = ((abundance / tot_abun) * 100))
 
-  EG.Assignment.cast<-data.frame(NoEG=numeric(),
-                                 YesEG=numeric())
+  # Export interim file with all taxa with an assigned EG value
+  taxa_w_EG <- EG.Assignment %>%
+    filter(EG %in% c("I", "II", "III", "IV", "V")) %>%
+    group_by(taxon, EG) %>%
+    summarise(total_abundance = sum(abundance), .groups = "drop_last")
 
-  AMBI.applicability<-EG.Assignment %>%
-    mutate(EG_Test=ifelse(is.na(EG),"NoEG", "YesEG")) %>%
-    reshape2::dcast(.,StationID+Replicate+SampleDate~EG_Test, value.var = "Rel_abun", fun.aggregate = sum) %>%
-    left_join(.,EG.Assignment.cast) %>%
-    mutate(
-      Use_AMBI = case_when(
-        NoEG <= 20 ~ "Yes",
-        NoEG > 20 & NoEG <= 50 ~ "With Care",
-        NoEG > 50 ~ "Not Recommended",
-        is.na(NoEG) ~ "Yes"
-      )
-    )
+  writelog(
+    '### M-AMBI Step 1 - Taxa with EG values\n',
+    logfile = logfile,
+    code = '
+      # Pull the chosen Ecological Group (EG) scheme column from the reference values
+      EG_to_use <- EG_Ref_values %>%
+        select(all_of(EG_Scheme), Taxon, Exclude) %>%
+        rename(EG = all_of(EG_Scheme)) %>%
+        relocate(Taxon, Exclude, EG) %>%
+        mutate(EG = ifelse(Taxon == "Oligochaeta", "V", EG))
 
-  MAMBI.applicability <- Sample.info %>%
-    mutate(
-      Use_MAMBI = ifelse(is.na(SalZone),"No - No Salinity Value","Yes")
-    ) %>%
-    select(StationID, Replicate, SampleDate, Stratum, Use_MAMBI)
+      # Assign an EG to each submitted taxon and compute relative abundance within each sample
+      EG.Assignment <- Input_File %>%
+        left_join(., EG_to_use, by = c("taxon" = "Taxon")) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        mutate(tot_abun = sum(abundance)) %>%
+        ungroup() %>%
+        mutate(rel_abun = ((abundance / tot_abun) * 100))
 
-  Sal_range.dataset<-unique(Input_File2$SalZone)
+      # Taxa that received an EG value (I-V)
+      taxa_w_EG <- EG.Assignment %>%
+        filter(EG %in% c("I", "II", "III", "IV", "V")) %>%
+        group_by(taxon, EG) %>%
+        summarise(total_abundance = sum(abundance), .groups = "drop_last")
+    ',
+    data = taxa_w_EG %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = taxa_w_EG, logfile = logfile, filename = 'MAMBI_generic-step1-taxa_with_EG.csv', linktext = 'Download taxa with EG values', verbose = verbose)
+
+  # Export interim file with all taxa without an assigned EG value
+  taxa_wo_EG <- EG.Assignment %>%
+    filter(is.na(EG) | EG == "") %>%
+    group_by(taxon) %>%
+    summarise(total_abundance = sum(abundance), .groups = "drop_last")
+
+  writelog(
+    '### M-AMBI Step 2 - Taxa without EG values\n',
+    logfile = logfile,
+    code = '
+      # Taxa with no EG value (missing or blank) - drive the AMBI applicability check
+      taxa_wo_EG <- EG.Assignment %>%
+        filter(is.na(EG) | EG == "") %>%
+        group_by(taxon) %>%
+        summarise(total_abundance = sum(abundance), .groups = "drop_last")
+    ',
+    data = taxa_wo_EG %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = taxa_wo_EG, logfile = logfile, filename = 'MAMBI_generic-step2-taxa_without_EG.csv', linktext = 'Download taxa without EG values', verbose = verbose)
+
+
+  # Calculating applicability of the index to each sample
+  AMBI.applicability <- EG.Assignment %>%
+    mutate(EG_Test = ifelse(is.na(EG), "NoEG", "YesEG")) %>%
+    pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = EG_Test, values_from = rel_abun, values_fill = 0, values_fn = sum) %>%
+    mutate(use_ambi = case_when(
+      NoEG <= 20 ~ "Yes",
+      NoEG > 20 & NoEG <= 50 ~ "With Care",
+      NoEG > 50 ~ "Not Recommended",
+      is.na(NoEG) ~ "Yes"))
+
+  MAMBI.applicability <- AMBI.applicability %>%
+    left_join(., Sample.info, by = c("stationid", "replicate", "sampledate")) %>%
+    mutate(use_mambi = case_when(is.na(SalZone) ~ "No - No Salinity Value",
+                                 use_ambi == "With Care" ~ "Caution - Sparse AMBI Coverage",
+                                 use_ambi == "Not Reccommended" ~ "Not Recommended - Poor AMBI Coverage",
+                                 TRUE ~ "Yes")) %>%
+    select(stationid, replicate, sampledate, use_ambi, use_mambi)
+
+
+  # establish the salinity zones in the data set
+  Sal_range.dataset <- unique(Input_File2$SalZone)
 
 
   ######Saline calcs ################
-
-  AMBI.Scores<-EG.Assignment %>%
-    group_by(StationID, Replicate, SampleDate,Tot_abun,EG) %>%
-    summarise(Sum_Rel=sum(Rel_abun)) %>%
-    replace_na(list(EG="NoEG")) %>%
+  # Calculating AMBI for each sample
+  AMBI.Scores <- EG.Assignment %>%
+    group_by(stationid, replicate, sampledate, tot_abun, EG) %>%
+    summarise(sum_rel = sum(rel_abun), .groups = "drop_last") %>%
+    ungroup() %>%
+    replace_na(list(EG = "NoEG")) %>%
     mutate(
       EG_Score = case_when(
-        EG == "I" ~ Sum_Rel*0,
-        EG == "II" ~ Sum_Rel*1.5,
-        EG == "III" ~ Sum_Rel*3,
-        EG == "IV" ~ Sum_Rel*4.5,
-        EG == "V" ~ Sum_Rel*6,
-        EG == "NoEG" ~ 0
-      )
-    ) %>%
-    mutate(EG_Score=ifelse(Tot_abun==0,700,EG_Score)) %>%
-    group_by(StationID, Replicate, SampleDate) %>%
-    summarise(AMBI_Score=(sum(EG_Score, na.rm=TRUE)/100))
+        EG == "I" ~ sum_rel * 0,
+        EG == "II" ~ sum_rel * 1.5,
+        EG == "III" ~ sum_rel * 3,
+        EG == "IV" ~ sum_rel * 4.5,
+        EG == "V" ~ sum_rel * 6,
+        EG == "NoEG" ~ 0)) %>%
+    mutate(EG_Score = ifelse(tot_abun == 0, 7, EG_Score)) %>%
+    group_by(stationid, replicate, sampledate) %>%
+    summarise(ambi_score = (sum(EG_Score, na.rm = TRUE) / 100), .groups = "drop_last") %>%
+    ungroup()
 
-  Rich<-Input_File %>%
-    group_by(StationID, Replicate, SampleDate) %>%
-    summarise(S=length(Taxon))
+  #Calculating taxa richness for each sample
+  Rich <- Input_File %>%
+    filter(exclude != "Yes") %>%
+    group_by(stationid, replicate, sampledate) %>%
+    summarise(S = length(taxon), .groups = "drop_last") %>%
+    ungroup()
 
-  Rich$S<-as.numeric(Rich$S)
+  # Calculating base 2 shannon wiener diversity for each sample
+  Divy <- Input_File %>%
+    filter(exclude != "Yes") %>%
+    group_by(stationid, replicate, sampledate, taxon) %>%
+    summarise(abundance = sum(abundance), .groups = "drop") %>%
+    pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = taxon, values_from = abundance, values_fill = 0) %>%
+    mutate(H = vegan::diversity(select(., 4:ncol(.)), index = "shannon", base = 2)) %>%
+    select(stationid, replicate, sampledate, H)
 
-  Divy<-Input_File %>%
-    reshape2::dcast(StationID+Replicate+SampleDate~Taxon, value.var = "Abundance", fill=0) %>%
-    mutate(H=vegan::diversity((select(.,4:(ncol(.)))),index = "shannon", base = 2)) %>%
-    select(.,StationID, Replicate, SampleDate, H)
+  # Combining the three metrics
+  metrics <- AMBI.Scores %>%
+    left_join(., Rich, by = c("stationid", "replicate", "sampledate")) %>%
+    left_join(., Divy, by = c("stationid", "replicate", "sampledate"))
 
-
-
-  metrics<-AMBI.Scores %>%
-    left_join(.,Rich, by=c("StationID", "Replicate", "SampleDate")) %>%
-    left_join(.,Divy, by=c("StationID", "Replicate", "SampleDate")) %>%
-    mutate(
-      S = (ifelse(AMBI_Score==7,0,S)),H=(ifelse(AMBI_Score==7,0,H))
-    )
-
+  # Combining the metrics with the station information
   metrics.1 <- Sample.info %>%
-    left_join(., metrics, by=c("StationID", "Replicate", "SampleDate")) %>%
-    select(StationID, Replicate, SampleDate,AMBI_Score, S, H, SalZone)
+    left_join(., metrics, by = c("stationid", "replicate", "sampledate")) %>%
+    select(stationid, replicate, sampledate, ambi_score, S, H, SalZone)
 
-  no.SalZone.data<-filter(metrics.1, is.na(SalZone)) %>%
-    left_join(.,Sample.info, by=c("StationID", "Replicate", "SalZone", "SampleDate")) %>%
-    select(1:9)
+  # Isolating samples for which salinity has not been submitted
+  no.SalZone.data <- metrics.1 %>%
+    filter(is.na(SalZone)) %>%
+    left_join(., Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+    select(stationid, replicate, sampledate, ambi_score, S, H, latitude, longitude, SalZone) %>%
+    mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
 
-  metrics.2<- metrics.1 %>%
+  # Adding the standard good/bad endpoints for each salinity zone
+  metrics.2 <- metrics.1 %>%
     filter(!is.na(SalZone)) %>%
-    bind_rows(.,Saline_Standards)
+    bind_rows(., Saline_Standards)
 
+  # Run factor analysis across the different salinity zones
+  saline.mambi <- purrr::map(Sal_range.dataset, function(sal)
+  {
+    sal.df <- filter(metrics.2, SalZone == sal)
 
-  saline.mambi<-map_dfr(Sal_range.dataset, function(sal){
-    sal.df<- filter(metrics.2, SalZone == sal)
-    METRICS.tot<-sal.df[,c(4:6)]
+    # Rows with NA ambi_score, S, or H cannot pass through cov()/princomp (produces NA covariance
+    # → "missing value where TRUE/FALSE needed" inside princomp.default). Separate them out before
+    # the factor analysis and bind them back as NA-scored rows at the end.
+    # Standards must stay in sal.df (they are the EQR calibration endpoints and should never be NA).
+    is_standard <- sal.df$stationid %in% Saline_Standards$stationid
+    metrics_complete <- !is.na(sal.df$ambi_score) & !is.na(sal.df$S) & !is.na(sal.df$H)
+    incomplete_samples <- sal.df[!metrics_complete & !is_standard, ]
+    sal.df <- sal.df[metrics_complete | is_standard, ]
 
+    METRICS.tot <- select(sal.df, ambi_score, S, H)
 
     options(warn = -1)
     METRICS.fa2 <- princomp(METRICS.tot, cor = T, covmat = cov(METRICS.tot))
@@ -266,101 +324,116 @@ MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile =
     colnames(METRICS.scores2) <- c("x", "y", "z")
     METRICS.tr <- METRICS.scores2
 
+    # Transforming factor analysis loadings into M-AMBI scores using the EQR function
+    eqr <- EQR(METRICS.tr)
+    colnames(eqr) <- c("mambi_score")
+    eqr <- data.frame(eqr)
 
-
-    eqr <-EQR(METRICS.tr)
-    colnames(eqr)<-c("MAMBI_Score")
-    eqr<-data.frame(eqr)
-
-    results<-sal.df %>%
-      bind_cols(.,eqr) %>%
-      left_join(.,Sample.info, by=c("StationID", "Replicate", "SampleDate", "SalZone")) %>%
-      select(1,2,3,9,10,7,4:6,8) %>%
-      filter(!StationID%in%Saline_Standards$StationID, SalZone!="TF") %>%
+    # Adding back in station information and classifying scores
+    results <- sal.df %>%
+      bind_cols(., eqr) %>%
+      left_join(., Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+      select(stationid, replicate, sampledate, latitude, longitude, SalZone, ambi_score, S, H, mambi_score) %>%
+      filter(!stationid %in% Saline_Standards$stationid, SalZone != "TF") %>%
       mutate(
-        Orig_MAMBI_Condition = case_when(
-          MAMBI_Score < 0.2 ~ "Bad",
-          MAMBI_Score >= 0.2 & MAMBI_Score < 0.39 ~ "Poor",
-          MAMBI_Score >= 0.39 & MAMBI_Score < 0.53 ~ "Moderate",
-          MAMBI_Score >= 0.53 & MAMBI_Score < 0.77 ~ "Good",
-          MAMBI_Score >= 0.77 ~ "High"
+        Orig_mambi_condition = case_when(
+          mambi_score < 0.2 ~ "Bad",
+          mambi_score >= 0.2 & mambi_score < 0.39 ~ "Poor",
+          mambi_score >= 0.39 & mambi_score < 0.53 ~ "Moderate",
+          mambi_score >= 0.53 & mambi_score < 0.77 ~ "Good",
+          mambi_score >= 0.77 ~ "High"
         ),
-        New_MAMBI_Condition = case_when(
-          MAMBI_Score <= 0.387 ~ "High Disturbance",
-          MAMBI_Score > 0.387 & MAMBI_Score < 0.483 ~ "Moderate Disturbance",
-          MAMBI_Score >= 0.483 & MAMBI_Score < 0.578 ~ "Low Disturbance",
-          MAMBI_Score >= 0.578 ~ "Reference")
-        )
-    saline.mambi<-results
-  })
+        SQO_mambi_condition = case_when(
+          mambi_score <= 0.387 ~ "High Disturbance",
+          mambi_score > 0.387 & mambi_score < 0.483 ~ "Moderate Disturbance",
+          mambi_score >= 0.483 & mambi_score < 0.578 ~ "Low Disturbance",
+          mambi_score >= 0.578 ~ "Reference")
+      )
+
+    # Bind back samples with incomplete metrics as NA-scored rows
+    if (nrow(incomplete_samples) > 0) {
+      na_results <- incomplete_samples %>%
+        left_join(Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+        select(stationid, replicate, sampledate, latitude, longitude, SalZone, ambi_score, S, H) %>%
+        mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
+      results <- bind_rows(results, na_results)
+    }
+
+    results
+  }) %>% list_rbind()
+
 
   ###################
-
-  if(any(Sal_range.dataset=="TF"))
+  # if there are tidal freshwater samples, run TF subroutine
+  if (any(Sal_range.dataset == "TF"))
   {
+    TF.EG.Assignment <- EG.Assignment %>% filter(SalZone == "TF")
+    TF.EG_Ref_values <- us.mambi.eg.values.04_23_24 %>% select(., Taxon, Exclude, EG = all_of(EG_Scheme), Oligochaeta)
 
-    TF.EG.Assignment <- EG.Assignment %>% filter(SalZone=="TF")
-    TF.EG_Ref_values <- EG_Ref %>% select(.,Taxon, Exclude, EG=EG_Scheme, Oligochaeta)
-
+    # calculate AMBI scores for each sample
     TF.AMBI.Scores <- TF.EG.Assignment %>%
-      group_by(StationID, Replicate, SampleDate,Tot_abun,EG) %>%
-      summarise(Sum_Rel=sum(Rel_abun)) %>%
-      replace_na(list(EG="NoEG")) %>%
+      group_by(stationid, replicate, sampledate, tot_abun, EG, rel_abun) %>%
+      summarise(sum_rel = sum(rel_abun), .groups = "drop_last") %>%
+      ungroup() %>%
+      replace_na(list(EG = "NoEG")) %>%
       mutate(
         EG_Score = case_when(
-          EG == "I" ~ Sum_Rel*0,
-          EG == "II" ~ Sum_Rel*1.5,
-          EG == "III" ~ Sum_Rel*3,
-          EG == "IV" ~ Sum_Rel*4.5,
-          EG == "V" ~ Sum_Rel*6,
-          EG == "NoEG" ~ 0)
-        ) %>%
-      mutate(
-        EG_Score = ifelse(Tot_abun == 0,700,EG_Score)
-      ) %>%
-      group_by(StationID, Replicate, SampleDate) %>%
-      summarise(
-        AMBI_Score = sum(EG_Score)/100
-      )
+          EG == "I" ~ sum_rel * 0,
+          EG == "II" ~ sum_rel * 1.5,
+          EG == "III" ~ sum_rel * 3,
+          EG == "IV" ~ sum_rel * 4.5,
+          EG == "V" ~ sum_rel * 6,
+          EG == "NoEG" ~ 0)) %>%
+      group_by(stationid, replicate, sampledate) %>%
+      summarise(ambi_score = (sum(EG_Score) / 100), .groups = "drop_last") %>%
+      ungroup()
 
+    # calculate % oligochaetes in each sample
     TF.Oligos <- Input_File %>%
-      left_join(., total.abundance, by =c("StationID", "Replicate", "SampleDate")) %>%
-      left_join(., TF.EG_Ref_values, by="Taxon" ) %>%
-      filter(Oligochaeta=="Yes", SalZone=="TF") %>%
-      group_by(StationID, Replicate, SampleDate) %>%
-      summarise(
-        Oligo_pct = sum(Abundance/Tot_abun) * 100
-      )
+      group_by(stationid, replicate, sampledate) %>%
+      mutate(tot_abun = sum(abundance)) %>%
+      ungroup() %>%
+      left_join(., TF.EG_Ref_values, by = c("taxon" = "Taxon")) %>%
+      filter(Oligochaeta == "Yes", SalZone == "TF") %>%
+      group_by(stationid, replicate, sampledate) %>%
+      summarise(oligo_pct = sum(abundance / tot_abun) * 100, .groups = "drop_last") %>%
+      ungroup()
 
+    # calculate shannon wiener diversity (base 2) for each sample
     TF.Divy <- Input_File %>%
-      filter(SalZone=="TF") %>%
-      reshape2::dcast(StationID+Replicate+SampleDate~Taxon, value.var = "Abundance", fill=0) %>%
-      mutate(
-        H = diversity((select(.,4:(ncol(.)))), index = "shannon", base = 2)
-      ) %>%
-      select(.,StationID, Replicate, SampleDate,H)
+      filter(SalZone == "TF") %>%
+      group_by(stationid, replicate, sampledate, taxon) %>%
+      summarise(abundance = sum(abundance), .groups = "drop") %>%
+      pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = taxon, values_from = abundance, values_fill = 0) %>%
+      mutate(H = diversity((select(., 4:(ncol(.)))), index = "shannon", base = 2)) %>%
+      select(., stationid, replicate, sampledate, H)
 
-
+    # join the three metrics together
     TF.metrics <- TF.AMBI.Scores %>%
-      left_join(.,TF.Divy, by=c("StationID", "Replicate", "SampleDate")) %>%
-      left_join(.,TF.Oligos, by=c("StationID", "Replicate", "SampleDate")) %>%
-      mutate(
-        Oligo_pct = (ifelse(AMBI_Score==7,0,Oligo_pct)),
-        H=(ifelse(AMBI_Score==7,0,H)),
-        Oligo_pct=(ifelse(is.na(Oligo_pct),0,Oligo_pct))
-      )
+      left_join(., TF.Divy, by = c("stationid", "replicate", "sampledate")) %>%
+      left_join(., TF.Oligos, by = c("stationid", "replicate", "sampledate"))
 
-    TF.metrics.1<-Sample.info %>%
-      left_join(., TF.metrics, by=c("StationID", "Replicate", "SampleDate")) %>%
-      select(StationID, Replicate, SampleDate,AMBI_Score, H, Oligo_pct, SalZone) %>%
-      filter(SalZone=="TF")
+    # add on sample information
+    TF.metrics.1 <- Sample.info %>%
+      filter(SalZone == "TF") %>%
+      left_join(., TF.metrics, by = c("stationid", "replicate", "sampledate")) %>%
+      select(stationid, replicate, sampledate, ambi_score, H, oligo_pct, SalZone)
 
-    TF.metrics.2<-bind_rows(TF.metrics.1,TidalFresh_Standards)
+    # add the best and worst standard values for tidal freshwater
+    TF.metrics.2 <- bind_rows(TF.metrics.1, TidalFresh_Standards)
 
-    TF.METRICS.tot<-TF.metrics.2[,c(4:6)]
+    # Same guard as saline branch: filter incomplete TF samples before cov()/princomp
+    tf_is_standard <- TF.metrics.2$stationid %in% TidalFresh_Standards$stationid
+    tf_metrics_complete <- !is.na(TF.metrics.2$ambi_score) & !is.na(TF.metrics.2$H) & !is.na(TF.metrics.2$oligo_pct)
+    tf_incomplete_samples <- TF.metrics.2[!tf_metrics_complete & !tf_is_standard, ]
+    TF.metrics.2 <- TF.metrics.2[tf_metrics_complete | tf_is_standard, ]
 
+    TF.METRICS.tot <- TF.metrics.2 %>%
+      select(ambi_score, H, oligo_pct)
+
+    # factor analysis for tidal freshwater
     options(warn = -1)
-    TF.METRICS.fa2 <- princomp (TF.METRICS.tot, cor = T, covmat = cov(TF.METRICS.tot))
+    TF.METRICS.fa2 <- princomp(TF.METRICS.tot, cor = T, covmat = cov(TF.METRICS.tot))
     options(warn = 0)
     TF.METRICS.fa2.load <- loadings(TF.METRICS.fa2) %*% diag(TF.METRICS.fa2$sdev)
     TF.METRICS.fa2.load.varimax <- loadings(varimax(TF.METRICS.fa2.load))
@@ -368,83 +441,145 @@ MAMBI<-function(BenthicData, EG_Ref_values = NULL, EG_Scheme="Hybrid", logfile =
     colnames(TF.METRICS.scores2) <- c("x", "y", "z")
     TF.METRICS.tr <- TF.METRICS.scores2
 
-    TF.eqr <-EQR(TF.METRICS.tr)
-    colnames(TF.eqr) <- c("MAMBI_Score")
+    # EQR transformation
+    TF.eqr <- EQR(TF.METRICS.tr)
+    colnames(TF.eqr) <- c("mambi_score")
     TF.eqr <- data.frame(TF.eqr)
 
+    # classify TF scores
     TF.mambi <- TF.metrics.2 %>%
-      bind_cols(.,TF.eqr) %>%
-      left_join(.,Sample.info, by=c("StationID", "Replicate", "SalZone", "SampleDate")) %>%
-      select(1,2,3,9,10,7,4:6,8) %>%
-      filter(!StationID%in%TidalFresh_Standards$StationID) %>%
+      bind_cols(., TF.eqr) %>%
+      left_join(., Sample.info, by = c("stationid", "replicate", "SalZone", "sampledate")) %>%
+      select(stationid, replicate, sampledate, latitude, longitude, ambi_score, H, oligo_pct, mambi_score) %>%
+      filter(!stationid %in% TidalFresh_Standards$stationid) %>%
       mutate(
-        Orig_MAMBI_Condition = case_when(
-          MAMBI_Score < 0.2 ~ "Bad",
-          MAMBI_Score >= 0.2 & MAMBI_Score < 0.39 ~ "Poor",
-          MAMBI_Score >= 0.39 & MAMBI_Score < 0.53 ~ "Moderate",
-          MAMBI_Score >= 0.53 & MAMBI_Score < 0.77 ~ "Good",
-          MAMBI_Score >= 0.77 ~ "High"
-        ),
-        New_MAMBI_Condition = case_when(
-          MAMBI_Score <= 0.387 ~ "High Disturbance",
-          MAMBI_Score > 0.387 & MAMBI_Score < 0.483 ~ "Moderate Disturbance",
-          MAMBI_Score >= 0.483 & MAMBI_Score < 0.578 ~ "Low Disturbance",
-          MAMBI_Score >= 0.578 ~ "Reference")
-        )
+        Orig_mambi_condition = case_when(
+          mambi_score < 0.2 ~ "Bad",
+          mambi_score >= 0.2 & mambi_score < 0.39 ~ "Poor",
+          mambi_score >= 0.39 & mambi_score < 0.53 ~ "Moderate",
+          mambi_score >= 0.53 & mambi_score < 0.77 ~ "Good",
+          mambi_score >= 0.77 ~ "High"),
+        SQO_mambi_condition = case_when(
+          mambi_score <= 0.387 ~ "High Disturbance",
+          mambi_score > 0.387 & mambi_score < 0.483 ~ "Moderate Disturbance",
+          mambi_score >= 0.483 & mambi_score < 0.578 ~ "Low Disturbance",
+          mambi_score >= 0.578 ~ "Reference"))
 
-    saline.mambi<- saline.mambi %>% mutate(Oligo_pct=NA) %>% select(1:9,13,10,11,12)
-    TF.mambi<-TF.mambi %>% mutate(S=NA) %>% select(1:7,13,8:12)
+    if (nrow(tf_incomplete_samples) > 0) {
+      tf_na_results <- tf_incomplete_samples %>%
+        left_join(Sample.info, by = c("stationid", "replicate", "sampledate", "SalZone")) %>%
+        select(stationid, replicate, sampledate, latitude, longitude, ambi_score, H, oligo_pct) %>%
+        mutate(mambi_score = NA_real_, Orig_mambi_condition = NA_character_, SQO_mambi_condition = NA_character_)
+      TF.mambi <- bind_rows(TF.mambi, tf_na_results)
+    }
 
-    Overall.Results <- bind_rows(saline.mambi, TF.mambi) %>%
-      bind_rows(.,no.SalZone.data) %>%
-      left_join(.,AMBI.applicability[,c(1,2,3,5,6)], by=c("StationID", "Replicate", "SampleDate")) %>%
-      left_join(MAMBI.applicability,.,by=c("StationID", "Replicate", "SampleDate")) %>%
-      #rename(B13_Stratum = Stratum) %>%
-      select(1:3,5:14,4,16,15) %>%
-      bind_rows(.,azoic.samples) %>%
-      mutate(Index = "M-AMBI")
+    # combine saline and TF results
+    saline.mambi.2 <- saline.mambi %>%
+      mutate(oligo_pct = NA) %>%
+      select(stationid, replicate, sampledate, latitude, longitude, ambi_score, S, H, oligo_pct, mambi_score,
+             Orig_mambi_condition, SQO_mambi_condition, SalZone)
+
+    TF.mambi.2 <- TF.mambi %>%
+      mutate(S = NA, SalZone = "TF") %>%
+      select(stationid, replicate, sampledate, latitude, longitude, ambi_score, S, H, oligo_pct, mambi_score,
+             Orig_mambi_condition, SQO_mambi_condition, SalZone)
+
+    Overall.Results <- bind_rows(saline.mambi.2, TF.mambi.2, no.SalZone.data) %>%
+      left_join(., MAMBI.applicability, by = c("stationid", "replicate", "sampledate")) %>%
+      mutate(note = case_when(is.na(SalZone) ~ "No salinity data - cannot calculate M-AMBI",
+                              use_mambi == "Yes" ~ "None",
+                              use_mambi == "Caution - Sparse AMBI Coverage" ~ "Check sample - M-AMBI ok, but limited taxa coverage",
+                              use_mambi == "Not Recommended - Poor AMBI Coverage" ~ "M-AMBI not recommended - poor taxa coverage")) %>%
+      select(stationid, replicate, sampledate, latitude, longitude, mambi_score, Orig_mambi_condition, SQO_mambi_condition,
+             ambi_score, H, S, oligo_pct, use_mambi, use_ambi, note) %>%
+      bind_rows(., defaunated) %>%
+      mutate(index = "M-AMBI", .before = latitude)
   }
-
-
   else
   {
-    Overall.Results<-saline.mambi %>%
-      bind_rows(.,no.SalZone.data) %>%
-      mutate(Oligo_pct=NA) %>%
-      left_join(.,AMBI.applicability[,c(1,2,3,5,6)], by=c("StationID", "Replicate", "SampleDate")) %>%
-      left_join(MAMBI.applicability,.,by=c("StationID", "Replicate", "SampleDate")) %>%
-      #select(1:3,5:10,14,11:13,4,16,15) %>%
-      select(StationID, SampleDate, Replicate, Stratum, Use_MAMBI, Latitude, Longitude, SalZone, AMBI_Score, S, H, MAMBI_Score, Orig_MAMBI_Condition, New_MAMBI_Condition, Oligo_pct, YesEG, Use_AMBI) %>%
-      #rename(B13_Stratum = Stratum) %>%
-      bind_rows(.,azoic.samples) %>%
-      mutate(Index = "M-AMBI")
+    #if there are no tidal freshwater samples, only the saline calculations are needed
+    Overall.Results <- saline.mambi %>%
+      bind_rows(., no.SalZone.data) %>%
+      left_join(., MAMBI.applicability, by = c("stationid", "replicate", "sampledate")) %>%
+      mutate(oligo_pct = NaN,
+             note = case_when(is.na(SalZone) ~ "No salinity data - cannot calculate M-AMBI",
+                              use_mambi == "Yes" ~ "None",
+                              use_mambi == "Caution - Sparse AMBI Coverage" ~ "Check sample - M-AMBI ok, but limited taxa coverage",
+                              use_mambi == "Not Recommended - Poor AMBI Coverage" ~ "M-AMBI not recommended - poor taxa coverage")) %>%
+      select(stationid, replicate, sampledate, latitude, longitude, mambi_score, Orig_mambi_condition, SQO_mambi_condition,
+             ambi_score, H, S, oligo_pct, use_mambi, use_ambi, note) %>%
+      bind_rows(., defaunated) %>%
+      mutate(index = "M-AMBI", .before = latitude)
   }
 
-  if (verbose && knitlog) {
-    if ( tolower(tools::file_ext(logfile)) == 'rmd' ) {
+  #gathering all of the site/sample information
+  station.info <- benthic_data %>%
+    select(-taxon, -abundance, -exclude) %>%
+    distinct()
 
-      html_file <- sub("\\.Rmd$", ".html", logfile, ignore.case = TRUE)
+  Overall.Results.2 <- Overall.Results %>%
+    left_join(., station.info, by = c("stationid", "sampledate", "replicate", "latitude", "longitude"))
 
-      print(paste0("Rendering ", logfile, " to ", html_file))
-      rmarkdown::render(
-        input = logfile,
-        output_file = html_file,
-        output_format = "html_document",
-        quiet = TRUE
-      )
-      print("Done")
+  writelog(
+    '### M-AMBI Final - M-AMBI Scores\n',
+    logfile = logfile,
+    code = '
+      # Calculate the three M-AMBI metrics per sample from the EG-assigned data:
+      #   AMBI score (abundance-weighted EG tolerance), species richness (S), Shannon-Wiener (H)
+      AMBI.Scores <- EG.Assignment %>%
+        group_by(stationid, replicate, sampledate, tot_abun, EG) %>%
+        summarise(sum_rel = sum(rel_abun), .groups = "drop_last") %>%
+        ungroup() %>%
+        replace_na(list(EG = "NoEG")) %>%
+        mutate(EG_Score = case_when(EG == "I" ~ sum_rel * 0,   EG == "II" ~ sum_rel * 1.5,
+                                    EG == "III" ~ sum_rel * 3, EG == "IV" ~ sum_rel * 4.5,
+                                    EG == "V" ~ sum_rel * 6,   EG == "NoEG" ~ 0)) %>%
+        mutate(EG_Score = ifelse(tot_abun == 0, 7, EG_Score)) %>%
+        group_by(stationid, replicate, sampledate) %>%
+        summarise(ambi_score = (sum(EG_Score, na.rm = TRUE) / 100), .groups = "drop_last") %>%
+        ungroup()
 
-    } else {
-      fn_name <- as.character(sys.call()[[1]])
-      warning(paste0("In '", fn_name, "': knitlog = TRUE but the logfile is not an R Markdown (.Rmd) file. Skipping knitting."))
-    }
-  }
+      metrics.1 <- Sample.info %>%
+        left_join(., AMBI.Scores, by = c("stationid", "replicate", "sampledate")) %>%
+        left_join(., Rich, by = c("stationid", "replicate", "sampledate")) %>%
+        left_join(., Divy, by = c("stationid", "replicate", "sampledate")) %>%
+        select(stationid, replicate, sampledate, ambi_score, S, H, SalZone)
 
-  return(Overall.Results)
+      # For each salinity zone the three metrics are combined with the Pelletier et al. 2018
+      # good/bad standards and run through a factor analysis (princomp + varimax rotation) and the
+      # EQR transformation to produce the mambi_score (see the saline.mambi / tidal-freshwater
+      # branches in the source). The scored results come back as saline.mambi (+ TF.mambi.2).
 
+      # Classify the scores, fold in defaunated and no-salinity samples, attach applicability
+      # notes, then join the full station information back on
+      Overall.Results.2 <- saline.mambi %>%
+        bind_rows(., no.SalZone.data) %>%
+        left_join(., MAMBI.applicability, by = c("stationid", "replicate", "sampledate")) %>%
+        mutate(note = case_when(is.na(SalZone) ~ "No salinity data - cannot calculate M-AMBI",
+                                use_mambi == "Yes" ~ "None",
+                                use_mambi == "Caution - Sparse AMBI Coverage" ~ "Check sample - M-AMBI ok, but limited taxa coverage",
+                                use_mambi == "Not Recommended - Poor AMBI Coverage" ~ "M-AMBI not recommended - poor taxa coverage")) %>%
+        bind_rows(., defaunated) %>%
+        mutate(index = "M-AMBI", .before = latitude) %>%
+        left_join(., station.info, by = c("stationid", "sampledate", "replicate", "latitude", "longitude"))
+    ',
+    data = Overall.Results.2 %>% head(25),
+    verbose = verbose
+  )
+  create_download_link(data = Overall.Results.2, logfile = logfile, filename = 'MAMBI_generic-final_scores.csv', linktext = 'Download M-AMBI scores', verbose = verbose)
+
+  writelog('\n## END: Generic M-AMBI function.\n', logfile = logfile, verbose = verbose)
+
+  return(Overall.Results.2)
 }
 
-# Can run this to test
-#test = MAMBI(benthic_data, EG_File_Name="data/Ref - EG Values 2018.csv", EG_Scheme="Hybrid")
-#write.csv(test, file = "data/output-overall-results.csv", row.names = FALSE)
 
+# This function is private, only used by MAMBI
+EQR <- function(data, logfile = file.path(getwd(), 'logs', paste0(format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), '-log.txt') ), verbose = F) {
+  segm <- data[nrow(data),] - data[(nrow(data)-1),]
+  vett <- matrix(NA, nrow = nrow(data), ncol = ncol(data))
+  for (k in 1: ncol(data)) {vett[, k] <- data[(nrow(data)-1), k]}
+  vett <- data - vett
+  ris <- round((vett %*% segm / sqrt(sum(segm*segm))) / sqrt(sum(segm*segm)), 3)
+  return(ris)
+}
