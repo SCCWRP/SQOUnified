@@ -127,7 +127,23 @@ init.log <- function(
         logfile
       )
     } else {
-      write( paste0("---\ntitle: \"", title ,"\"\noutput: html_document\n---", collapse = ''), file = logfile)
+      # A floating table of contents gives the report a fixed navigation sidebar: one link per
+      # heading (the LOE sections - Toxicity, Chemistry, Benthic, Offshore BRI - and Integrated
+      # Site Assessment are top-level '#' headings, their steps are sub-headings). toc_float is
+      # part of rmarkdown's html_document, so no extra dependency is needed.
+      write(
+        paste0(
+          "---\n",
+          "title: \"", title, "\"\n",
+          "output:\n",
+          "  html_document:\n",
+          "    toc: true\n",
+          "    toc_float: true\n",
+          "    toc_depth: 3\n",
+          "---"
+        ),
+        file = logfile
+      )
       write('```{r setup, include=FALSE, message=FALSE, warning=FALSE}\n', file = logfile, append = TRUE)
       for (lib in libraries) {
         write(paste0('library(', lib, ')'), file = logfile, append = TRUE)
