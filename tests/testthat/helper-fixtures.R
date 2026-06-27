@@ -39,6 +39,13 @@ sort_for_compare <- function(df) {
   ord <- do.call(order, c(unname(as.list(df[keys])), list(method = "radix")))
   df <- df[ord, , drop = FALSE]
   rownames(df) <- NULL
+  # Some columns (e.g. M-AMBI's Shannon "H") arrive as *named* numeric vectors;
+  # whether those element names survive is environment-dependent and is not
+  # tabular data, so strip them so a stray names attribute can't fail the compare.
+  df[] <- lapply(df, function(col) {
+    names(col) <- NULL
+    col
+  })
   df
 }
 
