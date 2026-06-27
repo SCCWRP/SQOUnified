@@ -1,6 +1,22 @@
 # Tests for the offshore Benthic Response Index (BRI.Offshore)
 # offshore_data is the single combined offshore sample-data frame (offshore_bri_sampledata),
 # defined in helper-fixtures.R
+#
+# The first test is a gold-standard regression check against fixtures generated from
+# the unified database (ignore/benthic_unit_test_data_creation.R, then save_fixtures.R):
+#   offshorebenthic     - raw input, from vw_unified_benthic_bri_offshore_data
+#   offshore_bri_output - gold-standard BRI.Offshore(offshorebenthic) output
+# The remaining tests assert documented behavior on the shipped sample data.
+
+test_that("BRI.Offshore reproduces the expected gold-standard output", {
+  offshorebenthic     <- load_fixture("offshorebenthic.rds")
+  offshore_bri_output <- load_fixture("offshore_bri_output.rds")
+
+  # Gold standard was generated with the default output_format = "wide".
+  actual <- BRI.Offshore(offshorebenthic, verbose = FALSE, knitlog = FALSE)
+
+  expect_equal_result_list(actual, offshore_bri_output, tolerance = 1e-8)
+})
 
 test_that("BRI.Offshore returns the documented list structure", {
   res <- BRI.Offshore(offshore_data)

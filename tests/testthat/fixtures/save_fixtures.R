@@ -1,10 +1,12 @@
 ## Run this from the R session that has the fixture objects loaded.
-## Chem set:  rawchem, preppedchem, chem.sqo.out
-##            (sourced from scripts/create_test_data.R)
-## Tox set:   tox, toxsqo_scores, toxsummary
-##            (sourced from scripts/create_tox_sampledata.R)
+## Chem set:     rawchem, preppedchem, chem.sqo.out
+##               (sourced from scripts/create_test_data.R)
+## Tox set:      tox, toxsqo_scores, toxsummary
+##               (sourced from scripts/create_tox_sampledata.R)
+## Benthic set:  inshorebenthic, inshore_benthic_sqo, offshorebenthic, offshore_bri_output
+##               (sourced from ignore/benthic_unit_test_data_creation.R)
 ##
-## Each set is saved independently — you can run this after either script
+## Each set is saved independently — you can run this after any script
 ## and only the objects that are loaded will be written.
 
 fixtures_dir <- file.path("tests", "testthat", "fixtures")
@@ -25,6 +27,12 @@ fixture_sets <- list(
     tox           = "tox.rds",
     toxsqo_scores = "toxsqo_scores.rds",
     toxsummary    = "toxsummary.rds"
+  ),
+  benthic = list(
+    inshorebenthic      = "inshorebenthic.rds",
+    inshore_benthic_sqo = "inshore_benthic_sqo.rds",
+    offshorebenthic     = "offshorebenthic.rds",
+    offshore_bri_output = "offshore_bri_output.rds"
   )
 )
 
