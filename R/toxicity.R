@@ -43,6 +43,7 @@
 #' @importFrom tidyr separate
 #' @import dplyr
 #' @importFrom stringr str_unique str_sort str_subset str_split_1 str_flatten str_flatten_comma str_trim str_length str_detect
+#' @importFrom janitor round_half_up
 #' @export
 
 # Version 0.3.0 update - allow a user to select sampletypes to include - allows QA to be included if a user so chooses
@@ -562,22 +563,44 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result', 'Gr
 
 
   # Assign SQO categories
+  # The Toxicity categorization comes from CASQO Technical Manual page 106-108 (June 2021 Edition)
+      
+  # I (Robert Butler) had a discussion with Alvina Mehinto in the first week of August 2026 about dealing with edge cases
+  # There was a difference in the tox category for a station whose mytilus normal development result mean was 79.5
+  # Darrin's excel tool rounded to the nearest integer, and thus it was placed in the nontoxic category.
+  # The R package as of version 0.10.19 did not round, and determined it was below 80% and thus put it in the Low Toxicity category.
+  # Darrin's tool, of course, is considered the gold standard and is adopted by the state, so we would defer to it being correct, but we had to know why
+  # Alvina noticed that, if you look in the technical manual, page 87: 
+  #     the binning categories are set up such that it seems that it assumes the means are rounded to the nearest integer
+  # For example, for Eohaustorius survival, it says nontoxic is a result mean from 90 to 100, but Low Toxicity is a Control adjusted mean from 82 to 89
+  # This would tell us that the boundaries on the tox categories were designed to be integers rather than continuous decimal numbers.
+  # Furthermore, page 90 says that "Values should be rounded to the nearest whole percentage" before categorizing, for the Amphipod test.
+  # Based on these reasons, we will round to the nearest whole percentage before making the comparison for a category
+
+  # We will use the traditional rounding method where the midway point rounds up. 
+  # Darrin used to always express that this should be the way to round when we are working on this stuff.
+  # Typically when people think of rounding, they do not think of R's bankers rounding, but rather the traditional rounding
+  # This type of rounding is implemented with the janitor package, the round_half_up function
   summary <- summary %>%
     mutate(
-      # CASQO Technical Manual page 106-108 (June 2021 Edition)
+      
       sqo_category_value_initial = case_when(
         sampletypecode %in% control.sampletypes ~ NA_real_,
+        
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-        (endpoint_method != "Growth") & (result_mean >= nontox) ~ 1,
+        (endpoint_method != "Growth") & (round_half_up(result_mean) >= nontox) ~ 1,
+
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == "Growth") & (pct_control >= nontox) ~ 1,
+        (endpoint_method == "Growth") & (round_half_up(pct_control) >= nontox) ~ 1,
+
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
         # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
-        pct_control >= lowtox ~ 2,
+        round_half_up(pct_control) >= lowtox ~ 2,
+
         # if modtox <= pct_result_adj < lowtox, put it in the moderate toxicity category - always
-        pct_control >= modtox ~ 3,
+        round_half_up(pct_control) >= modtox ~ 3,
         # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-        pct_control < modtox ~ 4,
+        round_half_up(pct_control) < modtox ~ 4,
         TRUE ~ NA_real_
       ),
       sqo_category_value = if_else(
@@ -961,6 +984,8 @@ tox.sqo <- function(toxresults, results.sampletypes = c('Grab'), control.samplet
         toxresults %>% select(stationid, stratum) %>% distinct() %>% filter(!is.na(stratum)),
         by = 'stationid'
       )
+    
+    
     writelog(
       "\n## Include the stratum if it was provided in the initial toxresults\n  ",
       logfile = logfile,
