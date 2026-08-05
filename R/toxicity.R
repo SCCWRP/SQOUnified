@@ -583,24 +583,27 @@ tox.summary <- function(tox.summary.input, results.sampletypes = c('Result', 'Gr
   # This type of rounding is implemented with the janitor package, the round_half_up function
   summary <- summary %>%
     mutate(
-      
+      rounded_control_adjusted_mean = round_half_up(pct_control),
+      rounded_result_mean = round_half_up(result_mean),
       sqo_category_value_initial = case_when(
         sampletypecode %in% control.sampletypes ~ NA_real_,
         
         # if the endpoint method is not Growth, we look at the non control adjusted mean percentage to determine nontoxicity
-        (endpoint_method != "Growth") & (round_half_up(result_mean) >= nontox) ~ 1,
+        (endpoint_method != "Growth") & (rounded_result_mean >= nontox) ~ 1,
 
         # for Growth, we consider the control adjusted mean percentage
-        (endpoint_method == "Growth") & (round_half_up(pct_control) >= nontox) ~ 1,
+        (endpoint_method == "Growth") & (rounded_control_adjusted_mean >= nontox) ~ 1,
 
         # For all the other toxicity SQO categories, we always look at the control adjusted mean percentage
         # if lowtox <= pct_result_adj < nontox, put it in the low toxicity category - always
-        round_half_up(pct_control) >= lowtox ~ 2,
+        rounded_control_adjusted_mean >= lowtox ~ 2,
 
         # if modtox <= pct_result_adj < lowtox, put it in the moderate toxicity category - always
-        round_half_up(pct_control) >= modtox ~ 3,
+        rounded_control_adjusted_mean >= modtox ~ 3,
+
         # below lower bound of moderate toxicity renders it in the category of high toxicity - always
-        round_half_up(pct_control) < modtox ~ 4,
+        rounded_control_adjusted_mean < modtox ~ 4,
+        
         TRUE ~ NA_real_
       ),
       sqo_category_value = if_else(
