@@ -218,15 +218,26 @@ MAMBI <- function(benthic_data,
   create_download_link(data = taxa_wo_EG, logfile = logfile, filename = 'MAMBI_generic-step2-taxa_without_EG.csv', linktext = 'Download taxa without EG values', verbose = verbose)
 
 
+  #adding in a dummy table that can be populated instead of relying on the pivot wider statement below
+  #causes a crash if every specimen in the sample has an EG value an the NoEG column isn't created
+  placeholder.applicability<-tibble(stationid="dummy-000",
+                                    replicate=0,
+                                    NoEG=NA,
+                                    YesEG=NA)
+
+
   # Calculating applicability of the index to each sample
   AMBI.applicability <- EG.Assignment %>%
     mutate(EG_Test = ifelse(is.na(EG), "NoEG", "YesEG")) %>%
     pivot_wider(id_cols = c(stationid, replicate, sampledate), names_from = EG_Test, values_from = rel_abun, values_fill = 0, values_fn = sum) %>%
+    bind_rows(placeholder.applicability, .) %>%
     mutate(use_ambi = case_when(
       NoEG <= 20 ~ "Yes",
       NoEG > 20 & NoEG <= 50 ~ "With Care",
       NoEG > 50 ~ "Not Recommended",
-      is.na(NoEG) ~ "Yes"))
+      #is.na(NoEG) ~ "Yes")
+    )) %>%
+    filter(stationid!="dummy-000")
 
   MAMBI.applicability <- AMBI.applicability %>%
     left_join(., Sample.info, by = c("stationid", "replicate", "sampledate")) %>%
@@ -394,9 +405,10 @@ MAMBI <- function(benthic_data,
       mutate(tot_abun = sum(abundance)) %>%
       ungroup() %>%
       left_join(., TF.EG_Ref_values, by = c("taxon" = "Taxon")) %>%
-      filter(Oligochaeta == "Yes", SalZone == "TF") %>%
+      mutate(oligo_abun=case_when(Oligochaeta=="Yes"~abundance,
+        TRUE~0)) %>%
       group_by(stationid, replicate, sampledate) %>%
-      summarise(oligo_pct = sum(abundance / tot_abun) * 100, .groups = "drop_last") %>%
+        summarise(oligo_pct = sum(oligo_abun/tot_abun) * 100, .groups = "drop_last") %>%
       ungroup()
 
     # calculate shannon wiener diversity (base 2) for each sample
