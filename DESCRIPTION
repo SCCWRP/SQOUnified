@@ -18,9 +18,22 @@ Authors@R: c(
     role = "aut", 
     email = "jlperdomo@csu.fullerton.edu"
     ),
+  person(given = "Addison", family = "Grant", 
+    role = "ctb", 
+    email = "addisong@sccwrp.org"
+    ),
+  person(given = "Nick", family = "Haring", 
+    role = "ctb", 
+    email = "nickharing@gmail.com"
+    ),
   person(given = "Darrin", family = "Greenstein", 
     role = "ctb", 
     email = "darring@sccwrp.org",
+    comment = "Quality Assurance"
+    ),
+  person(given = "Duy", family = "Nguyen", 
+    role = "ctb", 
+    email = "duyn@sccwrp.org",
     comment = "Quality Assurance"
     )
   )
