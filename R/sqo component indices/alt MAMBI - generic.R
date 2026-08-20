@@ -121,11 +121,10 @@ alt.MAMBI.generic<-function(benthic_data, EG_Ref_values = NULL, EG_Scheme="Hybri
     filter(!is.na(SalZone))
 
   EG.Assignment<-Input_File %>%
-    left_join(., EG_to_use, by=c("taxon"="Taxon")) %>% #filter(Exclude!="Yes") #%>%
+    left_join(., EG_to_use, by=c("taxon"="Taxon")) %>%
     group_by(stationid, replicate, sampledate) %>%
     mutate(tot_abun=sum(abundance)) %>%
     ungroup() %>%
-    #left_join(.,total.abundance, by=c("StationID", "Replicate", "SampleDate")) %>%
     mutate(rel_abun=((abundance/tot_abun)*100))
 
   # Export interim file with all taxa in submitted data with an assigned EG value for user to review
@@ -145,10 +144,7 @@ alt.MAMBI.generic<-function(benthic_data, EG_Ref_values = NULL, EG_Scheme="Hybri
   write.csv(taxa_wo_EG, file=paste(output_path, "/", file_id, " M-AMBI interim 2 - taxa without EG values.csv", sep=""), row.names = FALSE)
 
 
-    # EG.Assignment.cast<-data.frame(NoEG=numeric(),
-    #                              YesEG=numeric())
-
-  # Calculating applicability of the index to each sample based upon the % of abundance that can be assigned and EG value
+     # Calculating applicability of the index to each sample based upon the % of abundance that can be assigned and EG value
   # Guidelines follow Pelleteier et al 2018, which follow Borja and Muxica 2005
 
   #adding in a dummy table that can be populated instead of relying on the pivot wider statement below
@@ -304,8 +300,8 @@ alt.MAMBI.generic<-function(benthic_data, EG_Ref_values = NULL, EG_Scheme="Hybri
 
 
   ###################
-  # if there are tidal freshwater samples in the submitted data, they need to be seperated out and run thorugh the TF subroutine and then joined to
-  # the saline results
+  # if there are tidal freshwater samples in the submitted data, they need to be seperated out and run through the TF subroutine
+  #and then joined to the saline results
 
   if(any(Sal_range.dataset=="TF"))
   {
